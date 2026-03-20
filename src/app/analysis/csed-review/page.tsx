@@ -218,21 +218,29 @@ export default function CSEDReviewPage() {
 
   // ---- Persist & navigate ----
   function handleContinue() {
-    const tollingByYear: Record<string, TollingEventEntry[]> = {}
-    csedData.forEach((entry) => {
-      tollingByYear[entry.taxYear] = entry.tollingEvents
-    })
-    setAnswers({
-      tollingEvents: tollingByYear,
-      csedData: computedRows.map((r) => ({
-        taxYear: r.taxYear,
-        baseCSED: r.baseCSED.toISOString().split('T')[0],
-        adjustedCSED: r.adjustedCSED.toISOString().split('T')[0],
-        tollingDays: r.tollingDays,
-        remainingMonths: r.remaining,
-        isExpired: r.status === 'expired',
-      })),
-    })
+    try {
+      const tollingByYear: Record<string, TollingEventEntry[]> = {}
+      csedData.forEach((entry) => {
+        tollingByYear[entry.taxYear] = entry.tollingEvents
+      })
+      const safeCSEDData = computedRows
+        .filter((r) => r.baseCSED instanceof Date && !isNaN(r.baseCSED.getTime()))
+        .map((r) => ({
+          taxYear: r.taxYear,
+          baseCSED: r.baseCSED.toISOString().split('T')[0],
+          adjustedCSED: r.adjustedCSED.toISOString().split('T')[0],
+          tollingDays: r.tollingDays,
+          remainingMonths: r.remaining,
+          isExpired: r.status === 'expired',
+        }))
+      setAnswers({
+        tollingEvents: tollingByYear,
+        csedData: safeCSEDData,
+      })
+    } catch (e) {
+      // If CSED computation fails (e.g. no debts entered), still proceed
+      console.warn('CSED data save error:', e)
+    }
 
     const hasPenalties = answers.hasPriorPenalties === true
     router.push(hasPenalties ? '/analysis/penalty-screening' : '/analysis/verification')
