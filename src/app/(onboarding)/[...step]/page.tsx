@@ -157,8 +157,13 @@ export default function OnboardingStepPage() {
     [],
   )
 
+  useEffect(() => {
+    if (stepIndex === -1) {
+      router.replace('/welcome')
+    }
+  }, [stepIndex, router])
+
   if (stepIndex === -1) {
-    router.replace('/welcome')
     return null
   }
 
