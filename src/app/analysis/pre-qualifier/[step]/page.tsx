@@ -229,117 +229,152 @@ export default function PreQualifierStepPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto flex min-h-screen max-w-md sm:max-w-xl md:max-w-2xl flex-col">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '480px', margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Progress Bar */}
-        <div className="px-5">
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
-            <div
-              className="h-full rounded-full bg-[#00A651] transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{
+            marginTop: 4, height: 4, width: '100%', borderRadius: 9999,
+            background: '#E2E8F0', overflow: 'hidden',
+          }}>
+            <div style={{
+              height: '100%', borderRadius: 9999, background: '#00A651',
+              width: `${progress}%`, transition: 'width 0.3s ease',
+            }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Pre-Qualifier</span>
-            <span className="rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[11px] font-bold text-[#2563EB]">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Pre-Qualifier</span>
+            <span style={{
+              fontSize: 11, fontWeight: 700, color: '#2563EB', background: '#EFF4FF',
+              padding: '2px 8px', borderRadius: 20,
+            }}>
               Question {stepNum} of {TOTAL_QUESTIONS}
             </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="flex flex-1 flex-col px-5 pt-8">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '32px 20px 0' }}>
           {/* Category Badge */}
-          <div
-            className="mb-3 inline-flex w-fit items-center gap-2 rounded-full px-3 py-1"
-            style={{ background: question.categoryBg }}
-          >
-            <i className={`${question.categoryIcon} text-xs`} style={{ color: question.categoryColor }} />
-            <span className="text-[11px] font-bold" style={{ color: question.categoryColor }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            padding: '4px 12px', background: question.categoryBg,
+            borderRadius: 20, marginBottom: 12, width: 'fit-content',
+          }}>
+            <i className={question.categoryIcon} style={{ fontSize: 12, color: question.categoryColor }} />
+            <span style={{ fontSize: 11, fontWeight: 700, color: question.categoryColor }}>
               {question.categoryLabel}
             </span>
           </div>
 
           {/* Question */}
-          <h1 className="text-[1.5rem] font-extrabold leading-tight tracking-[-0.01em] text-[#0A1628]">
+          <h1 style={{
+            fontSize: '1.5rem', fontWeight: 800, color: '#0A1628',
+            lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0,
+          }}>
             {question.text}
           </h1>
-          <p className="mt-2 text-[13px] leading-relaxed text-[#64748B]">
+          <p style={{ fontSize: 13, color: '#64748B', lineHeight: 1.5, marginTop: 8 }}>
             {question.helpText}
           </p>
 
           {/* Yes / No Pills */}
-          <div className="mt-8 flex gap-3 md:gap-4">
+          <div style={{ display: 'flex', gap: 12, marginTop: 32 }}>
             <button
               onClick={() => handleSelect(true)}
-              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] md:py-[22px] text-base md:text-lg font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
-                selected === true
-                  ? 'border-[#00A651] bg-[#E6F9EE] text-[#065F46]'
-                  : 'border-[#E2E8F0] bg-white text-[#0A1628]'
-              }`}
+              style={{
+                flex: 1, padding: '18px 24px', borderRadius: 16,
+                border: `2px solid ${selected === true ? '#00A651' : '#E2E8F0'}`,
+                background: selected === true ? '#E6F9EE' : '#fff',
+                color: selected === true ? '#065F46' : '#0A1628',
+                cursor: 'pointer', fontFamily: 'inherit', fontSize: 16, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                minHeight: 64, transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
             >
-              <i className="fa-solid fa-check text-xl text-[#00A651]" />
+              <i className="fa-solid fa-check" style={{ fontSize: 20, color: '#00A651' }} />
               Yes
             </button>
             <button
               onClick={() => handleSelect(false)}
-              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] md:py-[22px] text-base md:text-lg font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
-                selected === false
-                  ? 'border-[#E63946] bg-[#FFF0F1] text-[#991B1B]'
-                  : 'border-[#E2E8F0] bg-white text-[#0A1628]'
-              }`}
+              style={{
+                flex: 1, padding: '18px 24px', borderRadius: 16,
+                border: `2px solid ${selected === false ? '#E63946' : '#E2E8F0'}`,
+                background: selected === false ? '#FFF0F1' : '#fff',
+                color: selected === false ? '#991B1B' : '#0A1628',
+                cursor: 'pointer', fontFamily: 'inherit', fontSize: 16, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+                minHeight: 64, transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
             >
-              <i className="fa-solid fa-xmark text-xl text-[#E63946]" />
+              <i className="fa-solid fa-xmark" style={{ fontSize: 20, color: '#E63946' }} />
               No
             </button>
           </div>
 
           {/* Why do we ask */}
-          <div className="mt-4">
+          <div style={{ marginTop: 16 }}>
             <button
               onClick={() => setWhyOpen(!whyOpen)}
-              className="flex items-center gap-1.5 text-[13px] font-semibold text-[#2563EB] transition-opacity hover:opacity-80"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer',
+                fontSize: 13, fontWeight: 600, color: '#2563EB', background: 'none',
+                border: 'none', fontFamily: 'inherit', padding: 0,
+              }}
             >
-              <i className="fa-solid fa-circle-question text-sm" />
+              <i className="fa-solid fa-circle-question" style={{ fontSize: 14 }} />
               Why do we ask?
-              <i
-                className={`fa-solid fa-chevron-down text-[10px] transition-transform duration-300 ${whyOpen ? 'rotate-180' : ''}`}
-              />
+              <i className="fa-solid fa-chevron-down" style={{
+                fontSize: 10, transition: 'transform 0.3s',
+                transform: whyOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              }} />
             </button>
-            <div
-              className={`overflow-hidden transition-all duration-400 ${
-                whyOpen ? 'mt-2.5 max-h-[300px]' : 'max-h-0'
-              }`}
-            >
-              <p className="text-[13px] leading-relaxed text-[#64748B]">
+            <div style={{
+              maxHeight: whyOpen ? 300 : 0, overflow: 'hidden',
+              transition: 'max-height 0.4s ease',
+              fontSize: 13, color: '#64748B', lineHeight: 1.6,
+            }}>
+              <div style={{ paddingTop: 10 }}>
                 {question.whyWeAsk}
-              </p>
+              </div>
             </div>
           </div>
 
           {/* Spacer */}
-          <div className="flex-1" />
+          <div style={{ flex: 1 }} />
 
           {/* Navigation */}
-          <div className="pb-5 pt-3">
-            <div className="flex gap-3">
+          <div style={{ padding: '12px 0 20px' }}>
+            <div style={{ display: 'flex', gap: 12 }}>
               <button
                 onClick={handleBack}
-                className="flex items-center gap-2 rounded-[14px] border-[1.5px] border-[#E2E8F0] bg-white px-5 py-4 text-[15px] font-semibold text-[#64748B] transition-all hover:border-[#2563EB] hover:text-[#0A1628]"
+                style={{
+                  flex: '0 0 auto', padding: '16px 20px', borderRadius: 14,
+                  border: '1.5px solid #E2E8F0', background: '#fff', cursor: 'pointer',
+                  fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: '#64748B',
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  transition: 'all 0.2s ease',
+                }}
               >
-                <i className="fa-solid fa-arrow-left text-[13px]" />
+                <i className="fa-solid fa-arrow-left" style={{ fontSize: 13 }} />
                 Back
               </button>
               <button
                 onClick={handleContinue}
                 disabled={selected === null}
-                className={`flex flex-1 items-center justify-center gap-2 rounded-full py-4 text-[15px] font-bold transition-all ${
-                  selected !== null
-                    ? 'bg-[#00A651] text-white hover:-translate-y-0.5 active:scale-[0.97]'
-                    : 'pointer-events-none bg-[#00A651] text-white opacity-50'
-                }`}
+                style={{
+                  flex: 1, fontSize: 15, fontWeight: 700, padding: '16px 28px',
+                  background: '#00A651', color: 'white', border: 'none', borderRadius: 9999,
+                  cursor: selected !== null ? 'pointer' : 'default',
+                  opacity: selected !== null ? 1 : 0.5,
+                  pointerEvents: selected !== null ? 'auto' : 'none',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                  fontFamily: 'inherit',
+                  transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                }}
               >
-                Continue <i className="fa-solid fa-arrow-right text-[13px]" />
+                Continue
+                <i className="fa-solid fa-arrow-right" style={{ fontSize: 13 }} />
               </button>
             </div>
           </div>

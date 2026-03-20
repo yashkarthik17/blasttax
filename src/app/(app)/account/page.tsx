@@ -29,7 +29,7 @@ export default function AccountPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
+      <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#0A1628] border-t-transparent" />
       </div>
     )
@@ -47,49 +47,97 @@ export default function AccountPage() {
   const email = userData?.email || 'jane.doe@email.com'
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <h1 className="text-[1.2rem] font-extrabold text-[#0A1628]">My Account</h1>
-          <Link href="/account/edit" className="flex h-10 w-10 items-center justify-center rounded-xl text-[#0A1628]">
-            <i className="fas fa-pen-to-square text-base" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>My Account</div>
+          <Link href="/account/edit" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, color: '#0A1628', textDecoration: 'none' }}>
+            <i className="fas fa-pen-to-square" style={{ fontSize: 16 }} />
           </Link>
         </div>
 
-        <div className="flex flex-col gap-5 px-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '0 20px 20px' }}>
           {/* Desktop: 2-column layout for profile + menu */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
 
             {/* Left column: Profile Card + Active Cases */}
             <div className="lg:col-span-4 flex flex-col gap-5">
               {/* Profile Card */}
-              <div className="flex flex-col items-center rounded-[20px] border border-[#E2E8F0] bg-white px-4 py-6">
-                <div className="mb-3.5 flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#0A1628] text-[1.5rem] font-extrabold text-white">
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px', background: 'white', borderRadius: 20, border: '1px solid #E2E8F0' }}>
+                <div
+                  style={{
+                    width: 72,
+                    height: 72,
+                    borderRadius: '50%',
+                    background: '#0A1628',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'white',
+                    fontSize: '1.5rem',
+                    fontWeight: 800,
+                    marginBottom: 14,
+                  }}
+                >
                   {initials.toUpperCase()}
                 </div>
-                <div className="text-[1.15rem] font-extrabold text-[#0A1628]">{displayName}</div>
-                <div className="mt-0.5 text-[0.8rem] font-medium text-[#94A3B8]">{email}</div>
-                <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#F8FAFC] px-3 py-1 text-[0.68rem] font-semibold text-[#64748B]">
-                  <i className="far fa-calendar text-[10px]" />
+                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0A1628' }}>{displayName}</div>
+                <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500, marginTop: 3 }}>{email}</div>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 5,
+                    marginTop: 10,
+                    padding: '4px 12px',
+                    background: '#F8FAFC',
+                    borderRadius: 9999,
+                    fontSize: '0.68rem',
+                    fontWeight: 600,
+                    color: '#64748B',
+                  }}
+                >
+                  <i className="far fa-calendar" style={{ fontSize: 10 }} />
                   Member since Oct 2025
                 </div>
               </div>
 
               {/* Active Cases */}
-              <div>
-                <div className="mb-2.5 text-[0.75rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Active Cases</div>
-                <Link href="/cases/1042" className="mb-2 flex items-center gap-3 rounded-[14px] border border-[#F3F4F6] bg-white p-3.5 no-underline">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#EFF4FF]">
-                    <i className="fas fa-handshake text-sm text-[#0A1628]" />
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Active Cases</div>
+
+                {/* Case 1 */}
+                <Link
+                  href="/cases/1042"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '14px 16px',
+                    background: 'white',
+                    border: '1px solid #F3F4F6',
+                    borderRadius: 14,
+                    marginBottom: 8,
+                    textDecoration: 'none',
+                    color: 'inherit',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <i className="fas fa-handshake" style={{ fontSize: 14, color: '#0A1628' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-[0.82rem] font-semibold text-[#1F2937]">Case #1042 — OIC</div>
-                    <div className="text-[0.68rem] text-[#6B7280]">Under IRS Review</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937' }}>Case #1042 — OIC</div>
+                    <div style={{ fontSize: '0.68rem', color: '#6B7280' }}>Under IRS Review</div>
                   </div>
-                  <span className="rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[0.65rem] font-semibold text-[#0A1628]">Active</span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '3px 8px', background: '#EFF4FF', color: '#0A1628', borderRadius: 9999 }}>Active</span>
                 </Link>
-                <Link href="/cases" className="block py-2 text-center text-[0.78rem] font-semibold text-[#0A1628] no-underline">
+
+                {/* View All */}
+                <Link
+                  href="/cases"
+                  style={{ display: 'block', textAlign: 'center', fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', padding: 8, textDecoration: 'none' }}
+                >
                   View All Cases →
                 </Link>
               </div>
@@ -98,74 +146,131 @@ export default function AccountPage() {
             {/* Right column: Account Menu + Personal Information + Tax Info + Preferences + Support */}
             <div className="lg:col-span-8 flex flex-col gap-5">
               {/* Account Menu */}
-              <div className="rounded-2xl border border-[#E2E8F0] bg-white px-4 py-1">
+              <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
                 {/* Billing & Subscription */}
-                <Link href="/billing" className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5 no-underline transition hover:bg-[#F8FAFC]">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#E6F9EE]">
-                    <i className="fas fa-credit-card text-[13px] text-[#00A651]" />
+                <Link
+                  href="/billing"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 0',
+                    borderBottom: '1px solid #F1F5F9',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <i className="fas fa-credit-card" style={{ fontSize: 13, color: '#00A651' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-[0.85rem] font-semibold text-[#0A1628]">Billing & Subscription</div>
-                    <div className="mt-px text-[0.68rem] text-[#94A3B8]">Pro Plan — $49/mo</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Billing & Subscription</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Pro Plan — $49/mo</div>
                   </div>
-                  <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                  <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
                 {/* Settings */}
-                <Link href="/account/settings" className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5 no-underline transition hover:bg-[#F8FAFC]">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#F1F5F9]">
-                    <i className="fas fa-gear text-[13px] text-[#64748B]" />
+                <Link
+                  href="/account/settings"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 0',
+                    borderBottom: '1px solid #F1F5F9',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <i className="fas fa-gear" style={{ fontSize: 13, color: '#64748B' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-[0.85rem] font-semibold text-[#0A1628]">Settings</div>
-                    <div className="mt-px text-[0.68rem] text-[#94A3B8]">Notifications, privacy, connections</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Settings</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Notifications, privacy, connections</div>
                   </div>
-                  <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                  <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
                 {/* Edit Profile */}
-                <Link href="/account/edit" className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5 no-underline transition hover:bg-[#F8FAFC]">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#EFF4FF]">
-                    <i className="fas fa-pen-to-square text-[13px] text-[#2563EB]" />
+                <Link
+                  href="/account/edit"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 0',
+                    borderBottom: '1px solid #F1F5F9',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <i className="fas fa-pen-to-square" style={{ fontSize: 13, color: '#2563EB' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-[0.85rem] font-semibold text-[#0A1628]">Edit Profile</div>
-                    <div className="mt-px text-[0.68rem] text-[#94A3B8]">Update your personal info</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Edit Profile</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Update your personal info</div>
                   </div>
-                  <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                  <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
                 {/* IRS Payments */}
-                <Link href="/billing/payments" className="flex items-center gap-3.5 py-3.5 no-underline transition hover:bg-[#F8FAFC]">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#FFF0F1]">
-                    <i className="fas fa-landmark text-[13px] text-[#E63946]" />
+                <Link
+                  href="/billing/payments"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 14,
+                    padding: '14px 0',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#FFF0F1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <i className="fas fa-landmark" style={{ fontSize: 13, color: '#E63946' }} />
                   </div>
-                  <div className="flex-1">
-                    <div className="text-[0.85rem] font-semibold text-[#0A1628]">IRS Payments</div>
-                    <div className="mt-px text-[0.68rem] text-[#94A3B8]">Track and make IRS payments</div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>IRS Payments</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Track and make IRS payments</div>
                   </div>
-                  <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                  <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
               </div>
 
-              {/* Personal + Tax Info: 2-col on lg+ */}
+              {/* Personal + Tax Info: 2-col on sm+ */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Personal Information */}
                 <div>
-                  <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Personal Information</div>
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-white px-4 py-1">
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Personal Information</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
                     {[
                       { icon: 'fa-user', label: 'Name', value: displayName },
                       { icon: 'fa-envelope', label: 'Email', value: email },
                       { icon: 'fa-phone', label: 'Phone', value: '(555) 123-4567' },
                       { icon: 'fa-location-dot', label: 'Address', value: '123 Main St, Austin, TX' },
                     ].map((item, i, arr) => (
-                      <div key={item.label} className={`flex items-center gap-3.5 py-3.5 ${i < arr.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#EFF4FF]">
-                          <i className={`fas ${item.icon} text-[13px] text-[#0A1628]`} />
+                      <div
+                        key={item.label}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 14,
+                          padding: '14px 0',
+                          borderBottom: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <i className={`fas ${item.icon}`} style={{ fontSize: 13, color: '#0A1628' }} />
                         </div>
-                        <div className="flex-1">
-                          <div className="text-[0.7rem] font-medium text-[#94A3B8]">{item.label}</div>
-                          <div className="text-[0.85rem] font-semibold text-[#0A1628]">{item.value}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>{item.label}</div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{item.value}</div>
                         </div>
-                        <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                        <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                       </div>
                     ))}
                   </div>
@@ -173,37 +278,37 @@ export default function AccountPage() {
 
                 {/* Tax Information */}
                 <div>
-                  <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Tax Information</div>
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-white px-4 py-1">
-                    <div className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#F5F0FF]">
-                        <i className="fas fa-file-invoice text-[13px] text-[#7C3AED]" />
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Tax Information</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-file-invoice" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.7rem] font-medium text-[#94A3B8]">Filing Status</div>
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">Single</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>Filing Status</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Single</div>
                       </div>
-                      <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                      <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
-                    <div className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#F5F0FF]">
-                        <i className="fas fa-id-card text-[13px] text-[#7C3AED]" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-id-card" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.7rem] font-medium text-[#94A3B8]">SSN</div>
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">***-**-6789</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>SSN</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>***-**-6789</div>
                       </div>
-                      <i className="fas fa-eye-slash text-[11px] text-[#CBD5E1]" />
+                      <i className="fas fa-eye-slash" style={{ fontSize: 11, color: '#CBD5E1' }} />
                     </div>
-                    <div className="flex items-center gap-3.5 py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#F5F0FF]">
-                        <i className="fas fa-users text-[13px] text-[#7C3AED]" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', cursor: 'pointer' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-users" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.7rem] font-medium text-[#94A3B8]">Dependents</div>
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">2</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>Dependents</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>2</div>
                       </div>
-                      <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                      <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
                   </div>
                 </div>
@@ -213,71 +318,123 @@ export default function AccountPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Preferences */}
                 <div>
-                  <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Preferences</div>
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-white px-4 py-1">
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Preferences</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
                     {/* Notifications Toggle */}
-                    <div className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#E6F9EE]">
-                        <i className="fas fa-bell text-[13px] text-[#00A651]" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-bell" style={{ fontSize: 13, color: '#00A651' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">Notifications</div>
-                        <div className="mt-px text-[0.68rem] text-[#94A3B8]">Push & email alerts</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Notifications</div>
+                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Push & email alerts</div>
                       </div>
                       <button
                         onClick={() => setNotificationsOn(!notificationsOn)}
-                        className={`relative h-[26px] w-[46px] shrink-0 rounded-full transition-colors ${notificationsOn ? 'bg-[#0A1628]' : 'bg-[#D5D5E0]'}`}
+                        style={{
+                          position: 'relative',
+                          width: 46,
+                          height: 26,
+                          borderRadius: 13,
+                          background: notificationsOn ? '#0A1628' : '#D5D5E0',
+                          border: 'none',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                        }}
                       >
-                        <span className={`absolute top-[2px] h-[22px] w-[22px] rounded-full bg-white shadow-sm transition-transform ${notificationsOn ? 'translate-x-[22px]' : 'translate-x-[2px]'}`} />
+                        <span
+                          style={{
+                            position: 'absolute',
+                            top: 2,
+                            left: notificationsOn ? 22 : 2,
+                            width: 22,
+                            height: 22,
+                            borderRadius: '50%',
+                            background: 'white',
+                            boxShadow: '0 1px 4px rgba(10,22,40,0.15)',
+                            transition: 'left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                          }}
+                        />
                       </button>
                     </div>
                     {/* Dark Mode Toggle */}
-                    <div className="flex items-center gap-3.5 border-b border-[#F1F5F9] py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#F8FAFC]">
-                        <i className="fas fa-moon text-[13px] text-[#64748B]" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-moon" style={{ fontSize: 13, color: '#64748B' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">Dark Mode</div>
-                        <div className="mt-px text-[0.68rem] text-[#94A3B8]">Reduce eye strain</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Dark Mode</div>
+                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Reduce eye strain</div>
                       </div>
                       <button
                         onClick={() => setDarkModeOn(!darkModeOn)}
-                        className={`relative h-[26px] w-[46px] shrink-0 rounded-full transition-colors ${darkModeOn ? 'bg-[#0A1628]' : 'bg-[#D5D5E0]'}`}
+                        style={{
+                          position: 'relative',
+                          width: 46,
+                          height: 26,
+                          borderRadius: 13,
+                          background: darkModeOn ? '#0A1628' : '#D5D5E0',
+                          border: 'none',
+                          cursor: 'pointer',
+                          flexShrink: 0,
+                        }}
                       >
-                        <span className={`absolute top-[2px] h-[22px] w-[22px] rounded-full bg-white shadow-sm transition-transform ${darkModeOn ? 'translate-x-[22px]' : 'translate-x-[2px]'}`} />
+                        <span
+                          style={{
+                            position: 'absolute',
+                            top: 2,
+                            left: darkModeOn ? 22 : 2,
+                            width: 22,
+                            height: 22,
+                            borderRadius: '50%',
+                            background: 'white',
+                            boxShadow: '0 1px 4px rgba(10,22,40,0.15)',
+                            transition: 'left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                          }}
+                        />
                       </button>
                     </div>
                     {/* Language */}
-                    <div className="flex items-center gap-3.5 py-3.5">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-[#EEF2FF]">
-                        <i className="fas fa-globe text-[13px] text-[#4F46E5]" />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', cursor: 'pointer' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EEF2FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-globe" style={{ fontSize: 13, color: '#4F46E5' }} />
                       </div>
-                      <div className="flex-1">
-                        <div className="text-[0.85rem] font-semibold text-[#0A1628]">Language</div>
-                        <div className="mt-px text-[0.68rem] text-[#94A3B8]">English (US)</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Language</div>
+                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>English (US)</div>
                       </div>
-                      <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                      <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
                   </div>
                 </div>
 
                 {/* Support */}
                 <div>
-                  <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Support</div>
-                  <div className="rounded-2xl border border-[#E2E8F0] bg-white px-4 py-1">
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Support</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
                     {[
-                      { icon: 'fa-circle-question', label: 'Help Center', color: 'text-[#0D9488]', bg: 'bg-[#F0FDFA]' },
-                      { icon: 'fa-headset', label: 'Contact Us', color: 'text-[#0D9488]', bg: 'bg-[#F0FDFA]' },
-                      { icon: 'fa-book-open', label: 'FAQ', color: 'text-[#0D9488]', bg: 'bg-[#F0FDFA]' },
+                      { icon: 'fa-circle-question', label: 'Help Center' },
+                      { icon: 'fa-headset', label: 'Contact Us' },
+                      { icon: 'fa-book-open', label: 'FAQ' },
                     ].map((item, i, arr) => (
-                      <div key={item.label} className={`flex items-center gap-3.5 py-3.5 cursor-pointer transition hover:bg-[#F8FAFC] ${i < arr.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
-                        <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] ${item.bg}`}>
-                          <i className={`fas ${item.icon} text-[13px] ${item.color}`} />
+                      <div
+                        key={item.label}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 14,
+                          padding: '14px 0',
+                          borderBottom: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F0FDFA', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <i className={`fas ${item.icon}`} style={{ fontSize: 13, color: '#0D9488' }} />
                         </div>
-                        <div className="flex-1">
-                          <div className="text-[0.85rem] font-semibold text-[#0A1628]">{item.label}</div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{item.label}</div>
                         </div>
-                        <i className="fas fa-chevron-right text-[11px] text-[#D5D5E0]" />
+                        <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                       </div>
                     ))}
                   </div>
@@ -287,7 +444,7 @@ export default function AccountPage() {
           </div>
 
           {/* Sign Out Button */}
-          <div className="py-1 sm:max-w-xs sm:mx-auto lg:mx-0">
+          <div style={{ paddingTop: 4, paddingBottom: 8 }}>
             <button
               onClick={() => {
                 if (typeof window !== 'undefined') {
@@ -295,9 +452,24 @@ export default function AccountPage() {
                   window.location.href = '/login'
                 }
               }}
-              className="flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-[#FFF0F1] bg-transparent px-7 py-3.5 text-[0.875rem] font-semibold text-[#E63946] transition hover:bg-[#FFF0F1] active:scale-[0.98]"
+              style={{
+                width: '100%',
+                padding: '14px 28px',
+                background: 'transparent',
+                color: '#E63946',
+                border: '1.5px solid #FFF0F1',
+                borderRadius: 9999,
+                fontFamily: 'inherit',
+                fontSize: '0.875rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+              }}
             >
-              <i className="fas fa-right-from-bracket text-sm" />
+              <i className="fas fa-right-from-bracket" style={{ fontSize: 14 }} />
               Sign Out
             </button>
           </div>

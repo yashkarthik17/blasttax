@@ -174,47 +174,55 @@ export default function AssetCategoryPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress bar */}
-        <div className="pt-4">
-          <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all duration-500" style={{ width: `${progressPercent}%` }} />
+        <div style={{ padding: '16px 0 0' }}>
+          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: `${progressPercent}%`, transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Asset Intake</span>
-            <span className="rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[11px] font-bold text-[#2563EB]">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Asset Intake</span>
+            <span style={{ fontSize: '11px', fontWeight: 700, color: '#2563EB', background: '#EFF4FF', padding: '2px 8px', borderRadius: '20px' }}>
               Category {catIndex + 1} of {CATEGORIES.length}
             </span>
           </div>
         </div>
 
         {/* Header */}
-        <div className="mt-5 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EFF4FF] text-[#2563EB]">
-            <i className={`${meta.icon} text-xl`} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '20px', marginBottom: '12px' }}>
+          <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: '#EFF4FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '20px' }}>
+            <i className={meta.icon} />
           </div>
           <div>
-            <h1 className="text-[1.4rem] font-extrabold leading-tight text-[#0A1628]">{meta.label}</h1>
-            <p className="mt-0.5 text-[13px] leading-snug text-[#64748B]">{meta.desc}</p>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2 }}>{meta.label}</h1>
+            <p style={{ fontSize: '13px', color: '#64748B', marginTop: '4px', lineHeight: 1.5 }}>{meta.desc}</p>
           </div>
         </div>
 
         {/* Gate cards */}
-        <div className="mt-4 space-y-2.5 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
+        <div>
           <button
             onClick={() => setHasAsset(true)}
-            className={`flex w-full items-center gap-3.5 rounded-2xl border-2 p-5 text-left transition-all ${
-              hasAsset === true
-                ? 'border-[#00A651] bg-[#E6F9EE]'
-                : 'border-[#E2E8F0] bg-white hover:border-[#2563EB] hover:-translate-y-px'
-            }`}
+            style={{
+              padding: '20px',
+              background: hasAsset === true ? '#ECFDF5' : '#fff',
+              border: `2px solid ${hasAsset === true ? '#00A651' : '#E2E8F0'}`,
+              borderRadius: '16px',
+              cursor: 'pointer',
+              transition: 'all 0.25s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              marginBottom: '10px',
+              width: '100%',
+              textAlign: 'left' as const,
+              fontFamily: 'inherit',
+            }}
           >
-            <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg ${
-              hasAsset === true ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#E6F9EE] text-[#00A651]'
-            }`}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, background: '#ECFDF5', color: '#00A651' }}>
               <i className="fa-solid fa-check" />
             </div>
             <div>
-              <div className="text-[15px] font-bold text-[#0A1628]">Yes, I have these</div>
-              <div className="mt-0.5 text-xs text-[#94A3B8]">{meta.question}</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>Yes, I have these</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>{meta.question}</div>
             </div>
           </button>
 
@@ -224,43 +232,53 @@ export default function AssetCategoryPage() {
               setAnswers({ [`${storeKey}_has`]: false, [storeKey]: [] })
               router.push(nextPath)
             }}
-            className={`flex w-full items-center gap-3.5 rounded-2xl border-2 p-5 text-left transition-all ${
-              hasAsset === false
-                ? 'border-[#94A3B8] bg-[#F8FAFC]'
-                : 'border-[#E2E8F0] bg-white hover:border-[#2563EB] hover:-translate-y-px'
-            }`}
+            style={{
+              padding: '20px',
+              background: hasAsset === false ? '#F8FAFC' : '#fff',
+              border: `2px solid ${hasAsset === false ? '#94A3B8' : '#E2E8F0'}`,
+              borderRadius: '16px',
+              cursor: 'pointer',
+              transition: 'all 0.25s',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '14px',
+              marginBottom: '10px',
+              width: '100%',
+              textAlign: 'left' as const,
+              fontFamily: 'inherit',
+            }}
           >
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#F8FAFC] text-lg text-[#64748B]">
+            <div style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, background: '#F8FAFC', color: '#64748B' }}>
               <i className="fa-solid fa-xmark" />
             </div>
             <div>
-              <div className="text-[15px] font-bold text-[#0A1628]">No, skip this</div>
-              <div className="mt-0.5 text-xs text-[#94A3B8]">I do not have any {meta.label.toLowerCase()}</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>No, skip this</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>I do not have any {meta.label.toLowerCase()}</div>
             </div>
           </button>
         </div>
 
         {/* Form area - visible when hasAsset === true */}
         {hasAsset === true && (
-          <div className="mt-4 rounded-[14px] border border-[#F1F5F9] bg-[#F8FAFC] p-4">
-            <div className="text-[13px] font-bold text-[#0A1628]">Add {meta.label}</div>
-            <div className="mt-1 text-xs leading-relaxed text-[#94A3B8]">{meta.formDesc}</div>
+          <div style={{ marginTop: '16px', padding: '16px', background: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>Add {meta.label}</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '12px', lineHeight: 1.5 }}>{meta.formDesc}</div>
 
             {/* Item entries */}
-            <div className="mt-3 space-y-2.5">
+            <div>
               {items.map((item, idx) => (
-                <div key={item.id} className="rounded-xl border border-[#F1F5F9] bg-white p-3">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="text-[13px] font-bold text-[#0A1628]">
+                <div key={item.id} style={{ padding: '12px', background: '#fff', border: '1px solid #F1F5F9', borderRadius: '12px', marginTop: '10px' }}>
+                  <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>
                       {meta.label.replace(/s$/, '')} {items.length > 1 ? idx + 1 : ''}
                     </span>
-                    <div className="flex gap-2">
+                    <div style={{ display: 'flex', gap: '8px' }}>
                       {items.length > 1 && (
                         <button
                           onClick={() => setItems((prev) => prev.filter((_, i) => i !== idx))}
-                          className="rounded-md px-2 py-1 text-[#E63946] hover:bg-[#FFF0F1]"
+                          style={{ background: 'none', border: 'none', color: '#E63946', cursor: 'pointer', padding: '4px 8px', borderRadius: '6px' }}
                         >
-                          <i className="fa-solid fa-trash text-xs" />
+                          <i className="fa-solid fa-trash" style={{ fontSize: '12px' }} />
                         </button>
                       )}
                     </div>
@@ -269,9 +287,9 @@ export default function AssetCategoryPage() {
                     setItems((prev) => { const arr = [...prev]; arr[idx] = updated; return arr })
                   })}
                   {computeQSV(category, item) > 0 && (
-                    <div className="mt-3 flex items-center justify-between rounded-lg bg-[#EFF4FF] px-3 py-2">
-                      <span className="text-xs font-bold text-[#2563EB]">Quick Sale Value</span>
-                      <span className="text-sm font-bold text-[#2563EB]">{fmt(computeQSV(category, item))}</span>
+                    <div style={{ marginTop: '12px', padding: '10px 14px', background: '#EFF4FF', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', fontWeight: 700, color: '#2563EB' }}>
+                      <span>Quick Sale Value</span>
+                      <span>{fmt(computeQSV(category, item))}</span>
                     </div>
                   )}
                 </div>
@@ -281,15 +299,32 @@ export default function AssetCategoryPage() {
             {/* Add entry button */}
             <button
               onClick={() => setItems((prev) => [...prev, createEmpty(category)])}
-              className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#F1F5F9] bg-transparent py-3 text-[13px] font-semibold text-[#64748B] transition-all hover:border-[#2563EB] hover:bg-[#EFF4FF] hover:text-[#2563EB]"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '12px',
+                border: '2px dashed #F1F5F9',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                color: '#64748B',
+                fontSize: '13px',
+                fontWeight: 600,
+                background: 'none',
+                width: '100%',
+                fontFamily: 'inherit',
+                marginTop: '12px',
+                transition: 'all 0.3s',
+              }}
             >
-              <i className="fa-solid fa-plus text-[11px]" />
+              <i className="fa-solid fa-plus" style={{ fontSize: '11px' }} />
               Add entry
             </button>
 
             {/* Running total */}
             {totalQSV > 0 && (
-              <div className="mt-3 flex items-center justify-between rounded-lg bg-[#EFF4FF] px-3.5 py-2.5 text-[13px] font-bold text-[#2563EB]">
+              <div style={{ marginTop: '12px', padding: '10px 14px', background: '#EFF4FF', borderRadius: '10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', fontWeight: 700, color: '#2563EB' }}>
                 <span>Category Total</span>
                 <span>{fmt(totalQSV)}</span>
               </div>
@@ -298,41 +333,87 @@ export default function AssetCategoryPage() {
         )}
 
         {/* Why does the IRS need this? */}
-        <div className="mt-4">
+        <div style={{ marginTop: '16px' }}>
           <button
             onClick={() => setWhyOpen(!whyOpen)}
-            className="flex items-center gap-1.5 text-[13px] font-semibold text-[#2563EB]"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer',
+              fontSize: '13px',
+              fontWeight: 600,
+              color: '#2563EB',
+              background: 'none',
+              border: 'none',
+              fontFamily: 'inherit',
+              padding: 0,
+            }}
           >
-            <i className="fa-solid fa-circle-question text-sm" />
+            <i className="fa-solid fa-circle-question" style={{ fontSize: '14px' }} />
             Why does the IRS need this?
-            <i className={`fa-solid fa-chevron-down text-[10px] transition-transform ${whyOpen ? 'rotate-180' : ''}`} />
+            <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', transition: 'transform 0.3s', transform: whyOpen ? 'rotate(180deg)' : 'none' }} />
           </button>
-          <div className={`overflow-hidden transition-all duration-400 ${whyOpen ? 'mt-2.5 max-h-[300px]' : 'max-h-0'}`}>
-            <p className="text-[13px] leading-relaxed text-[#64748B]">{meta.whyText}</p>
+          <div style={{ maxHeight: whyOpen ? '300px' : '0', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
+            <div style={{ paddingTop: '10px' }}>
+              <p style={{ fontSize: '13px', color: '#64748B', lineHeight: 1.6 }}>{meta.whyText}</p>
+            </div>
           </div>
         </div>
 
         {/* Navigation */}
-        <div className="mt-6 flex gap-3">
-          <button
-            onClick={handleBack}
-            className="flex shrink-0 items-center gap-2 rounded-[14px] border-[1.5px] border-[#E2E8F0] bg-white px-5 py-4 text-[15px] font-semibold text-[#64748B] transition-all hover:border-[#2563EB] hover:text-[#0A1628]"
-          >
-            <i className="fa-solid fa-arrow-left text-[13px]" />
-            Back
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={hasAsset === null}
-            className={`flex flex-1 items-center justify-center gap-2 rounded-[14px] py-4 text-[15px] font-semibold transition-all ${
-              hasAsset !== null
-                ? 'bg-[#00A651] text-white hover:bg-[#008C44]'
-                : 'pointer-events-none bg-[#00A651] text-white opacity-50'
-            }`}
-          >
-            Continue
-            <i className="fa-solid fa-arrow-right text-[13px]" />
-          </button>
+        <div style={{ padding: '12px 0 20px' }}>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={handleBack}
+              style={{
+                flex: '0 0 auto',
+                padding: '16px 20px',
+                borderRadius: '14px',
+                border: '1.5px solid #E2E8F0',
+                background: '#fff',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+                fontSize: '15px',
+                fontWeight: 600,
+                color: '#64748B',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s',
+              }}
+            >
+              <i className="fa-solid fa-arrow-left" style={{ fontSize: '13px' }} />
+              Back
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={hasAsset === null}
+              style={{
+                flex: 1,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                border: 'none',
+                borderRadius: '9999px',
+                padding: '16px 28px',
+                fontFamily: 'inherit',
+                fontSize: '15px',
+                fontWeight: 600,
+                cursor: hasAsset !== null ? 'pointer' : 'default',
+                background: '#00A651',
+                color: 'white',
+                boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+                opacity: hasAsset !== null ? 1 : 0.5,
+                pointerEvents: hasAsset !== null ? 'auto' : 'none',
+                transition: 'opacity 0.15s ease, transform 0.15s ease',
+              }}
+            >
+              Continue
+              <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

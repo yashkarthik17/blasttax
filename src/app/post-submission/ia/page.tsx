@@ -1,175 +1,148 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-type IAStatus = 'pending' | 'active' | 'default'
-
-const STATUS_CONFIG: Record<IAStatus, { label: string; color: string; bgColor: string }> = {
-  pending: { label: 'Pending', color: 'text-amber-600', bgColor: 'bg-amber-50' },
-  active: { label: 'Active', color: 'text-[#00A651]', bgColor: 'bg-[#E6F9EE]' },
-  default: { label: 'Default', color: 'text-[#E63946]', bgColor: 'bg-[#FFF0F1]' },
-}
-
-interface TimelineStep {
-  label: string
-  description: string
-  completed: boolean
-  current: boolean
-  icon: string
-}
 
 export default function IAPostSubmissionPage() {
   const router = useRouter()
-  const [status] = useState<IAStatus>('active')
-  const statusConfig = STATUS_CONFIG[status]
 
-  const paymentData = {
-    monthlyAmount: 657,
-    paymentMethod: 'Direct Debit (DDIA)',
-    paymentDate: '28th of each month',
-    remainingBalance: 46593,
-    paymentsMade: 1,
-    totalPayments: 72,
-    ftpRate: '0.25%/mo',
-  }
-
-  const timeline: TimelineStep[] = [
-    { label: 'Application Submitted', description: 'Mar 15 — Online via IRS.gov', completed: true, current: false, icon: 'fa-check' },
-    { label: 'TC 971 AC 043 Posted', description: 'Mar 15 — Pending status confirmed', completed: true, current: false, icon: 'fa-check' },
-    { label: 'Levy Protection Active', description: 'IRC \u00A7 6331(k) — Protected from levies', completed: true, current: false, icon: 'fa-check' },
-    { label: 'Approved — TC 971 AC 063', description: 'Mar 16 — Online = immediate approval', completed: true, current: false, icon: 'fa-check' },
-    { label: 'First Payment Due', description: 'Apr 28 — $657 via Direct Debit', completed: false, current: true, icon: 'fa-arrow-right' },
+  const timeline = [
+    { label: 'Application Submitted', desc: 'Mar 15 \u2014 Online via IRS.gov', done: true, current: false, icon: 'fa-check' },
+    { label: 'TC 971 AC 043 Posted', desc: 'Mar 15 \u2014 Pending status confirmed', done: true, current: false, icon: 'fa-check' },
+    { label: 'Levy Protection Active', desc: 'IRC \u00A7 6331(k) \u2014 Protected from levies', done: true, current: false, icon: 'fa-check' },
+    { label: 'Approved \u2014 TC 971 AC 063', desc: 'Mar 16 \u2014 Online = immediate approval', done: true, current: false, icon: 'fa-check' },
+    { label: 'First Payment Due', desc: 'Apr 28 \u2014 $657 via Direct Debit', done: false, current: true, icon: 'fa-arrow-right' },
   ]
 
-  const complianceItems = [
+  const details = [
+    { label: 'Monthly Payment', value: '$657', bold: true },
+    { label: 'Payment Method', value: 'Direct Debit (DDIA)' },
+    { label: 'Payment Date', value: '28th of each month' },
+    { label: 'Remaining Balance', value: '$46,593', accent: true },
+    { label: 'Payments Made', value: '1 of 72' },
+  ]
+
+  const compliance = [
     'File all future returns on time',
     'Pay current-year taxes on time',
     'Make all IA payments on time',
   ]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
-            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
           </button>
-          <span className="text-[15px] font-bold text-[#0A1628]">IA Status</span>
-          <div className="w-10" />
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>IA Status</span>
+          <div style={{ width: '40px' }} />
         </div>
 
         {/* Content */}
-        <div className="flex flex-col gap-4 px-5 py-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', padding: '20px', paddingBottom: '24px' }}>
           {/* Title + Status */}
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <h1 className="text-xl font-extrabold text-[#0A1628]">Your Installment Agreement</h1>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>Your Installment Agreement</h1>
             </div>
-            <div className="flex items-center gap-2">
-              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${statusConfig.bgColor} ${statusConfig.color}`}>
-                <i className="fa-solid fa-circle text-[6px]" /> {statusConfig.label}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderRadius: '9999px', padding: '4px 12px', fontSize: '11px', fontWeight: 700, background: '#E6F9EE', color: '#00A651' }}>
+                <i className="fa-solid fa-circle" style={{ fontSize: '6px' }} /> Active
               </span>
-              <span className="text-xs text-[#64748B]">Streamlined DDIA</span>
+              <span style={{ fontSize: '12px', color: '#64748B' }}>Streamlined DDIA</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Timeline Card */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
-            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3.5">
-              Timeline
-            </div>
-            <div className="flex flex-col">
-              {timeline.map((step, i) => (
-                <div key={i} className="relative flex gap-3.5 pb-4 last:pb-0">
-                  {/* Connector line */}
-                  {i < timeline.length - 1 && (
-                    <div className={`absolute left-[15px] top-[34px] bottom-0 w-0.5 ${step.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
-                  )}
-                  {/* Dot */}
-                  <div className={`relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs text-white ${
-                    step.completed ? 'bg-[#00A651]' : step.current ? 'bg-[#2563EB]' : 'bg-[#F8FAFC] text-[#CBD5E1] border-2 border-[#F1F5F9]'
-                  }`}>
-                    <i className={`fa-solid ${step.icon} text-[11px]`} />
-                  </div>
-                  <div>
-                    <div className={`text-[13px] font-bold ${step.current ? 'text-[#2563EB]' : 'text-[#0A1628]'}`}>
-                      {step.label}
-                    </div>
-                    <div className="text-[11px] text-[#64748B]">{step.description}</div>
-                  </div>
+          {/* Timeline */}
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '14px' }}>Timeline</div>
+            {timeline.map((step, i) => (
+              <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timeline.length - 1 ? '16px' : 0 }}>
+                {/* Connector line */}
+                {i < timeline.length - 1 && (
+                  <div style={{ position: 'absolute', left: '15px', top: '34px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F1F5F9' }} />
+                )}
+                {/* Dot */}
+                <div style={{
+                  position: 'relative', zIndex: 1, width: '32px', height: '32px', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#F8FAFC',
+                  color: step.done || step.current ? 'white' : '#CBD5E1',
+                  border: !step.done && !step.current ? '2px solid #F1F5F9' : 'none',
+                  fontSize: '12px',
+                }}>
+                  <i className={`fa-solid ${step.icon}`} style={{ fontSize: '11px' }} />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: step.current ? '#2563EB' : '#0A1628' }}>{step.label}</div>
+                  <div style={{ fontSize: '11px', color: '#64748B' }}>{step.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Agreement Details */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4 md:row-start-1 md:col-start-2">
-            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
-              Agreement Details
-            </div>
-            {[
-              { label: 'Monthly Payment', value: `$${paymentData.monthlyAmount}`, bold: true },
-              { label: 'Payment Method', value: paymentData.paymentMethod },
-              { label: 'Payment Date', value: paymentData.paymentDate },
-              { label: 'Remaining Balance', value: `$${paymentData.remainingBalance.toLocaleString()}`, accent: true },
-              { label: 'Payments Made', value: `${paymentData.paymentsMade} of ${paymentData.totalPayments}` },
-            ].map((row, i) => (
-              <div key={i} className={`flex items-center justify-between py-2 text-xs ${i > 0 ? 'border-t border-[#F1F5F9]' : ''}`}>
-                <span className="text-[#64748B]">{row.label}</span>
-                <span className={`font-semibold ${row.accent ? 'text-[#E63946] font-bold' : row.bold ? 'font-bold text-[#0A1628]' : 'text-[#0A1628]'}`}>
-                  {row.value}
-                </span>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>Agreement Details</div>
+            {details.map((row, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: i > 0 ? '1px solid #F1F5F9' : 'none' }}>
+                <span style={{ color: '#64748B' }}>{row.label}</span>
+                <span style={{ fontWeight: row.accent || row.bold ? 700 : 600, color: row.accent ? '#E63946' : '#0A1628' }}>{row.value}</span>
               </div>
             ))}
-            <div className="flex items-center justify-between py-2 border-t border-[#F1F5F9] text-xs">
-              <span className="text-[#64748B]">FTP Penalty Rate</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: '1px solid #F1F5F9' }}>
+              <span style={{ color: '#64748B' }}>FTP Penalty Rate</span>
               <div>
-                <span className="font-semibold text-[#00A651]">{paymentData.ftpRate}</span>
-                <span className="text-[10px] text-[#64748B] line-through ml-1">0.5%</span>
+                <span style={{ fontWeight: 600, color: '#00A651' }}>0.25%/mo</span>
+                <span style={{ fontSize: '10px', color: '#64748B', textDecoration: 'line-through', marginLeft: '4px' }}>0.5%</span>
               </div>
             </div>
-          </div>
-
           </div>
 
           {/* NFTL Status */}
-          <div className="flex items-start gap-3 rounded-[14px] bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] p-3.5">
-            <i className="fa-solid fa-shield-check text-[#00A651] mt-0.5" />
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', borderRadius: '14px', background: '#E6F9EE', border: '1px solid rgba(0,166,81,0.15)', padding: '14px' }}>
+            <i className="fa-solid fa-shield-check" style={{ color: '#00A651', fontSize: '16px', marginTop: '2px' }} />
             <div>
-              <div className="font-bold text-[13px] text-[#065F46] mb-0.5">No Lien Filed</div>
-              <div className="text-xs text-[#065F46] leading-relaxed">Balance under $25K DDIA threshold. NFTL will not be filed.</div>
+              <div style={{ fontWeight: 700, fontSize: '13px', color: '#065F46', marginBottom: '2px' }}>No Lien Filed</div>
+              <div style={{ fontSize: '12px', color: '#065F46', lineHeight: 1.4 }}>Balance under $25K DDIA threshold. NFTL will not be filed.</div>
             </div>
           </div>
 
           {/* Compliance Requirements */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
-            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
-              <i className="fa-solid fa-triangle-exclamation text-[10px] mr-1 text-[#F59E0B]" />
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+              <i className="fa-solid fa-triangle-exclamation" style={{ fontSize: '10px', marginRight: '4px', color: '#F59E0B' }} />
               Compliance Requirements
             </div>
-            {complianceItems.map((item, i) => (
-              <div key={i} className="flex items-start gap-2.5 py-2 text-xs">
-                <i className="fa-solid fa-triangle-exclamation text-[#F59E0B] text-sm mt-px shrink-0" />
-                <span className="text-[#0A1628] font-medium">{item}</span>
+            {compliance.map((item, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '8px 0', fontSize: '12px', lineHeight: 1.5 }}>
+                <i className="fa-solid fa-triangle-exclamation" style={{ color: '#F59E0B', fontSize: '14px', marginTop: '1px', flexShrink: 0 }} />
+                <span style={{ color: '#0A1628', fontWeight: 500 }}>{item}</span>
               </div>
             ))}
-            <div className="mt-2 rounded-[10px] bg-[rgba(245,166,35,0.06)] p-2.5 text-[11px] text-[#92400E] leading-relaxed">
-              <i className="fa-solid fa-info-circle text-[10px] mr-1" />
+            <div style={{ marginTop: '8px', padding: '10px', background: 'rgba(245, 166, 35, 0.06)', borderRadius: '10px', fontSize: '11px', color: '#92400E', lineHeight: 1.5 }}>
+              <i className="fa-solid fa-info-circle" style={{ fontSize: '10px', marginRight: '4px' }} />
               Default triggers CP523 notice with a 30-day cure period before termination.
             </div>
           </div>
 
           {/* CTAs */}
-          <div className="mt-1 flex flex-col gap-2.5">
-            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
-              <i className="fa-solid fa-credit-card text-[13px]" />
+          <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <button style={{
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '16px', background: '#0A1628', borderRadius: '16px', border: 'none',
+              color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              <i className="fa-solid fa-credit-card" style={{ fontSize: '13px' }} />
               Make a Payment
             </button>
-            <button className="flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#E2E8F0] bg-white py-4 text-[15px] font-semibold text-[#0A1628]">
-              <i className="fa-solid fa-clock-rotate-left text-[13px]" />
+            <button style={{
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #E2E8F0',
+              color: '#0A1628', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              <i className="fa-solid fa-clock-rotate-left" style={{ fontSize: '13px' }} />
               View Payment History
             </button>
           </div>

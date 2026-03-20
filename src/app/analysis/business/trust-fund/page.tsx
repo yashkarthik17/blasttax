@@ -38,99 +38,137 @@ export default function TrustFundPage() {
 
   const fmt = (n: number) => '$' + n.toLocaleString()
 
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
+    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+  }
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8',
+    textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '5px',
+  }
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
-        <div className="px-5 pt-4">
-          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '30%' }} />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '30%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
           </div>
-          <div className="flex justify-between items-center mt-2.5">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 8</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Trust Fund Split</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 3 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Trust Fund Split</span>
           </div>
         </div>
 
-        <div className="px-5 py-4 pb-8">
-          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight mb-1">Trust Fund vs Non-Trust Fund</h1>
-          <p className="text-[13px] text-[#94A3B8] leading-relaxed mb-3.5">This is the most critical classification in business tax resolution. Trust fund = personal liability via TFRP.</p>
-
-          {/* Warning */}
-          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#FFFBEB] border border-[rgba(245,166,35,0.2)] p-3.5 mb-3.5">
-            <i className="fa-solid fa-piggy-bank text-[#D97706]" />
-            <span className="text-xs text-[#92400E]">Always designate payments to trust fund first. Undesignated payments go to non-trust fund (benefits IRS, not you).</span>
+        <div style={{ padding: '16px 20px 20px' }}>
+          <div style={{ marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Trust Fund vs Non-Trust Fund</h1>
+            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>This is the most critical classification in business tax resolution. Trust fund = personal liability via TFRP.</p>
           </div>
 
-          {/* Quarter Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {quarters.map((q, qi) => (
-            <div key={qi} className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
-              <div className="text-sm font-bold text-[#0A1628] mb-2">
-                <i className="fa-solid fa-calculator text-xs text-[#2563EB] mr-1.5" /> {q.label}
-              </div>
-              <div className="space-y-2.5">
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 3: Income Tax Withheld</label>
-                  <input type="text" value={q.incomeTax} onChange={(e) => updateField(qi, 'incomeTax', e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
-                  <div className="text-[9px] text-[#00A651] font-semibold mt-0.5">100% Trust Fund</div>
-                </div>
-                <div className="grid grid-cols-2 gap-2.5">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5a: Social Security Tax</label>
-                    <input type="text" value={q.ssTax} onChange={(e) => updateField(qi, 'ssTax', e.target.value)}
-                      className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
-                    <div className="text-[9px] text-[#F59E0B] font-semibold mt-0.5">50/50 Split</div>
-                  </div>
-                  <div>
-                    <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5c: Medicare Tax</label>
-                    <input type="text" value={q.medTax} onChange={(e) => updateField(qi, 'medTax', e.target.value)}
-                      className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
-                    <div className="text-[9px] text-[#F59E0B] font-semibold mt-0.5">50/50 Split</div>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5d: Additional Medicare</label>
-                  <input type="text" value={q.addMed} onChange={(e) => updateField(qi, 'addMed', e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
-                  <div className="text-[9px] text-[#00A651] font-semibold mt-0.5">100% Trust Fund</div>
-                </div>
+          {/* Warning Alert */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#FFFBEB', border: '1px solid rgba(245,166,35,0.2)', borderRadius: '14px', marginBottom: '14px' }}>
+            <i className="fa-solid fa-piggy-bank" style={{ color: '#D97706' }} />
+            <span style={{ fontSize: '12px', color: '#92400E' }}>Always designate payments to trust fund first. Undesignated payments go to non-trust fund (benefits IRS, not you).</span>
+          </div>
+
+          {/* Q3 2025 */}
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+              <i className="fa-solid fa-calculator" style={{ fontSize: '12px', color: '#2563EB' }} /> {quarters[0].label}
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 3: Income Tax Withheld</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[0].incomeTax} onChange={(e) => updateField(0, 'incomeTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+                <div style={{ fontSize: '9px', color: '#00A651', fontWeight: 600, marginTop: '2px' }}>100% Trust Fund</div>
               </div>
             </div>
-          ))}
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5a: Social Security Tax</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[0].ssTax} onChange={(e) => updateField(0, 'ssTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+                <div style={{ fontSize: '9px', color: '#F59E0B', fontWeight: 600, marginTop: '2px' }}>50/50 Split</div>
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5c: Medicare Tax</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[0].medTax} onChange={(e) => updateField(0, 'medTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+                <div style={{ fontSize: '9px', color: '#F59E0B', fontWeight: 600, marginTop: '2px' }}>50/50 Split</div>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5d: Additional Medicare</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[0].addMed} onChange={(e) => updateField(0, 'addMed', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+                <div style={{ fontSize: '9px', color: '#00A651', fontWeight: 600, marginTop: '2px' }}>100% Trust Fund</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Q4 2025 */}
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+              <i className="fa-solid fa-calculator" style={{ fontSize: '12px', color: '#2563EB' }} /> {quarters[1].label}
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 3: Income Tax Withheld</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[1].incomeTax} onChange={(e) => updateField(1, 'incomeTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5a: Social Security Tax</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[1].ssTax} onChange={(e) => updateField(1, 'ssTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5c: Medicare Tax</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[1].medTax} onChange={(e) => updateField(1, 'medTax', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={labelStyle}>Line 5d: Additional Medicare</label>
+                <input type="text" placeholder="$0" value={'$' + quarters[1].addMed} onChange={(e) => updateField(1, 'addMed', e.target.value.replace(/[^0-9]/g, ''))} style={fieldInputStyle} />
+              </div>
+            </div>
           </div>
 
           {/* Summary Bar */}
-          <div className="rounded-[14px] bg-[#0A1628] p-4 flex items-center justify-between mt-4">
+          <div style={{ background: '#0A1628', borderRadius: '14px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
             <div>
-              <span className="text-[11px] font-semibold text-white/50 uppercase tracking-[0.06em]">Total Trust Fund</span>
-              <div className="text-[1.3rem] font-black text-[#10B981] tracking-tight mt-0.5">{fmt(totals.tf)}</div>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Total Trust Fund</span>
+              <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#10B981', letterSpacing: '-0.02em', marginTop: '2px' }}>{fmt(totals.tf)}</div>
             </div>
-            <div className="text-center">
-              <span className="text-[11px] font-semibold text-white/50 uppercase">Non-Trust Fund</span>
-              <div className="text-[1.1rem] font-extrabold text-white">{fmt(totals.ntf)}</div>
+            <div style={{ textAlign: 'center' as const }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const }}>Non-Trust Fund</span>
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white' }}>{fmt(totals.ntf)}</div>
             </div>
-            <div className="text-right">
-              <span className="text-[11px] font-semibold text-white/50">TF %</span>
-              <div className="text-[1.1rem] font-extrabold text-white">{totals.pct}%</div>
+            <div style={{ textAlign: 'right' as const }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>TF %</span>
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white' }}>{totals.pct}%</div>
             </div>
           </div>
 
           {/* TFRP Exposure */}
-          <div className="mt-3 rounded-xl bg-[#FEF2F2] border border-[#FEE2E2] p-3">
-            <div className="text-xs font-bold text-[#991B1B]">
-              <i className="fa-solid fa-user-shield text-[11px] mr-1" /> TFRP Exposure
+          <div style={{ marginTop: '12px', padding: '12px', background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: '12px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#991B1B' }}>
+              <i className="fa-solid fa-user-shield" style={{ fontSize: '11px' }} /> TFRP Exposure
             </div>
-            <div className="text-[11.5px] text-[#991B1B] mt-1">Each responsible person is personally liable for the full {fmt(totals.tf)} trust fund amount. This is separate from the business debt.</div>
+            <div style={{ fontSize: '11.5px', color: '#991B1B', marginTop: '4px' }}>Each responsible person is personally liable for the full {fmt(totals.tf)} trust fund amount. This is separate from the business debt.</div>
           </div>
 
-          <button
-            onClick={() => router.push('/analysis/business/results')}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white mt-5"
-          >
-            Continue <i className="fa-solid fa-arrow-right text-[13px]" />
-          </button>
+          <div style={{ padding: '12px 0 20px' }}>
+            <button
+              onClick={() => router.push('/analysis/business/results')}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

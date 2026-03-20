@@ -36,16 +36,17 @@ export default function ResetPasswordPage() {
   return (
     <AuthLayout>
       <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-10" style={{ background: '#FFFFFF' }}>
-        <div className="flex-1 flex flex-col pt-4 lg:pt-0">
+        <div className="flex-1 flex flex-col" style={{ paddingTop: 8 }}>
           {/* Back button */}
-          <div className="mb-10">
+          <div style={{ marginBottom: 40 }}>
             <Link
               href="/login"
-              className="flex items-center justify-center transition-all"
+              className="flex items-center justify-center"
               style={{
                 width: 40, height: 40, borderRadius: 12,
                 background: '#FFFFFF', border: '1.5px solid #E2E8F0',
                 color: '#0A1628', fontSize: 16, textDecoration: 'none',
+                boxShadow: 'none', transition: 'all 0.25s ease',
               }}
             >
               <i className="fas fa-arrow-left" />
@@ -56,20 +57,23 @@ export default function ResetPasswordPage() {
             /* Form State */
             <div>
               {/* Icon circle */}
-              <div className="flex justify-center mb-6">
-                <div className="relative" style={{ width: 88, height: 88 }}>
+              <div style={{ marginBottom: 24 }}>
+                <div style={{ position: 'relative', width: 88, height: 88, margin: '0 auto' }}>
                   <div
-                    className="flex items-center justify-center rounded-full"
-                    style={{ width: 88, height: 88, background: '#EFF4FF', position: 'relative', zIndex: 2 }}
+                    className="flex items-center justify-center"
+                    style={{
+                      width: 88, height: 88, borderRadius: '50%',
+                      background: '#EFF4FF', position: 'relative', zIndex: 2,
+                    }}
                   >
-                    <i className="fas fa-lock" style={{ fontSize: 28, color: '#0A1628' }} />
+                    <i className="fas fa-lock" style={{ fontSize: 28, color: '#0A1628', position: 'relative', zIndex: 2 }} />
                     {/* Shield badge */}
                     <div
                       className="flex items-center justify-center"
                       style={{
                         position: 'absolute', bottom: -2, right: -2,
                         width: 32, height: 32, borderRadius: '50%',
-                        background: '#00A651', zIndex: 3,
+                        background: '#00A651', zIndex: 3, boxShadow: 'none',
                       }}
                     >
                       <i className="fas fa-shield-halved" style={{ fontSize: 14, color: '#FFFFFF' }} />
@@ -87,14 +91,14 @@ export default function ResetPasswordPage() {
               </div>
 
               {/* Heading */}
-              <div className="text-center mb-2">
+              <div style={{ textAlign: 'center', marginBottom: 8 }}>
                 <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
                   Reset your password
                 </h1>
               </div>
 
               {/* Subtitle */}
-              <div className="text-center mb-9 mx-auto" style={{ maxWidth: 300 }}>
+              <div style={{ textAlign: 'center', marginBottom: 36, maxWidth: 300, marginLeft: 'auto', marginRight: 'auto' }}>
                 <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6 }}>
                   Enter your email and we&apos;ll send you a reset link
                 </p>
@@ -102,48 +106,87 @@ export default function ResetPasswordPage() {
 
               {/* Error */}
               {error && (
-                <div className="mb-4 rounded-xl px-4 py-3 text-sm" style={{ background: '#FFF0F1', border: '1px solid #FECDD3', color: '#E63946' }}>
+                <div style={{ marginBottom: 16, borderRadius: 14, padding: '12px 16px', fontSize: '0.875rem', background: '#FFF0F1', border: '1px solid #FECDD3', color: '#E63946' }}>
                   {error}
                 </div>
               )}
 
               <form onSubmit={handleSubmit}>
                 {/* Email input */}
-                <div className="relative mb-7">
+                <div style={{ position: 'relative', marginBottom: 28 }}>
                   <input
                     type="email"
                     placeholder="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full rounded-[14px] border-[1.5px] py-[14px] pr-4 pl-[46px] text-[0.875rem] font-medium outline-none transition-colors"
-                    style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                    onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                    style={{
+                      width: '100%',
+                      padding: '14px 16px 14px 46px',
+                      background: '#F8FAFC',
+                      border: '1.5px solid #E2E8F0',
+                      borderRadius: 12,
+                      fontFamily: 'inherit',
+                      fontSize: '0.9375rem',
+                      fontWeight: 500,
+                      color: '#0A1628',
+                      outline: 'none',
+                      transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = '#0A1628'
+                      e.currentTarget.style.background = '#FFFFFF'
+                      e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = '#E2E8F0'
+                      e.currentTarget.style.background = '#F8FAFC'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
                   />
                   <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, pointerEvents: 'none' }} />
                 </div>
 
                 {/* Send Reset Link */}
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full rounded-full py-[15px] px-7 text-center font-bold transition-opacity disabled:opacity-50 mb-7"
-                  style={{ background: '#0A1628', color: '#FFFFFF', fontSize: '0.95rem', border: 'none', cursor: 'pointer' }}
-                >
-                  {loading ? (
-                    <>
-                      <i className="fas fa-circle-notch fa-spin" style={{ marginRight: 8 }} />
-                      Sending...
-                    </>
-                  ) : (
-                    'Send Reset Link'
-                  )}
-                </button>
+                <div style={{ marginBottom: 28 }}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    style={{
+                      width: '100%',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      border: 'none',
+                      borderRadius: 9999,
+                      padding: '15px 28px',
+                      fontFamily: 'inherit',
+                      fontSize: '0.95rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      background: '#00A651',
+                      color: '#FFFFFF',
+                      boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+                      opacity: loading ? 0.8 : 1,
+                      pointerEvents: loading ? 'none' : 'auto',
+                      transition: 'opacity 0.15s ease, transform 0.15s ease',
+                    }}
+                  >
+                    {loading ? (
+                      <>
+                        <i className="fas fa-circle-notch fa-spin" style={{ marginRight: 8 }} />
+                        Sending...
+                      </>
+                    ) : (
+                      'Send Reset Link'
+                    )}
+                  </button>
+                </div>
               </form>
 
               {/* Sign in link */}
-              <div className="text-center">
+              <div style={{ textAlign: 'center' }}>
                 <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
                   Remember your password?{' '}
                   <Link href="/login" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
@@ -154,26 +197,30 @@ export default function ResetPasswordPage() {
             </div>
           ) : (
             /* Success State */
-            <div className="text-center pt-10">
+            <div style={{ textAlign: 'center', paddingTop: 40 }}>
               <div
-                className="flex items-center justify-center mx-auto mb-5"
-                style={{ width: 72, height: 72, borderRadius: '50%', background: '#E6F9EE' }}
+                className="flex items-center justify-center mx-auto"
+                style={{
+                  width: 72, height: 72, borderRadius: '50%',
+                  background: '#E6F9EE', marginBottom: 20,
+                }}
               >
                 <i className="fas fa-check" style={{ fontSize: 28, color: '#00A651' }} />
               </div>
-              <h2 className="mb-2" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628' }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628', marginBottom: 8 }}>
                 Check your inbox
               </h2>
-              <p className="mx-auto mb-8" style={{ fontSize: '0.85rem', color: '#94A3B8', lineHeight: 1.6, maxWidth: 260 }}>
+              <p style={{ fontSize: '0.85rem', color: '#94A3B8', lineHeight: 1.6, marginBottom: 32, maxWidth: 260, marginLeft: 'auto', marginRight: 'auto' }}>
                 We&apos;ve sent a password reset link to your email address
               </p>
               <Link
                 href="/login"
-                className="inline-flex items-center justify-center rounded-full transition-all"
+                className="inline-flex items-center justify-center"
                 style={{
                   fontSize: '0.9rem', fontWeight: 700, padding: '14px 28px',
                   border: '1.5px solid #E2E8F0', color: '#0A1628',
                   background: '#FFFFFF', textDecoration: 'none', minWidth: 200,
+                  borderRadius: 9999, transition: 'all 0.25s ease',
                 }}
               >
                 Back to Sign In

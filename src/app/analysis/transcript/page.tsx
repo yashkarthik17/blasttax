@@ -14,6 +14,23 @@ function formatFileSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
 }
 
+const optionIconStyle = (bg: string, color: string): React.CSSProperties => ({
+  width: 40, height: 40, borderRadius: 12,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontSize: 16, flexShrink: 0,
+  background: bg, color: color,
+})
+
+const uploadOptionStyle: React.CSSProperties = {
+  background: 'white',
+  border: '1px solid #F1F5F9',
+  borderRadius: 16,
+  padding: 16,
+  marginBottom: 10,
+  cursor: 'pointer',
+  transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+}
+
 export default function TranscriptPage() {
   const router = useRouter()
   const { answers, setAnswers } = useWizard()
@@ -50,103 +67,108 @@ export default function TranscriptPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto flex min-h-screen max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl flex-col">
-        {/* Progress */}
-        <div className="px-5">
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
-            <div className="h-full w-[35%] rounded-full bg-[#00A651]" />
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        {/* Progress Bar */}
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+            <div style={{ width: '35%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 6</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Transcript</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Transcript</span>
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 20px 20px' }}>
           {/* Heading */}
-          <div className="mb-1.5">
-            <h1 className="text-[1.3rem] font-extrabold leading-tight text-[#0A1628]">Upload Your IRS Transcript</h1>
-            <p className="mt-1 text-[13px] leading-relaxed text-[#94A3B8]">Your transcript helps us verify your tax account details and find all penalties, payments, and assessments</p>
+          <div style={{ marginBottom: 6 }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Upload Your IRS Transcript</h1>
+            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Your transcript helps us verify your tax account details and find all penalties, payments, and assessments</p>
           </div>
 
           {/* Option 1: Download from IRS */}
-          <button
-            onClick={() => setShowGuide(!showGuide)}
-            className="mb-2.5 w-full rounded-[16px] border border-[#F1F5F9] bg-white p-4 text-left transition-all hover:-translate-y-0.5 hover:border-[#2563EB]"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EFF4FF] text-base text-[#2563EB]">
+          <div style={uploadOptionStyle} onClick={() => setShowGuide(!showGuide)}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={optionIconStyle('#EFF4FF', '#2563EB')}>
                 <i className="fa-solid fa-globe" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-bold text-[#0A1628]">Download from IRS.gov</div>
-                <div className="text-xs text-[#94A3B8]">Step-by-step guide</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Download from IRS.gov</div>
+                <div style={{ fontSize: 12, color: '#94A3B8' }}>Step-by-step guide</div>
               </div>
-              <i className={`fa-solid fa-chevron-down text-[11px] text-[#CBD5E1] transition-transform ${showGuide ? 'rotate-180' : ''}`} />
+              <i className="fa-solid fa-chevron-down" style={{ fontSize: 11, color: '#CBD5E1', transition: 'transform 0.3s ease', transform: showGuide ? 'rotate(180deg)' : 'none' }} />
             </div>
             {showGuide && (
-              <div className="mt-3 border-t border-[#F1F5F9] pt-3" onClick={(e) => e.stopPropagation()}>
+              <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #F1F5F9' }}>
                 {[
-                  { num: '1', text: <>Go to <strong className="text-[#2563EB]">irs.gov/transcripts</strong></> },
+                  { num: '1', text: 'Go to irs.gov/transcripts' },
                   { num: '2', text: 'Sign in with your ID.me or IRS account' },
-                  { num: '3', text: <>Select <strong>&quot;Account Transcript&quot;</strong> for each year</> },
+                  { num: '3', text: 'Select "Account Transcript" for each year' },
                   { num: '4', text: 'Download as PDF and upload below' },
                 ].map((step) => (
-                  <div key={step.num} className="flex items-start gap-2.5 py-2">
-                    <div className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full bg-[#EFF4FF] text-[11px] font-bold text-[#2563EB]">
+                  <div key={step.num} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 0' }}>
+                    <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#EFF4FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
                       {step.num}
                     </div>
-                    <div className="text-xs leading-relaxed text-[#64748B]">{step.text}</div>
+                    <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>{step.text}</div>
                   </div>
                 ))}
               </div>
             )}
-          </button>
+          </div>
 
           {/* Option 2: Upload PDF */}
-          <div className="mb-2.5 rounded-[16px] border border-[#F1F5F9] bg-white p-4 transition-all hover:border-[#2563EB]">
-            <button onClick={() => setShowUpload(!showUpload)} className="flex w-full items-center gap-3 text-left">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E6F9EE] text-base text-[#00A651]">
+          <div style={uploadOptionStyle} onClick={() => setShowUpload(!showUpload)}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={optionIconStyle('#E6F9EE', '#00A651')}>
                 <i className="fa-solid fa-cloud-arrow-up" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-bold text-[#0A1628]">Upload PDF</div>
-                <div className="text-xs text-[#94A3B8]">Drag and drop or browse</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Upload PDF</div>
+                <div style={{ fontSize: 12, color: '#94A3B8' }}>Drag and drop or browse</div>
               </div>
-            </button>
+            </div>
             {showUpload && (
-              <div className="mt-3">
+              <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12 }}>
                 <div
                   onDragOver={(e) => { e.preventDefault(); setDragActive(true) }}
                   onDragLeave={() => setDragActive(false)}
                   onDrop={(e) => { e.preventDefault(); setDragActive(false); handleFiles(e.dataTransfer.files) }}
-                  className={`flex flex-col items-center rounded-[14px] border-2 border-dashed px-5 py-7 text-center transition-all ${
-                    dragActive ? 'border-[#2563EB] bg-[#EFF4FF]' : 'border-[#F1F5F9]'
-                  }`}
+                  style={{
+                    border: '2px dashed ' + (dragActive ? '#2563EB' : '#F1F5F9'),
+                    borderRadius: 14,
+                    padding: '28px 20px',
+                    textAlign: 'center',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    background: dragActive ? '#EFF4FF' : 'transparent',
+                  }}
                 >
-                  <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#F8FAFC] text-xl text-[#64748B]">
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px', fontSize: 20, color: '#64748B' }}>
                     <i className="fa-solid fa-file-arrow-up" />
                   </div>
-                  <div className="mb-1 text-sm font-bold text-[#0A1628]">Drop your transcript here</div>
-                  <div className="text-xs text-[#94A3B8]">or tap to browse</div>
-                  <label className="mt-3 cursor-pointer rounded-lg bg-[#00A651] px-5 py-2 text-sm font-bold text-white transition-all hover:bg-[#008C44]">
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Drop your transcript here</div>
+                  <div style={{ fontSize: 12, color: '#94A3B8' }}>or tap to browse</div>
+                  <label style={{ display: 'inline-block', marginTop: 12, cursor: 'pointer', borderRadius: 8, background: '#00A651', padding: '8px 20px', fontSize: 14, fontWeight: 700, color: 'white' }}>
                     Browse Files
-                    <input type="file" accept=".pdf,image/png,image/jpeg" multiple onChange={(e) => handleFiles(e.target.files)} className="hidden" />
+                    <input type="file" accept=".pdf,image/png,image/jpeg" multiple onChange={(e) => handleFiles(e.target.files)} style={{ display: 'none' }} />
                   </label>
-                  <div className="mt-2 text-[11px] text-[#CBD5E1]">Accepts PDF, PNG, JPG</div>
+                  <div style={{ fontSize: 11, color: '#CBD5E1', marginTop: 8 }}>Accepts PDF, PNG, JPG</div>
                 </div>
                 {files.map((file) => (
-                  <div key={file.id} className="mt-3 flex items-center gap-3 rounded-xl border border-[#BBF7D0] bg-[#E6F9EE] px-3.5 py-3">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-base text-[#E63946]">
+                  <div key={file.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: '#E6F9EE', border: '1px solid #BBF7D0', borderRadius: 12, marginTop: 12 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 8, background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#E63946', flexShrink: 0 }}>
                       <i className="fa-solid fa-file-pdf" />
                     </div>
-                    <div className="flex-1">
-                      <div className="text-[13px] font-bold text-[#0A1628]">{file.name}</div>
-                      <div className="text-[11px] text-[#94A3B8]">{formatFileSize(file.size)}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>{file.name}</div>
+                      <div style={{ fontSize: 11, color: '#94A3B8' }}>{formatFileSize(file.size)}</div>
                     </div>
-                    <i className="fa-solid fa-circle-check text-base text-[#00A651]" />
-                    <button onClick={() => removeFile(file.id)} className="text-xs font-semibold text-[#E63946]">Remove</button>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <i className="fa-solid fa-circle-check" style={{ color: '#00A651', fontSize: 16 }} />
+                      <button onClick={() => removeFile(file.id)} style={{ fontSize: 12, color: '#E63946', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>Remove</button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -154,20 +176,20 @@ export default function TranscriptPage() {
           </div>
 
           {/* Option 3: Connect e-Services */}
-          <div className="mb-2.5 rounded-[16px] border border-[#F1F5F9] bg-white p-4 transition-all hover:border-[#2563EB]">
-            <button onClick={() => setShowConnect(!showConnect)} className="flex w-full items-center gap-3 text-left">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F0FF] text-base text-[#7C3AED]">
+          <div style={uploadOptionStyle} onClick={() => setShowConnect(!showConnect)}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={optionIconStyle('#F5F0FF', '#7C3AED')}>
                 <i className="fa-solid fa-link" />
               </div>
-              <div className="flex-1">
-                <div className="text-sm font-bold text-[#0A1628]">Connect IRS e-Services</div>
-                <div className="text-xs text-[#94A3B8]">Automatically retrieve your transcript</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Connect IRS e-Services</div>
+                <div style={{ fontSize: 12, color: '#94A3B8' }}>Automatically retrieve your transcript</div>
               </div>
-            </button>
+            </div>
             {showConnect && (
-              <div className="mt-3">
-                <button className="flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-white px-5 py-3 text-[13px] font-semibold text-[#0A1628] transition-all hover:border-[#2563EB]">
-                  <i className="fa-solid fa-plug text-xs" />
+              <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12 }}>
+                <button style={{ padding: '12px 20px', fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 12, background: 'white', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, color: '#0A1628', display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <i className="fa-solid fa-plug" style={{ fontSize: 12 }} />
                   Connect to IRS
                 </button>
               </div>
@@ -175,35 +197,35 @@ export default function TranscriptPage() {
           </div>
 
           {/* Info Alert */}
-          <div className="mt-1 flex items-center gap-2 rounded-xl border border-[#BFDBFE] bg-[#EFF4FF] px-3.5 py-2.5 text-[13px] text-[#0A1628]">
-            <i className="fa-solid fa-circle-info shrink-0 text-[#2563EB]" />
+          <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, fontSize: 13, color: '#0A1628' }}>
+            <i className="fa-solid fa-circle-info" style={{ flexShrink: 0, color: '#2563EB' }} />
             <span>We look for Transaction Codes (TC) that determine your eligibility for each resolution type</span>
           </div>
 
           {/* FAQ */}
-          <div className="mt-2.5">
-            <button onClick={() => setShowFaq(!showFaq)} className="flex w-full items-center gap-2 py-2.5 text-left">
-              <i className="fa-solid fa-question-circle text-sm text-[#64748B]" />
-              <span className="flex-1 text-[13px] font-semibold text-[#64748B]">What is a tax transcript?</span>
-              <i className={`fa-solid fa-chevron-down text-[10px] text-[#CBD5E1] transition-transform ${showFaq ? 'rotate-180' : ''}`} />
-            </button>
+          <div style={{ marginTop: 10 }}>
+            <div onClick={() => setShowFaq(!showFaq)} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '10px 0' }}>
+              <i className="fa-solid fa-question-circle" style={{ fontSize: 14, color: '#64748B' }} />
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#64748B' }}>What is a tax transcript?</span>
+              <i className="fa-solid fa-chevron-down" style={{ fontSize: 10, color: '#CBD5E1', marginLeft: 'auto', transition: 'transform 0.3s ease', transform: showFaq ? 'rotate(180deg)' : 'none' }} />
+            </div>
             {showFaq && (
-              <div className="pb-2 pl-7 text-xs leading-relaxed text-[#94A3B8]">
+              <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.6, padding: '0 0 8px 28px' }}>
                 A tax transcript is an official IRS document that shows your tax account activity. It includes all assessments, payments, penalties, and transaction codes for each tax year. It&apos;s different from your tax return - it shows what the IRS has on record for your account.
               </div>
             )}
           </div>
 
           {/* Spacer */}
-          <div className="min-h-3 flex-1" />
+          <div style={{ flex: 1, minHeight: 12 }} />
 
           {/* Continue */}
-          <div className="pt-3 pb-5">
+          <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={handleNext}
-              className="w-full rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+              style={{ width: '100%', padding: '16px 28px', background: '#00A651', borderRadius: 9999, fontSize: 15, fontWeight: 700, color: 'white', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit' }}
             >
-              Continue <i className="fa-solid fa-arrow-right ml-1 text-[13px]" />
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: 13 }} />
             </button>
           </div>
         </div>

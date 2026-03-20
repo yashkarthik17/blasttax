@@ -3,10 +3,6 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-/* ------------------------------------------------------------------ */
-/* Types                                                               */
-/* ------------------------------------------------------------------ */
-
 type Answer = 'yes' | 'no' | 'unsure' | null
 
 interface Question {
@@ -23,10 +19,6 @@ const QUESTIONS: Question[] = [
   { id: 'q5', question: 'Are you currently in bankruptcy?', hint: 'TC 520 -- blocks most resolution types' },
   { id: 'q6', question: 'Have you had an OIC accepted in the past 5 years?', hint: 'TC 481 -- 5-year compliance period blocks new OIC' },
 ]
-
-/* ------------------------------------------------------------------ */
-/* Eligibility Logic                                                   */
-/* ------------------------------------------------------------------ */
 
 function computeEligibility(answers: Record<string, Answer>) {
   const res: Record<string, { eligible: boolean; reason: string }> = {
@@ -55,10 +47,6 @@ function computeEligibility(answers: Record<string, Answer>) {
   return res
 }
 
-/* ------------------------------------------------------------------ */
-/* Page Component                                                      */
-/* ------------------------------------------------------------------ */
-
 export default function ComplianceCheckPage() {
   const router = useRouter()
   const [answers, setAnswers] = useState<Record<string, Answer>>({})
@@ -72,103 +60,151 @@ export default function ComplianceCheckPage() {
   const eligible = Object.entries(eligibility).filter(([, v]) => v.eligible)
   const blocked = Object.entries(eligibility).filter(([, v]) => !v.eligible)
 
-  const btnStyle = (qId: string, value: Answer) => {
-    const current = answers[qId]
-    if (current === value) {
-      if (value === 'yes') return 'border-emerald-500 bg-[#00A651]/15 text-[#00A651]'
-      if (value === 'no') return 'border-red-500 bg-red-500/15 text-[#E63946]'
-      return 'border-amber-500 bg-amber-500/15 text-amber-400'
-    }
-    return 'border-[#E2E8F0] bg-[#F8FAFC] text-[#94A3B8] hover:border-[#94A3B8] hover:text-[#334155]'
-  }
-
   const cardBorder = (qId: string) => {
     const a = answers[qId]
-    if (a === 'yes') return 'border-emerald-500/25'
-    if (a === 'no') return 'border-red-500/20'
-    if (a === 'unsure') return 'border-amber-500/25'
-    return 'border-[#F1F5F9]'
+    if (a === 'yes') return '1.5px solid rgba(0, 166, 81, 0.25)'
+    if (a === 'no') return '1.5px solid rgba(230, 57, 70, 0.2)'
+    if (a === 'unsure') return '1.5px solid rgba(245, 166, 35, 0.25)'
+    return '1.5px solid #F1F5F9'
+  }
+
+  const btnStyle = (qId: string, value: Answer): React.CSSProperties => {
+    const current = answers[qId]
+    const base: React.CSSProperties = {
+      padding: '6px 14px', borderRadius: 20, fontSize: '0.75rem',
+      fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+      transition: 'all 0.25s ease', border: '1.5px solid #F1F5F9',
+      background: 'white', color: '#64748B',
+    }
+    if (current === value) {
+      if (value === 'yes') return { ...base, borderColor: '#00A651', background: '#E6F9EE', color: '#00A651' }
+      if (value === 'no') return { ...base, borderColor: '#E63946', background: '#FFF0F1', color: '#E63946' }
+      if (value === 'unsure') return { ...base, borderColor: '#F59E0B', background: '#FFFBEB', color: '#D97706' }
+    }
+    return base
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-5 pb-40">
-      {/* Progress */}
-      <div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
-          <div className="h-full rounded-full bg-[#2563EB] transition-all duration-500" style={{ width: '20%' }} />
-        </div>
-        <p className="mt-1.5 text-xs font-semibold text-[#94A3B8]">Step 3 of 15</p>
-      </div>
-
-      {/* Title */}
-      <div>
-        <h1 className="text-2xl font-extrabold text-[#0A1628]">Are You Current with the IRS?</h1>
-        <p className="mt-1 text-sm text-[#64748B]">
-          The IRS requires compliance before most resolution options
-        </p>
-      </div>
-
-      {/* Questions */}
-      <div className="space-y-3">
-        {QUESTIONS.map((q) => (
-          <div
-            key={q.id}
-            className={`rounded-xl border p-4 transition-all ${cardBorder(q.id)} bg-white`}
-          >
-            <p className="text-sm font-bold text-[#0A1628]">{q.question}</p>
-            <p className="mb-3 mt-1 text-xs text-[#94A3B8]">{q.hint}</p>
-            <div className="flex gap-2">
-              {(['yes', 'no', 'unsure'] as const).map((val) => (
-                <button
-                  key={val}
-                  type="button"
-                  onClick={() => selectAnswer(q.id, val)}
-                  className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition-all ${btnStyle(q.id, val)}`}
-                >
-                  {val.charAt(0).toUpperCase() + val.slice(1)}
-                </button>
-              ))}
-            </div>
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '480px', margin: '0 auto' }}>
+        {/* Progress Bar */}
+        <div style={{ padding: '0 20px', flexShrink: 0 }}>
+          <div style={{
+            height: 4, width: '100%', borderRadius: 9999,
+            background: '#E2E8F0', overflow: 'hidden',
+          }}>
+            <div style={{ height: '100%', width: '20%', borderRadius: 9999, background: '#00A651', transition: 'all 0.5s' }} />
           </div>
-        ))}
-      </div>
+          <p style={{ fontSize: '0.6875rem', color: '#94A3B8', fontWeight: 600, marginTop: 6 }}>Step 3 of 15</p>
+        </div>
 
-      {/* Sticky Eligibility Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#F1F5F9] bg-[#F8FAFC]/95 px-4 py-4 backdrop-blur">
-        <div className="mx-auto max-w-2xl">
-          {answeredCount === 0 ? (
-            <p className="mb-3 text-xs font-semibold text-[#94A3B8]">Answer questions to see eligibility...</p>
-          ) : (
-            <div className="mb-3 flex flex-wrap items-center gap-1.5">
-              <span className="mr-1 text-xs font-semibold text-[#94A3B8]">Eligible:</span>
-              {eligible.map(([name]) => (
-                <span key={name} className="inline-flex items-center gap-1 rounded-full bg-[#00A651]/15 px-2 py-0.5 text-[10px] font-semibold text-[#00A651]">
-                  {name}
-                  <svg className="h-2 w-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                </span>
-              ))}
-              {blocked.length > 0 && (
-                <>
-                  <span className="ml-2 mr-1 text-xs font-semibold text-[#94A3B8]">Blocked:</span>
-                  {blocked.map(([name]) => (
-                    <span key={name} className="inline-flex items-center gap-1 rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-semibold text-[#E63946]">
-                      {name}
-                      <svg className="h-2 w-2" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
-                    </span>
+        <div style={{ padding: '0 20px', paddingBottom: 140 }}>
+          {/* Title */}
+          <div style={{ marginTop: 16, marginBottom: 4 }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>
+              Are You Current with the IRS?
+            </h1>
+          </div>
+          <div style={{ marginBottom: 20 }}>
+            <p style={{ fontSize: '0.8125rem', color: '#64748B', margin: 0 }}>
+              The IRS requires compliance before most resolution options
+            </p>
+          </div>
+
+          {/* Compliance Questions */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {QUESTIONS.map((q) => (
+              <div
+                key={q.id}
+                style={{
+                  padding: 16, background: 'white', border: cardBorder(q.id),
+                  borderRadius: 14, transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+                }}
+              >
+                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: 4, marginTop: 0 }}>
+                  {q.question}
+                </p>
+                <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: 10, marginTop: 0 }}>
+                  {q.hint}
+                </p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  {(['yes', 'no', 'unsure'] as const).map((val) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => selectAnswer(q.id, val)}
+                      style={btnStyle(q.id, val)}
+                    >
+                      {val.charAt(0).toUpperCase() + val.slice(1)}
+                    </button>
                   ))}
-                </>
-              )}
-            </div>
-          )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Sticky Eligibility Bar */}
+        <div style={{
+          position: 'sticky', bottom: 0, left: 0, right: 0,
+          padding: '14px 20px', background: 'white',
+          borderTop: '1px solid #F1F5F9', zIndex: 10,
+        }}>
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
+            {answeredCount === 0 ? (
+              <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#94A3B8' }}>
+                Answer questions to see eligibility...
+              </span>
+            ) : (
+              <>
+                <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Eligible:</span>
+                {eligible.map(([name]) => (
+                  <span key={name} style={{
+                    fontSize: '0.625rem', fontWeight: 600, color: '#00A651', background: '#E6F9EE',
+                    padding: '2px 8px', borderRadius: 10,
+                    display: 'inline-flex', alignItems: 'center', gap: 4,
+                  }}>
+                    {name} <i className="fa-solid fa-check" style={{ fontSize: 8 }} />
+                  </span>
+                ))}
+                {blocked.length > 0 && (
+                  <>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Blocked:</span>
+                    {blocked.map(([name]) => (
+                      <span key={name} style={{
+                        fontSize: '0.625rem', fontWeight: 600, color: '#E63946', background: '#FFF0F1',
+                        padding: '2px 8px', borderRadius: 10,
+                        display: 'inline-flex', alignItems: 'center', gap: 4,
+                      }}>
+                        {name} <i className="fa-solid fa-xmark" style={{ fontSize: 8 }} />
+                      </span>
+                    ))}
+                  </>
+                )}
+                {blocked.length === 0 && (
+                  <>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Blocked:</span>
+                    <span style={{ fontSize: '0.625rem', fontWeight: 500, color: '#00A651' }}>None</span>
+                  </>
+                )}
+              </>
+            )}
+          </div>
           <button
-            onClick={() => router.push('/situation-screening')}
+            onClick={() => router.push('/analysis/situation-screening')}
             disabled={answeredCount < QUESTIONS.length}
-            className="flex w-full items-center justify-center gap-2 rounded-full bg-[#2563EB] px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-[#1D4ED8] active:scale-[0.98] disabled:opacity-40"
+            style={{
+              width: '100%', padding: '14px 24px', fontSize: 15, fontWeight: 700,
+              background: '#00A651', color: 'white', border: 'none', borderRadius: 9999,
+              cursor: answeredCount >= QUESTIONS.length ? 'pointer' : 'default',
+              opacity: answeredCount >= QUESTIONS.length ? 1 : 0.4,
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              fontFamily: 'inherit',
+              transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+            }}
           >
             Continue
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
+            <i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />
           </button>
         </div>
       </div>

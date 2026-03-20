@@ -2,234 +2,365 @@
 
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
+import { useWizard } from '@/hooks/useWizard'
 
-const EXPENSE_FIELDS = [
-  { key: 'rent', label: 'Rent / Lease' },
-  { key: 'utilities', label: 'Utilities' },
-  { key: 'payroll', label: 'Payroll' },
-  { key: 'insurance', label: 'Insurance' },
-  { key: 'materials', label: 'Materials / Supplies' },
-  { key: 'equipmentLease', label: 'Equipment Lease' },
-  { key: 'vehicle', label: 'Vehicle Expenses' },
-  { key: 'other', label: 'Other' },
-] as const
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function num(s: string): number {
+  const n = parseFloat(String(s).replace(/[^0-9.-]/g, ''))
+  return isNaN(n) ? 0 : n
+}
+
+function fmt(n: number): string {
+  return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 export default function BusinessIncomeExpensesPage() {
   const router = useRouter()
-  const [grossRevenue, setGrossRevenue] = useState('')
-  const [cogs, setCogs] = useState('')
-  const [expenses, setExpenses] = useState<Record<string, string>>(
-    Object.fromEntries(EXPENSE_FIELDS.map((f) => [f.key, '']))
-  )
-  const [cashInBank, setCashInBank] = useState('')
-  const [accountsReceivable, setAccountsReceivable] = useState('')
+  const { answers, setAnswers } = useWizard()
 
-  const grossProfit = useMemo(
-    () => (parseFloat(grossRevenue) || 0) - (parseFloat(cogs) || 0),
-    [grossRevenue, cogs]
-  )
+  const [period, setPeriod] = useState<'monthly' | 'annual'>('monthly')
 
-  const totalExpenses = useMemo(
-    () =>
-      Object.values(expenses).reduce(
-        (sum, val) => sum + (parseFloat(val) || 0),
-        0
-      ),
-    [expenses]
-  )
+  // Income fields
+  const [grossRevenue, setGrossRevenue] = useState<string>(answers.bizGrossRevenue ?? '$45,000')
+  const [cogs, setCogs] = useState<string>(answers.bizCogs ?? '$12,000')
 
+  // Expense fields
+  const [wages, setWages] = useState<string>(answers.bizWages ?? '$18,000')
+  const [rent, setRent] = useState<string>(answers.bizRent ?? '$3,500')
+  const [supplies, setSupplies] = useState<string>(answers.bizSupplies ?? '$1,200')
+  const [utilities, setUtilities] = useState<string>(answers.bizUtilities ?? '$800')
+  const [insurance, setInsurance] = useState<string>(answers.bizInsurance ?? '$1,500')
+  const [taxes, setTaxes] = useState<string>(answers.bizTaxes ?? '$2,200')
+  const [otherExpenses, setOtherExpenses] = useState<string>(answers.bizOtherExpenses ?? '$1,800')
+
+  const grossProfit = useMemo(() => num(grossRevenue) - num(cogs), [grossRevenue, cogs])
+  const totalExpenses = useMemo(() =>
+    num(wages) + num(rent) + num(supplies) + num(utilities) + num(insurance) + num(taxes) + num(otherExpenses),
+    [wages, rent, supplies, utilities, insurance, taxes, otherExpenses]
+  )
   const netIncome = grossProfit - totalExpenses
 
-  const fmt = (n: number) =>
-    n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  // Shared input styling matching HTML prototype
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    background: '#F8FAFC',
+    border: '1.5px solid #F1F5F9',
+    borderRadius: '10px',
+    fontFamily: 'inherit',
+    fontSize: '14px',
+    fontWeight: 600,
+    color: '#0A1628',
+    outline: 'none',
+    transition: 'all 0.2s ease',
+    boxSizing: 'border-box' as const,
+  }
+
+  const fieldLabelStyle: React.CSSProperties = {
+    display: 'block',
+    fontSize: '11px',
+    fontWeight: 600,
+    color: '#94A3B8',
+    textTransform: 'uppercase' as const,
+    letterSpacing: '0.04em',
+    marginBottom: '5px',
+  }
+
+  function handleContinue() {
+    setAnswers({
+      bizGrossRevenue: grossRevenue,
+      bizCogs: cogs,
+      bizWages: wages,
+      bizRent: rent,
+      bizSupplies: supplies,
+      bizUtilities: utilities,
+      bizInsurance: insurance,
+      bizTaxes: taxes,
+      bizOtherExpenses: otherExpenses,
+      bizGrossProfit: grossProfit,
+      bizTotalExpenses: totalExpenses,
+      bizNetIncome: netIncome,
+    })
+    router.push('/analysis/business/rcp')
+  }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
-      <div className="mx-auto w-full max-w-lg">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
-            Business Income &amp; Expenses
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '768px', margin: '0 auto', padding: '0 20px 32px' }}>
+
+        {/* Progress Bar */}
+        <div style={{ padding: '16px 0 0' }}>
+          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '55%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 5 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Income & Expenses</span>
+          </div>
+        </div>
+
+        {/* Heading */}
+        <div style={{ marginBottom: '6px', paddingTop: '16px' }}>
+          <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>
+            Business Income & Expenses
           </h1>
-          <p className="mt-3 text-base text-[#64748B]">
-            Form 433-B financial information for your business.
+          <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px' }}>
+            Form 433-B Section 4 layout. Enter monthly figures.
           </p>
         </div>
 
-        <div className="space-y-6">
-          {/* Revenue Section */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">Monthly Revenue</p>
-            <div className="space-y-3">
-              <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
-                  Monthly Gross Revenue
-                </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={grossRevenue}
-                    onChange={(e) => setGrossRevenue(e.target.value)}
-                    placeholder="0.00"
-                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
-                  Cost of Goods Sold
-                </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={cogs}
-                    onChange={(e) => setCogs(e.target.value)}
-                    placeholder="0.00"
-                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-              <div className="flex justify-between rounded-lg bg-[#F8FAFC] p-3">
-                <span className="text-sm text-[#64748B]">Gross Profit</span>
-                <span
-                  className={`text-sm font-semibold ${
-                    grossProfit >= 0 ? 'text-[#00A651]' : 'text-[#E63946]'
-                  }`}
-                >
-                  ${fmt(grossProfit)}
-                </span>
-              </div>
+        {/* Monthly / Annual Toggle */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '14px' }}>
+          <button
+            onClick={() => setPeriod('monthly')}
+            style={{
+              flex: 1,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '4px',
+              padding: '10px 12px',
+              background: period === 'monthly' ? '#EFF4FF' : '#F8FAFC',
+              border: `1.5px solid ${period === 'monthly' ? '#2563EB' : '#F1F5F9'}`,
+              borderRadius: '8px',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: period === 'monthly' ? '#2563EB' : '#64748B',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Monthly
+          </button>
+          <button
+            onClick={() => setPeriod('annual')}
+            style={{
+              flex: 1,
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '4px',
+              padding: '10px 12px',
+              background: period === 'annual' ? '#EFF4FF' : '#F8FAFC',
+              border: `1.5px solid ${period === 'annual' ? '#2563EB' : '#F1F5F9'}`,
+              borderRadius: '8px',
+              fontSize: '12px',
+              fontWeight: 600,
+              color: period === 'annual' ? '#2563EB' : '#64748B',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              transition: 'all 0.2s ease',
+            }}
+          >
+            Annual
+          </button>
+        </div>
+
+        {/* Income Section Card */}
+        <div style={{
+          background: 'white',
+          border: '1px solid #F1F5F9',
+          borderRadius: '16px',
+          padding: '16px',
+          marginBottom: '12px',
+        }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+            <i className="fa-solid fa-arrow-trend-up" style={{ fontSize: '12px', color: '#00A651', marginRight: '6px' }} />
+            Income
+          </div>
+
+          {/* Gross Revenue + COGS row */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Gross Revenue</label>
+              <input
+                type="text"
+                value={grossRevenue}
+                onChange={(e) => setGrossRevenue(e.target.value)}
+                placeholder="$0"
+                style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Cost of Goods Sold</label>
+              <input
+                type="text"
+                value={cogs}
+                onChange={(e) => setCogs(e.target.value)}
+                placeholder="$0"
+                style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
             </div>
           </div>
 
-          {/* Operating Expenses */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">
-              Monthly Operating Expenses
-            </p>
-            <div className="space-y-3">
-              {EXPENSE_FIELDS.map(({ key, label }) => (
-                <div key={key}>
-                  <label className="mb-1 block text-xs text-[#94A3B8]">
-                    {label}
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
-                      $
-                    </span>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={expenses[key]}
-                      onChange={(e) =>
-                        setExpenses((prev) => ({
-                          ...prev,
-                          [key]: e.target.value,
-                        }))
-                      }
-                      placeholder="0.00"
-                      className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-2.5 pl-8 pr-4 text-sm text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-                    />
-                  </div>
-                </div>
-              ))}
-              <div className="my-2 border-t border-[#E2E8F0]" />
-              <div className="flex justify-between rounded-lg bg-[#F8FAFC] p-3">
-                <span className="text-sm text-[#64748B]">
-                  Total Operating Expenses
-                </span>
-                <span className="text-sm font-semibold text-[#0A1628]">
-                  ${fmt(totalExpenses)}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Net Income */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <div className="flex justify-between">
-              <span className="font-medium text-[#0A1628]">
-                Net Business Income
-              </span>
-              <span
-                className={`text-lg font-bold ${
-                  netIncome >= 0 ? 'text-[#00A651]' : 'text-[#E63946]'
-                }`}
-              >
-                ${fmt(netIncome)}
-              </span>
-            </div>
-            <p className="mt-1 text-xs text-[#94A3B8]">
-              Gross Profit minus Total Operating Expenses
-            </p>
-          </div>
-
-          {/* Cash & Receivables */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">
-              Cash &amp; Receivables
-            </p>
-            <div className="space-y-3">
-              <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
-                  Cash in Bank (Business)
-                </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={cashInBank}
-                    onChange={(e) => setCashInBank(e.target.value)}
-                    placeholder="0.00"
-                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
-                  Accounts Receivable Total
-                </label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
-                    $
-                  </span>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={accountsReceivable}
-                    onChange={(e) => setAccountsReceivable(e.target.value)}
-                    placeholder="0.00"
-                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-                  />
-                </div>
+          {/* Gross Profit */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Gross Profit</label>
+              <div style={{
+                padding: '10px 12px',
+                background: '#F8FAFC',
+                border: '1.5px solid #F1F5F9',
+                borderRadius: '10px',
+                fontSize: '14px',
+                fontWeight: 700,
+                color: '#00A651',
+              }}>
+                {fmt(grossProfit)}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Continue */}
-        <button
-          onClick={() => router.push('/analysis/business/rcp')}
-          className="mt-10 w-full rounded-xl bg-[#00A651] py-4 text-lg font-semibold text-white transition-colors hover:bg-[#008C44] active:bg-[#008C44]"
-        >
-          Continue
-        </button>
+        {/* Expenses Section Card */}
+        <div style={{
+          background: 'white',
+          border: '1px solid #F1F5F9',
+          borderRadius: '16px',
+          padding: '16px',
+          marginBottom: '12px',
+        }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+            <i className="fa-solid fa-arrow-trend-down" style={{ fontSize: '12px', color: '#E63946', marginRight: '6px' }} />
+            Expenses
+          </div>
+
+          {/* Row 1: Wages + Rent */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Wages / Salaries</label>
+              <input type="text" value={wages} onChange={(e) => setWages(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Rent / Lease</label>
+              <input type="text" value={rent} onChange={(e) => setRent(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+          </div>
+
+          {/* Row 2: Supplies + Utilities */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Supplies</label>
+              <input type="text" value={supplies} onChange={(e) => setSupplies(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Utilities</label>
+              <input type="text" value={utilities} onChange={(e) => setUtilities(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+          </div>
+
+          {/* Row 3: Insurance + Taxes */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Insurance</label>
+              <input type="text" value={insurance} onChange={(e) => setInsurance(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Taxes (State/Local)</label>
+              <input type="text" value={taxes} onChange={(e) => setTaxes(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+          </div>
+
+          {/* Row 4: Other Expenses */}
+          <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+            <div style={{ flex: 1 }}>
+              <label style={fieldLabelStyle}>Other Expenses</label>
+              <input type="text" value={otherExpenses} onChange={(e) => setOtherExpenses(e.target.value)} placeholder="$0" style={fieldInputStyle}
+                onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Summary Bar - Dark */}
+        <div style={{
+          background: '#0A1628',
+          borderRadius: '14px',
+          padding: '16px 18px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginTop: '16px',
+        }}>
+          <div>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
+              Net Business Income
+            </span>
+            <div style={{ fontSize: '1.35rem', fontWeight: 900, color: netIncome >= 0 ? '#10B981' : '#E63946', letterSpacing: '-0.02em', marginTop: '2px' }}>
+              {fmt(netIncome)}
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' as const }}>
+            <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.4)' }}>
+              Monthly Cash Flow
+            </span>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: 'white' }}>
+              {netIncome >= 0 ? 'Positive' : 'Negative'}
+            </div>
+          </div>
+        </div>
+
+        {/* Spacer */}
+        <div style={{ flex: 1, minHeight: '16px' }} />
+
+        {/* Continue Button */}
+        <div style={{ padding: '12px 0 20px' }}>
+          <button
+            onClick={handleContinue}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '16px 28px',
+              fontFamily: 'inherit',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              background: '#00A651',
+              color: 'white',
+              width: '100%',
+              boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+              transition: 'opacity 0.15s ease, transform 0.15s ease',
+            }}
+          >
+            Continue
+            <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
+          </button>
+        </div>
       </div>
     </div>
   )

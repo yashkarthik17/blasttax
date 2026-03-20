@@ -14,16 +14,17 @@ const TABS: { key: TabKey; label: string; icon: string; badge?: number }[] = [
 ]
 
 const TIMELINE_STEPS = [
-  { label: 'Analysis Complete', date: 'Mar 3, 2026', status: 'complete' as const },
-  { label: 'Documents Prepared', date: 'Mar 8, 2026', status: 'complete' as const },
-  { label: 'OIC Submitted (Day 0)', date: 'Mar 12, 2026', status: 'complete' as const },
-  { label: 'Processability Review Passed', date: 'Mar 28', status: 'complete' as const },
-  { label: 'TC 480 Posted \u2014 CSED Now Tolled', date: 'Mar 28', status: 'complete' as const },
-  { label: 'Letter 3756 Received', date: 'Apr 5 (24-month clock started)', status: 'complete' as const },
-  { label: 'Routed to COIC (Brookhaven)', date: 'Apr 20', status: 'complete' as const },
-  { label: 'Examiner Assignment', date: 'Letter 4450 expected', status: 'current' as const },
-  { label: 'Financial Review', date: 'Upcoming', status: 'upcoming' as const },
-  { label: 'Decision', date: 'Expected ~Sep 2026', status: 'upcoming' as const },
+  { label: 'Analysis Complete', date: 'Mar 3, 2026', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'Documents Prepared', date: 'Mar 8, 2026', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'OIC Submitted (Day 0)', date: 'Mar 12, 2026', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'Processability Review Passed', date: 'Mar 28', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'TC 480 Posted \u2014 CSED Now Tolled', date: 'Mar 28', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'Letter 3756 Received', date: 'Apr 5 (24-month clock started)', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'Routed to COIC (Brookhaven)', date: 'Apr 20', status: 'complete' as const, icon: 'fa-check' },
+  { label: 'Examiner Assignment', date: 'Letter 4450 expected', status: 'current' as const, icon: 'fa-sync-alt' },
+  { label: 'Investigation Phase', date: 'Mo 3-12', status: 'upcoming' as const, icon: 'fa-hourglass-half' },
+  { label: 'Decision Expected', date: 'Mo 6-18', status: 'upcoming' as const, icon: 'fa-hourglass-half' },
+  { label: 'Resolution', date: 'Pending', status: 'upcoming' as const, icon: 'fa-flag-checkered' },
 ]
 
 export default function CaseDetailPage() {
@@ -33,82 +34,198 @@ export default function CaseDetailPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('timeline')
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
-          </button>
-          <div className="text-[0.95rem] font-extrabold text-[#0A1628]">Case #{caseId}</div>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-            <i className="fas fa-share-nodes text-sm text-[#64748B]" />
+        <div style={{ padding: '14px 20px 12px', display: 'flex', alignItems: 'center' }}>
+          <div
+            onClick={() => router.back()}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 12,
+              background: '#F8FAFC',
+              border: '1px solid #F1F5F9',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          </div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Case #{caseId}</div>
+          <div
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 12,
+              background: '#F8FAFC',
+              border: '1px solid #F1F5F9',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <i className="fas fa-share-nodes" style={{ fontSize: 14, color: '#64748B' }} />
           </div>
         </div>
 
-        <div className="px-5">
+        <div style={{ padding: '0 20px', paddingBottom: 0 }}>
           {/* Status Badge Strip */}
-          <div className="mb-3.5 flex items-center gap-2 rounded-[14px] border border-[rgba(0,166,81,0.12)] bg-[#ECFDF5] px-4 py-2.5">
-            <div className="h-2 w-2 rounded-full bg-[#00A651]" />
-            <span className="text-[0.82rem] font-bold text-[#065F46]">Active</span>
-            <span className="text-[0.82rem] font-medium text-[#64748B]"> &mdash; Offer in Compromise</span>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '10px 16px',
+              background: '#ECFDF5',
+              borderRadius: 14,
+              border: '1px solid rgba(0,166,81,0.12)',
+              marginBottom: 14,
+            }}
+          >
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#00A651' }} />
+            <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#065F46' }}>Active</span>
+            <span style={{ fontSize: '0.82rem', color: '#64748B', fontWeight: 500 }}> &mdash; Offer in Compromise</span>
           </div>
 
           {/* Alert Banner */}
-          <div className="mb-3.5 rounded-[14px] border border-[rgba(37,99,235,0.15)] bg-[#EFF4FF] p-3.5">
-            <div className="flex items-start gap-2.5">
-              <div className="mt-px flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[rgba(37,99,235,0.12)]">
-                <i className="fas fa-clock text-xs text-[#2563EB]" />
+          <div style={{ marginBottom: 14 }}>
+            <div style={{ padding: '12px 14px', background: '#EFF4FF', borderRadius: 14, border: '1px solid rgba(37,99,235,0.15)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: 8,
+                    background: 'rgba(37,99,235,0.12)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    marginTop: 1,
+                  }}
+                >
+                  <i className="fas fa-clock" style={{ fontSize: 12, color: '#2563EB' }} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#1E40AF', marginBottom: 3 }}>Awaiting Examiner Assignment</div>
+                  <div style={{ fontSize: '0.7rem', color: '#3B82F6', lineHeight: 1.4 }}>24-month deadline: Apr 2028</div>
+                </div>
               </div>
-              <div className="flex-1">
-                <div className="mb-0.5 text-[0.78rem] font-bold text-[#1E40AF]">Awaiting Examiner Assignment</div>
-                <div className="text-[0.7rem] text-[#3B82F6]">24-month deadline: Apr 2028</div>
+              <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
+                <button
+                  onClick={() => setActiveTab('timeline')}
+                  style={{
+                    flex: 1,
+                    padding: '8px 12px',
+                    background: '#0A1628',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: 10,
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    fontFamily: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <i className="fas fa-timeline" style={{ fontSize: 9, marginRight: 4 }} /> View Timeline
+                </button>
               </div>
             </div>
-            <button
-              onClick={() => setActiveTab('timeline')}
-              className="mt-2.5 w-full rounded-[10px] bg-[#0A1628] px-3 py-2 text-[0.72rem] font-bold text-white"
-            >
-              <i className="fas fa-timeline mr-1 text-[9px]" /> View Timeline
-            </button>
           </div>
 
           {/* Hero Stats Row */}
-          <div className="mb-4 grid grid-cols-3 gap-2.5">
-            <div className="rounded-2xl border border-[#F1F5F9] bg-white p-3.5 text-center">
-              <div className="mb-1 text-[0.6rem] font-semibold uppercase tracking-wider text-[#CBD5E1]">Original Debt</div>
-              <div className="text-[1.05rem] font-extrabold tracking-tight text-[#94A3B8]">$47,250</div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 16 }}>
+            {/* Original Debt */}
+            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F1F5F9', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Original Debt</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#94A3B8', letterSpacing: '-0.01em' }}>$47,250</div>
             </div>
-            <div className="rounded-2xl border border-[rgba(0,166,81,0.15)] bg-[#ECFDF5] p-3.5 text-center">
-              <div className="mb-1 text-[0.6rem] font-semibold uppercase tracking-wider text-[#065F46]">Offer Amount</div>
-              <div className="text-[1.2rem] font-black tracking-tight text-[#00A651]">$8,500</div>
+            {/* Offer Amount */}
+            <div style={{ background: '#ECFDF5', borderRadius: 16, padding: '14px 10px', border: '1px solid rgba(0,166,81,0.15)', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#065F46', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Offer Amount</div>
+              <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#00A651', letterSpacing: '-0.02em' }}>$8,500</div>
             </div>
-            <div className="flex flex-col items-center justify-center rounded-2xl border border-[#F1F5F9] bg-white p-3.5 text-center">
-              <div className="mb-1 text-[0.6rem] font-semibold uppercase tracking-wider text-[#CBD5E1]">Savings</div>
-              <span className="inline-flex rounded-full bg-[#00A651] px-3 py-1 text-base font-extrabold text-white">82%</span>
+            {/* Savings */}
+            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F1F5F9', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Savings</div>
+              <div style={{ display: 'inline-flex', padding: '4px 12px', background: '#00A651', borderRadius: 9999, fontSize: '1rem', fontWeight: 800, color: 'white' }}>82%</div>
             </div>
           </div>
 
           {/* Tab Bar */}
-          <div className="sticky top-0 z-10 -mx-5 border-b border-[#E2E8F0] bg-white px-5">
-            <div className="flex justify-between">
+          <div
+            style={{
+              position: 'sticky',
+              top: 0,
+              zIndex: 15,
+              background: 'white',
+              margin: '0 -20px',
+              padding: '0 20px',
+              borderBottom: '1px solid #E2E8F0',
+            }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               {TABS.map((tab) => (
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`relative flex-1 py-2.5 text-center text-[0.78rem] font-semibold transition ${
-                    activeTab === tab.key ? 'font-bold text-[#0A1628]' : 'text-[#94A3B8]'
-                  }`}
+                  style={{
+                    flex: 1,
+                    textAlign: 'center',
+                    position: 'relative',
+                    padding: '10px 0',
+                    fontSize: '0.78rem',
+                    fontWeight: activeTab === tab.key ? 700 : 600,
+                    color: activeTab === tab.key ? '#0A1628' : '#94A3B8',
+                    background: 'none',
+                    border: 'none',
+                    fontFamily: 'inherit',
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                  }}
                 >
-                  <i className={`fas ${tab.icon} mr-1 text-[10px]`} />
+                  <i className={`fas ${tab.icon}`} style={{ fontSize: 10, marginRight: 4 }} />
                   {tab.label}
                   {tab.badge && (
-                    <span className="absolute right-2 top-1 flex h-4 w-4 items-center justify-center rounded-full border-2 border-[#F8FAFC] bg-[#E63946] text-[0.55rem] font-extrabold text-white">
+                    <span
+                      style={{
+                        position: 'absolute',
+                        top: 4,
+                        right: 8,
+                        width: 16,
+                        height: 16,
+                        background: '#E63946',
+                        borderRadius: '50%',
+                        fontSize: '0.55rem',
+                        fontWeight: 800,
+                        color: 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '2px solid #F8FAFC',
+                      }}
+                    >
                       {tab.badge}
                     </span>
                   )}
                   {activeTab === tab.key && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2.5px] rounded-full bg-[#0A1628]" />
+                    <div
+                      style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        height: 2.5,
+                        background: '#0A1628',
+                        borderRadius: 9999,
+                      }}
+                    />
                   )}
                 </button>
               ))}
@@ -116,95 +233,179 @@ export default function CaseDetailPage() {
           </div>
 
           {/* Tab Content */}
-          <div className="py-4 pb-8">
+          <div style={{ paddingTop: 16, paddingBottom: 32 }}>
             {activeTab === 'timeline' && (
               <div>
-                <div className="mb-3 text-[0.7rem] font-bold uppercase tracking-wider text-[#CBD5E1]">OIC Lifecycle</div>
-                <div className="rounded-[18px] border border-[#F1F5F9] bg-white px-4 py-5">
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>OIC Lifecycle</div>
+                <div style={{ background: 'white', borderRadius: 18, padding: '20px 16px', border: '1px solid #F1F5F9' }}>
                   {TIMELINE_STEPS.map((step, i) => (
-                    <div key={step.label} className="flex gap-3">
-                      <div className="flex flex-col items-center">
+                    <div key={step.label} style={{ display: 'flex', gap: 12 }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                         {step.status === 'complete' ? (
-                          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#00A651]">
-                            <i className="fas fa-check text-[10px] text-white" />
+                          <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#00A651', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <i className="fas fa-check" style={{ fontSize: 10, color: 'white' }} />
                           </div>
                         ) : step.status === 'current' ? (
-                          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#2563EB]">
-                            <i className="fas fa-sync-alt animate-spin text-[9px] text-white" />
+                          <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <i className={`fas ${step.icon}`} style={{ fontSize: 9, color: 'white' }} />
                           </div>
                         ) : (
-                          <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 border-[#D5D5E0] bg-[#F8FAFC]">
-                            <div className="h-1.5 w-1.5 rounded-full bg-[#D5D5E0]" />
+                          <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#F1F5F9', border: '2px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <i className={`fas ${step.icon}`} style={{ fontSize: 9, color: '#CBD5E1' }} />
                           </div>
                         )}
                         {i < TIMELINE_STEPS.length - 1 && (
                           <div
-                            className="my-1 min-h-[16px] w-0.5 flex-1"
                             style={{
+                              width: 2,
+                              flex: 1,
+                              margin: '3px 0',
+                              minHeight: 16,
                               background:
-                                step.status === 'complete' ? '#00A651'
-                                  : step.status === 'current' ? 'linear-gradient(to bottom, #2563EB, #F1F5F9)'
+                                step.status === 'complete'
+                                  ? '#00A651'
+                                  : step.status === 'current'
+                                  ? 'linear-gradient(to bottom, #2563EB, #F1F5F9)'
                                   : '#E2E8F0',
                             }}
                           />
                         )}
                       </div>
-                      <div className="pb-3.5">
-                        <div className={`text-[0.8rem] font-bold ${step.status === 'current' ? 'text-[#2563EB]' : step.status === 'complete' ? 'text-[#0A1628]' : 'text-[#94A3B8]'}`}>
+                      <div style={{ paddingBottom: 14 }}>
+                        <div
+                          style={{
+                            fontSize: '0.8rem',
+                            fontWeight: step.status === 'upcoming' ? 600 : 700,
+                            color: step.status === 'current' ? '#2563EB' : step.status === 'complete' ? '#0A1628' : '#94A3B8',
+                          }}
+                        >
                           {step.label}
                         </div>
-                        <div className={`mt-px text-[0.68rem] ${step.status === 'current' ? 'font-medium text-[#3B82F6]' : step.status === 'upcoming' ? 'text-[#CBD5E1]' : 'text-[#94A3B8]'}`}>
+                        <div
+                          style={{
+                            fontSize: '0.68rem',
+                            marginTop: 1,
+                            color: step.status === 'current' ? '#3B82F6' : step.status === 'upcoming' ? '#CBD5E1' : '#94A3B8',
+                            ...(step.status === 'current' ? { fontWeight: 500 } : {}),
+                          }}
+                        >
                           {step.date}
                         </div>
                         {step.status === 'current' && (
-                          <span className="mt-1 inline-flex items-center gap-1 rounded-lg bg-[#EFF4FF] px-2 py-1 text-[0.65rem] font-semibold text-[#0A1628]">
-                            <i className="fas fa-circle text-[5px] text-[#2563EB]" /> ACTIVE
-                          </span>
+                          <div
+                            style={{
+                              marginTop: 5,
+                              padding: '5px 9px',
+                              background: '#EFF4FF',
+                              borderRadius: 8,
+                              fontSize: '0.65rem',
+                              color: '#0A1628',
+                              fontWeight: 600,
+                              display: 'inline-block',
+                            }}
+                          >
+                            <i className="fas fa-circle" style={{ fontSize: 5, marginRight: 3, color: '#2563EB', verticalAlign: 'middle' }} /> ACTIVE
+                          </div>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
+
+                {/* During Review Card */}
+                <div style={{ marginTop: 14, background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F1F5F9' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0A1628', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <i className="fas fa-shield-halved" style={{ fontSize: 11, color: '#2563EB' }} /> During Review
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {[
+                      { emoji: '\u26A0\uFE0F', text: 'Stay current on all filings', color: '#64748B' },
+                      { emoji: '\u26A0\uFE0F', text: 'Continue periodic payments (not refunded if rejected)', color: '#64748B' },
+                      { emoji: '\u26A0\uFE0F', text: 'Respond to IRS requests within deadlines', color: '#64748B' },
+                      { emoji: '\u2713', text: 'No levy while TC 480 active', color: '#065F46', bold: true, emojiColor: '#00A651' },
+                      { emoji: '\u26A0\uFE0F', text: 'Refunds will be offset (TC 826)', color: '#64748B' },
+                    ].map((item, i) => (
+                      <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                        <span style={{ fontSize: '0.72rem', flexShrink: 0, color: item.emojiColor }}>{item.emoji}</span>
+                        <span style={{ fontSize: '0.72rem', color: item.color, lineHeight: 1.4, fontWeight: item.bold ? 600 : undefined }}>{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
 
             {activeTab === 'documents' && (
-              <div className="flex flex-col items-center justify-center rounded-[18px] border border-[#F1F5F9] bg-white py-16 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F8FAFC]">
-                  <i className="fas fa-file-lines text-xl text-[#CBD5E1]" />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-file-lines" style={{ fontSize: 20, color: '#CBD5E1' }} />
                 </div>
-                <div className="text-[0.88rem] font-bold text-[#64748B]">No documents yet</div>
-                <div className="mt-1 text-[0.75rem] text-[#CBD5E1]">Upload tax documents and IRS notices here</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No documents yet</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Upload tax documents and IRS notices here</div>
               </div>
             )}
 
             {activeTab === 'notes' && (
-              <div className="flex flex-col items-center justify-center rounded-[18px] border border-[#F1F5F9] bg-white py-16 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F8FAFC]">
-                  <i className="fas fa-sticky-note text-xl text-[#CBD5E1]" />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-sticky-note" style={{ fontSize: 20, color: '#CBD5E1' }} />
                 </div>
-                <div className="text-[0.88rem] font-bold text-[#64748B]">No notes yet</div>
-                <div className="mt-1 text-[0.75rem] text-[#CBD5E1]">Add notes to track important details</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No notes yet</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Add notes to track important details</div>
               </div>
             )}
 
             {activeTab === 'alerts' && (
-              <div className="flex flex-col items-center justify-center rounded-[18px] border border-[#F1F5F9] bg-white py-16 text-center">
-                <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F8FAFC]">
-                  <i className="fas fa-bell text-xl text-[#CBD5E1]" />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-bell" style={{ fontSize: 20, color: '#CBD5E1' }} />
                 </div>
-                <div className="text-[0.88rem] font-bold text-[#64748B]">No new alerts</div>
-                <div className="mt-1 text-[0.75rem] text-[#CBD5E1]">Case alerts will appear here</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No new alerts</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Case alerts will appear here</div>
               </div>
             )}
 
             {/* Action Buttons */}
-            <div className="mt-4 flex gap-2.5">
-              <Link href="/submission-tracker" className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0A1628] px-4 py-3.5 text-[0.82rem] font-bold text-white no-underline transition hover:-translate-y-0.5">
-                <i className="fas fa-location-arrow text-xs" /> Track Submission
+            <div style={{ marginTop: 16, display: 'flex', gap: 10 }}>
+              <Link
+                href="/submission-tracker"
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '14px 16px',
+                  background: '#0A1628',
+                  borderRadius: 9999,
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  color: 'white',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <i className="fas fa-location-arrow" style={{ fontSize: 12 }} /> Track Submission
               </Link>
-              <button className="flex flex-1 items-center justify-center gap-2 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-3.5 text-[0.82rem] font-bold text-[#0A1628] transition hover:-translate-y-0.5">
-                <i className="fas fa-headset text-xs text-[#7C3AED]" /> Contact Expert
+              <button
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  padding: '14px 16px',
+                  background: 'white',
+                  border: '1.5px solid #E2E8F0',
+                  borderRadius: 9999,
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  color: '#0A1628',
+                  fontFamily: 'inherit',
+                  cursor: 'pointer',
+                }}
+              >
+                <i className="fas fa-headset" style={{ fontSize: 12, color: '#7C3AED' }} /> Contact Expert
               </button>
             </div>
           </div>

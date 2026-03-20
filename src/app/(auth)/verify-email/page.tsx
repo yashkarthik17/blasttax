@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from 'react'
-import Link from 'next/link'
 import AuthLayout from '@/components/layout/AuthLayout'
 
 export default function VerifyEmailPage() {
@@ -74,14 +73,17 @@ export default function VerifyEmailPage() {
       <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-10" style={{ background: '#FFFFFF' }}>
         <div className="flex-1 flex flex-col items-center justify-center text-center" style={{ paddingTop: 60, paddingBottom: 40 }}>
           {/* Envelope icon with pulse rings */}
-          <div className="mb-7 relative" style={{ width: 88, height: 88 }}>
+          <div style={{ position: 'relative', width: 88, height: 88, marginBottom: 28, margin: '0 auto 28px' }}>
             <div
-              className="flex items-center justify-center rounded-full"
-              style={{ width: 88, height: 88, background: '#EFF4FF', position: 'relative', zIndex: 2 }}
+              className="flex items-center justify-center"
+              style={{
+                width: 88, height: 88, borderRadius: '50%',
+                background: '#EFF4FF', position: 'relative', zIndex: 2,
+              }}
             >
               <i className="fas fa-envelope" style={{ fontSize: 34, color: '#0A1628' }} />
             </div>
-            {/* Pulse rings via CSS */}
+            {/* Pulse rings */}
             <div
               className="animate-[iconPulse_2.5s_ease-in-out_infinite]"
               style={{ position: 'absolute', inset: -6, borderRadius: '50%', border: '2px solid rgba(10, 22, 40, 0.1)' }}
@@ -93,18 +95,22 @@ export default function VerifyEmailPage() {
           </div>
 
           {/* Heading */}
-          <h1 className="mb-2" style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
-            Check your email
-          </h1>
+          <div style={{ marginBottom: 8 }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+              Check your email
+            </h1>
+          </div>
 
           {/* Subtitle */}
-          <p className="mb-9" style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6, maxWidth: 280 }}>
-            We&apos;ve sent a verification link to{' '}
-            <span style={{ color: '#0A1628', fontWeight: 600 }}>jane@example.com</span>
-          </p>
+          <div style={{ marginBottom: 36, maxWidth: 280 }}>
+            <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6 }}>
+              We&apos;ve sent a verification link to{' '}
+              <span style={{ color: '#0A1628', fontWeight: 600 }}>jane@example.com</span>
+            </p>
+          </div>
 
           {/* OTP inputs */}
-          <div className="flex gap-[10px] justify-center mb-5">
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', marginBottom: 20 }}>
             {otp.map((digit, i) => (
               <input
                 key={i}
@@ -117,25 +123,27 @@ export default function VerifyEmailPage() {
                 onKeyDown={(e) => handleKeyDown(i, e)}
                 onPaste={i === 0 ? handlePaste : undefined}
                 onFocus={(e) => e.target.select()}
-                className="transition-all outline-none"
                 style={{
                   width: 48,
                   height: 56,
                   textAlign: 'center',
+                  fontFamily: 'inherit',
                   fontSize: '1.4rem',
                   fontWeight: 700,
                   color: '#0A1628',
                   background: digit ? '#EFF4FF' : '#F8FAFC',
                   border: `2px solid ${digit ? '#0A1628' : '#E2E8F0'}`,
                   borderRadius: 14,
+                  outline: 'none',
                   caretColor: '#0A1628',
+                  transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 }}
               />
             ))}
           </div>
 
           {/* Resend code */}
-          <div className="mb-9">
+          <div style={{ marginBottom: 36 }}>
             <button
               onClick={handleResend}
               style={{
@@ -145,6 +153,8 @@ export default function VerifyEmailPage() {
                 cursor: canResend ? 'pointer' : 'default',
                 background: 'none',
                 border: 'none',
+                fontFamily: 'inherit',
+                transition: 'color 0.3s ease',
               }}
             >
               Resend code{!canResend && ` (00:${countdown.toString().padStart(2, '0')})`}
@@ -152,17 +162,33 @@ export default function VerifyEmailPage() {
           </div>
 
           {/* Verify button */}
-          <div className="w-full mb-8" style={{ maxWidth: 320 }}>
+          <div style={{ width: '100%', maxWidth: 320, marginBottom: 32 }}>
             <button
-              className="w-full rounded-full py-[15px] px-7 text-center font-bold"
-              style={{ background: '#0A1628', color: '#FFFFFF', fontSize: '0.95rem', border: 'none', cursor: 'pointer' }}
+              style={{
+                width: '100%',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                border: 'none',
+                borderRadius: 9999,
+                padding: '15px 28px',
+                fontFamily: 'inherit',
+                fontSize: '0.95rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                background: '#00A651',
+                color: '#FFFFFF',
+                boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+                transition: 'opacity 0.15s ease, transform 0.15s ease',
+              }}
             >
               Verify Email
             </button>
           </div>
 
           {/* Reassurance */}
-          <div className="flex items-center justify-center gap-[6px]" style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>
+          <div className="flex items-center justify-center" style={{ gap: 6, fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>
             <i className="fas fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
             <span>This step keeps your account secure</span>
           </div>

@@ -57,81 +57,85 @@ export default function GlossaryPage() {
   })
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
-            <i className="fas fa-arrow-left text-base" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <button onClick={() => router.back()} style={{ width: 40, height: 40, borderRadius: 12, background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
           </button>
-          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">IRS Terms Glossary</h1>
-          <div className="w-10" />
+          <span style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>IRS Terms Glossary</span>
+          <div style={{ width: 40 }} />
         </div>
 
-        <div className="flex flex-col gap-3.5 px-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '0 20px', paddingBottom: 20 }}>
           {/* Search Bar */}
-          <div className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-2.5">
-            <i className="fas fa-magnifying-glass text-sm text-[#CBD5E1]" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'white', border: '1.5px solid #E2E8F0', borderRadius: 9999, padding: '10px 16px' }}>
+            <i className="fas fa-magnifying-glass" style={{ fontSize: 14, color: '#CBD5E1' }} />
             <input
               type="text"
               placeholder="Search terms..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 border-none bg-transparent text-[0.85rem] text-[#0A1628] outline-none placeholder:text-[#CBD5E1]"
+              style={{ flex: 1, border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: '0.85rem', color: '#0A1628', background: 'transparent' }}
             />
           </div>
 
-          {/* Letter Tabs */}
-          <div className="flex gap-1 overflow-x-auto py-1">
+          {/* Alphabetical Letter Tabs */}
+          <div style={{ display: 'flex', gap: 4, overflowX: 'auto', padding: '4px 0', WebkitOverflowScrolling: 'touch' }}>
             {letters.map((letter) => (
-              <button
+              <div
                 key={letter}
                 onClick={() => setActiveLetter(letter)}
-                className={`flex h-8 min-w-[32px] shrink-0 items-center justify-center rounded-lg text-[0.72rem] font-bold transition ${
-                  activeLetter === letter
-                    ? 'bg-[#0A1628] text-white'
-                    : 'text-[#94A3B8] hover:bg-[#F1F5F9] hover:text-[#0A1628]'
-                }`}
+                style={{
+                  minWidth: 32,
+                  height: 32,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: 8,
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  color: activeLetter === letter ? 'white' : '#94A3B8',
+                  background: activeLetter === letter ? '#0A1628' : 'transparent',
+                  cursor: 'pointer',
+                  flexShrink: 0,
+                }}
               >
                 {letter}
-              </button>
+              </div>
             ))}
           </div>
 
-          {/* Glossary Items */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+          {/* Glossary Terms */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {filtered.map((term, idx) => {
               const isOpen = openIndex === idx
               return (
                 <div
                   key={term.abbreviation}
-                  className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'}`}
+                  style={{ background: 'white', border: `1px solid ${isOpen ? 'rgba(10,22,40,0.15)' : '#E2E8F0'}`, borderRadius: 14, overflow: 'hidden' }}
                 >
-                  <button
+                  <div
                     onClick={() => setOpenIndex(isOpen ? null : idx)}
-                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]"
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', cursor: 'pointer', gap: 12, userSelect: 'none' }}
                   >
-                    <div className="flex items-center gap-2.5">
-                      <span
-                        className="inline-flex min-w-[42px] items-center justify-center rounded-lg px-2 py-1 text-[0.75rem] font-extrabold"
-                        style={{ backgroundColor: term.bgColor, color: term.color }}
-                      >
-                        {term.abbreviation}
-                      </span>
-                      <span className="text-[0.85rem] font-semibold text-[#0A1628]">{term.name}</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 42, padding: '4px 8px', backgroundColor: term.bgColor, borderRadius: 8, fontSize: '0.75rem', fontWeight: 800, color: term.color }}>{term.abbreviation}</span>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', lineHeight: 1.4 }}>{term.name}</span>
                     </div>
-                    <i className={`fas fa-chevron-down shrink-0 text-[11px] text-[#CBD5E1] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  <div className={`overflow-hidden transition-all duration-400 ${isOpen ? 'max-h-[500px] px-4 pb-3.5' : 'max-h-0 px-4'}`}>
-                    <p className="mb-2 text-[0.82rem] leading-relaxed text-[#64748B]">{term.definition}</p>
-                    <div className="flex flex-wrap gap-1">
-                      {term.usedIn.map((tag) => (
-                        <span key={tag} className="inline-flex items-center rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[0.62rem] font-semibold text-[#2563EB]">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <i className="fas fa-chevron-down" style={{ fontSize: 11, color: '#CBD5E1', flexShrink: 0, transition: 'transform 0.3s ease', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                   </div>
+                  {isOpen && (
+                    <div style={{ padding: '0 16px 14px' }}>
+                      <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.6, marginBottom: 8, marginTop: 0 }}>{term.definition}</p>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                        {term.usedIn.map((tag) => (
+                          <span key={tag} style={{ display: 'inline-flex', alignItems: 'center', padding: '2px 8px', background: '#EFF4FF', borderRadius: 9999, fontSize: '0.62rem', fontWeight: 600, color: '#2563EB', marginRight: 4, marginBottom: 4 }}>{tag}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )
             })}

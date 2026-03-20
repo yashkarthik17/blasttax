@@ -35,104 +35,172 @@ export default function Form8857Page() {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div style={{ display: 'flex', flexDirection: 'column', paddingTop: '8px' }}>
       {/* Step Dots */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <div className="w-6 h-2 rounded-full bg-[#2563EB]" />
-          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
-          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
-          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
-          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
+      <div style={{ padding: '0 0 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ width: '24px', height: '8px', borderRadius: '9999px', background: '#2563EB' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
         </div>
-        <span className="text-[11px] font-semibold text-[#94A3B8]">Step 1 of 5</span>
+        <span style={{ fontSize: '11px', fontWeight: 600, color: '#94A3B8' }}>Step 1 of 5</span>
       </div>
 
-      <div className="mb-3.5">
-        <h1 className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight">Request Innocent Spouse Relief</h1>
+      {/* Heading */}
+      <div style={{ marginBottom: '14px' }}>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.3 }}>
+          Request Innocent Spouse Relief
+        </h1>
       </div>
 
-      {/* Relief Type */}
-      <div className="mb-2">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2">Relief Type</div>
+      {/* Relief Type Label */}
+      <div style={{ marginBottom: '8px' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Relief Type</div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+      {/* Relief Cards */}
       {reliefOptions.map((opt) => (
         <button
           key={opt.key}
           type="button"
           onClick={() => setReliefType(opt.key)}
-          className={`flex items-start gap-3 p-4 bg-white border-[1.5px] rounded-[14px] mb-2 w-full text-left transition-all ${
-            reliefType === opt.key ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F1F5F9] hover:border-[#0A1628]'
-          }`}
+          style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            padding: '16px',
+            background: reliefType === opt.key ? '#EFF4FF' : 'white',
+            border: reliefType === opt.key ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            borderRadius: '14px',
+            cursor: 'pointer',
+            marginBottom: '8px',
+            width: '100%',
+            textAlign: 'left',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+            boxShadow: reliefType === opt.key ? '0 0 0 3px rgba(0, 61, 165, 0.1)' : 'none',
+            fontFamily: 'inherit',
+          }}
         >
-          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-            reliefType === opt.key ? 'border-[#2563EB] bg-[#2563EB]' : 'border-[#F1F5F9]'
-          }`}>
-            {reliefType === opt.key && <div className="w-2 h-2 rounded-full bg-white" />}
+          {/* Radio Circle */}
+          <div style={{
+            width: '22px',
+            height: '22px',
+            borderRadius: '50%',
+            border: reliefType === opt.key ? '2px solid #2563EB' : '2px solid #F1F5F9',
+            background: reliefType === opt.key ? '#2563EB' : 'transparent',
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginTop: '2px',
+            transition: 'all 0.2s ease',
+          }}>
+            {reliefType === opt.key && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />}
           </div>
-          <div className="flex-1">
-            <div className="text-[13px] font-bold text-[#0A1628] mb-0.5">{opt.title}</div>
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="inline-flex px-2 py-0.5 bg-[#F8FAFC] rounded-md text-[10px] font-bold text-[#64748B]">{opt.irc}</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628', marginBottom: '3px' }}>{opt.title}</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+              <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC', borderRadius: '6px', fontSize: '10px', fontWeight: 700, color: '#64748B', fontFamily: 'monospace' }}>{opt.irc}</span>
             </div>
-            <div className="text-xs text-[#94A3B8] leading-snug">{opt.desc}</div>
+            <div style={{ fontSize: '12px', color: '#94A3B8', lineHeight: 1.4 }}>{opt.desc}</div>
             {reliefType === opt.key && (
-              <div className="mt-2.5 pt-2.5 border-t border-[rgba(0,61,165,0.1)]">
-                <div className="text-[11px] text-[#64748B] leading-relaxed">{opt.detail}</div>
+              <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(0,61,165,0.1)' }}>
+                <div style={{ fontSize: '11px', color: '#64748B', lineHeight: 1.5 }}>{opt.detail}</div>
               </div>
             )}
           </div>
         </button>
       ))}
-      </div>
 
       {/* Spouse Information */}
-      <div className="mt-4">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2.5">Spouse Information</div>
-        <div className="flex gap-2.5 mb-3">
-          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Spouse Name</label><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB] placeholder:text-[#CBD5E1] placeholder:font-normal" placeholder="Full name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} /></div>
-          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">SSN</label><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB] placeholder:text-[#CBD5E1] placeholder:font-normal" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} /></div>
+      <div style={{ marginTop: '16px' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '10px' }}>Spouse Information</div>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Spouse Name</label>
+            <input type="text" placeholder="Full name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>SSN</label>
+            <input type="text" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
         </div>
-        <div className="flex gap-2.5">
-          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Date of Marriage</label><input type="date" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" value={marriageDate} onChange={(e) => setMarriageDate(e.target.value)} /></div>
-          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Separation/Divorce</label><input type="date" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" value={separationDate} onChange={(e) => setSeparationDate(e.target.value)} /></div>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Date of Marriage</label>
+            <input type="date" value={marriageDate} onChange={(e) => setMarriageDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Separation/Divorce</label>
+            <input type="date" value={separationDate} onChange={(e) => setSeparationDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
         </div>
       </div>
 
       {/* Tax Years */}
-      <div className="mt-4">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2">Tax Years Requesting Relief</div>
-        <div className="flex gap-2 flex-wrap">
+      <div style={{ marginTop: '16px' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Tax Years Requesting Relief</div>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {['2020','2021','2022','2023'].map(year => (
-            <button key={year} type="button" onClick={() => toggleYear(year)} className={`inline-flex items-center px-4 py-2 border-[1.5px] rounded-full text-[13px] font-semibold transition-all ${selectedYears.includes(year) ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]' : 'border-[#F1F5F9] bg-white text-[#64748B]'}`}>{year}</button>
+            <button key={year} type="button" onClick={() => toggleYear(year)} style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '8px 16px',
+              border: selectedYears.includes(year) ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+              borderRadius: '9999px',
+              fontSize: '13px',
+              fontWeight: 600,
+              color: selectedYears.includes(year) ? '#2563EB' : '#64748B',
+              cursor: 'pointer',
+              background: selectedYears.includes(year) ? '#EFF4FF' : 'white',
+              transition: 'all 0.2s ease',
+              fontFamily: 'inherit',
+            }}>{year}</button>
           ))}
         </div>
       </div>
 
       {/* Reason */}
-      <div className="mt-4">
-        <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Why are you requesting relief?</label>
-        <textarea className="w-full min-h-[70px] px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none resize-y focus:border-[#2563EB] placeholder:text-[#CBD5E1] placeholder:font-normal" placeholder="Describe your situation..." value={reason} onChange={(e) => setReason(e.target.value)} />
+      <div style={{ marginTop: '16px' }}>
+        <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Why are you requesting relief?</label>
+        <textarea placeholder="Describe your situation..." value={reason} onChange={(e) => setReason(e.target.value)} style={{ width: '100%', minHeight: '70px', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }} />
       </div>
 
       {/* Benefit Question */}
-      <div className="mt-1">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2">Did you benefit from the understatement?</div>
-        <div className="flex gap-2.5">
-          <button type="button" onClick={() => setBenefited('yes')} className={`flex-1 py-3 border-[1.5px] rounded-xl text-center text-[13px] font-semibold transition-all ${benefited === 'yes' ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]' : 'border-[#F1F5F9] bg-white text-[#0A1628]'}`}>Yes</button>
-          <button type="button" onClick={() => setBenefited('no')} className={`flex-1 py-3 border-[1.5px] rounded-xl text-center text-[13px] font-semibold transition-all ${benefited === 'no' ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]' : 'border-[#F1F5F9] bg-white text-[#0A1628]'}`}>No</button>
+      <div style={{ marginTop: '4px' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Did you benefit from the understatement?</div>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button type="button" onClick={() => setBenefited('yes')} style={{
+            flex: 1, padding: '12px', border: benefited === 'yes' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            borderRadius: '12px', textAlign: 'center', cursor: 'pointer', background: benefited === 'yes' ? '#EFF4FF' : 'white',
+            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'yes' ? '#2563EB' : '#0A1628',
+            transition: 'all 0.25s ease',
+          }}>Yes</button>
+          <button type="button" onClick={() => setBenefited('no')} style={{
+            flex: 1, padding: '12px', border: benefited === 'no' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            borderRadius: '12px', textAlign: 'center', cursor: 'pointer', background: benefited === 'no' ? '#EFF4FF' : 'white',
+            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'no' ? '#2563EB' : '#0A1628',
+            transition: 'all 0.25s ease',
+          }}>No</button>
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col gap-3 pt-3 pb-5">
-        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[15px] font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]">
-          Continue <i className="fa-solid fa-arrow-right text-[13px] ml-1" />
-        </button>
-        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all disabled:opacity-50">
-          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
+      {/* Spacer */}
+      <div style={{ flex: 1, minHeight: '16px' }} />
+
+      {/* Continue */}
+      <div style={{ padding: '12px 0 20px' }}>
+        <button onClick={handleGeneratePdf} disabled={generating} style={{
+          width: '100%', padding: '16px 28px', background: '#00A651', border: 'none', borderRadius: '9999px',
+          color: 'white', fontSize: '15px', fontWeight: 700, fontFamily: 'inherit',
+          cursor: generating ? 'not-allowed' : 'pointer', opacity: generating ? 0.5 : 1,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+          transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+        }}>
+          {generating ? 'Generating...' : 'Continue'}
+          {!generating && <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />}
         </button>
       </div>
     </div>

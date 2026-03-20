@@ -197,20 +197,20 @@ export default function IncomeExpensesPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
-        <div className="pt-4">
-          <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all duration-500" style={{ width: '70%' }} />
+        <div style={{ paddingTop: '16px' }}>
+          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '70%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 5 of 6</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Income & Expenses</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 5 of 6</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Income & Expenses</span>
           </div>
         </div>
 
         {/* Heading */}
-        <div className="mt-3.5">
-          <h1 className="text-xl font-extrabold leading-tight text-[#0A1628]">Monthly Income & Expenses</h1>
-          <p className="mt-1 text-xs leading-snug text-[#94A3B8]">
+        <div style={{ marginBottom: '4px', marginTop: '14px' }}>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Monthly Income & Expenses</h1>
+          <p style={{ fontSize: '12px', color: '#94A3B8', marginTop: '3px', lineHeight: 1.4 }}>
             {"We'll use IRS allowable expense standards to calculate your disposable income"}
           </p>
         </div>
@@ -348,46 +348,71 @@ export default function IncomeExpensesPage() {
         {/* ── End Income & Expenses Container ── */}
 
         {/* ── IRS Standards Reference ── */}
-        <div className="mt-3 rounded-xl border border-[#BFDBFE] bg-[#EFF4FF] px-3.5 py-2.5">
-          <div className="mb-1.5 text-[11px] font-bold text-[#0A1628]">
-            <i className="fa-solid fa-scale-balanced mr-1 text-[10px]" /> 2026 IRS Standards Reference
+        <div style={{ padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: '12px', marginBottom: '12px', marginTop: '12px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#0A1628', marginBottom: '6px' }}>
+            <i className="fa-solid fa-scale-balanced" style={{ fontSize: '10px' }} /> 2026 IRS Standards Reference
           </div>
-          <div className="space-y-0.5 text-[10px] leading-relaxed text-[#64748B]">
+          <div style={{ fontSize: '10px', color: '#64748B', lineHeight: 1.6 }}>
             <div><strong>Healthcare OOP:</strong> $84/person under 65, $149/person 65+</div>
             <div><strong>Transport Ownership:</strong> $662/car (2026)</div>
             <div><strong>Food/Clothing:</strong> National Standard by family size + income</div>
             <div><strong>Housing:</strong> Local Standard by state/county</div>
             <div><strong>Transport Operating:</strong> By census region</div>
           </div>
-          <div className="mt-1.5 rounded-md bg-[#FFFBEB] px-2 py-1 text-[10px] text-[#92400E]">
+          <div style={{ fontSize: '10px', color: '#92400E', marginTop: '6px', padding: '4px 8px', background: '#FFFBEB', borderRadius: '6px' }}>
             Allowable = lesser of your actual expense or IRS standard for capped categories
           </div>
         </div>
 
         {/* ── MDI Summary Card ── */}
-        <div className="mt-3 overflow-hidden rounded-2xl border-[1.5px] border-[rgba(10,22,40,0.12)] bg-white p-5 text-center relative">
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#0A1628]" />
-          <span className="text-[11px] font-bold uppercase tracking-[0.06em] text-[#64748B]">
+        <div style={{
+          background: 'white',
+          border: '1.5px solid rgba(10,22,40,0.12)',
+          borderRadius: '16px',
+          padding: '20px',
+          textAlign: 'center',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: '#0A1628' }} />
+          <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Monthly Disposable Income (MDI)
           </span>
-          <div className="mt-1.5 text-[2rem] font-black tracking-tight text-[#2563EB]">
+          <div style={{ fontSize: '2rem', fontWeight: 900, color: '#2563EB', letterSpacing: '-0.02em', marginTop: '6px' }}>
             {fmt(mdi)}
           </div>
-          <div className="mt-2.5 rounded-lg bg-[rgba(255,255,255,0.7)] px-3.5 py-2.5">
-            <span className="text-xs text-[#64748B] leading-snug">
+          <div style={{ marginTop: '10px', padding: '10px 14px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px' }}>
+            <span style={{ fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>
               This is what the IRS expects you can pay each month toward your tax debt
             </span>
           </div>
         </div>
 
         {/* ── Continue Button ── */}
-        <div className="mt-4 pb-5">
+        <div style={{ padding: '12px 0 20px' }}>
           <button
             onClick={handleContinue}
-            className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00A651] py-4 text-[15px] font-semibold text-white transition-colors hover:bg-[#008C44]"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '16px 28px',
+              fontFamily: 'inherit',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              background: '#00A651',
+              color: 'white',
+              width: '100%',
+              boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+              transition: 'opacity 0.15s ease, transform 0.15s ease',
+            }}
           >
             Calculate My Options
-            <i className="fa-solid fa-arrow-right text-[13px]" />
+            <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
           </button>
         </div>
       </div>

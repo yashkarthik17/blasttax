@@ -48,102 +48,138 @@ export default function VerificationPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
-        <div className="pt-4">
-          <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all duration-500" style={{ width: '90%' }} />
+        <div style={{ paddingTop: '16px' }}>
+          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '90%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
         </div>
 
         {/* Heading */}
-        <div className="mt-5 mb-2">
-          <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-[1.4rem] font-extrabold leading-tight text-[#0A1628]">Almost there!</h1>
-            <span className="text-xl animate-pulse">&#10024;</span>
+        <div style={{ marginTop: '20px', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Almost there!</h1>
+            <span style={{ fontSize: '20px', animation: 'sparkleFloat 2s ease-in-out infinite' }}>&#10024;</span>
           </div>
-          <p className="text-[13px] leading-snug text-[#94A3B8]">
+          <p style={{ fontSize: '13px', color: '#94A3B8', lineHeight: 1.5 }}>
             {"Let's do a final check before running your analysis"}
           </p>
         </div>
 
         {/* Verification Checklist */}
-        <div className="mb-3.5 rounded-2xl border border-[#F3F4F6] bg-white px-4 py-1">
+        <div style={{ background: 'white', border: '1px solid #F3F4F6', borderRadius: '16px', padding: '4px 16px', marginBottom: '14px' }}>
           {checkItems.map((item, idx) => (
             <div
               key={item.id}
-              className="flex items-center gap-3 border-b border-[#F1F5F9] py-3 last:border-b-0"
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '12px 0',
+                borderBottom: idx < checkItems.length - 1 ? '1px solid #F1F5F9' : 'none',
                 opacity: animated ? 1 : 0,
                 transform: animated ? 'translateX(0)' : 'translateX(-12px)',
                 transition: `all 0.4s cubic-bezier(0.25,0.1,0.25,1) ${500 + idx * 120}ms`,
               }}
             >
-              <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs ${
-                item.status === 'success'
-                  ? 'bg-[#E6F9EE] text-[#00A651]'
-                  : 'border-2 border-[#F1F5F9] bg-[#F8FAFC] text-[#CBD5E1]'
-              }`}>
+              <div style={{
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px',
+                flexShrink: 0,
+                ...(item.status === 'success'
+                  ? { background: '#ECFDF5', color: '#00A651' }
+                  : { background: '#F8FAFC', color: '#CBD5E1', border: '2px solid #F1F5F9' }
+                ),
+              }}>
                 {item.status === 'success' && <i className="fa-solid fa-check" />}
               </div>
-              <div className="flex-1">
-                <div className="text-[13px] font-semibold text-[#0A1628]">{item.label}</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#0A1628' }}>{item.label}</div>
               </div>
             </div>
           ))}
         </div>
 
         {/* Summary Stats */}
-        <div className="mb-3.5 grid grid-cols-2 gap-2 md:grid-cols-4"
+        <div
           style={{
+            display: 'flex',
+            gap: '8px',
+            marginBottom: '14px',
             opacity: animated ? 1 : 0,
             transform: animated ? 'translateY(0)' : 'translateY(10px)',
             transition: 'all 0.5s ease 800ms',
           }}
         >
-          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
-            <div className="text-base font-extrabold tracking-tight text-[#E63946]">{fmt(totalDebt)}</div>
-            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Total Debt</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#E63946', letterSpacing: '-0.01em' }}>{fmt(totalDebt)}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Total Debt</div>
           </div>
-          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
-            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{fmt(mdi)}</div>
-            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">MDI</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{fmt(mdi)}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>MDI</div>
           </div>
-          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
-            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{fmt(totalAssets)}</div>
-            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Assets</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{fmt(totalAssets)}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Assets</div>
           </div>
-          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
-            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{taxYearCount}</div>
-            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Years</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{taxYearCount}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Years</div>
           </div>
         </div>
 
         {/* Confirm Checkbox */}
-        <button
+        <div
           onClick={() => setConfirmed(!confirmed)}
-          className={`mb-3.5 flex w-full items-start gap-3 rounded-[14px] border-[1.5px] px-4 py-3.5 text-left transition-all ${
-            confirmed
-              ? 'border-[#2563EB] bg-[#EFF4FF]'
-              : 'border-[#F3F4F6] bg-[#F8FAFC]'
-          }`}
           style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            padding: '14px 16px',
+            background: confirmed ? '#EFF4FF' : '#F8FAFC',
+            border: `1.5px solid ${confirmed ? '#2563EB' : '#F3F4F6'}`,
+            borderRadius: '14px',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            marginBottom: '14px',
             opacity: animated ? 1 : 0,
             transform: animated ? 'translateY(0)' : 'translateY(10px)',
-            transition: 'all 0.5s ease 1000ms',
           }}
         >
-          <div className={`mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md border-2 transition-all ${
-            confirmed ? 'border-[#2563EB] bg-[#2563EB]' : 'border-[#F1F5F9]'
-          }`}>
-            {confirmed && <i className="fa-solid fa-check text-[11px] text-white" />}
+          <div style={{
+            width: '22px',
+            height: '22px',
+            border: `2px solid ${confirmed ? '#2563EB' : '#F1F5F9'}`,
+            borderRadius: '6px',
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'all 0.2s ease',
+            marginTop: '1px',
+            background: confirmed ? '#2563EB' : 'transparent',
+          }}>
+            {confirmed && <i className="fa-solid fa-check" style={{ fontSize: '11px', color: 'white' }} />}
           </div>
-          <div className="flex-1 text-[13px] font-semibold leading-snug text-[#0A1628]">
-            I confirm all information is accurate to the best of my knowledge
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: '#0A1628', lineHeight: 1.5 }}>
+              I confirm all information is accurate to the best of my knowledge
+            </div>
           </div>
-        </button>
+        </div>
+
+        {/* Spacer */}
+        <div style={{ flex: 1, minHeight: '12px' }} />
 
         {/* Run Analysis CTA */}
         <div
           style={{
+            padding: '8px 0 8px',
             opacity: animated ? 1 : 0,
             transform: animated ? 'translateY(0)' : 'translateY(10px)',
             transition: 'all 0.5s ease 1200ms',
@@ -152,38 +188,63 @@ export default function VerificationPage() {
           <button
             onClick={() => confirmed && router.push('/analysis/processing')}
             disabled={!confirmed}
-            className={`flex w-full items-center justify-center gap-2.5 rounded-full py-[18px] text-base font-bold transition-all ${
-              confirmed
-                ? 'bg-[#00A651] text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:-translate-y-0.5'
-                : 'pointer-events-none bg-[#00A651] text-white opacity-50'
-            }`}
+            style={{
+              background: '#00A651',
+              color: 'white',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '18px 32px',
+              fontFamily: 'inherit',
+              fontSize: '16px',
+              fontWeight: 700,
+              cursor: confirmed ? 'pointer' : 'default',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+              transition: 'all 0.3s ease',
+              position: 'relative',
+              overflow: 'hidden',
+              opacity: confirmed ? 1 : 0.5,
+              pointerEvents: confirmed ? 'auto' : 'none',
+            }}
           >
-            <span className="animate-pulse">&#10024;</span>
+            <span style={{ animation: 'sparkleFloat 2s ease-in-out infinite' }}>&#10024;</span>
             Run Analysis
           </button>
         </div>
 
         {/* Back link */}
-        <div className="mt-2.5 text-center"
+        <div
           style={{
+            textAlign: 'center',
+            padding: '8px 0 16px',
             opacity: animated ? 1 : 0,
             transition: 'opacity 0.5s ease 1300ms',
           }}
         >
-          <button onClick={() => router.push('/analysis/csed-review')} className="text-[13px] font-semibold text-[#64748B]">
-            <i className="fa-solid fa-arrow-left mr-1 text-[11px]" /> Back to Edit
+          <button
+            onClick={() => router.push('/analysis/csed-review')}
+            style={{ background: 'none', border: 'none', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}
+          >
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: '11px', marginRight: '4px' }} />
+            Back to Edit
           </button>
         </div>
 
         {/* Reassurance */}
-        <div className="mt-4 pb-4 text-center"
+        <div
           style={{
+            textAlign: 'center',
+            paddingBottom: '16px',
             opacity: animated ? 1 : 0,
             transition: 'opacity 0.5s ease 1400ms',
           }}
         >
-          <div className="inline-flex items-center gap-1.5 text-[11px] text-[#CBD5E1]">
-            <i className="fa-solid fa-clock text-[10px]" />
+          <div style={{ fontSize: '11px', color: '#CBD5E1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+            <i className="fa-solid fa-clock" style={{ fontSize: '10px' }} />
             Analysis typically takes 30-60 seconds
           </div>
         </div>

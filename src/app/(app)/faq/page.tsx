@@ -47,101 +47,104 @@ export default function FaqPage() {
   const resolutionFiltered = filtered.filter((f) => resolutionFaqs.includes(f))
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Header */}
-        <div className="flex items-center gap-3 px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
-            <i className="fas fa-arrow-left text-base" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <button onClick={() => router.back()} style={{ width: 40, height: 40, borderRadius: 12, background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'inherit' }}>
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
           </button>
-          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">FAQ</h1>
-          <div className="w-10" />
+          <span style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>FAQ</span>
+          <div style={{ width: 40 }} />
         </div>
 
-        <div className="flex flex-col gap-3.5 px-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '0 20px', paddingBottom: 20 }}>
           {/* Search Bar */}
-          <div className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-2.5">
-            <i className="fas fa-magnifying-glass text-sm text-[#CBD5E1]" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'white', border: '1.5px solid #E2E8F0', borderRadius: 9999, padding: '10px 16px' }}>
+            <i className="fas fa-magnifying-glass" style={{ fontSize: 14, color: '#CBD5E1' }} />
             <input
               type="text"
               placeholder="Search questions..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="flex-1 border-none bg-transparent text-[0.85rem] text-[#0A1628] outline-none placeholder:text-[#CBD5E1]"
+              style={{ flex: 1, border: 'none', outline: 'none', fontFamily: 'inherit', fontSize: '0.85rem', color: '#0A1628', background: 'transparent' }}
             />
           </div>
 
-          {/* General FAQs */}
-          {generalFiltered.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-              {generalFiltered.map((faq) => {
-                const globalIdx = allFaqs.indexOf(faq)
-                const isOpen = openIndex === globalIdx
-                return (
+          {/* FAQ Items */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {generalFiltered.map((faq) => {
+              const globalIdx = allFaqs.indexOf(faq)
+              const isOpen = openIndex === globalIdx
+              return (
+                <div
+                  key={globalIdx}
+                  style={{ background: 'white', border: `1px solid ${isOpen ? 'rgba(10,22,40,0.15)' : '#E2E8F0'}`, borderRadius: 14, overflow: 'hidden' }}
+                >
                   <div
-                    key={globalIdx}
-                    className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'}`}
+                    onClick={() => toggle(globalIdx)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', cursor: 'pointer', gap: 12, userSelect: 'none' }}
                   >
-                    <button onClick={() => toggle(globalIdx)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]">
-                      <span className="text-[0.88rem] font-semibold leading-snug text-[#0A1628]">{faq.question}</span>
-                      <i className={`fas fa-chevron-down shrink-0 text-[11px] text-[#CBD5E1] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    <div className={`overflow-hidden transition-all duration-400 ${isOpen ? 'max-h-80 px-4 pb-3.5' : 'max-h-0 px-4'}`}>
-                      <p className="text-[0.82rem] leading-relaxed text-[#64748B]">{faq.answer}</p>
-                    </div>
+                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#0A1628', lineHeight: 1.4 }}>{faq.question}</span>
+                    <i className="fas fa-chevron-down" style={{ fontSize: 11, color: '#CBD5E1', flexShrink: 0, transition: 'transform 0.3s ease', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                   </div>
-                )
-              })}
-            </div>
-          )}
+                  {isOpen && (
+                    <div style={{ padding: '0 16px 14px' }}>
+                      <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>{faq.answer}</p>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
 
-          {/* Divider */}
-          {resolutionFiltered.length > 0 && generalFiltered.length > 0 && (
-            <div className="flex items-center gap-3 py-2">
-              <div className="h-px flex-1 bg-[#E2E8F0]" />
-              <span className="whitespace-nowrap text-[0.7rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Resolution-Specific</span>
-              <div className="h-px flex-1 bg-[#E2E8F0]" />
-            </div>
-          )}
+            {/* Section Divider */}
+            {resolutionFiltered.length > 0 && generalFiltered.length > 0 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 0 4px' }}>
+                <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>Resolution-Specific</span>
+                <div style={{ flex: 1, height: 1, background: '#E2E8F0' }} />
+              </div>
+            )}
 
-          {/* Resolution FAQs */}
-          {resolutionFiltered.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-              {resolutionFiltered.map((faq) => {
-                const globalIdx = allFaqs.indexOf(faq)
-                const isOpen = openIndex === globalIdx
-                return (
+            {resolutionFiltered.map((faq) => {
+              const globalIdx = allFaqs.indexOf(faq)
+              const isOpen = openIndex === globalIdx
+              return (
+                <div
+                  key={globalIdx}
+                  style={{ background: 'white', border: `1px solid ${isOpen ? 'rgba(10,22,40,0.15)' : '#E2E8F0'}`, borderRadius: 14, overflow: 'hidden' }}
+                >
                   <div
-                    key={globalIdx}
-                    className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'}`}
+                    onClick={() => toggle(globalIdx)}
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', cursor: 'pointer', gap: 12, userSelect: 'none' }}
                   >
-                    <button onClick={() => toggle(globalIdx)} className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]">
-                      <span className="text-[0.88rem] font-semibold leading-snug text-[#0A1628]">{faq.question}</span>
-                      <i className={`fas fa-chevron-down shrink-0 text-[11px] text-[#CBD5E1] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                    <div className={`overflow-hidden transition-all duration-400 ${isOpen ? 'max-h-80 px-4 pb-3.5' : 'max-h-0 px-4'}`}>
-                      <p className="text-[0.82rem] leading-relaxed text-[#64748B]">{faq.answer}</p>
-                    </div>
+                    <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#0A1628', lineHeight: 1.4 }}>{faq.question}</span>
+                    <i className="fas fa-chevron-down" style={{ fontSize: 11, color: '#CBD5E1', flexShrink: 0, transition: 'transform 0.3s ease', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
                   </div>
-                )
-              })}
-            </div>
-          )}
+                  {isOpen && (
+                    <div style={{ padding: '0 16px 14px' }}>
+                      <p style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.6, margin: 0 }}>{faq.answer}</p>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
 
-          {/* Still Have Questions */}
-          <div className="rounded-[20px] border border-[rgba(10,22,40,0.08)] bg-white p-6 text-center">
-            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#EFF4FF]">
-              <i className="fas fa-comments text-xl text-[#0A1628]" />
+          {/* Still Have Questions Card */}
+          <div style={{ background: '#FFFFFF', borderRadius: 20, padding: 24, border: '1px solid rgba(10,22,40,0.08)', textAlign: 'center' }}>
+            <div style={{ width: 48, height: 48, borderRadius: 16, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
+              <i className="fas fa-comments" style={{ fontSize: 20, color: '#0A1628' }} />
             </div>
-            <div className="text-base font-bold text-[#0A1628]">Still have questions?</div>
-            <div className="mb-4 text-[0.8rem] text-[#94A3B8]">We&apos;re here to help you navigate your tax resolution</div>
-            <div className="flex gap-2.5">
-              <Link href="/chat" className="flex flex-1 items-center justify-center gap-2 rounded-[14px] bg-[#0A1628] px-3 py-3 text-[0.82rem] font-semibold text-white no-underline transition hover:opacity-90">
-                <i className="fas fa-sparkles text-[13px]" />
+            <div style={{ fontSize: '1rem', fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Still have questions?</div>
+            <div style={{ fontSize: '0.8rem', color: '#94A3B8', marginBottom: 16 }}>We&apos;re here to help you navigate your tax resolution</div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <Link href="/chat" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 12, background: '#0A1628', color: 'white', border: 'none', borderRadius: 14, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', cursor: 'pointer' }}>
+                <i className="fas fa-sparkles" style={{ fontSize: 13 }} />
                 Chat with AI
               </Link>
-              <Link href="/expert" className="flex flex-1 items-center justify-center gap-2 rounded-[14px] border-[1.5px] border-[#E2E8F0] bg-white px-3 py-3 text-[0.82rem] font-semibold text-[#0A1628] no-underline transition hover:bg-[#F8FAFC]">
-                <i className="fas fa-user-tie text-[13px] text-[#7C3AED]" />
+              <Link href="/expert" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 12, background: 'white', color: '#0A1628', border: '1.5px solid #E2E8F0', borderRadius: 14, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', cursor: 'pointer' }}>
+                <i className="fas fa-user-tie" style={{ fontSize: 13, color: '#7C3AED' }} />
                 Contact Expert
               </Link>
             </div>

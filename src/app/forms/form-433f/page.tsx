@@ -3,19 +3,28 @@
 import { useState } from 'react'
 import { useWizard } from '@/hooks/useWizard'
 
-function SectionCard({ icon, iconBg, iconColor, title, subtitle, badge, rightLabel, defaultOpen = false, children }: { icon: string; iconBg: string; iconColor: string; title: string; subtitle?: string; badge?: string; rightLabel?: string; defaultOpen?: boolean; children: React.ReactNode }) {
+function SectionCard({ icon, iconBg, iconColor, title, subtitle, badge, badgeColor, rightLabel, rightLabelColor, defaultOpen = false, children }: {
+  icon: string; iconBg: string; iconColor: string; title: string; subtitle?: string;
+  badge?: string; badgeColor?: string; rightLabel?: string; rightLabelColor?: string;
+  defaultOpen?: boolean; children: React.ReactNode
+}) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="bg-white rounded-2xl p-[18px] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-      <button type="button" onClick={() => setOpen(!open)} className="flex items-center justify-between w-full pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className={`w-[30px] h-[30px] rounded-lg ${iconBg} flex items-center justify-center`}><i className={`fas ${icon} text-xs ${iconColor}`} /></div>
-          <div className="text-left"><div className="text-[0.82rem] font-bold text-[#0A1628]">{title}</div>{subtitle && <div className="text-[0.68rem] text-[#94A3B8]">{subtitle}</div>}</div>
+    <div style={{ background: 'white', borderRadius: '16px', padding: '18px', border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+      <button type="button" onClick={() => setOpen(!open)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', cursor: 'pointer', paddingBottom: '12px', background: 'none', border: 'none', fontFamily: 'inherit' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className={`fas ${icon}`} style={{ fontSize: '12px', color: iconColor }} />
+          </div>
+          <div style={{ textAlign: 'left' }}>
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>{title}</div>
+            {subtitle && <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>{subtitle}</div>}
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          {badge && <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651]">{badge}</span>}
-          {rightLabel && <span className="text-[0.78rem] font-bold text-[#0A1628]">{rightLabel}</span>}
-          <i className={`fas fa-chevron-down text-[10px] text-[#CBD5E1] transition-transform ${open ? 'rotate-180' : ''}`} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          {badge && <span style={{ display: 'inline-flex', padding: '2px 8px', background: badgeColor || '#E6F9EE', borderRadius: '9999px', fontSize: '0.58rem', fontWeight: 700, color: '#00A651' }}>{badge}</span>}
+          {rightLabel && <span style={{ fontSize: '0.78rem', fontWeight: 700, color: rightLabelColor || '#0A1628' }}>{rightLabel}</span>}
+          <i className={`fas fa-chevron-down`} style={{ transition: 'transform 0.3s ease', fontSize: '10px', color: '#CBD5E1', transform: open ? 'rotate(180deg)' : 'none' }} />
         </div>
       </button>
       {open && <div>{children}</div>}
@@ -23,11 +32,11 @@ function SectionCard({ icon, iconBg, iconColor, title, subtitle, badge, rightLab
   )
 }
 
-function ExpenseInput({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+function ExpenseRow({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-[#F8FAFC] last:border-b-0">
-      <span className="text-[0.78rem] text-[#64748B]">{label}</span>
-      <input type="text" className="w-[90px] px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] text-right outline-none focus:border-[#0A1628]" value={value} onChange={(e) => onChange(e.target.value)} />
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F8FAFC' }}>
+      <span style={{ fontSize: '0.78rem', color: '#64748B' }}>{label}</span>
+      <input type="text" value={value} onChange={(e) => onChange(e.target.value)} style={{ width: '90px', textAlign: 'right', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
     </div>
   )
 }
@@ -42,7 +51,7 @@ export default function Form433FPage() {
   const [otherIncome, setOtherIncome] = useState({ ss: '$0', pension: '$0', childSupport: '$0', rental: '$0', other: '$0' })
   const [generating, setGenerating] = useState(false)
 
-  async function handleGeneratePdf() {
+  async function handleGenerate() {
     setGenerating(true)
     try {
       const res = await fetch('/api/generate-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ caseId, formType: 'form-433f' }) })
@@ -51,112 +60,201 @@ export default function Form433FPage() {
   }
 
   return (
-    <div className="flex flex-col gap-3.5">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', paddingTop: '8px', paddingBottom: '20px' }}>
+      {/* Heading */}
       <div>
-        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">Collection Information Statement</div>
-        <div className="text-[0.78rem] text-[#94A3B8] mt-1 leading-relaxed">IRS Form 433-F &mdash; Simplified Financial Disclosure</div>
+        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.3 }}>Collection Information Statement</div>
+        <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>IRS Form 433-F &mdash; Simplified Financial Disclosure</div>
       </div>
 
-      <div className="flex items-start gap-2.5 px-3.5 py-3 bg-[#EBF0FF] border border-[rgba(37,99,235,0.1)] rounded-[14px]">
-        <i className="fas fa-info-circle text-[13px] text-[#2563EB] flex-shrink-0 mt-0.5" />
-        <div className="text-[0.75rem] text-[#1E40AF] leading-relaxed"><strong>This form is used for CNC (Currently Not Collectible) requests</strong> and some Installment Agreement types. It collects fewer details than Form 433-A.</div>
+      {/* CNC Banner */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#EBF0FF', border: '1px solid rgba(37,99,235,0.1)', borderRadius: '14px' }}>
+        <i className="fas fa-info-circle" style={{ fontSize: '13px', color: '#2563EB', flexShrink: 0, marginTop: '2px' }} />
+        <div style={{ fontSize: '0.75rem', color: '#1E40AF', lineHeight: 1.5 }}>
+          <strong>This form is used for CNC (Currently Not Collectible) requests</strong> and some Installment Agreement types. It collects fewer details than Form 433-A.
+        </div>
       </div>
 
       {/* Section 1: Personal Info */}
-      <SectionCard icon="fa-user" iconBg="bg-[#EFF4FF]" iconColor="text-[#2563EB]" title="Section 1: Personal Info" badge="COMPLETE">
-        <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Full Name</div><div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3"><span className="text-[0.82rem] font-semibold text-[#0A1628]">Jane M. Doe</span><i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" /></div></div>
-        <div className="flex gap-2.5 mb-2.5">
-          <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">SSN</div><div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3"><span className="text-[0.82rem] font-semibold text-[#0A1628] tracking-wider">***-**-4589</span><i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" /></div></div>
-          <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Phone</div><div className="bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3"><span className="text-[0.82rem] font-semibold text-[#0A1628]">(512) 555-0199</span></div></div>
+      <SectionCard icon="fa-user" iconBg="#EFF4FF" iconColor="#2563EB" title="Section 1: Personal Info" badge="COMPLETE">
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Full Name</div>
+          <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: '12px', padding: '12px 16px', position: 'relative' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Jane M. Doe</span>
+            <i className="fas fa-lock" style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: '12px' }} />
+          </div>
         </div>
-        <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Address</div><div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3"><span className="text-[0.82rem] font-semibold text-[#0A1628]">1234 Elm Street, Austin, TX 78701</span><i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" /></div></div>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>SSN</div>
+            <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: '12px', padding: '12px 16px', position: 'relative' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', letterSpacing: '0.03em' }}>***-**-4589</span>
+              <i className="fas fa-lock" style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: '12px' }} />
+            </div>
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Phone</div>
+            <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: '12px', padding: '12px 16px' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>(512) 555-0199</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Address</div>
+          <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: '12px', padding: '12px 16px', position: 'relative' }}>
+            <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>1234 Elm Street, Austin, TX 78701</span>
+            <i className="fas fa-lock" style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: '12px' }} />
+          </div>
+        </div>
       </SectionCard>
 
       {/* Section 2: Bank Accounts */}
-      <SectionCard icon="fa-piggy-bank" iconBg="bg-[#E6F9EE]" iconColor="text-[#00A651]" title="Section 2: Bank Accounts" subtitle="2 accounts" rightLabel="$4,200" defaultOpen>
-        {[{name:'Chase Checking',bal:'$3,400',bankName:'Chase Bank'},{name:'Ally Savings',bal:'$800',bankName:'Ally Bank'}].map((acc,i) => (
-          <div key={i} className="bg-[#F8FAFC] rounded-xl p-3.5 mb-2.5">
-            <div className="flex justify-between mb-2"><span className="text-[0.78rem] font-semibold text-[#0A1628]">{acc.name}</span><span className="text-[0.78rem] font-bold text-[#0A1628]">{acc.bal}</span></div>
-            <div className="flex gap-2.5">
-              <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Bank Name</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" defaultValue={acc.bankName} /></div>
-              <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Balance</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none text-right" defaultValue={acc.bal} /></div>
+      <SectionCard icon="fa-piggy-bank" iconBg="#E6F9EE" iconColor="#00A651" title="Section 2: Bank Accounts" subtitle="2 accounts" rightLabel="$4,200" defaultOpen>
+        {[{ name: 'Chase Checking', bal: '$3,400', bankName: 'Chase Bank' }, { name: 'Ally Savings', bal: '$800', bankName: 'Ally Bank' }].map((acc, i) => (
+          <div key={i} style={{ background: '#F8FAFC', borderRadius: '12px', padding: '14px', marginBottom: '10px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628' }}>{acc.name}</span>
+              <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>{acc.bal}</span>
+            </div>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Bank Name</div>
+                <input type="text" defaultValue={acc.bankName} style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Balance</div>
+                <input type="text" defaultValue={acc.bal} style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', textAlign: 'right', boxSizing: 'border-box' }} />
+              </div>
             </div>
           </div>
         ))}
-        <button className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#EFF4FF] text-[#0A1628] rounded-lg text-[11px] font-semibold transition-all hover:bg-[#dbe4ff]"><i className="fa-solid fa-plus text-[10px]" /> Add Account</button>
+        <button style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', background: '#EFF4FF', color: '#0A1628', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}><i className="fa-solid fa-plus" style={{ fontSize: '10px' }} /> Add Account</button>
       </SectionCard>
 
       {/* Section 3: Other Assets */}
-      <SectionCard icon="fa-house" iconBg="bg-[#F5F0FF]" iconColor="text-[#7C3AED]" title="Section 3: Other Assets" subtitle="Real estate & vehicles">
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2">Real Estate</div>
-        <div className="bg-[#F8FAFC] rounded-xl p-3.5 mb-3">
-          <div className="text-[0.78rem] font-semibold text-[#0A1628] mb-2">Primary Residence</div>
-          <div className="flex gap-2.5 mb-2"><div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Fair Market Value</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" defaultValue="$320,000" /></div><div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Loan Balance</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" defaultValue="$305,000" /></div></div>
-          <div className="flex justify-between px-2.5 py-2 bg-[#FFFBEB] rounded-lg"><span className="text-[0.7rem] font-semibold text-[#92400E]">Equity</span><span className="text-[0.7rem] font-bold text-[#92400E]">$15,000</span></div>
+      <SectionCard icon="fa-house" iconBg="#F5F0FF" iconColor="#7C3AED" title="Section 3: Other Assets" subtitle="Real estate & vehicles">
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Real Estate</div>
+        <div style={{ background: '#F8FAFC', borderRadius: '12px', padding: '14px', marginBottom: '12px' }}>
+          <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', marginBottom: '8px' }}>Primary Residence</div>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Fair Market Value</div>
+              <input type="text" defaultValue="$320,000" style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Loan Balance</div>
+              <input type="text" defaultValue="$305,000" style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 10px', background: '#FFFBEB', borderRadius: '8px' }}>
+            <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#92400E' }}>Equity</span>
+            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#92400E' }}>$15,000</span>
+          </div>
         </div>
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2">Vehicles</div>
-        <div className="bg-[#F8FAFC] rounded-xl p-3.5 mb-2.5">
-          <div className="text-[0.78rem] font-semibold text-[#0A1628] mb-2">2020 Honda Civic</div>
-          <div className="flex gap-2.5 mb-2"><div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Fair Market Value</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" defaultValue="$18,500" /></div><div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Loan Balance</div><input type="text" className="w-full px-2.5 py-2 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" defaultValue="$13,300" /></div></div>
-          <div className="flex justify-between px-2.5 py-2 bg-[#FFFBEB] rounded-lg"><span className="text-[0.7rem] font-semibold text-[#92400E]">Equity</span><span className="text-[0.7rem] font-bold text-[#92400E]">$5,200</span></div>
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '8px' }}>Vehicles</div>
+        <div style={{ background: '#F8FAFC', borderRadius: '12px', padding: '14px', marginBottom: '10px' }}>
+          <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', marginBottom: '8px' }}>2020 Honda Civic</div>
+          <div style={{ display: 'flex', gap: '10px', marginBottom: '8px' }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Fair Market Value</div>
+              <input type="text" defaultValue="$18,500" style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Loan Balance</div>
+              <input type="text" defaultValue="$13,300" style={{ width: '100%', padding: '8px 10px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            </div>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 10px', background: '#FFFBEB', borderRadius: '8px' }}>
+            <span style={{ fontSize: '0.7rem', fontWeight: 600, color: '#92400E' }}>Equity</span>
+            <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#92400E' }}>$5,200</span>
+          </div>
         </div>
-        <button className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#EFF4FF] text-[#0A1628] rounded-lg text-[11px] font-semibold transition-all hover:bg-[#dbe4ff]"><i className="fa-solid fa-plus text-[10px]" /> Add Asset</button>
+        <button style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 14px', background: '#EFF4FF', color: '#0A1628', border: 'none', borderRadius: '8px', fontSize: '11px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}><i className="fa-solid fa-plus" style={{ fontSize: '10px' }} /> Add Asset</button>
       </SectionCard>
 
       {/* Section 4: Employment */}
-      <SectionCard icon="fa-briefcase" iconBg="bg-[#FEF3C7]" iconColor="text-[#D97706]" title="Section 4: Employment" rightLabel="$6,250/mo">
-        <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={employerName} onChange={(e) => setEmployerName(e.target.value)} /></div>
-        <div className="flex gap-2.5">
-          <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Gross Monthly Income</div><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={grossIncome} onChange={(e) => setGrossIncome(e.target.value)} /></div>
-          <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Net Monthly Income</div><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={netIncome} onChange={(e) => setNetIncome(e.target.value)} /></div>
+      <SectionCard icon="fa-briefcase" iconBg="#FEF3C7" iconColor="#D97706" title="Section 4: Employment" rightLabel="$6,250/mo" rightLabelColor="#00A651">
+        <div style={{ marginBottom: '10px' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Employer Name</div>
+          <input type="text" value={employerName} onChange={(e) => setEmployerName(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+        </div>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Gross Monthly Income</div>
+            <input type="text" value={grossIncome} onChange={(e) => setGrossIncome(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: '6px' }}>Net Monthly Income</div>
+            <input type="text" value={netIncome} onChange={(e) => setNetIncome(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+          </div>
         </div>
       </SectionCard>
 
       {/* Section 5: Other Income */}
-      <SectionCard icon="fa-hand-holding-dollar" iconBg="bg-[#F0FDFA]" iconColor="text-[#0D9488]" title="Section 5: Other Income" rightLabel="$0/mo">
-        <ExpenseInput label="Social Security" value={otherIncome.ss} onChange={(v) => setOtherIncome({...otherIncome, ss: v})} />
-        <ExpenseInput label="Pension" value={otherIncome.pension} onChange={(v) => setOtherIncome({...otherIncome, pension: v})} />
-        <ExpenseInput label="Child support received" value={otherIncome.childSupport} onChange={(v) => setOtherIncome({...otherIncome, childSupport: v})} />
-        <ExpenseInput label="Rental income" value={otherIncome.rental} onChange={(v) => setOtherIncome({...otherIncome, rental: v})} />
-        <ExpenseInput label="Other" value={otherIncome.other} onChange={(v) => setOtherIncome({...otherIncome, other: v})} />
+      <SectionCard icon="fa-hand-holding-dollar" iconBg="#F0FDFA" iconColor="#0D9488" title="Section 5: Other Income" rightLabel="$0/mo" rightLabelColor="#94A3B8">
+        <ExpenseRow label="Social Security" value={otherIncome.ss} onChange={(v) => setOtherIncome({...otherIncome, ss: v})} />
+        <ExpenseRow label="Pension" value={otherIncome.pension} onChange={(v) => setOtherIncome({...otherIncome, pension: v})} />
+        <ExpenseRow label="Child support received" value={otherIncome.childSupport} onChange={(v) => setOtherIncome({...otherIncome, childSupport: v})} />
+        <ExpenseRow label="Rental income" value={otherIncome.rental} onChange={(v) => setOtherIncome({...otherIncome, rental: v})} />
+        <ExpenseRow label="Other" value={otherIncome.other} onChange={(v) => setOtherIncome({...otherIncome, other: v})} />
       </SectionCard>
 
       {/* Section 6: Monthly Expenses */}
-      <SectionCard icon="fa-receipt" iconBg="bg-[#FFF0F1]" iconColor="text-[#E63946]" title="Section 6: Monthly Expenses" subtitle="Simplified categories" rightLabel="$4,689/mo">
-        <ExpenseInput label="Food & clothing" value={expenses.food} onChange={(v) => setExpenses({...expenses, food: v})} />
-        <ExpenseInput label="Rent / mortgage" value={expenses.rent} onChange={(v) => setExpenses({...expenses, rent: v})} />
-        <ExpenseInput label="Utilities" value={expenses.utilities} onChange={(v) => setExpenses({...expenses, utilities: v})} />
-        <ExpenseInput label="Transportation" value={expenses.transport} onChange={(v) => setExpenses({...expenses, transport: v})} />
-        <ExpenseInput label="Healthcare / insurance" value={expenses.health} onChange={(v) => setExpenses({...expenses, health: v})} />
-        <ExpenseInput label="Court-ordered payments" value={expenses.court} onChange={(v) => setExpenses({...expenses, court: v})} />
-        <ExpenseInput label="Child / dependent care" value={expenses.child} onChange={(v) => setExpenses({...expenses, child: v})} />
-        <div className="flex items-center justify-between px-3 py-2.5 bg-[#F8FAFC] rounded-[10px] mt-1">
-          <span className="text-[0.78rem] font-bold text-[#0A1628]">Total monthly expenses</span>
-          <span className="text-[0.85rem] font-extrabold text-[#E63946]">$4,977</span>
+      <SectionCard icon="fa-receipt" iconBg="#FFF0F1" iconColor="#E63946" title="Section 6: Monthly Expenses" subtitle="Simplified categories" rightLabel="$4,689/mo" rightLabelColor="#E63946">
+        <ExpenseRow label="Food & clothing" value={expenses.food} onChange={(v) => setExpenses({...expenses, food: v})} />
+        <ExpenseRow label="Rent / mortgage" value={expenses.rent} onChange={(v) => setExpenses({...expenses, rent: v})} />
+        <ExpenseRow label="Utilities" value={expenses.utilities} onChange={(v) => setExpenses({...expenses, utilities: v})} />
+        <ExpenseRow label="Transportation" value={expenses.transport} onChange={(v) => setExpenses({...expenses, transport: v})} />
+        <ExpenseRow label="Healthcare / insurance" value={expenses.health} onChange={(v) => setExpenses({...expenses, health: v})} />
+        <ExpenseRow label="Court-ordered payments" value={expenses.court} onChange={(v) => setExpenses({...expenses, court: v})} />
+        <ExpenseRow label="Child / dependent care" value={expenses.child} onChange={(v) => setExpenses({...expenses, child: v})} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: 'none', padding: '10px 12px', background: '#F8FAFC', borderRadius: '10px', marginTop: '4px' }}>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>Total monthly expenses</span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#E63946' }}>$4,977</span>
         </div>
       </SectionCard>
 
       {/* Section 7: Monthly Disposable Income */}
-      <div className="bg-white rounded-2xl p-[18px] border-[1.5px] border-[#E6F9EE]">
-        <div className="flex items-center gap-2.5 mb-3"><div className="w-[30px] h-[30px] rounded-lg bg-[#E6F9EE] flex items-center justify-center"><i className="fas fa-calculator text-xs text-[#00A651]" /></div><div className="text-[0.82rem] font-bold text-[#0A1628]">Section 7: Monthly Disposable Income</div></div>
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5"><span className="text-[0.78rem] text-[#64748B]">Total monthly income</span><span className="text-[0.78rem] font-bold text-[#0A1628]">$5,200</span></div>
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5"><span className="text-[0.78rem] text-[#64748B]">Total monthly expenses</span><span className="text-[0.78rem] font-bold text-[#E63946]">-$4,977</span></div>
-        <div className="flex justify-between px-3.5 py-3 bg-[#E6F9EE] rounded-[10px]"><span className="text-[0.82rem] font-bold text-[#0A1628]">Monthly Disposable Income</span><span className="text-[0.95rem] font-black text-[#00A651]">$223</span></div>
-        <div className="mt-2.5 flex items-start gap-2 px-3 py-2.5 bg-[#FFFBEB] border border-[rgba(245,166,35,0.15)] rounded-[10px]">
-          <i className="fas fa-info-circle text-[11px] text-[#D97706] flex-shrink-0 mt-0.5" />
-          <div className="text-[0.72rem] text-[#92400E] leading-relaxed"><strong>CNC Indicator:</strong> If your MDI is $0 or negative, you likely qualify for Currently Not Collectible status. The IRS may also approve CNC with a small positive MDI if hardship is demonstrated.</div>
+      <div style={{ background: 'white', borderRadius: '16px', padding: '18px', border: '1.5px solid #E6F9EE', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+          <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: '#E6F9EE', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className="fas fa-calculator" style={{ fontSize: '12px', color: '#00A651' }} />
+          </div>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Section 7: Monthly Disposable Income</div>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: '10px', marginBottom: '6px' }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>Total monthly income</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>$5,200</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: '10px', marginBottom: '6px' }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>Total monthly expenses</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#E63946' }}>-$4,977</span>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 14px', background: '#E6F9EE', borderRadius: '10px' }}>
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Monthly Disposable Income</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#00A651' }}>$223</span>
+        </div>
+        <div style={{ marginTop: '10px', display: 'flex', alignItems: 'flex-start', gap: '8px', padding: '10px 12px', background: '#FFFBEB', border: '1px solid rgba(245,166,35,0.15)', borderRadius: '10px' }}>
+          <i className="fas fa-info-circle" style={{ fontSize: '11px', color: '#D97706', flexShrink: 0, marginTop: '2px' }} />
+          <div style={{ fontSize: '0.72rem', color: '#92400E', lineHeight: 1.5 }}>
+            <strong>CNC Indicator:</strong> If your MDI is $0 or negative, you likely qualify for Currently Not Collectible status. The IRS may also approve CNC with a small positive MDI if hardship is demonstrated.
+          </div>
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="flex flex-col gap-3 pt-1">
-        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]">
-          Generate Form 433-F <i className="fas fa-file-export ml-1.5 text-xs" />
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingTop: '4px' }}>
+        <button onClick={handleGenerate} disabled={generating} style={{
+          padding: '16px', background: '#00A651', borderRadius: '9999px', textAlign: 'center', color: 'white',
+          fontSize: '0.88rem', fontWeight: 700, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', border: 'none',
+          cursor: generating ? 'not-allowed' : 'pointer', fontFamily: 'inherit', opacity: generating ? 0.5 : 1,
+          transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+        }}>
+          {generating ? 'Generating...' : 'Generate Form 433-F'} {!generating && <i className="fas fa-file-export" style={{ marginLeft: '6px', fontSize: '12px' }} />}
         </button>
-        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all disabled:opacity-50">
-          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
+        <button style={{ padding: '12px', textAlign: 'center', color: '#94A3B8', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+          <i className="fas fa-bookmark" style={{ marginRight: '6px', fontSize: '11px' }} /> Save &amp; Exit
         </button>
-        <button className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold"><i className="fas fa-bookmark mr-1.5 text-[11px]" /> Save &amp; Exit</button>
       </div>
     </div>
   )

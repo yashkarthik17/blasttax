@@ -1,15 +1,10 @@
 'use client'
 
-import { useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
 
 const fmt = (n: number | undefined) =>
   (n ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
-
-// ---------------------------------------------------------------------------
-// Component
-// ---------------------------------------------------------------------------
 
 export default function ComparePage() {
   const router = useRouter()
@@ -21,15 +16,15 @@ export default function ComparePage() {
   } | undefined
 
   const totalDebt = result?.totalDebt ?? 47250
-  const rcp = result?.rcp?.rcpLumpSum ?? 0
+  const rcp = result?.rcp?.rcpLumpSum ?? 8500
+  const savingsPct = rcp > 0 ? Math.round(((totalDebt - rcp) / totalDebt) * 100) : 82
 
-  // Static comparison data matching HTML prototype
-  const comparisonRows = [
+  const comparisonRows: { label: string; oic: string; sia: string; ppia: string; cnc: string; bestCols: number[]; redCols?: number[]; siaSmall?: boolean }[] = [
     { label: 'Monthly', oic: '$0-$354', sia: '$657', ppia: '$869', cnc: '$0', bestCols: [0, 3] },
     { label: 'Total Cost', oic: fmt(rcp || 8500), sia: fmt(totalDebt), ppia: '~$30,000', cnc: '$0', bestCols: [0, 3] },
     { label: 'Duration', oic: '5-24 mo', sia: '72 mo', ppia: 'CSED', cnc: 'CSED', bestCols: [] },
-    { label: 'Savings', oic: `${rcp > 0 ? Math.round(((totalDebt - rcp) / totalDebt) * 100) : 82}%`, sia: '0%', ppia: '~36%', cnc: '100%*', bestCols: [0, 3] },
-    { label: 'Lien Filed?', oic: 'Released after', sia: 'Under $25K: No', ppia: 'Yes', cnc: 'Maybe', bestCols: [] },
+    { label: 'Savings', oic: `${savingsPct}%`, sia: '0%', ppia: '~36%', cnc: '100%*', bestCols: [0, 3] },
+    { label: 'Lien Filed?', oic: 'Released after', sia: 'Under $25K: No', ppia: 'Yes', cnc: 'Maybe', bestCols: [], siaSmall: true },
     { label: 'Disclosure', oic: '433-A (Full)', sia: 'None', ppia: '433-A (Full)', cnc: '433-F', bestCols: [1] },
     { label: 'Approval', oic: '6-12 mo', sia: 'Immediate', ppia: '4-8 wk', cnc: '2-8 wk', bestCols: [1] },
     { label: 'Risk Level', oic: 'Medium', sia: 'Low', ppia: 'Low', cnc: 'Medium', bestCols: [1, 2] },
@@ -40,44 +35,52 @@ export default function ComparePage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
-        <div className="flex items-center gap-3 pt-4 pb-3">
-          <button onClick={() => router.push('/analysis/results')} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-white transition-all hover:border-[#2563EB]">
-            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, paddingBottom: 12 }}>
+          <button onClick={() => router.push('/analysis/results')} style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12, border: '1px solid #E2E8F0', background: 'white', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
           </button>
-          <span className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Compare Options</span>
-          <div className="w-10 shrink-0" />
+          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#0A1628' }}>Compare Options</span>
+          <div style={{ width: 40, flexShrink: 0 }} />
         </div>
 
         {/* Heading */}
-        <div className="mb-4">
-          <h1 className="text-xl font-extrabold text-[#0A1628] mb-1">Compare Your Resolution Options</h1>
-          <p className="text-sm text-[#94A3B8]">Side-by-side analysis of your eligible paths</p>
+        <div style={{ marginBottom: 16 }}>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', marginBottom: 4 }}>Compare Your Resolution Options</h1>
+          <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Side-by-side analysis of your eligible paths</p>
         </div>
 
         {/* Comparison Table */}
-        <div className="overflow-x-auto -mx-1 px-1">
-          <table className="w-full border-collapse overflow-hidden rounded-[14px] border border-[#F1F5F9] bg-white text-[11px]">
+        <div style={{ overflowX: 'auto', margin: '0 -4px', padding: '0 4px' }}>
+          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: 11, borderRadius: 14, overflow: 'hidden', border: '1px solid #F1F5F9', background: 'white' }}>
             <thead>
               <tr>
-                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-[#0A1628]" style={{ width: 72 }}>Factor</th>
-                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#EBF0FF] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#2563EB]">OIC</th>
-                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">S-IA</th>
-                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">PPIA</th>
-                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">CNC</th>
+                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'left', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9', paddingLeft: 12, width: 72 }}>Factor</th>
+                <th style={{ background: '#EBF0FF', padding: '10px 6px', fontWeight: 700, color: '#2563EB', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>OIC</th>
+                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>S-IA</th>
+                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>PPIA</th>
+                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>CNC</th>
               </tr>
             </thead>
             <tbody>
-              {comparisonRows.map((row) => {
+              {comparisonRows.map((row, rowIdx) => {
                 const vals = [row.oic, row.sia, row.ppia, row.cnc]
+                const isLast = rowIdx === comparisonRows.length - 1
                 return (
-                  <tr key={row.label} className="border-b border-[#F1F5F9] last:border-b-0">
-                    <td className="px-3 py-2 text-left text-[10px] font-semibold text-[#0A1628]">{row.label}</td>
+                  <tr key={row.label}>
+                    <td style={{ padding: '8px 6px', textAlign: 'left', paddingLeft: 12, fontWeight: 600, color: '#0A1628', fontSize: 10, borderBottom: isLast ? 'none' : '1px solid #F1F5F9', verticalAlign: 'middle' }}>{row.label}</td>
                     {vals.map((val, i) => {
                       const isBest = row.bestCols?.includes(i)
                       const isRed = (row as { redCols?: number[] }).redCols?.includes(i)
                       const isHighlight = i === 0
                       return (
-                        <td key={i} className={`px-1.5 py-2 text-center font-medium ${isHighlight ? 'bg-[rgba(235,240,255,0.3)]' : ''} ${isBest ? 'font-bold text-[#00A651]' : isRed ? 'font-bold text-[#E63946]' : isHighlight ? 'font-semibold text-[#2563EB]' : 'text-[#64748B]'}`}>
+                        <td key={i} style={{
+                          padding: '8px 6px', textAlign: 'center', fontWeight: isBest ? 700 : isHighlight ? 600 : 500,
+                          color: isBest ? '#00A651' : isRed ? '#E63946' : isHighlight ? '#2563EB' : '#64748B',
+                          background: isHighlight ? 'rgba(235,240,255,0.3)' : undefined,
+                          borderBottom: isLast ? 'none' : '1px solid #F1F5F9',
+                          verticalAlign: 'middle',
+                          fontSize: (row as { siaSmall?: boolean }).siaSmall && i === 1 ? 10 : undefined,
+                        }}>
                           {val}
                         </td>
                       )
@@ -90,70 +93,70 @@ export default function ComparePage() {
         </div>
 
         {/* Recommendation */}
-        <div className="mt-4 flex items-start gap-2.5 rounded-[14px] border border-[#BFDBFE] bg-[#EFF4FF] p-3.5">
-          <i className="fa-solid fa-lightbulb mt-0.5 text-sm text-[#2563EB]" />
+        <div style={{ marginTop: 16, display: 'flex', alignItems: 'flex-start', gap: 10, borderRadius: 14, border: '1px solid #BFDBFE', background: '#EFF4FF', padding: 14 }}>
+          <i className="fa-solid fa-lightbulb" style={{ color: '#2563EB', fontSize: 14, marginTop: 2 }} />
           <div>
-            <div className="text-[13px] font-bold text-[#1e3a5f] mb-0.5">Our Recommendation</div>
-            <div className="text-xs leading-snug text-[#374151]">
-              <strong>OIC</strong> offers the highest savings ({rcp > 0 ? Math.round(((totalDebt - rcp) / totalDebt) * 100) : 82}%), or <strong>Streamlined IA</strong> for fastest approval with zero disclosure.
+            <div style={{ fontWeight: 700, marginBottom: 2, fontSize: 13, color: '#1e3a5f' }}>Our Recommendation</div>
+            <div style={{ fontSize: 12, lineHeight: 1.5, color: '#374151' }}>
+              <strong>OIC</strong> offers the highest savings ({savingsPct}%), or <strong>Streamlined IA</strong> for fastest approval with zero disclosure.
             </div>
           </div>
         </div>
 
         {/* Strategic Plays */}
-        <div className="mt-4">
-          <div className="mb-2.5 text-xs font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
-            <i className="fa-solid fa-chess mr-1 text-[11px]" /> Strategic Plays
+        <div style={{ marginTop: 16 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+            <i className="fa-solid fa-chess" style={{ fontSize: 11, marginRight: 4 }} /> Strategic Plays
           </div>
 
-          {/* Play A */}
           <div className="md:grid md:grid-cols-2 md:gap-3">
-          <div className="mb-2.5 rounded-2xl border-[1.5px] border-[#F1F5F9] bg-white p-4 transition-all hover:border-[rgba(0,61,165,0.2)] hover:-translate-y-px hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div className="mb-2 flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#EBF0FF]">
-                <i className="fa-solid fa-arrow-trend-down text-sm text-[#0A1628]" />
+            {/* Play A */}
+            <div style={{ background: 'white', border: '1.5px solid #F1F5F9', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EBF0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fa-solid fa-arrow-trend-down" style={{ color: '#0A1628', fontSize: 14 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Play A: Balance Reducer</div>
+                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: '#0A1628', color: 'white', borderRadius: 6 }}>Compound Strategy</span>
+                </div>
               </div>
-              <div>
-                <div className="text-[13px] font-bold text-[#0A1628]">Play A: Balance Reducer</div>
-                <span className="rounded-md bg-[#0A1628] px-1.5 py-px text-[9px] font-bold text-white">Compound Strategy</span>
+              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 6 }}>
+                Do FTA first to reduce balance by $5,300, then submit OIC with lower RCP = lower offer amount.
               </div>
+              <button onClick={() => router.push('/analysis/detail/penalty')} style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                Learn More <i className="fa-solid fa-arrow-right" style={{ fontSize: 10 }} />
+              </button>
             </div>
-            <p className="text-xs leading-snug text-[#64748B] mb-1.5">
-              Do FTA first to reduce balance, then submit OIC with lower RCP = lower offer amount.
-            </p>
-            <button onClick={() => router.push('/analysis/detail/penalty')} className="text-xs font-semibold text-[#2563EB]">
-              Learn More <i className="fa-solid fa-arrow-right ml-0.5 text-[10px]" />
-            </button>
-          </div>
 
-          {/* Play E */}
-          <div className="mb-2.5 rounded-2xl border-[1.5px] border-[#F1F5F9] bg-white p-4 transition-all hover:border-[rgba(0,61,165,0.2)] hover:-translate-y-px hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div className="mb-2 flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#F0FDFA]">
-                <i className="fa-solid fa-hourglass-half text-sm text-[#0D9488]" />
+            {/* Play E */}
+            <div style={{ background: 'white', border: '1.5px solid #F1F5F9', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F0FDFA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fa-solid fa-hourglass-half" style={{ color: '#0D9488', fontSize: 14 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Play E: Expiration Play</div>
+                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: '#F0FDFA', color: '#0D9488', borderRadius: 6 }}>Long-Term</span>
+                </div>
               </div>
-              <div>
-                <div className="text-[13px] font-bold text-[#0A1628]">Play E: Expiration Play</div>
-                <span className="rounded-md bg-[#F0FDFA] px-1.5 py-px text-[9px] font-bold text-[#0D9488]">Long-Term</span>
+              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 6 }}>
+                Request CNC + apply FTA, then wait for CSED to expire (2028-2031). Pay $0 if income stays low.
               </div>
+              <button onClick={() => router.push('/analysis/detail/cnc')} style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
+                Learn More <i className="fa-solid fa-arrow-right" style={{ fontSize: 10 }} />
+              </button>
             </div>
-            <p className="text-xs leading-snug text-[#64748B] mb-1.5">
-              Request CNC + apply FTA, then wait for CSED to expire. Pay $0 if income stays low.
-            </p>
-            <button onClick={() => router.push('/analysis/detail/cnc')} className="text-xs font-semibold text-[#2563EB]">
-              Learn More <i className="fa-solid fa-arrow-right ml-0.5 text-[10px]" />
-            </button>
-          </div>
           </div>
         </div>
 
         {/* CTA */}
-        <div className="mt-4">
+        <div style={{ marginTop: 16 }}>
           <button
             onClick={() => router.push('/analysis/plan')}
-            className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00A651] py-4 text-[15px] font-semibold text-white transition-colors hover:bg-[#008C44]"
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, borderRadius: 14, background: '#00A651', padding: '16px 28px', color: 'white', fontSize: 15, fontWeight: 700, border: 'none', cursor: 'pointer' }}
           >
-            Choose Your Resolution <i className="fa-solid fa-arrow-right text-xs" />
+            Choose Your Resolution <i className="fa-solid fa-arrow-right" style={{ fontSize: 12 }} />
           </button>
         </div>
       </div>

@@ -22,7 +22,10 @@ export default function SplashPage() {
       style={{ background: '#0A1628' }}
       onClick={showTap ? handleContinue : undefined}
     >
-      <div className="relative flex w-full max-w-md sm:max-w-lg flex-col items-center justify-center px-6 py-20 text-center">
+      <div
+        className="relative flex w-full max-w-md sm:max-w-lg flex-col items-center justify-center px-6 py-20 text-center"
+        style={{ overflow: 'hidden' }}
+      >
         {/* Logo */}
         <div
           className="animate-[logoEntrance_1.4s_0.5s_cubic-bezier(0.4,0,0.2,1)_forwards]"
@@ -100,9 +103,9 @@ export default function SplashPage() {
           className="animate-[dotsEntrance_0.5s_2s_ease-out_forwards]"
           style={{ display: 'flex', gap: 8, marginTop: 32, opacity: 0 }}
         >
-          <div className="animate-[dotBounce_1.4s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
-          <div className="animate-[dotBounce_1.4s_0.16s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
-          <div className="animate-[dotBounce_1.4s_0.32s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.3)' }} />
+          <div className="animate-[dotBounce_1.4s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(10, 22, 40, 0.5)' }} />
+          <div className="animate-[dotBounce_1.4s_0.16s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(10, 22, 40, 0.5)' }} />
+          <div className="animate-[dotBounce_1.4s_0.32s_ease-in-out_infinite]" style={{ width: 8, height: 8, borderRadius: '50%', background: 'rgba(10, 22, 40, 0.5)' }} />
         </div>
 
         {/* Tap to continue */}
@@ -112,7 +115,7 @@ export default function SplashPage() {
             className="animate-[gentlePulse_2.5s_ease-in-out_infinite]"
             style={{
               position: 'absolute',
-              bottom: 20,
+              bottom: 80,
               left: '50%',
               transform: 'translateX(-50%)',
               color: '#94A3B8',

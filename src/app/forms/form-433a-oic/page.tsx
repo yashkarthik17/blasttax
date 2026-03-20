@@ -16,6 +16,7 @@ function SectionCard({
   subtitle,
   badge,
   rightLabel,
+  rightLabelColor,
   defaultOpen = false,
   children,
 }: {
@@ -26,67 +27,71 @@ function SectionCard({
   subtitle?: string
   badge?: string
   rightLabel?: string
+  rightLabelColor?: string
   defaultOpen?: boolean
   children: React.ReactNode
 }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="bg-white rounded-2xl p-[18px] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-      <button type="button" onClick={() => setOpen(!open)} className="flex items-center justify-between w-full pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className={`w-[30px] h-[30px] rounded-lg ${iconBg} flex items-center justify-center`}>
-            <i className={`fas ${icon} text-xs ${iconColor}`} />
+    <div style={{ background: 'white', borderRadius: 16, padding: 18, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+      <div
+        onClick={() => setOpen(!open)}
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer', paddingBottom: 12 }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className={`fas ${icon}`} style={{ fontSize: 12, color: iconColor }} />
           </div>
-          <div className="text-left">
-            <div className="text-[0.82rem] font-bold text-[#0A1628]">{title}</div>
-            {subtitle && <div className="text-[0.68rem] text-[#94A3B8]">{subtitle}</div>}
+          <div>
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>{title}</div>
+            {subtitle && <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>{subtitle}</div>}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          {badge && <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651]">{badge}</span>}
-          {rightLabel && <span className="text-[0.78rem] font-bold text-[#0A1628]">{rightLabel}</span>}
-          <i className={`fas fa-chevron-down text-[10px] text-[#CBD5E1] transition-transform ${open ? 'rotate-180' : ''}`} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {badge && <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#E6F9EE', borderRadius: 9999, fontSize: '0.58rem', fontWeight: 700, color: '#00A651' }}>{badge}</span>}
+          {rightLabel && <span style={{ fontSize: '0.78rem', fontWeight: 700, color: rightLabelColor || '#0A1628' }}>{rightLabel}</span>}
+          <i className="fas fa-chevron-down" style={{ fontSize: 10, color: '#CBD5E1', transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }} />
         </div>
-      </button>
+      </div>
       {open && <div>{children}</div>}
     </div>
   )
 }
 
-function PrefilledField({ label, value, locked = true }: { label: string; value: string; locked?: boolean }) {
+function PrefilledField({ label, value, locked = true, letterSpacing }: { label: string; value: string; locked?: boolean; letterSpacing?: string }) {
   return (
-    <div className="mb-2.5">
-      <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">{label}</div>
-      <div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3">
-        <span className="text-[0.82rem] font-semibold text-[#0A1628]">{value}</span>
-        {locked && <i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" />}
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>{label}</div>
+      <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, padding: '12px 16px', position: 'relative' }}>
+        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', letterSpacing: letterSpacing }}>{value}</span>
+        {locked && <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 12 }} />}
       </div>
     </div>
   )
 }
 
-function ExpenseRow({ label, value, sub, bold }: { label: string; value: string; sub?: string; bold?: boolean }) {
+function ExpenseRow({ label, value, sub, bold, valueColor }: { label: string; value: string; sub?: string; bold?: boolean; valueColor?: string }) {
   return (
-    <div className="flex items-center justify-between py-2 border-b border-[#F8FAFC] last:border-b-0">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #F8FAFC' }}>
       <div>
-        <span className={`text-[0.78rem] ${bold ? 'font-bold text-[#0A1628]' : 'text-[#64748B]'}`}>{label}</span>
-        {sub && <div className="text-[0.6rem] text-[#CBD5E1]">{sub}</div>}
+        <span style={{ fontSize: '0.78rem', fontWeight: bold ? 700 : 400, color: bold ? '#0A1628' : '#64748B' }}>{label}</span>
+        {sub && <div style={{ fontSize: '0.6rem', color: '#CBD5E1' }}>{sub}</div>}
       </div>
-      <span className={`text-[0.78rem] ${bold ? 'font-extrabold text-[#0A1628]' : 'font-bold text-[#0A1628]'}`}>{value}</span>
+      <span style={{ fontSize: bold ? '0.82rem' : '0.78rem', fontWeight: bold ? 800 : (valueColor ? 600 : 700), color: valueColor || '#0A1628' }}>{value}</span>
     </div>
   )
 }
 
-function AssetRow({ name, detail, fmv, qsv }: { name: string; detail: string; fmv: string; qsv: string }) {
+function AssetRow({ name, detail, fmv, fmvColor, qsv }: { name: string; detail: string; fmv: string; fmvColor?: string; qsv: string }) {
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-[#F8FAFC] last:border-b-0">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #F8FAFC' }}>
       <div>
-        <div className="text-[0.78rem] font-semibold text-[#0A1628]">{name}</div>
-        <div className="text-[0.65rem] text-[#94A3B8]">{detail}</div>
+        <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628' }}>{name}</div>
+        <div style={{ fontSize: '0.65rem', color: '#94A3B8' }}>{detail}</div>
       </div>
-      <div className="text-right">
-        <div className="text-[0.78rem] font-bold text-[#0A1628]">{fmv}</div>
-        <span className="inline-flex px-2 py-0.5 bg-[#FFFBEB] rounded-full text-[0.62rem] font-bold text-[#92400E]">{qsv}</span>
+      <div style={{ textAlign: 'right' }}>
+        <div style={{ fontSize: '0.78rem', fontWeight: 700, color: fmvColor || '#0A1628' }}>{fmv}</div>
+        <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#FFFBEB', borderRadius: 9999, fontSize: '0.62rem', fontWeight: 700, color: '#92400E' }}>{qsv}</span>
       </div>
     </div>
   )
@@ -98,7 +103,7 @@ function AssetRow({ name, detail, fmv, qsv }: { name: string; detail: string; fm
 
 export default function Form433AOICPage() {
   const router = useRouter()
-  const { answers, caseId } = useWizard()
+  const { answers } = useWizard()
 
   const [futureIncomeMultiplier, setFutureIncomeMultiplier] = useState<12 | 24>(12)
   const [hasDissipated, setHasDissipated] = useState(false)
@@ -107,116 +112,102 @@ export default function Form433AOICPage() {
   const [dissipatedDate, setDissipatedDate] = useState('')
   const [dissipatedTo, setDissipatedTo] = useState('')
   const [certify, setCertify] = useState(false)
-  const [generating, setGenerating] = useState(false)
 
   const mdi = 511
   const nre = 37250
   const futureIncome = mdi * futureIncomeMultiplier
   const rcpTotal = nre + futureIncome
 
-  async function handleGeneratePdf() {
-    setGenerating(true)
-    try {
-      const res = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, formType: 'form-433a-oic' }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'Form-433A-OIC.pdf'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setGenerating(false)
-    }
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+    outline: 'none', boxSizing: 'border-box',
   }
 
   return (
-    <div className="flex flex-col gap-3.5">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 14, paddingTop: 8, paddingBottom: 20 }}>
       {/* Heading */}
       <div>
-        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">Collection Information Statement</div>
-        <div className="text-[0.78rem] text-[#94A3B8] mt-1 leading-relaxed">IRS Form 433-A(OIC) &mdash; Required for your Offer in Compromise</div>
+        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.3 }}>Collection Information Statement</div>
+        <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 4, lineHeight: 1.5 }}>IRS Form 433-A(OIC) &mdash; Required for your Offer in Compromise</div>
       </div>
 
       {/* Info banner */}
-      <div className="flex items-start gap-2.5 px-3.5 py-3 bg-[#EBF0FF] border border-[rgba(37,99,235,0.1)] rounded-[14px]">
-        <i className="fas fa-info-circle text-[13px] text-[#2563EB] flex-shrink-0 mt-0.5" />
-        <div className="text-[0.75rem] text-[#1E40AF] leading-relaxed">
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px 14px', background: '#EBF0FF', border: '1px solid rgba(37,99,235,0.1)', borderRadius: 14 }}>
+        <i className="fas fa-info-circle" style={{ fontSize: 13, color: '#2563EB', flexShrink: 0, marginTop: 2 }} />
+        <div style={{ fontSize: '0.75rem', color: '#1E40AF', lineHeight: 1.5 }}>
           We&apos;ve pre-filled this from your financial analysis. Review each section and confirm accuracy.
         </div>
       </div>
 
       {/* Section 1: Personal Information */}
-      <SectionCard icon="fa-user" iconBg="bg-[#EFF4FF]" iconColor="text-[#2563EB]" title="Section 1: Personal Information" subtitle="Pre-filled from profile" badge="COMPLETE">
+      <SectionCard icon="fa-user" iconBg="#EFF4FF" iconColor="#2563EB" title="Section 1: Personal Information" subtitle="Pre-filled from profile" badge="COMPLETE">
         <PrefilledField label="Full Name" value="Jane M. Doe" />
-        <div className="flex gap-2.5 mb-2.5">
-          <div className="flex-1"><PrefilledField label="SSN" value="***-**-4589" /></div>
-          <div className="flex-1"><PrefilledField label="Date of Birth" value="04/15/1984" /></div>
+        <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+          <div style={{ flex: 1 }}><PrefilledField label="SSN" value="***-**-4589" letterSpacing="0.03em" /></div>
+          <div style={{ flex: 1 }}><PrefilledField label="Date of Birth" value="04/15/1984" /></div>
         </div>
         <PrefilledField label="Address" value="1234 Elm Street, Austin, TX 78701" />
-        <div className="flex gap-2.5">
-          <div className="flex-1"><PrefilledField label="Home Phone" value="(512) 555-0147" locked={false} /></div>
-          <div className="flex-1"><PrefilledField label="Cell Phone" value="(512) 555-0199" locked={false} /></div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ flex: 1 }}><PrefilledField label="Home Phone" value="(512) 555-0147" locked={false} /></div>
+          <div style={{ flex: 1 }}><PrefilledField label="Cell Phone" value="(512) 555-0199" locked={false} /></div>
         </div>
       </SectionCard>
 
       {/* Section 2: Employment */}
-      <SectionCard icon="fa-briefcase" iconBg="bg-[#F5F0FF]" iconColor="text-[#7C3AED]" title="Section 2: Employment" subtitle="Current employer details" badge="COMPLETE">
+      <SectionCard icon="fa-briefcase" iconBg="#F5F0FF" iconColor="#7C3AED" title="Section 2: Employment" subtitle="Current employer details" badge="COMPLETE">
         <PrefilledField label="Employer Name" value="Acme Technology Inc." locked={false} />
         <PrefilledField label="Employer Address" value="500 Tech Blvd, Austin, TX 78702" locked={false} />
-        <div className="flex gap-2.5">
-          <div className="flex-1"><PrefilledField label="Occupation" value="Software Engineer" locked={false} /></div>
-          <div className="flex-1"><PrefilledField label="How Long Employed" value="3 years, 4 months" locked={false} /></div>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ flex: 1 }}><PrefilledField label="Occupation" value="Software Engineer" locked={false} /></div>
+          <div style={{ flex: 1 }}><PrefilledField label="How Long Employed" value="3 years, 4 months" locked={false} /></div>
         </div>
       </SectionCard>
 
       {/* Section 3: Asset Summary */}
-      <SectionCard icon="fa-piggy-bank" iconBg="bg-[#E6F9EE]" iconColor="text-[#00A651]" title="Section 3: Asset Summary" subtitle="QSV calculations from Screen 27" rightLabel="$51,250" defaultOpen>
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2">Bank Accounts</div>
+      <SectionCard icon="fa-piggy-bank" iconBg="#E6F9EE" iconColor="#00A651" title="Section 3: Asset Summary" subtitle="QSV calculations from Screen 27" rightLabel="$51,250" defaultOpen>
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Bank Accounts</div>
         <AssetRow name="Chase Checking ****3421" detail="QSV = Actual Balance" fmv="$3,400" qsv="QSV $3,400" />
         <AssetRow name="Ally Savings ****7890" detail="QSV = Actual Balance" fmv="$800" qsv="QSV $800" />
 
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mt-3 mb-2">Real Estate</div>
-        <AssetRow name="Primary Residence" detail="FMV $320K x 80% - $285K mtg - $20K HELOC" fmv="-$49,000" qsv="QSV $0" />
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '12px 0 8px' }}>Real Estate</div>
+        <AssetRow name="Primary Residence" detail={`FMV $320K \u00D7 80% \u2212 $285K mtg \u2212 $20K HELOC`} fmv="-$49,000" fmvColor="#E63946" qsv="QSV $0" />
 
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mt-3 mb-2">Vehicles</div>
-        <AssetRow name="2020 Honda Civic" detail="FMV $18.5K x 80% - $13.3K loan" fmv="$1,500" qsv="QSV $1,500" />
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '12px 0 8px' }}>Vehicles</div>
+        <AssetRow name="2020 Honda Civic" detail={`FMV $18.5K \u00D7 80% \u2212 $13.3K loan`} fmv="$1,500" qsv="QSV $1,500" />
 
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mt-3 mb-2">Retirement Accounts</div>
-        <AssetRow name="401(k) — Fidelity" detail="$42K - 10% penalty - ~25% tax (age 42)" fmv="$28,350" qsv="QSV $28,350" />
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '12px 0 8px' }}>Retirement Accounts</div>
+        <AssetRow name="401(k) &mdash; Fidelity" detail="$42K - 10% penalty - ~25% tax (age 42)" fmv="$28,350" qsv="QSV $28,350" />
 
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mt-3 mb-2">Life Insurance</div>
-        <AssetRow name="Whole Life — Net CSV" detail="CSV $4,500 - $1,300 policy loans" fmv="$3,200" qsv="QSV $3,200" />
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '12px 0 8px' }}>Life Insurance</div>
+        <AssetRow name="Whole Life &mdash; Net CSV" detail="CSV $4,500 - $1,300 policy loans" fmv="$3,200" qsv="QSV $3,200" />
 
         {/* NRE Total */}
-        <div className="flex items-center justify-between px-3.5 py-3 bg-[#0A1628] rounded-xl mt-2.5">
-          <span className="text-[0.65rem] font-semibold text-white/50 uppercase tracking-wider">Net Realizable Equity (NRE)</span>
-          <span className="text-base font-black text-white">$37,250</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: '#0A1628', borderRadius: 12, marginTop: 10 }}>
+          <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Net Realizable Equity (NRE)</span>
+          <span style={{ fontSize: '1rem', fontWeight: 900, color: 'white' }}>$37,250</span>
         </div>
-        <div className="flex items-center gap-1.5 mt-2 text-[0.68rem] text-[#94A3B8]">
-          <i className="fas fa-wand-magic-sparkles text-[9px] text-[#2563EB]" />
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, fontSize: '0.68rem', color: '#94A3B8' }}>
+          <i className="fas fa-wand-magic-sparkles" style={{ fontSize: 9, color: '#2563EB' }} />
           Auto-calculated from Screen 27 asset data
         </div>
       </SectionCard>
 
       {/* Section 4: Monthly Income */}
-      <SectionCard icon="fa-wallet" iconBg="bg-[#E6F9EE]" iconColor="text-[#00A651]" title="Section 4: Monthly Income" subtitle="Per-person breakout" rightLabel="$5,200/mo">
-        <div className="text-[0.68rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2">Taxpayer &mdash; Jane Doe</div>
+      <SectionCard icon="fa-wallet" iconBg="#E6F9EE" iconColor="#00A651" title="Section 4: Monthly Income" subtitle="Per-person breakout" rightLabel="$5,200/mo" rightLabelColor="#00A651">
+        <div style={{ fontSize: '0.68rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Taxpayer &mdash; Jane Doe</div>
         <ExpenseRow label="Gross wages/salary" value="$6,250" />
-        <ExpenseRow label="Federal tax withheld" value="-$625" />
-        <ExpenseRow label="State tax withheld" value="$0" />
-        <ExpenseRow label="FICA (Social Security + Medicare)" value="-$425" />
-        <ExpenseRow label="Net monthly income" value="$5,200" bold />
+        <ExpenseRow label="Federal tax withheld" value="-$625" valueColor="#E63946" />
+        <ExpenseRow label="State tax withheld" value="$0" valueColor="#E63946" />
+        <ExpenseRow label="FICA (Social Security + Medicare)" value="-$425" valueColor="#E63946" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '6px 0', borderBottom: 'none' }}>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>Net monthly income</span>
+          <span style={{ fontSize: '0.82rem', fontWeight: 800, color: '#0A1628' }}>$5,200</span>
+        </div>
       </SectionCard>
 
       {/* Section 5: Monthly Expenses */}
-      <SectionCard icon="fa-receipt" iconBg="bg-[#FFF0F1]" iconColor="text-[#E63946]" title="Section 5: Monthly Expenses" subtitle="IRS standards caps applied" rightLabel="$4,689/mo">
+      <SectionCard icon="fa-receipt" iconBg="#FFF0F1" iconColor="#E63946" title="Section 5: Monthly Expenses" subtitle="IRS standards caps applied" rightLabel="$4,689/mo" rightLabelColor="#E63946">
         <ExpenseRow label="Food, clothing, misc" value="$785" sub="IRS cap: $785/mo" />
         <ExpenseRow label="Housing & utilities" value="$1,850" sub="IRS cap: $2,138/mo" />
         <ExpenseRow label="Transportation (ownership)" value="$662" />
@@ -225,214 +216,218 @@ export default function Form433AOICPage() {
         <ExpenseRow label="Health insurance" value="$450" />
         <ExpenseRow label="Court-ordered payments" value="$0" />
         <ExpenseRow label="Child/dependent care" value="$564" />
-        <div className="flex items-center justify-between px-3 py-2.5 bg-[#F8FAFC] rounded-[10px] mt-1">
-          <span className="text-[0.78rem] font-bold text-[#0A1628]">Total allowable expenses</span>
-          <span className="text-[0.85rem] font-extrabold text-[#E63946]">$4,689</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 12px', background: '#F8FAFC', borderRadius: 10, marginTop: 4 }}>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>Total allowable expenses</span>
+          <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#E63946' }}>$4,689</span>
         </div>
       </SectionCard>
 
       {/* Section 6: Monthly Disposable Income */}
-      <div className="bg-white rounded-2xl p-[18px] border-[1.5px] border-[#E6F9EE]">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-[30px] h-[30px] rounded-lg bg-[#E6F9EE] flex items-center justify-center">
-            <i className="fas fa-calculator text-xs text-[#00A651]" />
+      <div style={{ background: 'white', borderRadius: 16, padding: 18, border: '1.5px solid #E6F9EE' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: '#E6F9EE', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className="fas fa-calculator" style={{ fontSize: 12, color: '#00A651' }} />
           </div>
-          <div className="text-[0.82rem] font-bold text-[#0A1628]">Section 6: Monthly Disposable Income</div>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Section 6: Monthly Disposable Income</div>
         </div>
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5">
-          <span className="text-[0.78rem] text-[#64748B]">Net monthly income</span>
-          <span className="text-[0.78rem] font-bold text-[#0A1628]">$5,200</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: 10, marginBottom: 6 }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>Net monthly income</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>$5,200</span>
         </div>
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5">
-          <span className="text-[0.78rem] text-[#64748B]">Total allowable expenses</span>
-          <span className="text-[0.78rem] font-bold text-[#E63946]">-$4,689</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: 10, marginBottom: 6 }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>Total allowable expenses</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#E63946' }}>-$4,689</span>
         </div>
-        <div className="flex justify-between px-3.5 py-3 bg-[#E6F9EE] rounded-[10px]">
-          <span className="text-[0.82rem] font-bold text-[#0A1628]">Monthly Disposable Income (MDI)</span>
-          <span className="text-[0.95rem] font-black text-[#00A651]">$511</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 14px', background: '#E6F9EE', borderRadius: 10 }}>
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Monthly Disposable Income (MDI)</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#00A651' }}>$511</span>
         </div>
       </div>
 
       {/* Section 7: Future Income */}
-      <div className="bg-white rounded-2xl p-[18px] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-        <div className="flex items-center gap-2.5 mb-3.5">
-          <div className="w-[30px] h-[30px] rounded-lg bg-[#EFF4FF] flex items-center justify-center">
-            <i className="fas fa-chart-line text-xs text-[#2563EB]" />
+      <div style={{ background: 'white', borderRadius: 16, padding: 18, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className="fas fa-chart-line" style={{ fontSize: 12, color: '#2563EB' }} />
           </div>
-          <div className="text-[0.82rem] font-bold text-[#0A1628]">Section 7: Future Income</div>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Section 7: Future Income</div>
         </div>
 
-        <div className="flex gap-2 mb-3.5">
-          <button
-            type="button"
-            onClick={() => setFutureIncomeMultiplier(12)}
-            className={`flex-1 flex gap-2.5 p-3.5 border-[1.5px] rounded-[14px] text-left transition-all ${
-              futureIncomeMultiplier === 12 ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] bg-white'
-            }`}
-          >
-            <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-              futureIncomeMultiplier === 12 ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-            }`}>
-              {futureIncomeMultiplier === 12 && <div className="w-2 h-2 rounded-full bg-white" />}
-            </div>
-            <div>
-              <div className="text-[0.8rem] font-bold text-[#0A1628]">Lump Sum</div>
-              <div className="text-[0.68rem] text-[#94A3B8]">MDI x 12 months</div>
-            </div>
-          </button>
-          <button
-            type="button"
-            onClick={() => setFutureIncomeMultiplier(24)}
-            className={`flex-1 flex gap-2.5 p-3.5 border-[1.5px] rounded-[14px] text-left transition-all ${
-              futureIncomeMultiplier === 24 ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] bg-white'
-            }`}
-          >
-            <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-              futureIncomeMultiplier === 24 ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-            }`}>
-              {futureIncomeMultiplier === 24 && <div className="w-2 h-2 rounded-full bg-white" />}
-            </div>
-            <div>
-              <div className="text-[0.8rem] font-bold text-[#0A1628]">Periodic</div>
-              <div className="text-[0.68rem] text-[#94A3B8]">MDI x 24 months</div>
-            </div>
-          </button>
+        {/* Toggle */}
+        <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>
+          {([12, 24] as const).map((months) => (
+            <button
+              key={months}
+              type="button"
+              onClick={() => setFutureIncomeMultiplier(months)}
+              style={{
+                flex: 1, display: 'flex', gap: 10, padding: 14,
+                background: futureIncomeMultiplier === months ? '#EBF0FF' : 'white',
+                border: futureIncomeMultiplier === months ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+                borderRadius: 14, cursor: 'pointer', textAlign: 'left' as const,
+                boxShadow: futureIncomeMultiplier === months ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <div style={{
+                width: 20, height: 20, border: `2px solid ${futureIncomeMultiplier === months ? '#0A1628' : '#D5D5E0'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                marginTop: 1, background: futureIncomeMultiplier === months ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+              }}>
+                {futureIncomeMultiplier === months && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
+              </div>
+              <div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, color: '#0A1628' }}>{months === 12 ? 'Lump Sum' : 'Periodic'}</div>
+                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>MDI &times; {months} months</div>
+              </div>
+            </button>
+          ))}
         </div>
 
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5">
-          <span className="text-[0.78rem] text-[#64748B]">MDI</span>
-          <span className="text-[0.78rem] font-bold text-[#0A1628]">$511</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: 10, marginBottom: 6 }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>MDI</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>$511</span>
         </div>
-        <div className="flex justify-between px-3.5 py-2.5 bg-[#F8FAFC] rounded-[10px] mb-1.5">
-          <span className="text-[0.78rem] text-[#64748B]">Multiplier</span>
-          <span className="text-[0.78rem] font-bold text-[#0A1628]">&times; {futureIncomeMultiplier} months</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 14px', background: '#F8FAFC', borderRadius: 10, marginBottom: 6 }}>
+          <span style={{ fontSize: '0.78rem', color: '#64748B' }}>Multiplier</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: '#0A1628' }}>&times; {futureIncomeMultiplier} months</span>
         </div>
-        <div className="flex justify-between px-3.5 py-3 bg-[#EBF0FF] rounded-[10px]">
-          <span className="text-[0.82rem] font-bold text-[#0A1628]">Future Income</span>
-          <span className="text-[0.95rem] font-black text-[#2563EB]">${futureIncome.toLocaleString()}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 14px', background: '#EBF0FF', borderRadius: 10 }}>
+          <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Future Income</span>
+          <span style={{ fontSize: '0.95rem', fontWeight: 900, color: '#2563EB' }}>${futureIncome.toLocaleString()}</span>
         </div>
       </div>
 
       {/* Section 8: Dissipated Assets */}
-      <div className="bg-white rounded-2xl p-[18px] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-        <div className="flex items-center gap-2.5 mb-3">
-          <div className="w-[30px] h-[30px] rounded-lg bg-[#FFFBEB] flex items-center justify-center">
-            <i className="fas fa-triangle-exclamation text-xs text-[#D97706]" />
+      <div style={{ background: 'white', borderRadius: 16, padding: 18, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: '#FFFBEB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className="fas fa-triangle-exclamation" style={{ fontSize: 12, color: '#D97706' }} />
           </div>
-          <div className="text-[0.82rem] font-bold text-[#0A1628]">Section 8: Dissipated Assets</div>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Section 8: Dissipated Assets</div>
         </div>
-        <div className="text-[0.75rem] text-[#64748B] leading-relaxed mb-3">
+        <div style={{ fontSize: '0.75rem', color: '#64748B', lineHeight: 1.5, marginBottom: 12 }}>
           Have you transferred, sold, or gifted any assets worth $1,000+ in the past 12 months?
         </div>
-        <div className="flex gap-2.5 mb-3">
+        <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
           <button
             type="button"
             onClick={() => setHasDissipated(true)}
-            className={`flex-1 text-center py-3 border-[1.5px] rounded-xl text-[0.82rem] font-bold text-[#0A1628] transition-all ${
-              hasDissipated ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'
-            }`}
+            style={{
+              flex: 1, textAlign: 'center', padding: 12, background: hasDissipated ? '#EBF0FF' : 'white',
+              border: hasDissipated ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6', borderRadius: 12, cursor: 'pointer',
+              fontSize: '0.82rem', fontWeight: 700, color: '#0A1628',
+              boxShadow: hasDissipated ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+              transition: 'all 0.3s ease',
+            }}
           >Yes</button>
           <button
             type="button"
             onClick={() => setHasDissipated(false)}
-            className={`flex-1 text-center py-3 border-[1.5px] rounded-xl text-[0.82rem] font-bold text-[#0A1628] transition-all ${
-              !hasDissipated ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'
-            }`}
+            style={{
+              flex: 1, textAlign: 'center', padding: 12, background: !hasDissipated ? '#EBF0FF' : 'white',
+              border: !hasDissipated ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6', borderRadius: 12, cursor: 'pointer',
+              fontSize: '0.82rem', fontWeight: 700, color: '#0A1628',
+              boxShadow: !hasDissipated ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+              transition: 'all 0.3s ease',
+            }}
           >No</button>
         </div>
         {hasDissipated && (
-          <div className="space-y-2.5">
-            <div>
-              <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Description of Asset</div>
-              <input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="e.g., Sold 2018 Toyota Camry" value={dissipatedDesc} onChange={(e) => setDissipatedDesc(e.target.value)} />
+          <div>
+            <div style={{ marginBottom: 10 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Description of Asset</div>
+              <input type="text" style={fieldInputStyle} placeholder="e.g., Sold 2018 Toyota Camry" value={dissipatedDesc} onChange={(e) => setDissipatedDesc(e.target.value)} />
             </div>
-            <div className="flex gap-2.5">
-              <div className="flex-1">
-                <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Value / Sale Price</div>
-                <input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="$0" value={dissipatedValue} onChange={(e) => setDissipatedValue(e.target.value)} />
+            <div style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Value / Sale Price</div>
+                <input type="text" style={fieldInputStyle} placeholder="$0" value={dissipatedValue} onChange={(e) => setDissipatedValue(e.target.value)} />
               </div>
-              <div className="flex-1">
-                <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Date</div>
-                <input type="date" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={dissipatedDate} onChange={(e) => setDissipatedDate(e.target.value)} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Date</div>
+                <input type="date" style={fieldInputStyle} value={dissipatedDate} onChange={(e) => setDissipatedDate(e.target.value)} />
               </div>
             </div>
             <div>
-              <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Transferred To / Buyer</div>
-              <input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Name of recipient" value={dissipatedTo} onChange={(e) => setDissipatedTo(e.target.value)} />
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Transferred To / Buyer</div>
+              <input type="text" style={fieldInputStyle} placeholder="Name of recipient" value={dissipatedTo} onChange={(e) => setDissipatedTo(e.target.value)} />
             </div>
           </div>
         )}
       </div>
 
       {/* Section 9: Total RCP */}
-      <div className="rounded-2xl p-5 text-white" style={{ background: 'linear-gradient(135deg, #0A1628 0%, #1E3A5F 100%)' }}>
-        <div className="text-[0.68rem] font-semibold text-white/50 uppercase tracking-wider mb-3.5">Section 9: Reasonable Collection Potential</div>
-        <div className="flex justify-between py-2 border-b border-white/10">
-          <span className="text-[0.78rem] text-white/70">Net Realizable Equity (NRE)</span>
-          <span className="text-[0.78rem] font-bold text-white">${nre.toLocaleString()}</span>
+      <div style={{ background: 'linear-gradient(135deg, #0A1628 0%, #1E3A5F 100%)', borderRadius: 16, padding: 20, color: 'white' }}>
+        <div style={{ fontSize: '0.68rem', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Section 9: Reasonable Collection Potential</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>Net Realizable Equity (NRE)</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'white' }}>${nre.toLocaleString()}</span>
         </div>
-        <div className="flex justify-between py-2 border-b border-white/10">
-          <span className="text-[0.78rem] text-white/70">Future Income ({futureIncomeMultiplier === 12 ? 'Lump Sum' : 'Periodic'})</span>
-          <span className="text-[0.78rem] font-bold text-white">${futureIncome.toLocaleString()}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.7)' }}>Future Income ({futureIncomeMultiplier === 12 ? 'Lump Sum' : 'Periodic'})</span>
+          <span style={{ fontSize: '0.78rem', fontWeight: 700, color: 'white' }}>${futureIncome.toLocaleString()}</span>
         </div>
-        <div className="flex justify-between py-3 mt-1">
-          <span className="text-[0.92rem] font-extrabold text-white">Total RCP</span>
-          <span className="text-[1.2rem] font-black text-[#00A651]">${rcpTotal.toLocaleString()}</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0', marginTop: 4 }}>
+          <span style={{ fontSize: '0.92rem', fontWeight: 800, color: 'white' }}>Total RCP</span>
+          <span style={{ fontSize: '1.2rem', fontWeight: 900, color: '#00A651' }}>${rcpTotal.toLocaleString()}</span>
         </div>
-        <div className="flex items-center gap-1.5 mt-2 px-3 py-2.5 bg-white/[0.08] rounded-[10px]">
-          <i className="fas fa-lightbulb text-[10px] text-[#F59E0B]" />
-          <span className="text-[0.7rem] text-white/70 leading-snug">Your minimum OIC offer must be &ge; ${rcpTotal.toLocaleString()}. The IRS will reject any offer below your RCP.</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '10px 12px', background: 'rgba(255,255,255,0.08)', borderRadius: 10 }}>
+          <i className="fas fa-lightbulb" style={{ fontSize: 10, color: '#F59E0B' }} />
+          <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>Your minimum OIC offer must be &ge; ${rcpTotal.toLocaleString()}. The IRS will reject any offer below your RCP.</span>
         </div>
       </div>
 
       {/* Signature Section */}
-      <div className="bg-white rounded-2xl p-[18px] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-        <div className="flex items-center gap-2.5 mb-3.5">
-          <div className="w-[30px] h-[30px] rounded-lg bg-[#F5F0FF] flex items-center justify-center">
-            <i className="fas fa-signature text-xs text-[#7C3AED]" />
+      <div style={{ background: 'white', borderRadius: 16, padding: 18, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 8, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <i className="fas fa-signature" style={{ fontSize: 12, color: '#7C3AED' }} />
           </div>
-          <div className="text-[0.82rem] font-bold text-[#0A1628]">Signature &amp; Certification</div>
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Signature &amp; Certification</div>
         </div>
-        <div className="text-[0.72rem] text-[#64748B] leading-relaxed mb-3.5">
+        <div style={{ fontSize: '0.72rem', color: '#64748B', lineHeight: 1.6, marginBottom: 14 }}>
           Under penalties of perjury, I declare that I have examined this statement and, to the best of my knowledge and belief, it is true, correct, and complete.
         </div>
-        <div className="flex items-center gap-2.5 mb-3.5">
-          <input type="checkbox" checked={certify} onChange={(e) => setCertify(e.target.checked)} className="w-5 h-5 accent-[#0A1628] flex-shrink-0" />
-          <label className="text-[0.78rem] font-semibold text-[#0A1628] cursor-pointer">I certify this information is accurate</label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+          <input type="checkbox" checked={certify} onChange={(e) => setCertify(e.target.checked)} style={{ width: 20, height: 20, accentColor: '#0A1628', flexShrink: 0 }} />
+          <label style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', cursor: 'pointer' }}>I certify this information is accurate</label>
         </div>
-        <div className="flex gap-2.5">
-          <div className="flex-1">
-            <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Taxpayer Signature</div>
-            <div className="h-12 bg-[#F8FAFC] border-[1.5px] border-dashed border-[#CBD5E1] rounded-[10px] flex items-center justify-center">
-              <span className="text-[0.72rem] text-[#CBD5E1]">Tap to sign</span>
+        <div style={{ display: 'flex', gap: 10 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Taxpayer Signature</div>
+            <div style={{ height: 48, background: '#F8FAFC', border: '1.5px dashed #CBD5E1', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: '0.72rem', color: '#CBD5E1' }}>Tap to sign</span>
             </div>
           </div>
-          <div className="w-[100px]">
-            <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Date</div>
-            <div className="bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] px-3 py-2.5">
-              <span className="text-[0.78rem] font-semibold text-[#0A1628]">03/17/2026</span>
+          <div style={{ width: 100 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Date</div>
+            <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, padding: '10px 12px' }}>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628' }}>03/17/2026</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Buttons */}
-      <div className="flex flex-col gap-3 pt-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 4 }}>
         <button
           onClick={() => router.push('/forms/form-656a')}
-          className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+          style={{
+            padding: 16, background: '#00A651', borderRadius: 9999, textAlign: 'center', color: 'white',
+            fontSize: '0.88rem', fontWeight: 700, boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+            border: 'none', cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          Continue <i className="fas fa-arrow-right ml-1.5 text-xs" />
+          Continue <i className="fas fa-arrow-right" style={{ marginLeft: 6, fontSize: 12 }} />
         </button>
         <button
-          onClick={handleGeneratePdf}
-          disabled={generating}
-          className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50"
+          style={{
+            padding: 12, textAlign: 'center', color: '#94A3B8', fontSize: '0.82rem', fontWeight: 600,
+            background: 'none', border: 'none', cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
-        </button>
-        <button className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97]">
-          <i className="fas fa-bookmark mr-1.5 text-[11px]" /> Save &amp; Exit
+          <i className="fas fa-bookmark" style={{ marginRight: 6, fontSize: 11 }} /> Save &amp; Exit
         </button>
       </div>
     </div>

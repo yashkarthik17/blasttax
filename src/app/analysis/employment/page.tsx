@@ -29,10 +29,67 @@ const initial: EmploymentData = {
   selfEmployed: false, businessName: '', businessType: '', ein: '', numEmployees: '', howLongInBusiness: '',
 }
 
-const inputClass = 'w-full rounded-xl border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-3.5 py-3 text-[0.85rem] font-semibold text-[#0A1628] outline-none transition-all placeholder:font-normal placeholder:text-[#CBD5E1] focus:border-[#0A1628] focus:bg-white focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-const labelClass = 'mb-1.5 block text-[0.72rem] font-semibold text-[#64748B]'
-const selectClass = inputClass + ' appearance-none bg-[url("data:image/svg+xml,%3Csvg%20width%3D%2712%27%20height%3D%278%27%20fill%3D%27none%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cpath%20d%3D%27M1%201.5L6%206.5L11%201.5%27%20stroke%3D%27%238585A0%27%20stroke-width%3D%271.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E")] bg-[right_12px_center] bg-no-repeat pr-8'
 const PAY_FREQS: PayFrequency[] = ['Weekly', 'Bi-weekly', 'Semi-monthly', 'Monthly']
+
+const fieldLabelStyle: React.CSSProperties = {
+  fontSize: '0.72rem',
+  fontWeight: 600,
+  color: '#64748B',
+  marginBottom: 6,
+}
+
+const fieldInputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '12px 14px',
+  background: '#F8FAFC',
+  border: '1.5px solid #F1F5F9',
+  borderRadius: 12,
+  fontFamily: 'inherit',
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  color: '#0A1628',
+  outline: 'none',
+  transition: 'all 0.2s ease',
+  boxSizing: 'border-box' as const,
+}
+
+const fieldSelectStyle: React.CSSProperties = {
+  ...fieldInputStyle,
+  appearance: 'none' as const,
+  backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238585A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 12px center',
+  paddingRight: 32,
+}
+
+const sectionDividerStyle: React.CSSProperties = {
+  fontSize: '0.75rem',
+  fontWeight: 700,
+  color: '#CBD5E1',
+  textTransform: 'uppercase',
+  letterSpacing: '0.06em',
+  marginBottom: 12,
+  paddingTop: 4,
+}
+
+const sectionCardStyle: React.CSSProperties = {
+  background: 'white',
+  borderRadius: 16,
+  padding: 18,
+  border: '1px solid #F3F4F6',
+  boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+}
+
+const toggleCardStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '14px 16px',
+  background: 'white',
+  border: '1px solid #F3F4F6',
+  borderRadius: 14,
+  boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+}
 
 export default function EmploymentPage() {
   const router = useRouter()
@@ -52,154 +109,165 @@ export default function EmploymentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
-        {/* Progress */}
-        <div className="px-5">
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
-            <div className="h-full w-[40%] rounded-full bg-[#00A651]" />
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto' }}>
+        {/* Progress Bar */}
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+            <div style={{ width: '40%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 6</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Employment Info</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Employment Info</span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3.5 px-5 pb-5 pt-3.5">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '14px 20px 20px' }}>
           {/* Heading */}
           <div>
-            <h1 className="text-[1.3rem] font-extrabold leading-tight tracking-[-0.01em] text-[#0A1628]">
+            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
               Employment details
-            </h1>
-            <p className="mt-1 text-[0.78rem] leading-relaxed text-[#94A3B8]">
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 4, lineHeight: 1.5 }}>
               Required for Form 9465, Form 433-A, and other IRS forms
-            </p>
+            </div>
           </div>
 
           {/* Your Employment */}
           <div>
-            <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
-              <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#EFF4FF]">
-                <i className="fa-solid fa-user text-[9px] text-[#2563EB]" />
+            <div style={{ ...sectionDividerStyle, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 22, height: 22, borderRadius: 6, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <i className="fas fa-user" style={{ fontSize: 9, color: '#2563EB' }} />
               </div>
               Your Employment
             </div>
 
-            <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-              <div className="md:grid md:grid-cols-2 md:gap-3">
-              <div className="mb-3">
-                <div className={labelClass}>Current Employer Name</div>
-                <input type="text" className={inputClass} value={form.employerName} onChange={(e) => update('employerName', e.target.value)} placeholder="Employer name" />
+            <div style={sectionCardStyle}>
+              <div style={{ marginBottom: 12 }}>
+                <div style={fieldLabelStyle}>Current Employer Name</div>
+                <input type="text" style={fieldInputStyle} value={form.employerName} onChange={(e) => update('employerName', e.target.value)} placeholder="Employer name" />
               </div>
-              <div className="mb-3">
-                <div className={labelClass}>Employer Address</div>
-                <input type="text" className={inputClass} value={form.employerStreet} onChange={(e) => update('employerStreet', e.target.value)} placeholder="Street address" />
+
+              <div style={{ marginBottom: 12 }}>
+                <div style={fieldLabelStyle}>Employer Address</div>
+                <input type="text" style={fieldInputStyle} value={form.employerStreet} onChange={(e) => update('employerStreet', e.target.value)} placeholder="Street address" />
               </div>
-              </div>
-              <div className="mb-3 flex gap-2.5">
-                <div className="flex-[2]">
-                  <div className={labelClass}>City</div>
-                  <input type="text" className={inputClass} value={form.employerCity} onChange={(e) => update('employerCity', e.target.value)} placeholder="City" />
+
+              <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                <div style={{ flex: 2 }}>
+                  <div style={fieldLabelStyle}>City</div>
+                  <input type="text" style={fieldInputStyle} value={form.employerCity} onChange={(e) => update('employerCity', e.target.value)} placeholder="City" />
                 </div>
-                <div className="w-[70px]">
-                  <div className={labelClass}>State</div>
-                  <select className={selectClass} value={form.employerState} onChange={(e) => update('employerState', e.target.value)}>
+                <div style={{ width: 70 }}>
+                  <div style={fieldLabelStyle}>State</div>
+                  <select style={fieldSelectStyle} value={form.employerState} onChange={(e) => update('employerState', e.target.value)}>
                     <option value="">--</option>
                     {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
-                <div className="w-[90px]">
-                  <div className={labelClass}>ZIP</div>
-                  <input type="text" className={inputClass} value={form.employerZip} onChange={(e) => update('employerZip', e.target.value)} maxLength={10} placeholder="ZIP" />
+                <div style={{ width: 90 }}>
+                  <div style={fieldLabelStyle}>ZIP</div>
+                  <input type="text" style={fieldInputStyle} value={form.employerZip} onChange={(e) => update('employerZip', e.target.value)} maxLength={10} placeholder="ZIP" />
                 </div>
               </div>
-              <div className="md:grid md:grid-cols-2 md:gap-3">
-              <div className="mb-3">
-                <div className={labelClass}>Employer Phone Number</div>
-                <input type="tel" className={inputClass} value={form.employerPhone} onChange={(e) => update('employerPhone', e.target.value)} placeholder="(000) 000-0000" />
+
+              <div style={{ marginBottom: 12 }}>
+                <div style={fieldLabelStyle}>Employer Phone Number</div>
+                <input type="tel" style={fieldInputStyle} value={form.employerPhone} onChange={(e) => update('employerPhone', e.target.value)} placeholder="(000) 000-0000" />
               </div>
-              <div className="mb-3">
-                <div className={labelClass}>How Long Employed</div>
-                <div className="flex items-center gap-1.5">
-                  <input type="number" className={inputClass + ' w-[60px] text-center'} value={form.yearsEmployed} onChange={(e) => update('yearsEmployed', e.target.value)} placeholder="0" />
-                  <span className="text-[0.72rem] text-[#94A3B8]">yrs</span>
-                  <input type="number" className={inputClass + ' w-[60px] text-center'} value={form.monthsEmployed} onChange={(e) => update('monthsEmployed', e.target.value)} placeholder="0" />
-                  <span className="text-[0.72rem] text-[#94A3B8]">mos</span>
+
+              <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={fieldLabelStyle}>How Long Employed</div>
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <input type="number" style={{ ...fieldInputStyle, width: 60, textAlign: 'center' }} value={form.yearsEmployed} onChange={(e) => update('yearsEmployed', e.target.value)} placeholder="0" />
+                    <span style={{ fontSize: '0.72rem', color: '#94A3B8', alignSelf: 'center' }}>yrs</span>
+                    <input type="number" style={{ ...fieldInputStyle, width: 60, textAlign: 'center' }} value={form.monthsEmployed} onChange={(e) => update('monthsEmployed', e.target.value)} placeholder="0" />
+                    <span style={{ fontSize: '0.72rem', color: '#94A3B8', alignSelf: 'center' }}>mos</span>
+                  </div>
                 </div>
               </div>
-              </div>
-              <div className="md:grid md:grid-cols-2 md:gap-3">
-              <div className="mb-3">
-                <div className={labelClass}>Pay Frequency</div>
-                <div className="flex flex-wrap gap-1.5">
+
+              <div style={{ marginBottom: 12 }}>
+                <div style={fieldLabelStyle}>Pay Frequency</div>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
                   {PAY_FREQS.map((freq) => (
                     <button
                       key={freq}
                       onClick={() => update('payFrequency', freq)}
-                      className={`rounded-[10px] border-[1.5px] px-3.5 py-2 text-[0.78rem] font-semibold transition-all ${
-                        form.payFrequency === freq
-                          ? 'border-[#0A1628] bg-[#EBF0FF] text-[#0A1628]'
-                          : 'border-[#F1F5F9] bg-[#F8FAFC] text-[#64748B] hover:border-[#0A1628] hover:text-[#0A1628]'
-                      }`}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        padding: '8px 14px',
+                        background: form.payFrequency === freq ? '#EBF0FF' : '#F8FAFC',
+                        border: form.payFrequency === freq ? '1.5px solid #0A1628' : '1.5px solid #F1F5F9',
+                        borderRadius: 10,
+                        fontSize: '0.78rem',
+                        fontWeight: 600,
+                        color: form.payFrequency === freq ? '#0A1628' : '#64748B',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        fontFamily: 'inherit',
+                      }}
                     >
                       {freq}
                     </button>
                   ))}
                 </div>
               </div>
+
               <div>
-                <div className={labelClass}>Occupation</div>
-                <input type="text" className={inputClass} value={form.occupation} onChange={(e) => update('occupation', e.target.value)} placeholder="Your occupation / job title" />
-              </div>
+                <div style={fieldLabelStyle}>Occupation</div>
+                <input type="text" style={fieldInputStyle} value={form.occupation} onChange={(e) => update('occupation', e.target.value)} placeholder="Your occupation / job title" />
               </div>
             </div>
           </div>
 
           {/* Spouse Employment Toggle */}
-          <div className="rounded-[14px] border border-[#F3F4F6] bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div className="flex items-center justify-between">
+          <div>
+            <div style={toggleCardStyle}>
               <div>
-                <div className="text-[0.82rem] font-semibold text-[#0A1628]">Spouse is employed?</div>
-                <div className="text-[0.68rem] text-[#94A3B8]">If filing jointly (MFJ)</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Spouse is employed?</div>
+                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>If filing jointly (MFJ)</div>
               </div>
               <button
                 onClick={() => update('spouseEmployed', !form.spouseEmployed)}
-                className={`relative h-[22px] w-[40px] rounded-full transition-colors ${form.spouseEmployed ? 'bg-[#0A1628]' : 'bg-[#E2E8F0]'}`}
+                style={{ width: 40, height: 22, borderRadius: 11, background: form.spouseEmployed ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
-                <div className={`absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform ${form.spouseEmployed ? 'left-[20px]' : 'left-[2px]'}`} />
+                <div style={{ position: 'absolute', top: 2, left: form.spouseEmployed ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
             </div>
             {form.spouseEmployed && (
-              <div className="mt-3.5">
-                <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#7C3AED]">
-                  <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#F5F0FF]">
-                    <i className="fa-solid fa-user-group text-[9px] text-[#7C3AED]" />
+              <div style={{ paddingTop: 14, overflow: 'hidden', transition: 'all 0.4s ease' }}>
+                <div style={{ ...sectionDividerStyle, display: 'flex', alignItems: 'center', gap: 8, color: '#7C3AED' }}>
+                  <div style={{ width: 22, height: 22, borderRadius: 6, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <i className="fas fa-user-group" style={{ fontSize: 9, color: '#7C3AED' }} />
                   </div>
                   Spouse Employment
                 </div>
-                <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                  <div className="mb-3">
-                    <div className={labelClass}>Spouse&apos;s Employer Name</div>
-                    <input type="text" className={inputClass} value={form.spouseEmployerName} onChange={(e) => update('spouseEmployerName', e.target.value)} placeholder="Employer name" />
+                <div style={sectionCardStyle}>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={fieldLabelStyle}>Spouse&apos;s Employer Name</div>
+                    <input type="text" style={fieldInputStyle} value={form.spouseEmployerName} onChange={(e) => update('spouseEmployerName', e.target.value)} placeholder="Employer name" />
                   </div>
-                  <div className="mb-3">
-                    <div className={labelClass}>Employer Address</div>
-                    <input type="text" className={inputClass} value={form.spouseEmployerAddress} onChange={(e) => update('spouseEmployerAddress', e.target.value)} placeholder="Street, City, State, ZIP" />
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={fieldLabelStyle}>Employer Address</div>
+                    <input type="text" style={fieldInputStyle} value={form.spouseEmployerAddress} onChange={(e) => update('spouseEmployerAddress', e.target.value)} placeholder="Street, City, State, ZIP" />
                   </div>
-                  <div className="mb-3 flex gap-2.5">
-                    <div className="flex-1">
-                      <div className={labelClass}>Employer Phone</div>
-                      <input type="tel" className={inputClass} value={form.spouseEmployerPhone} onChange={(e) => update('spouseEmployerPhone', e.target.value)} placeholder="(000) 000-0000" />
+                  <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>Employer Phone</div>
+                      <input type="tel" style={fieldInputStyle} value={form.spouseEmployerPhone} onChange={(e) => update('spouseEmployerPhone', e.target.value)} placeholder="(000) 000-0000" />
                     </div>
-                    <div className="flex-1">
-                      <div className={labelClass}>How Long Employed</div>
-                      <input type="text" className={inputClass} value={form.spouseHowLong} onChange={(e) => update('spouseHowLong', e.target.value)} placeholder="e.g., 2 years" />
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>How Long Employed</div>
+                      <input type="text" style={fieldInputStyle} value={form.spouseHowLong} onChange={(e) => update('spouseHowLong', e.target.value)} placeholder="e.g., 2 years" />
                     </div>
                   </div>
-                  <div className="flex gap-2.5">
-                    <div className="flex-1">
-                      <div className={labelClass}>Pay Frequency</div>
-                      <select className={selectClass} value={form.spousePayFrequency} onChange={(e) => update('spousePayFrequency', e.target.value)}>
+                  <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>Pay Frequency</div>
+                      <select style={fieldSelectStyle} value={form.spousePayFrequency} onChange={(e) => update('spousePayFrequency', e.target.value)}>
                         <option value="">Select...</option>
                         <option value="weekly">Weekly</option>
                         <option value="biweekly">Bi-weekly</option>
@@ -207,9 +275,9 @@ export default function EmploymentPage() {
                         <option value="monthly">Monthly</option>
                       </select>
                     </div>
-                    <div className="flex-1">
-                      <div className={labelClass}>Occupation</div>
-                      <input type="text" className={inputClass} value={form.spouseOccupation} onChange={(e) => update('spouseOccupation', e.target.value)} placeholder="Job title" />
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>Occupation</div>
+                      <input type="text" style={fieldInputStyle} value={form.spouseOccupation} onChange={(e) => update('spouseOccupation', e.target.value)} placeholder="Job title" />
                     </div>
                   </div>
                 </div>
@@ -218,36 +286,36 @@ export default function EmploymentPage() {
           </div>
 
           {/* Self-Employment Toggle */}
-          <div className="rounded-[14px] border border-[#F3F4F6] bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div className="flex items-center justify-between">
+          <div>
+            <div style={toggleCardStyle}>
               <div>
-                <div className="text-[0.82rem] font-semibold text-[#0A1628]">Self-employed?</div>
-                <div className="text-[0.68rem] text-[#94A3B8]">Business or freelance income</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Self-employed?</div>
+                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>Business or freelance income</div>
               </div>
               <button
                 onClick={() => update('selfEmployed', !form.selfEmployed)}
-                className={`relative h-[22px] w-[40px] rounded-full transition-colors ${form.selfEmployed ? 'bg-[#0A1628]' : 'bg-[#E2E8F0]'}`}
+                style={{ width: 40, height: 22, borderRadius: 11, background: form.selfEmployed ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
-                <div className={`absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform ${form.selfEmployed ? 'left-[20px]' : 'left-[2px]'}`} />
+                <div style={{ position: 'absolute', top: 2, left: form.selfEmployed ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
             </div>
             {form.selfEmployed && (
-              <div className="mt-3.5">
-                <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#D97706]">
-                  <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#FEF3C7]">
-                    <i className="fa-solid fa-store text-[9px] text-[#D97706]" />
+              <div style={{ paddingTop: 14, overflow: 'hidden', transition: 'all 0.4s ease' }}>
+                <div style={{ ...sectionDividerStyle, display: 'flex', alignItems: 'center', gap: 8, color: '#D97706' }}>
+                  <div style={{ width: 22, height: 22, borderRadius: 6, background: '#FEF3C7', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <i className="fas fa-store" style={{ fontSize: 9, color: '#D97706' }} />
                   </div>
                   Self-Employment
                 </div>
-                <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-                  <div className="mb-3">
-                    <div className={labelClass}>Business Name</div>
-                    <input type="text" className={inputClass} value={form.businessName} onChange={(e) => update('businessName', e.target.value)} placeholder="Your business name" />
+                <div style={sectionCardStyle}>
+                  <div style={{ marginBottom: 12 }}>
+                    <div style={fieldLabelStyle}>Business Name</div>
+                    <input type="text" style={fieldInputStyle} value={form.businessName} onChange={(e) => update('businessName', e.target.value)} placeholder="Your business name" />
                   </div>
-                  <div className="mb-3 flex gap-2.5">
-                    <div className="flex-1">
-                      <div className={labelClass}>Business Type</div>
-                      <select className={selectClass} value={form.businessType} onChange={(e) => update('businessType', e.target.value)}>
+                  <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>Business Type</div>
+                      <select style={fieldSelectStyle} value={form.businessType} onChange={(e) => update('businessType', e.target.value)}>
                         <option value="">Select...</option>
                         <option value="sole">Sole Proprietorship</option>
                         <option value="llc-single">LLC (Single Member)</option>
@@ -256,19 +324,19 @@ export default function EmploymentPage() {
                         <option value="partnership">Partnership</option>
                       </select>
                     </div>
-                    <div className="flex-1">
-                      <div className={labelClass}>EIN</div>
-                      <input type="text" className={inputClass} value={form.ein} onChange={(e) => update('ein', e.target.value)} placeholder="XX-XXXXXXX" maxLength={10} />
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>EIN</div>
+                      <input type="text" style={fieldInputStyle} value={form.ein} onChange={(e) => update('ein', e.target.value)} placeholder="XX-XXXXXXX" maxLength={10} />
                     </div>
                   </div>
-                  <div className="flex gap-2.5">
-                    <div className="flex-1">
-                      <div className={labelClass}>Number of Employees</div>
-                      <input type="number" className={inputClass} value={form.numEmployees} onChange={(e) => update('numEmployees', e.target.value)} placeholder="0" min={0} />
+                  <div style={{ display: 'flex', gap: 10, marginBottom: 12 }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>Number of Employees</div>
+                      <input type="number" style={fieldInputStyle} value={form.numEmployees} onChange={(e) => update('numEmployees', e.target.value)} placeholder="0" min={0} />
                     </div>
-                    <div className="flex-1">
-                      <div className={labelClass}>How Long in Business</div>
-                      <input type="text" className={inputClass} value={form.howLongInBusiness} onChange={(e) => update('howLongInBusiness', e.target.value)} placeholder="e.g., 5 years" />
+                    <div style={{ flex: 1 }}>
+                      <div style={fieldLabelStyle}>How Long in Business</div>
+                      <input type="text" style={fieldInputStyle} value={form.howLongInBusiness} onChange={(e) => update('howLongInBusiness', e.target.value)} placeholder="e.g., 5 years" />
                     </div>
                   </div>
                 </div>
@@ -277,26 +345,26 @@ export default function EmploymentPage() {
           </div>
 
           {/* Info note */}
-          <div className="flex items-start gap-2.5 rounded-[14px] border border-[rgba(245,166,35,0.15)] bg-[#FFFBEB] px-3.5 py-3">
-            <i className="fa-solid fa-info-circle mt-0.5 shrink-0 text-xs text-[#D97706]" />
-            <div className="text-[0.72rem] leading-relaxed text-[#92400E]">
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '12px 14px', background: '#FFFBEB', border: '1px solid rgba(245,166,35,0.15)', borderRadius: 14 }}>
+            <i className="fas fa-info-circle" style={{ fontSize: 12, color: '#D97706', flexShrink: 0, marginTop: 2 }} />
+            <div style={{ fontSize: '0.72rem', color: '#92400E', lineHeight: 1.5 }}>
               <strong>Required for Form 9465, Form 433-A, and Form 433-F.</strong> The IRS will return forms without employment information. Self-employment details are also needed for Form 433-B if applicable.
             </div>
           </div>
 
           {/* Buttons */}
-          <div className="flex flex-col gap-3 pt-1">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 4 }}>
             <button
               onClick={handleNext}
-              className="w-full rounded-full bg-[#00A651] py-4 text-[0.88rem] font-bold text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+              style={{ padding: 16, background: '#00A651', borderRadius: 9999, textAlign: 'center', color: 'white', fontSize: '0.88rem', fontWeight: 700, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', border: 'none', cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' }}
             >
-              Continue <i className="fa-solid fa-arrow-right ml-1.5 text-xs" />
+              Continue <i className="fas fa-arrow-right" style={{ marginLeft: 6, fontSize: 12 }} />
             </button>
             <button
               onClick={() => router.push('/analysis/personal-info')}
-              className="py-3 text-center text-[0.82rem] font-semibold text-[#94A3B8] transition-colors hover:text-[#64748B]"
+              style={{ padding: 12, textAlign: 'center', color: '#94A3B8', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}
             >
-              <i className="fa-solid fa-arrow-left mr-1.5 text-[11px]" /> Back
+              <i className="fas fa-arrow-left" style={{ marginRight: 6, fontSize: 11 }} /> Back
             </button>
           </div>
         </div>

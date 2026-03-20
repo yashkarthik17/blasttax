@@ -1,144 +1,128 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-
-interface TimelineStep {
-  label: string
-  description: string
-  completed: boolean
-  current: boolean
-  pending: boolean
-  icon: string
-}
 
 export default function OICPostSubmissionPage() {
   const router = useRouter()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
 
-  const timeline: TimelineStep[] = [
-    { label: 'Day 0: OIC Submitted', description: 'Mar 15 — Certified mail', completed: true, current: false, pending: false, icon: 'fa-check' },
-    { label: 'Wk 1-3: Processability Review', description: 'Passed — Mar 28', completed: true, current: false, pending: false, icon: 'fa-check' },
-    { label: 'TC 480 Posted — CSED Tolled', description: 'Mar 28 — Collection statute paused', completed: true, current: false, pending: false, icon: 'fa-check' },
-    { label: 'Letter 3756 Received', description: 'Apr 5 — 24-month clock started', completed: true, current: false, pending: false, icon: 'fa-check' },
-    { label: 'Routed to COIC', description: 'Apr 20 — Brookhaven, NY', completed: true, current: false, pending: false, icon: 'fa-check' },
-    { label: 'Mo 2-6: Examiner Assignment', description: 'Letter 4450 expected', completed: false, current: true, pending: false, icon: 'fa-hourglass-half' },
-    { label: 'Mo 3-12: Investigation Phase', description: 'Examiner reviews financials', completed: false, current: false, pending: true, icon: 'fa-magnifying-glass' },
-    { label: 'Mo 6-18: Decision', description: 'Accept, reject, or counteroffer', completed: false, current: false, pending: true, icon: 'fa-gavel' },
+  const timeline = [
+    { label: 'Day 0: OIC Submitted', desc: 'Mar 15 \u2014 Certified mail', done: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Wk 1-3: Processability Review', desc: 'Passed \u2014 Mar 28', done: true, current: false, pending: false, icon: 'fa-check', descGreen: true },
+    { label: 'TC 480 Posted \u2014 CSED Tolled', desc: 'Mar 28 \u2014 Collection statute paused', done: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Letter 3756 Received', desc: 'Apr 5 \u2014 24-month clock started', done: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Routed to COIC', desc: 'Apr 20 \u2014 Brookhaven, NY', done: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Mo 2-6: Examiner Assignment', desc: 'Letter 4450 expected', done: false, current: true, pending: false, icon: 'fa-hourglass-half' },
+    { label: 'Mo 3-12: Investigation Phase', desc: 'Examiner reviews financials', done: false, current: false, pending: true, icon: 'fa-magnifying-glass' },
+    { label: 'Mo 6-18: Decision', desc: 'Accept, reject, or counteroffer', done: false, current: false, pending: true, icon: 'fa-gavel' },
   ]
 
   const reminders = [
-    { text: 'Stay current on all tax filings', warning: true },
-    { text: 'Continue periodic payments (not refunded if rejected)', warning: true },
-    { text: 'Respond to all IRS requests within deadlines', warning: true },
-    { text: 'Refunds will be offset (TC 826)', muted: true, warning: true },
-    { text: 'No levy while TC 480 active', success: true },
+    { text: 'Stay current on all tax filings', warning: true, muted: false },
+    { text: 'Continue periodic payments (not refunded if rejected)', warning: true, muted: false },
+    { text: 'Respond to all IRS requests within deadlines', warning: true, muted: false },
+    { text: 'Refunds will be offset (TC 826)', warning: true, muted: true },
+    { text: 'No levy while TC 480 active', success: true, muted: false },
   ]
 
-  if (!mounted) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#2563EB] border-t-transparent" />
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
-            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
           </button>
-          <span className="text-[15px] font-bold text-[#0A1628]">OIC Status</span>
-          <div className="w-10" />
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>OIC Status</span>
+          <div style={{ width: '40px' }} />
         </div>
 
         {/* Content */}
-        <div className="flex flex-col gap-3.5 px-5 py-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '20px', paddingBottom: '24px' }}>
           {/* Title */}
           <div>
-            <h1 className="text-xl font-extrabold text-[#0A1628] mb-1.5">Your Offer in Compromise</h1>
-            <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[11px] font-bold text-[#2563EB]">
-                <i className="fa-solid fa-clock text-[8px]" /> In Review
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', margin: 0, marginBottom: '6px' }}>Your Offer in Compromise</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderRadius: '9999px', background: '#EFF4FF', padding: '4px 12px', fontSize: '11px', fontWeight: 700, color: '#2563EB' }}>
+                <i className="fa-solid fa-clock" style={{ fontSize: '8px' }} /> In Review
               </span>
-              <span className="text-xs text-[#64748B]">DATC — $8,500</span>
+              <span style={{ fontSize: '12px', color: '#64748B' }}>DATC &mdash; $8,500</span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {/* Timeline */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
-            <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3">
-              Lifecycle Timeline
-            </div>
-            <div className="flex flex-col">
-              {timeline.map((step, i) => (
-                <div key={i} className="relative flex gap-3.5 pb-3.5 last:pb-0">
-                  {i < timeline.length - 1 && (
-                    <div className={`absolute left-[14px] top-[32px] bottom-0 w-0.5 ${step.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
-                  )}
-                  <div className={`relative z-[1] flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full text-[11px] ${
-                    step.completed ? 'bg-[#00A651] text-white'
-                      : step.current ? 'bg-[#2563EB] text-white'
-                      : 'bg-[#F8FAFC] text-[#CBD5E1] border-2 border-[#F1F5F9]'
-                  }`}>
-                    <i className={`fa-solid ${step.icon} text-[10px]`} />
-                  </div>
-                  <div>
-                    <div className={`text-xs font-bold ${step.current ? 'text-[#2563EB]' : step.pending ? 'text-[#94A3B8]' : 'text-[#0A1628]'}`}>
-                      {step.label}
-                    </div>
-                    <div className={`text-[10px] ${step.completed && step.description.includes('Passed') ? 'text-[#00A651] font-semibold' : step.pending ? 'text-[#CBD5E1]' : 'text-[#64748B]'}`}>
-                      {step.description}
-                    </div>
-                  </div>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Lifecycle Timeline</div>
+            {timeline.map((step, i) => (
+              <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timeline.length - 1 ? '14px' : 0 }}>
+                {i < timeline.length - 1 && (
+                  <div style={{ position: 'absolute', left: '14px', top: '32px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F1F5F9' }} />
+                )}
+                <div style={{
+                  position: 'relative', zIndex: 1, width: '30px', height: '30px', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#F8FAFC',
+                  color: step.done || step.current ? 'white' : '#CBD5E1',
+                  border: step.pending ? '2px solid #F1F5F9' : 'none',
+                  fontSize: '11px',
+                }}>
+                  <i className={`fa-solid ${step.icon}`} style={{ fontSize: '10px' }} />
                 </div>
-              ))}
-            </div>
+                <div>
+                  <div style={{ fontSize: '12px', fontWeight: step.pending ? 600 : 700, color: step.current ? '#2563EB' : step.pending ? '#94A3B8' : '#0A1628' }}>{step.label}</div>
+                  <div style={{ fontSize: '10px', color: step.descGreen ? '#00A651' : step.pending ? '#CBD5E1' : '#64748B', fontWeight: step.descGreen ? 600 : 400 }}>{step.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Current Status Pulse */}
-          <div className="flex items-center gap-3 rounded-[14px] bg-[#EFF4FF] border-[1.5px] border-[rgba(37,99,235,0.15)] p-3.5 w-full">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2563EB]">
-              <i className="fa-solid fa-satellite-dish text-white text-base" />
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '12px 16px',
+            background: '#EFF4FF', border: '1.5px solid rgba(37, 99, 235, 0.15)', borderRadius: '14px', width: '100%',
+            boxSizing: 'border-box',
+          }}>
+            <div style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <i className="fa-solid fa-satellite-dish" style={{ color: 'white', fontSize: '16px' }} />
             </div>
             <div>
-              <div className="text-[13px] font-bold text-[#0A1628]">Awaiting Examiner Assignment</div>
-              <div className="text-[11px] text-[#64748B] mt-0.5">24-month deadline: <strong>Apr 5, 2028</strong></div>
-              <div className="text-[10px] text-[#2563EB] font-semibold mt-0.5">
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>Awaiting Examiner Assignment</div>
+              <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px' }}>24-month deadline: <strong>Apr 5, 2028</strong></div>
+              <div style={{ fontSize: '10px', color: '#2563EB', fontWeight: 600, marginTop: '2px' }}>
                 If no decision by then: Deemed Accepted (IRC &sect; 7122(f))
               </div>
             </div>
           </div>
 
-          </div>
-
-          {/* Reminders */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
-            <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
-              <i className="fa-solid fa-bell text-[10px] mr-1" />
+          {/* During Review Reminders */}
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+              <i className="fa-solid fa-bell" style={{ fontSize: '10px', marginRight: '4px' }} />
               During Review Reminders
             </div>
             {reminders.map((item, i) => (
-              <div key={i} className="flex items-start gap-2.5 py-[7px] text-xs leading-relaxed">
-                <i className={`fa-solid ${item.success ? 'fa-circle-check text-[#00A651]' : 'fa-triangle-exclamation text-[#F59E0B]'} text-[13px] mt-0.5 shrink-0`} />
-                <span className={`font-medium ${item.muted ? 'text-[#64748B]' : 'text-[#0A1628]'}`}>{item.text}</span>
+              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '7px 0', fontSize: '12px', lineHeight: 1.5 }}>
+                <i className={`fa-solid ${item.success ? 'fa-circle-check' : 'fa-triangle-exclamation'}`} style={{ color: item.success ? '#00A651' : '#F59E0B', fontSize: '13px', marginTop: '2px', flexShrink: 0 }} />
+                <span style={{ fontWeight: 500, color: item.muted ? '#64748B' : '#0A1628' }}>{item.text}</span>
               </div>
             ))}
           </div>
 
           {/* CTAs */}
-          <div className="mt-1 flex flex-col gap-2.5">
-            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#2563EB] py-4 text-[15px] font-bold text-white">
-              <i className="fa-solid fa-folder-open text-[13px]" />
+          <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <button style={{
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '16px', background: '#2563EB', borderRadius: '16px', border: 'none',
+              color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              <i className="fa-solid fa-folder-open" style={{ fontSize: '13px' }} />
               View Documents
             </button>
-            <button className="flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#E2E8F0] bg-white py-4 text-[15px] font-semibold text-[#0A1628]">
-              <i className="fa-solid fa-comment-dots text-[13px]" />
+            <button style={{
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #E2E8F0',
+              color: '#0A1628', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
+              <i className="fa-solid fa-comment-dots" style={{ fontSize: '13px' }} />
               Message Expert
             </button>
           </div>

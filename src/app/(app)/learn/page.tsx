@@ -27,11 +27,11 @@ interface Article {
 }
 
 const ARTICLES: Article[] = [
-  { slug: 'oic-explained', title: 'What is an Offer in Compromise?', readTime: '5 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-handshake', iconColor: 'text-[#0A1628]', thumbBg: 'bg-[#EFF4FF]', tagBg: 'bg-[#EFF4FF]', tagColor: 'text-[#0A1628]' },
-  { slug: 'installment-agreements', title: 'Installment Agreement Types Explained', readTime: '7 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-calendar-check', iconColor: 'text-[#00A651]', thumbBg: 'bg-[#E6F9EE]', tagBg: 'bg-[#E6F9EE]', tagColor: 'text-[#00A651]' },
-  { slug: 'transaction-codes', title: 'Understanding IRS Transaction Codes', readTime: '10 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-code', iconColor: 'text-[#7C3AED]', thumbBg: 'bg-[#F5F0FF]', tagBg: 'bg-[#EEF2FF]', tagColor: 'text-[#4F46E5]' },
-  { slug: 'csed-expiration', title: 'CSED: When Does Your Tax Debt Expire?', readTime: '6 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-hourglass-half', iconColor: 'text-[#D97706]', thumbBg: 'bg-[#FEF3C7]', tagBg: 'bg-[#FEF3C7]', tagColor: 'text-[#D97706]' },
-  { slug: 'penalty-abatement', title: 'Penalty Abatement: FTA vs Reasonable Cause', readTime: '4 min read', category: 'tips', categoryLabel: 'Tips', icon: 'fa-eraser', iconColor: 'text-[#E63946]', thumbBg: 'bg-[#FFF0F1]', tagBg: 'bg-[#FFF0F1]', tagColor: 'text-[#E63946]' },
+  { slug: 'oic-explained', title: 'What is an Offer in Compromise?', readTime: '5 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-handshake', iconColor: '#0A1628', thumbBg: '#EFF4FF', tagBg: '#EFF4FF', tagColor: '#0A1628' },
+  { slug: 'installment-agreements', title: 'Installment Agreement Types Explained', readTime: '7 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-calendar-check', iconColor: '#00A651', thumbBg: '#E6F9EE', tagBg: '#E6F9EE', tagColor: '#00A651' },
+  { slug: 'transaction-codes', title: 'Understanding IRS Transaction Codes', readTime: '10 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-code', iconColor: '#7C3AED', thumbBg: '#F5F0FF', tagBg: '#EEF2FF', tagColor: '#4F46E5' },
+  { slug: 'csed-expiration', title: 'CSED: When Does Your Tax Debt Expire?', readTime: '6 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-hourglass-half', iconColor: '#D97706', thumbBg: '#FEF3C7', tagBg: '#FEF3C7', tagColor: '#D97706' },
+  { slug: 'penalty-abatement', title: 'Penalty Abatement: FTA vs Reasonable Cause', readTime: '4 min read', category: 'tips', categoryLabel: 'Tips', icon: 'fa-eraser', iconColor: '#E63946', thumbBg: '#FFF0F1', tagBg: '#FFF0F1', tagColor: '#E63946' },
 ]
 
 export default function LearnPage() {
@@ -41,50 +41,114 @@ export default function LearnPage() {
     activeCategory === 'all' ? ARTICLES : ARTICLES.filter((a) => a.category === activeCategory)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <h1 className="text-[1.2rem] font-extrabold text-[#0A1628]">Learn</h1>
-          <button className="flex h-10 w-10 items-center justify-center rounded-xl text-[#0A1628]">
-            <i className="fas fa-magnifying-glass text-base" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>Learn</div>
+          <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, background: 'none', border: 'none', cursor: 'pointer', color: '#0A1628' }}>
+            <i className="fas fa-magnifying-glass" style={{ fontSize: 16 }} />
           </button>
         </div>
 
-        <div className="flex flex-col gap-[18px] px-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18, padding: '0 20px 20px' }}>
           {/* Featured Article */}
-          <div className="relative cursor-pointer overflow-hidden rounded-[20px] bg-[#0A1628] p-6 transition hover:-translate-y-0.5">
-            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/[0.08]" />
-            <div className="pointer-events-none absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-full bg-white/[0.05]" />
-            <div className="relative z-10">
-              <span className="mb-3.5 inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[0.62rem] font-semibold text-white/90">
-                <i className="fas fa-star text-[8px]" /> FEATURED
-              </span>
-              <div className="mb-2.5 text-[1.1rem] font-extrabold leading-tight text-white">
-                Understanding IRS Tax Debt: Your Complete Guide
+          <div
+            style={{
+              background: '#0A1628',
+              borderRadius: 20,
+              padding: 24,
+              position: 'relative',
+              overflow: 'hidden',
+              cursor: 'pointer',
+            }}
+          >
+            {/* Decorative circles */}
+            <div
+              style={{
+                position: 'absolute',
+                top: -40,
+                right: -40,
+                width: 160,
+                height: 160,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.08)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div
+              style={{
+                position: 'absolute',
+                bottom: -30,
+                left: -30,
+                width: 120,
+                height: 120,
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.05)',
+                pointerEvents: 'none',
+              }}
+            />
+            <div style={{ position: 'relative', zIndex: 1 }}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '4px 10px',
+                  background: 'rgba(255,255,255,0.2)',
+                  borderRadius: 9999,
+                  fontSize: '0.62rem',
+                  fontWeight: 600,
+                  color: 'rgba(255,255,255,0.9)',
+                  marginBottom: 14,
+                }}
+              >
+                <i className="fas fa-star" style={{ fontSize: 8 }} /> FEATURED
               </div>
-              <div className="flex items-center gap-3">
-                <span className="flex items-center gap-1 text-[0.7rem] font-medium text-white/70">
-                  <i className="far fa-clock text-[10px]" /> 12 min read
-                </span>
-                <span className="rounded-full bg-white/[0.15] px-2 py-0.5 text-[0.62rem] font-semibold text-white/90">
+              <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white', lineHeight: 1.3, marginBottom: 10 }}>Understanding IRS Tax Debt: Your Complete Guide</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>
+                  <i className="far fa-clock" style={{ fontSize: 10 }} /> 12 min read
+                </div>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    padding: '3px 8px',
+                    background: 'rgba(255,255,255,0.15)',
+                    borderRadius: 9999,
+                    fontSize: '0.62rem',
+                    fontWeight: 600,
+                    color: 'rgba(255,255,255,0.9)',
+                  }}
+                >
                   Tax Basics
-                </span>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Category Chips */}
-          <div className="flex gap-2 overflow-x-auto pb-1">
+          <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4, WebkitOverflowScrolling: 'touch' }}>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.key}
                 onClick={() => setActiveCategory(cat.key)}
-                className={`shrink-0 rounded-full px-4 py-[7px] text-[0.72rem] font-semibold transition ${
-                  activeCategory === cat.key
-                    ? 'border border-[#0A1628] bg-[#0A1628] text-white'
-                    : 'border border-[#F3F4F6] bg-white text-[#64748B] hover:border-[#0A1628] hover:bg-[#EFF4FF] hover:text-[#0A1628]'
-                }`}
+                style={{
+                  padding: '7px 16px',
+                  borderRadius: 9999,
+                  fontSize: '0.72rem',
+                  fontWeight: 600,
+                  border: '1px solid',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0,
+                  cursor: 'pointer',
+                  fontFamily: 'inherit',
+                  ...(activeCategory === cat.key
+                    ? { background: '#0A1628', color: 'white', borderColor: '#0A1628' }
+                    : { background: 'white', color: '#64748B', borderColor: '#F3F4F6' }),
+                }}
               >
                 {cat.label}
               </button>
@@ -92,25 +156,42 @@ export default function LearnPage() {
           </div>
 
           {/* Articles List */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 md:gap-4">
             {filteredArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/learn/${article.slug}`}
-                className="flex gap-3.5 py-3.5 no-underline transition hover:bg-[#F8FAFC] rounded-xl border border-transparent md:border-[#F1F5F9] md:px-3 md:bg-white"
+                style={{
+                  display: 'flex',
+                  gap: 14,
+                  padding: '14px 0',
+                  borderBottom: '1px solid #F1F5F9',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                }}
               >
-                <div className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-xl ${article.thumbBg}`}>
-                  <i className={`fas ${article.icon} text-[22px] ${article.iconColor}`} />
+                <div
+                  style={{
+                    width: 72,
+                    height: 72,
+                    borderRadius: 12,
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: article.thumbBg,
+                  }}
+                >
+                  <i className={`fas ${article.icon}`} style={{ fontSize: 22, color: article.iconColor }} />
                 </div>
-                <div className="flex min-w-0 flex-1 flex-col justify-center">
-                  <div className="mb-1.5 text-[0.85rem] font-bold leading-tight text-[#1F2937]">{article.title}</div>
-                  <div className="flex items-center gap-2.5">
-                    <span className="flex items-center gap-1 text-[0.68rem] font-medium text-[#94A3B8]">
-                      <i className="far fa-clock text-[9px]" /> {article.readTime}
+                <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', lineHeight: 1.35, marginBottom: 6 }}>{article.title}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: '0.68rem', color: '#94A3B8', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 3 }}>
+                      <i className="far fa-clock" style={{ fontSize: 9 }} /> {article.readTime}
                     </span>
-                    <span className={`rounded-full px-2 py-0.5 text-[0.6rem] font-semibold ${article.tagBg} ${article.tagColor}`}>
-                      {article.categoryLabel}
-                    </span>
+                    <span style={{ padding: '2px 8px', background: article.tagBg, borderRadius: 9999, fontSize: '0.6rem', fontWeight: 600, color: article.tagColor }}>{article.categoryLabel}</span>
                   </div>
                 </div>
               </Link>

@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useWizard } from '@/hooks/useWizard'
 
 export default function Form9465Page() {
-  const { answers, caseId } = useWizard()
+  const { answers } = useWizard()
 
   const totalOwed = 47250
   const [monthlyPayment, setMonthlyPayment] = useState(657)
@@ -26,8 +26,6 @@ export default function Form9465Page() {
   const [employerName, setEmployerName] = useState(answers.employerName ?? 'Acme Corp')
   const [employerAddress, setEmployerAddress] = useState(answers.employerAddress ?? '500 Tech Blvd, Austin, TX 78702')
 
-  const [generating, setGenerating] = useState(false)
-
   const payoffMonths = monthlyPayment > 0 ? Math.ceil(totalOwed / monthlyPayment) : 0
   const sliderPct = ((monthlyPayment - minPayment) / (maxPayment - minPayment)) * 100
 
@@ -37,152 +35,182 @@ export default function Form9465Page() {
     return `~${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]} ${d.getFullYear()}`
   })()
 
-  async function handleGeneratePdf() {
-    setGenerating(true)
-    try {
-      const res = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, formType: 'form-9465' }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'Form-9465-IA-Request.pdf'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setGenerating(false)
-    }
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6',
+    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+    outline: 'none', boxSizing: 'border-box',
   }
+
+  const selectArrow = "url(\"data:image/svg+xml,%3Csvg width='12' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238585A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")"
 
   const methods = [
     { key: 'ddia' as const, label: 'Direct Debit', badge: 'RECOMMENDED', desc: 'Automatic withdrawal, lower setup fee' },
-    { key: 'check' as const, label: 'Check / Money Order', desc: 'Mail monthly payment to IRS' },
-    { key: 'payroll' as const, label: 'Payroll Deduction', desc: 'Deducted from your paycheck' },
+    { key: 'check' as const, label: 'Check / Money Order', badge: null, desc: 'Mail monthly payment to IRS' },
+    { key: 'payroll' as const, label: 'Payroll Deduction', badge: null, desc: 'Deducted from your paycheck' },
   ]
 
   return (
-    <div className="flex flex-col gap-[18px]">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, paddingTop: 8, paddingBottom: 20 }}>
       {/* Heading */}
       <div>
-        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">Set up your Installment Agreement</div>
-        <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-[#EBF0FF] rounded-full text-[0.72rem] font-semibold text-[#0A1628]">
-          <i className="fas fa-shield-check text-[10px]" /> Streamlined IA (under $50,000)
+        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.3 }}>Set up your Installment Agreement</div>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 8, padding: '5px 12px', background: '#EBF0FF', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#0A1628' }}>
+          <i className="fas fa-shield-check" style={{ fontSize: 10 }} /> Streamlined IA (under $50,000)
         </div>
       </div>
 
-      {/* Taxpayer Info */}
+      {/* Pre-filled Taxpayer Info */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Taxpayer Info (Lines 1a-4)</div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="flex justify-between mb-2"><span className="text-[0.78rem] text-[#94A3B8]">Name</span><span className="text-[0.78rem] font-semibold text-[#0A1628]">Jane M. Doe</span></div>
-          <div className="flex justify-between mb-2"><span className="text-[0.78rem] text-[#94A3B8]">SSN</span><span className="text-[0.78rem] font-semibold text-[#0A1628] tracking-wider">***-**-4589</span></div>
-          <div className="flex justify-between"><span className="text-[0.78rem] text-[#94A3B8]">Address</span><span className="text-[0.78rem] font-semibold text-[#0A1628] text-right max-w-[55%]">1234 Elm St, Austin, TX</span></div>
-        </div>
-      </div>
-
-      {/* Spouse Info */}
-      <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Spouse Info (Lines 1b-2b) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse Name (Line 1b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse full legal name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} /></div>
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse SSN (Line 2b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} /></div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Taxpayer Info (Lines 1a-4)</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: '0.78rem', color: '#94A3B8' }}>Name</span>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628' }}>Jane M. Doe</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: '0.78rem', color: '#94A3B8' }}>SSN</span>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', letterSpacing: '0.03em' }}>***-**-4589</span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontSize: '0.78rem', color: '#94A3B8' }}>Address</span>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', textAlign: 'right', maxWidth: '55%' }}>1234 Elm St, Austin, TX</span>
           </div>
         </div>
       </div>
 
-      {/* Employer — Taxpayer */}
+      {/* Spouse Info (Lines 1b-2b) */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Taxpayer (Line 5)</div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerName} onChange={(e) => setEmployerName(e.target.value)} /></div>
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} /></div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+          Spouse Info (Lines 1b-2b) <span style={{ fontSize: '0.65rem', fontWeight: 500, textTransform: 'none', letterSpacing: '0', color: '#94A3B8' }}>if filing jointly</span>
+        </div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Spouse Name (Line 1b)</div>
+            <input type="text" style={fieldInputStyle} placeholder="Spouse full legal name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Spouse SSN (Line 2b)</div>
+            <input type="text" style={fieldInputStyle} placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} />
           </div>
         </div>
       </div>
 
-      {/* Employer — Spouse */}
+      {/* Employer Info - Taxpayer (Line 5) */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Spouse (Line 6) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse employer name" value={spouseEmployerName} onChange={(e) => setSpouseEmployerName(e.target.value)} /></div>
-          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Street, City, State, ZIP" value={spouseEmployerAddress} onChange={(e) => setSpouseEmployerAddress(e.target.value)} /></div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Employer &mdash; Taxpayer (Line 5)</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Employer Name</div>
+            <input type="text" style={fieldInputStyle} placeholder="Employer name" value={employerName} onChange={(e) => setEmployerName(e.target.value)} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Employer Address</div>
+            <input type="text" style={fieldInputStyle} placeholder="Street, City, State, ZIP" value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      {/* Employer Info - Spouse (Line 6) */}
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+          Employer &mdash; Spouse (Line 6) <span style={{ fontSize: '0.65rem', fontWeight: 500, textTransform: 'none', letterSpacing: '0', color: '#94A3B8' }}>if filing jointly</span>
+        </div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Employer Name</div>
+            <input type="text" style={fieldInputStyle} placeholder="Spouse employer name" value={spouseEmployerName} onChange={(e) => setSpouseEmployerName(e.target.value)} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Employer Address</div>
+            <input type="text" style={fieldInputStyle} placeholder="Street, City, State, ZIP" value={spouseEmployerAddress} onChange={(e) => setSpouseEmployerAddress(e.target.value)} />
           </div>
         </div>
       </div>
 
       {/* Total Amount Owed */}
-      <div className="bg-[#FFF0F1] rounded-2xl p-[18px] border border-[rgba(230,57,70,0.1)]">
-        <div className="text-[0.72rem] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Total Amount Owed</div>
-        <div className="text-[1.8rem] font-black text-[#E63946] tracking-tight leading-none">${totalOwed.toLocaleString()}</div>
+      <div style={{ background: '#FFF0F1', borderRadius: 16, padding: 18, border: '1px solid rgba(230,57,70,0.1)' }}>
+        <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 6 }}>Total Amount Owed</div>
+        <div style={{ fontSize: '1.8rem', fontWeight: 900, color: '#E63946', letterSpacing: '-0.02em', lineHeight: 1 }}>${totalOwed.toLocaleString()}</div>
       </div>
 
-      {/* Tax Owed by Period */}
+      {/* Per-Year Tax Amount Breakdown (Lines 7-9) */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Tax Owed by Period (Lines 7-9)</div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="flex pb-1.5 border-b border-[#E2E8F0] mb-1">
-            <span className="flex-1 text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Year</span>
-            <span className="w-[70px] text-center text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Form</span>
-            <span className="w-[80px] text-right text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Amount</span>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Tax Owed by Period (Lines 7-9)</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', padding: '6px 0', borderBottom: '1px solid #E2E8F0', marginBottom: 4 }}>
+            <span style={{ flex: 1, fontSize: '0.65rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Year</span>
+            <span style={{ width: 70, fontSize: '0.65rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', textAlign: 'center' }}>Form</span>
+            <span style={{ width: 80, fontSize: '0.65rem', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', textAlign: 'right' }}>Amount</span>
           </div>
-          {[{year:'2023',amount:'$18,500'},{year:'2022',amount:'$16,200'},{year:'2021',amount:'$12,550'}].map((row, idx) => (
-            <div key={idx} className={`flex items-center py-2 ${idx < 2 ? 'border-b border-[#F1F5F9]' : ''}`}>
-              <span className="flex-1 text-[0.82rem] font-semibold text-[#0A1628]">{row.year}</span>
-              <select className="w-[70px] px-1.5 py-1 bg-[#F8FAFC] border border-[#F3F4F6] rounded-md text-[0.7rem] font-semibold text-[#0A1628] outline-none text-center">
+          {[{ year: '2023', amount: '$18,500' }, { year: '2022', amount: '$16,200' }, { year: '2021', amount: '$12,550' }].map((row, idx) => (
+            <div key={idx} style={{ display: 'flex', alignItems: 'center', padding: '8px 0', borderBottom: idx < 2 ? '1px solid #F1F5F9' : 'none' }}>
+              <span style={{ flex: 1, fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>{row.year}</span>
+              <select style={{
+                width: 70, padding: '4px 6px', background: '#F8FAFC', border: '1px solid #F3F4F6',
+                borderRadius: 6, fontFamily: 'inherit', fontSize: '0.7rem', fontWeight: 600, color: '#0A1628',
+                outline: 'none', textAlign: 'center',
+              }}>
                 <option>1040</option><option>1120</option><option>941</option>
               </select>
-              <span className="w-[80px] text-right text-[0.82rem] font-bold text-[#E63946]">{row.amount}</span>
+              <span style={{ width: 80, fontSize: '0.82rem', fontWeight: 700, color: '#E63946', textAlign: 'right' }}>{row.amount}</span>
             </div>
           ))}
-          <div className="flex justify-between pt-3 border-t-2 border-[#E2E8F0] mt-1">
-            <span className="text-[0.85rem] font-extrabold text-[#0A1628]">Total</span>
-            <span className="text-base font-black text-[#E63946]">$47,250</span>
+          {/* Total */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '12px 0 4px', borderTop: '2px solid #E2E8F0', marginTop: 4 }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 800, color: '#0A1628' }}>Total</span>
+            <span style={{ fontSize: '1rem', fontWeight: 900, color: '#E63946' }}>$47,250</span>
           </div>
         </div>
       </div>
 
-      {/* Monthly Payment Slider */}
+      {/* Proposed Monthly Payment + Slider */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Proposed Monthly Payment</div>
-        <div className="bg-white rounded-[20px] px-5 py-6 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="text-center mb-5">
-            <div className="text-[2.2rem] font-black text-[#0A1628] tracking-tight leading-none">${monthlyPayment.toLocaleString()}</div>
-            <div className="text-[0.72rem] text-[#94A3B8] mt-1.5">per month</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Proposed Monthly Payment</div>
+        <div style={{ background: 'white', borderRadius: 20, padding: '24px 20px', border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          {/* Amount display */}
+          <div style={{ textAlign: 'center', marginBottom: 20 }}>
+            <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0A1628', letterSpacing: '-0.02em', lineHeight: 1 }}>${monthlyPayment.toLocaleString()}</div>
+            <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: 6 }}>per month</div>
           </div>
-          <div className="px-1">
+
+          {/* Slider */}
+          <div style={{ padding: '0 4px' }}>
             <input
               type="range"
               min={minPayment}
               max={maxPayment}
               value={monthlyPayment}
               onChange={(e) => setMonthlyPayment(Number(e.target.value))}
-              className="w-full h-1.5 rounded-full outline-none appearance-none cursor-pointer accent-[#0A1628]"
               style={{
+                WebkitAppearance: 'none',
+                appearance: 'none' as const,
+                width: '100%',
+                height: 6,
+                borderRadius: 9999,
                 background: `linear-gradient(to right, #0A1628 0%, #0A1628 ${sliderPct}%, #F1F5F9 ${sliderPct}%, #F1F5F9 100%)`,
+                outline: 'none',
+                cursor: 'pointer',
               }}
             />
-            <div className="flex justify-between mt-2">
-              <span className="text-[0.65rem] font-semibold text-[#CBD5E1]">${minPayment}/mo</span>
-              <span className="text-[0.65rem] font-semibold text-[#CBD5E1]">${maxPayment.toLocaleString()}/mo</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
+              <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#CBD5E1' }}>${minPayment}/mo</span>
+              <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#CBD5E1' }}>${maxPayment.toLocaleString()}/mo</span>
             </div>
           </div>
-          <div className="mt-4 px-3.5 py-3 bg-[#EBF0FF] rounded-xl text-center">
-            <div className="flex items-center justify-center gap-1.5">
-              <i className="fas fa-calendar text-[11px] text-[#0A1628]" />
-              <span className="text-[0.82rem] font-bold text-[#0A1628]">Payoff in {payoffMonths} months</span>
+
+          {/* Dynamic payoff info */}
+          <div style={{ marginTop: 16, padding: '12px 14px', background: '#EBF0FF', borderRadius: 12, textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <i className="fas fa-calendar" style={{ fontSize: 11, color: '#0A1628' }} />
+              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>Payoff in {payoffMonths} months</span>
             </div>
-            <div className="text-[0.7rem] text-[#64748B] mt-1">{payoffDate}</div>
+            <div style={{ fontSize: '0.7rem', color: '#64748B', marginTop: 4 }}>{payoffDate}</div>
           </div>
-          <div className="mt-3 flex items-center gap-1.5 text-[0.72rem] text-[#94A3B8]">
-            <i className="fas fa-lightbulb text-[10px] text-[#F5A623]" />
+
+          {/* Minimum suggestion */}
+          <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.72rem', color: '#94A3B8' }}>
+            <i className="fas fa-lightbulb" style={{ fontSize: 10, color: '#F5A623' }} />
             Minimum suggested: $657/mo (72-month term)
           </div>
         </div>
@@ -190,92 +218,116 @@ export default function Form9465Page() {
 
       {/* Payment Method */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Payment Method</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Payment Method</div>
+
         {methods.map((m) => (
           <button
             key={m.key}
             type="button"
             onClick={() => setPaymentMethod(m.key)}
-            className={`flex gap-3.5 p-4 bg-white border-[1.5px] rounded-[14px] mb-2 w-full text-left transition-all ${
-              paymentMethod === m.key ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
-            }`}
+            style={{
+              display: 'flex', gap: 14, padding: 16, background: paymentMethod === m.key ? '#EBF0FF' : 'white',
+              border: paymentMethod === m.key ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+              borderRadius: 14, marginBottom: 8, width: '100%', textAlign: 'left' as const, cursor: 'pointer',
+              boxShadow: paymentMethod === m.key ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+              transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+            }}
           >
-            <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-px transition-all ${
-              paymentMethod === m.key ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-            }`}>
-              {paymentMethod === m.key && <div className="w-2 h-2 rounded-full bg-white" />}
+            <div style={{
+              width: 22, height: 22, border: `2px solid ${paymentMethod === m.key ? '#0A1628' : '#D5D5E0'}`,
+              borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              marginTop: 1, background: paymentMethod === m.key ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+            }}>
+              {paymentMethod === m.key && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
             </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-1.5 mb-0.5">
-                <span className="text-[0.85rem] font-bold text-[#0A1628]">{m.label}</span>
-                {m.badge && <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651]">{m.badge}</span>}
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
+                <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A1628' }}>{m.label}</span>
+                {m.badge && <span style={{ display: 'inline-flex', padding: '2px 7px', background: '#E6F9EE', borderRadius: 9999, fontSize: '0.58rem', fontWeight: 700, color: '#00A651' }}>{m.badge}</span>}
               </div>
-              <div className="text-[0.75rem] text-[#94A3B8] leading-snug">{m.desc}</div>
+              <div style={{ fontSize: '0.75rem', color: '#94A3B8', lineHeight: 1.4, marginTop: 3 }}>{m.desc}</div>
             </div>
           </button>
         ))}
       </div>
 
-      {/* DDIA Bank Details */}
+      {/* DDIA Bank Details (Lines 13a-c) */}
       {paymentMethod === 'ddia' && (
-        <div className="bg-white rounded-2xl p-4 border-[1.5px] border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Direct Debit Details (Lines 13a-c)</div>
-          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Bank Routing Number (Line 13a)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none tracking-wider focus:border-[#0A1628]" placeholder="9-digit routing number" maxLength={9} value={routingNumber} onChange={(e) => setRoutingNumber(e.target.value)} /></div>
-          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Bank Account Number (Line 13b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none tracking-wider focus:border-[#0A1628]" placeholder="Account number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} /></div>
-          <div className="mb-2.5">
-            <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Account Type (Line 13c)</div>
-            <div className="flex gap-2">
-              <button type="button" onClick={() => setAccountType('checking')} className={`flex-1 py-2.5 text-center border-[1.5px] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] transition-all ${accountType === 'checking' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'}`}>Checking</button>
-              <button type="button" onClick={() => setAccountType('savings')} className={`flex-1 py-2.5 text-center border-[1.5px] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] transition-all ${accountType === 'savings' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'}`}>Savings</button>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1.5px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Direct Debit Details (Lines 13a-c)</div>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Bank Routing Number (Line 13a)</div>
+            <input type="text" style={{ ...fieldInputStyle, letterSpacing: '0.05em' }} placeholder="9-digit routing number" maxLength={9} value={routingNumber} onChange={(e) => setRoutingNumber(e.target.value)} />
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Bank Account Number (Line 13b)</div>
+            <input type="text" style={{ ...fieldInputStyle, letterSpacing: '0.05em' }} placeholder="Account number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Account Type (Line 13c)</div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button type="button" onClick={() => setAccountType('checking')} style={{
+                flex: 1, padding: 10, textAlign: 'center', background: accountType === 'checking' ? '#EBF0FF' : 'white',
+                border: accountType === 'checking' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+                borderRadius: 10, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+              }}>Checking</button>
+              <button type="button" onClick={() => setAccountType('savings')} style={{
+                flex: 1, padding: 10, textAlign: 'center', background: accountType === 'savings' ? '#EBF0FF' : 'white',
+                border: accountType === 'savings' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+                borderRadius: 10, cursor: 'pointer', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+              }}>Savings</button>
             </div>
           </div>
-          <div className="text-[0.68rem] text-[#94A3B8] leading-relaxed px-2 py-1.5 bg-[#F8FAFC] rounded-md">
-            <i className="fas fa-lock text-[8px] mr-1" />
+          <div style={{ fontSize: '0.68rem', color: '#94A3B8', lineHeight: 1.5, padding: '6px 8px', background: '#F8FAFC', borderRadius: 6 }}>
+            <i className="fas fa-lock" style={{ fontSize: 8, marginRight: 3 }} />
             Your bank information is encrypted and only used for IRS direct debit authorization.
           </div>
         </div>
       )}
 
       {/* DDIA Requirement Note */}
-      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#FFF0F1] border-[1.5px] border-[rgba(230,57,70,0.15)] rounded-[14px]">
-        <i className="fas fa-exclamation-triangle text-sm text-[#E63946] flex-shrink-0 mt-0.5" />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '14px 16px', background: '#FFF0F1', border: '1.5px solid rgba(230,57,70,0.15)', borderRadius: 14 }}>
+        <i className="fas fa-exclamation-triangle" style={{ fontSize: 14, color: '#E63946', flexShrink: 0, marginTop: 2 }} />
         <div>
-          <div className="text-[0.82rem] font-bold text-[#991B1B] mb-1">DDIA Required for Your Balance</div>
-          <div className="text-[0.75rem] text-[#991B1B] leading-relaxed">
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#991B1B', marginBottom: 4 }}>DDIA Required for Your Balance</div>
+          <div style={{ fontSize: '0.75rem', color: '#991B1B', lineHeight: 1.5 }}>
             For Streamlined IA balances between $25,001 and $50,000, <strong>Direct Debit (DDIA) is mandatory</strong> per IRM 5.14.5.3. The IRS will not approve a Streamlined IA without DDIA for this balance range.
           </div>
         </div>
       </div>
 
       {/* Setup Fee Info */}
-      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#FFFBEB] border border-[rgba(245,166,35,0.15)] rounded-[14px]">
-        <i className="fas fa-info-circle text-sm text-[#D97706] flex-shrink-0 mt-0.5" />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '14px 16px', background: '#FFFBEB', border: '1px solid rgba(245,166,35,0.15)', borderRadius: 14 }}>
+        <i className="fas fa-info-circle" style={{ fontSize: 14, color: '#D97706', flexShrink: 0, marginTop: 2 }} />
         <div>
-          <div className="text-[0.82rem] font-bold text-[#92400E] mb-1">Setup Fee</div>
-          <div className="text-[0.75rem] text-[#92400E] leading-relaxed">
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#92400E', marginBottom: 4 }}>Setup Fee</div>
+          <div style={{ fontSize: '0.75rem', color: '#92400E', lineHeight: 1.5 }}>
             <strong>$22</strong> online DDIA &middot; <strong>$69</strong> online non-DDIA &middot; <strong>$107</strong> phone/mail DDIA &middot; <strong>$178</strong> phone/mail non-DDIA
           </div>
         </div>
       </div>
 
       {/* Low-Income Fee Reduction */}
-      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] rounded-[14px]">
-        <i className="fas fa-hand-holding-dollar text-sm text-[#00A651] flex-shrink-0 mt-0.5" />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '14px 16px', background: '#E6F9EE', border: '1px solid rgba(0,166,81,0.15)', borderRadius: 14 }}>
+        <i className="fas fa-hand-holding-dollar" style={{ fontSize: 14, color: '#00A651', flexShrink: 0, marginTop: 2 }} />
         <div>
-          <div className="text-[0.82rem] font-bold text-[#065F46] mb-1">Low-Income Fee Reduction</div>
-          <div className="text-[0.75rem] text-[#065F46] leading-relaxed">
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#065F46', marginBottom: 4 }}>Low-Income Fee Reduction</div>
+          <div style={{ fontSize: '0.75rem', color: '#065F46', lineHeight: 1.5 }}>
             If your income is at or below 250% of the Federal Poverty Level, the setup fee is reduced to <strong>$43</strong> (or waived for online DDIA). You may also be eligible for <strong>reimbursement</strong> of the user fee upon completion.
           </div>
         </div>
       </div>
 
-      {/* Buttons */}
-      <div className="flex flex-col gap-3 pt-1">
-        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]">
-          Continue <i className="fas fa-arrow-right ml-1.5 text-xs" />
-        </button>
-        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50">
-          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
+      {/* Continue Button */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 4 }}>
+        <button
+          style={{
+            padding: 16, background: '#00A651', borderRadius: 9999, textAlign: 'center', color: 'white',
+            fontSize: '0.88rem', fontWeight: 700, boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+            border: 'none', cursor: 'pointer', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
+        >
+          Continue <i className="fas fa-arrow-right" style={{ marginLeft: 6, fontSize: 12 }} />
         </button>
       </div>
     </div>

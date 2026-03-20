@@ -45,25 +45,25 @@ export default function DashboardPage() {
   if (!mounted) {
     return (
       <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: '#0A1628', borderTopColor: 'transparent' }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-2" style={{ borderColor: '#0A1628', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   return (
     <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
-      <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl px-5 pb-6">
-        <div className="flex flex-col gap-5">
+      <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl" style={{ padding: '0 20px 24px' }}>
+        <div className="flex flex-col" style={{ gap: 20 }}>
 
           {/* Header */}
-          <div className="flex items-center justify-between pt-4">
+          <div className="flex items-center justify-between" style={{ paddingTop: 4 }}>
             <div>
               <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500 }}>Good morning</div>
               <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1F2937', letterSpacing: '-0.01em' }}>
                 {name || 'Jane'} <span style={{ display: 'inline-block' }}>&#128075;</span>
               </div>
             </div>
-            <div className="flex items-center gap-[14px]">
+            <div className="flex items-center" style={{ gap: 14 }}>
               <Link href="/notifications" style={{ position: 'relative', cursor: 'pointer' }}>
                 <i className="far fa-bell" style={{ fontSize: 20, color: '#64748B' }} />
                 <div
@@ -81,6 +81,7 @@ export default function DashboardPage() {
                   width: 38, height: 38, borderRadius: '50%',
                   background: '#0A1628', color: '#FFFFFF',
                   fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none',
+                  boxShadow: 'none',
                 }}
               >
                 {name ? name.charAt(0).toUpperCase() : 'J'}D
@@ -101,7 +102,7 @@ export default function DashboardPage() {
               <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
               <div style={{ position: 'absolute', bottom: -15, left: -15, width: 60, height: 60, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
               <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center" style={{ gap: 8, marginBottom: 12 }}>
                   <div className="flex items-center justify-center" style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.15)' }}>
                     <i className="fas fa-route" style={{ fontSize: 12, color: '#FFFFFF' }} />
                   </div>
@@ -117,8 +118,9 @@ export default function DashboardPage() {
                 </p>
                 <Link
                   href="/analysis/type"
-                  className="inline-flex items-center gap-2"
+                  className="inline-flex items-center"
                   style={{
+                    gap: 8,
                     background: '#FFFFFF', color: '#0A1628',
                     fontSize: '0.82rem', fontWeight: 700,
                     padding: '12px 24px', borderRadius: 9999,
@@ -160,8 +162,9 @@ export default function DashboardPage() {
 
               {/* CSED Warning */}
               <div
-                className="inline-flex items-center gap-[6px] mt-[14px]"
+                className="inline-flex items-center"
                 style={{
+                  gap: 6, marginTop: 14,
                   padding: '6px 12px', background: 'rgba(245,158,11,0.1)',
                   border: '1px solid rgba(245,158,11,0.2)', borderRadius: 9999,
                   fontSize: '0.7rem', fontWeight: 600, color: '#D97706',
@@ -172,7 +175,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Sparkline */}
-              <div className="relative mt-4" style={{ height: 40 }}>
+              <div className="relative" style={{ marginTop: 16, height: 40 }}>
                 <svg width="100%" height="40" viewBox="0 0 280 40" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -200,10 +203,10 @@ export default function DashboardPage() {
             <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>
               Quick Actions
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4" style={{ gap: 12 }}>
               {/* New Analysis */}
               <Link href="/analysis/type" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6', boxShadow: 'none', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)', cursor: 'pointer' }}>
                   <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#EFF4FF', marginBottom: 12 }}>
                     <i className="fas fa-chart-line" style={{ fontSize: 16, color: '#0A1628' }} />
                   </div>
@@ -213,7 +216,7 @@ export default function DashboardPage() {
               </Link>
               {/* My Cases */}
               <Link href="/cases" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6', boxShadow: 'none', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)', cursor: 'pointer' }}>
                   <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#F5F0FF', marginBottom: 12 }}>
                     <i className="fas fa-folder-open" style={{ fontSize: 16, color: '#7C3AED' }} />
                   </div>
@@ -223,7 +226,7 @@ export default function DashboardPage() {
               </Link>
               {/* Tax Filing */}
               <Link href="/resolution" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6', boxShadow: 'none', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)', cursor: 'pointer' }}>
                   <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#F0FDFA', marginBottom: 12 }}>
                     <i className="fas fa-file-lines" style={{ fontSize: 16, color: '#0D9488' }} />
                   </div>
@@ -233,7 +236,7 @@ export default function DashboardPage() {
               </Link>
               {/* AI Assistant */}
               <Link href="/chat" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6', boxShadow: 'none', transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)', cursor: 'pointer' }}>
                   <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#EEF2FF', marginBottom: 12 }}>
                     <i className="fas fa-sparkles" style={{ fontSize: 16, color: '#4F46E5' }} />
                   </div>
@@ -251,9 +254,9 @@ export default function DashboardPage() {
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>
                 Recent Activity
               </div>
-              <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6', overflow: 'hidden' }}>
+              <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6', overflow: 'hidden', boxShadow: 'none' }}>
                 {/* Activity 1 */}
-                <div className="flex items-center gap-3" style={{ padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
+                <div className="flex items-center" style={{ gap: 12, padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
                   <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF' }}>
                     <i className="fas fa-arrow-rotate-right" style={{ fontSize: 13, color: '#0A1628' }} />
                   </div>
@@ -266,9 +269,9 @@ export default function DashboardPage() {
                   <div style={{ fontSize: '0.65rem', color: '#CBD5E1', fontWeight: 500, whiteSpace: 'nowrap' }}>2h ago</div>
                 </div>
                 {/* Activity 2 */}
-                <div className="flex items-center gap-3" style={{ padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
+                <div className="flex items-center" style={{ gap: 12, padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
                   <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE' }}>
-                    <i className="fas fa-file-circle-check" style={{ fontSize: 13, color: '#00A651' }} />
+                    <i className="fas fa-file-check" style={{ fontSize: 13, color: '#00A651' }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -279,7 +282,7 @@ export default function DashboardPage() {
                   <div style={{ fontSize: '0.65rem', color: '#CBD5E1', fontWeight: 500, whiteSpace: 'nowrap' }}>5h ago</div>
                 </div>
                 {/* Activity 3 */}
-                <div className="flex items-center gap-3" style={{ padding: '14px 16px' }}>
+                <div className="flex items-center" style={{ gap: 12, padding: '14px 16px' }}>
                   <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF' }}>
                     <i className="fas fa-credit-card" style={{ fontSize: 13, color: '#7C3AED' }} />
                   </div>
@@ -297,16 +300,16 @@ export default function DashboardPage() {
               <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>
                 AI Assistant
               </div>
-              <div style={{ background: '#F9FAFB', border: '1px solid #F3F4F6', borderRadius: 16, padding: 20, position: 'relative', overflow: 'hidden' }}>
-                <div className="flex items-center gap-[10px] mb-[14px]">
+              <div style={{ background: '#F9FAFB', border: '1px solid #F3F4F6', borderRadius: 20, padding: 20, position: 'relative', overflow: 'hidden' }}>
+                <div className="flex items-center" style={{ gap: 10, marginBottom: 14 }}>
                   <div className="flex items-center justify-center" style={{ width: 32, height: 32, borderRadius: 10, background: '#2563EB' }}>
                     <i className="fas fa-sparkles" style={{ fontSize: 14, color: '#FFFFFF' }} />
                   </div>
                   <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1F2937' }}>BlastTax AI</div>
                   <div
-                    className="inline-flex items-center gap-1"
+                    className="inline-flex items-center"
                     style={{
-                      padding: '3px 8px', background: 'rgba(99,102,241,0.1)',
+                      gap: 4, padding: '3px 8px', background: 'rgba(99,102,241,0.1)',
                       borderRadius: 9999, fontSize: '0.6rem', fontWeight: 600, color: '#4F46E5',
                     }}
                   >
@@ -319,20 +322,20 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Quick prompt chips */}
-                <div className="flex flex-wrap gap-2 mb-[14px]">
-                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                <div className="flex flex-wrap" style={{ gap: 8, marginBottom: 14 }}>
+                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer', transition: 'all 0.25s ease' }}>
                     <i className="fas fa-check-circle" style={{ fontSize: 10, color: '#2563EB', marginRight: 2 }} /> Check my eligibility
                   </div>
-                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer', transition: 'all 0.25s ease' }}>
                     <i className="fas fa-handshake" style={{ fontSize: 10, color: '#7C3AED', marginRight: 2 }} /> Explain OIC
                   </div>
-                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                  <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer', transition: 'all 0.25s ease' }}>
                     <i className="fas fa-arrow-right" style={{ fontSize: 10, color: '#0D9488', marginRight: 2 }} /> Next steps
                   </div>
                 </div>
 
                 {/* Input bar */}
-                <div className="flex items-center gap-[10px]" style={{ background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, padding: '8px 12px 8px 16px' }}>
+                <div className="flex items-center" style={{ gap: 10, background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, padding: '8px 12px 8px 16px' }}>
                   <input
                     type="text"
                     placeholder="Ask anything..."
@@ -360,8 +363,9 @@ export default function DashboardPage() {
 
           {/* Social Proof */}
           <div
-            className="flex items-center gap-[10px]"
+            className="flex items-center"
             style={{
+              gap: 10,
               padding: '14px 16px', background: '#ECFDF5',
               borderRadius: 14, border: '1px solid #D1FAE5',
             }}

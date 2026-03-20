@@ -39,51 +39,106 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
+    <div className="flex min-h-screen flex-col" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto flex w-full max-w-md md:max-w-2xl lg:max-w-4xl flex-1 flex-col">
         {/* Header */}
-        <div className="flex items-center gap-2.5 px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
-            <i className="fas fa-arrow-left text-base" />
+        <div style={{ display: 'flex', alignItems: 'center', padding: '14px 20px 12px' }}>
+          <button
+            onClick={() => router.back()}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#0A1628' }}
+          >
+            <i className="fas fa-arrow-left" style={{ fontSize: 16 }} />
           </button>
-          <div className="flex flex-1 items-center gap-2.5">
-            <div className="flex h-[30px] w-[30px] items-center justify-center rounded-[9px] bg-[#2563EB]">
-              <i className="fas fa-sparkles text-xs text-white" />
+          <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 10, marginLeft: 8 }}>
+            <div style={{ width: 30, height: 30, borderRadius: 9, background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <i className="fas fa-sparkles" style={{ fontSize: 12, color: 'white' }} />
             </div>
-            <div className="text-[0.9rem] font-bold text-[#1F2937]">BlastTax AI</div>
+            <div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1F2937' }}>BlastTax AI</div>
+            </div>
           </div>
-          <span className="inline-flex items-center gap-1 rounded-full border border-[rgba(99,102,241,0.15)] bg-[#EFF4FF] px-2.5 py-1 text-[0.62rem] font-semibold text-[#4F46E5]">
-            <i className="fas fa-bolt text-[8px]" /> AI-Powered
-          </span>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '4px 10px',
+              background: '#EFF4FF',
+              border: '1px solid rgba(99,102,241,0.15)',
+              borderRadius: 9999,
+              fontSize: '0.62rem',
+              fontWeight: 600,
+              color: '#4F46E5',
+            }}
+          >
+            <i className="fas fa-bolt" style={{ fontSize: 8 }} /> AI-Powered
+          </div>
         </div>
 
         {/* Human Expert Banner */}
-        <Link href="/expert" className="mx-5 mb-3 flex items-center gap-2.5 rounded-xl border border-[#FEF3C7] bg-[#FFFBEB] p-3 no-underline">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#FEF3C7]">
-            <i className="fas fa-headset text-sm text-[#D97706]" />
+        <Link
+          href="/expert"
+          style={{
+            margin: '0 20px 12px',
+            padding: '12px 16px',
+            background: '#FFFBEB',
+            border: '1px solid #FEF3C7',
+            borderRadius: 12,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            cursor: 'pointer',
+            textDecoration: 'none',
+            color: 'inherit',
+          }}
+        >
+          <div style={{ width: 32, height: 32, borderRadius: 8, background: '#FEF3C7', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <i className="fas fa-headset" style={{ fontSize: 14, color: '#D97706' }} />
           </div>
-          <div className="flex-1">
-            <span className="text-[0.78rem] font-semibold text-[#92400E]">Need a real person?</span>
-            <span className="block text-[0.68rem] text-[#D97706]">Schedule a call with a licensed tax professional</span>
+          <div style={{ flex: 1 }}>
+            <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#92400E' }}>Need a real person?</span>
+            <span style={{ fontSize: '0.68rem', color: '#D97706', display: 'block' }}>Schedule a call with a licensed tax professional</span>
           </div>
-          <i className="fas fa-chevron-right text-[10px] text-[#D97706]" />
+          <i className="fas fa-chevron-right" style={{ fontSize: 10, color: '#D97706' }} />
         </Link>
 
         {/* Chat Area */}
-        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pb-24">
+        <div style={{ flex: 1, padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 16, overflowY: 'auto', paddingBottom: 80 }}>
           {messages.map((msg) =>
             msg.role === 'assistant' ? (
-              <div key={msg.id} className="flex items-start gap-2.5">
-                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2563EB]">
-                  <i className="fas fa-sparkles text-[10px] text-white" />
+              <div key={msg.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <div style={{ width: 28, height: 28, borderRadius: 8, background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 2 }}>
+                  <i className="fas fa-sparkles" style={{ fontSize: 10, color: 'white' }} />
                 </div>
-                <div className="max-w-[88%] rounded-[2px_18px_18px_18px] border border-[#F3F4F6] bg-white px-4 py-3.5 text-[0.82rem] leading-relaxed text-[#2D2B3D]">
+                <div
+                  style={{
+                    background: 'white',
+                    border: '1px solid #F3F4F6',
+                    borderRadius: '2px 18px 18px 18px',
+                    padding: '14px 16px',
+                    maxWidth: '88%',
+                    fontSize: '0.82rem',
+                    lineHeight: 1.6,
+                    color: '#2D2B3D',
+                  }}
+                >
                   {msg.content}
                 </div>
               </div>
             ) : (
-              <div key={msg.id} className="flex justify-end">
-                <div className="ml-auto max-w-[82%] rounded-[18px_2px_18px_18px] bg-[#0A1628] px-4 py-3.5 text-[0.82rem] leading-relaxed text-white">
+              <div key={msg.id} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div
+                  style={{
+                    background: '#0A1628',
+                    borderRadius: '18px 2px 18px 18px',
+                    padding: '14px 16px',
+                    maxWidth: '82%',
+                    fontSize: '0.82rem',
+                    lineHeight: 1.6,
+                    color: 'white',
+                    marginLeft: 'auto',
+                  }}
+                >
                   {msg.content}
                 </div>
               </div>
@@ -92,18 +147,28 @@ export default function ChatPage() {
 
           {/* Suggested Prompts - only show when welcome message */}
           {messages.length === 1 && (
-            <div className="flex flex-wrap gap-2 pl-[38px]">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingLeft: 38 }}>
               {[
-                { icon: 'fa-check-circle', color: 'text-[#2563EB]', text: 'What resolution am I eligible for?' },
-                { icon: 'fa-handshake', color: 'text-[#7C3AED]', text: 'Explain the OIC process' },
-                { icon: 'fa-file-lines', color: 'text-[#0D9488]', text: 'What documents do I need?' },
+                { icon: 'fa-check-circle', color: '#2563EB', text: 'What resolution am I eligible for?' },
+                { icon: 'fa-handshake', color: '#7C3AED', text: 'Explain the OIC process' },
+                { icon: 'fa-file-lines', color: '#0D9488', text: 'What documents do I need?' },
               ].map((q) => (
                 <button
                   key={q.text}
                   onClick={() => handleSend(q.text)}
-                  className="rounded-xl border border-[#F3F4F6] bg-white px-3.5 py-2.5 text-[0.75rem] font-semibold text-[#64748B] transition hover:-translate-y-0.5 hover:border-[#0A1628] hover:bg-[#EFF4FF] hover:text-[#0A1628]"
+                  style={{
+                    padding: '10px 14px',
+                    background: 'white',
+                    border: '1px solid #F3F4F6',
+                    borderRadius: 12,
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    color: '#64748B',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                  }}
                 >
-                  <i className={`fas ${q.icon} ${q.color} mr-1 text-[10px]`} />
+                  <i className={`fas ${q.icon}`} style={{ fontSize: 10, color: q.color, marginRight: 4 }} />
                   {q.text}
                 </button>
               ))}
@@ -112,30 +177,72 @@ export default function ChatPage() {
         </div>
 
         {/* Message Input Bar */}
-        <div className="sticky bottom-0 border-t border-[#F1F5F9] bg-white px-4 py-2.5">
+        <div
+          style={{
+            position: 'sticky',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 20,
+            padding: '10px 16px',
+            background: '#FFFFFF',
+            borderTop: '1px solid #F1F5F9',
+          }}
+        >
           <form
             onSubmit={(e) => {
               e.preventDefault()
               handleSend()
             }}
-            className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#F3F4F6] bg-white px-2 py-1.5 pl-4"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              background: 'white',
+              border: '1.5px solid #F3F4F6',
+              borderRadius: 9999,
+              padding: '6px 8px 6px 16px',
+            }}
           >
-            <button type="button" className="text-[#CBD5E1]">
-              <i className="fas fa-paperclip text-base" />
+            <button
+              type="button"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#CBD5E1', fontSize: 16, padding: 4 }}
+            >
+              <i className="fas fa-paperclip" />
             </button>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
-              className="flex-1 border-none bg-transparent text-[0.82rem] text-[#1F2937] outline-none placeholder:text-[#CBD5E1]"
+              style={{
+                flex: 1,
+                border: 'none',
+                outline: 'none',
+                fontFamily: 'inherit',
+                fontSize: '0.82rem',
+                color: '#1F2937',
+                background: 'transparent',
+              }}
             />
             <button
               type="submit"
               disabled={!input.trim()}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0A1628] text-white transition hover:scale-105 disabled:opacity-40"
+              style={{
+                width: 36,
+                height: 36,
+                borderRadius: '50%',
+                background: '#0A1628',
+                border: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                flexShrink: 0,
+                opacity: input.trim() ? 1 : 0.4,
+              }}
             >
-              <i className="fas fa-arrow-up text-[13px]" />
+              <i className="fas fa-arrow-up" style={{ fontSize: 13, color: 'white' }} />
             </button>
           </form>
         </div>

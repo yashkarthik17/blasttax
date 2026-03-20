@@ -52,70 +52,90 @@ export default function EntityTypePage() {
   const effectiveEntity = selected === 'llc' ? llcClass : selected
   const showDetails = selected && (selected !== 'llc' || llcClass)
 
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
+    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+  }
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8',
+    textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '5px',
+  }
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
-        <div className="px-5 pt-4">
-          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '10%' }} />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '10%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
           </div>
-          <div className="flex justify-between items-center mt-2.5">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 1 of 8</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Business Track</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 1 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Business Track</span>
           </div>
         </div>
 
-        <div className="px-5 py-4 pb-8">
-          <div className="mb-1.5">
-            <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight">Business Entity Classification</h1>
-            <p className="text-[13px] text-[#94A3B8] mt-1 leading-relaxed">Select your entity type to determine tax obligations and resolution options.</p>
+        <div style={{ padding: '16px 20px 20px' }}>
+          <div style={{ marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Business Entity Classification</h1>
+            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>Select your entity type to determine tax obligations and resolution options.</p>
           </div>
 
           {/* Entity Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-4">
+          <div>
             {ENTITIES.map((ent) => (
-              <button
+              <div
                 key={ent.id}
                 onClick={() => { setSelected(ent.id); if (ent.id !== 'llc') setLlcClass(null) }}
-                className={`flex items-center gap-3.5 rounded-[14px] bg-white border-[1.5px] p-4 text-left transition-all ${
-                  selected === ent.id ? 'border-[#2563EB] bg-[#EFF4FF]' : 'border-[#F1F5F9] hover:translate-y-[-2px]'
-                }`}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '14px', padding: '16px',
+                  background: selected === ent.id ? '#EFF4FF' : 'white',
+                  border: selected === ent.id ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                  borderRadius: '14px', cursor: 'pointer', transition: 'all 0.3s ease', marginBottom: '10px',
+                }}
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-lg" style={{ background: ent.iconBg, color: ent.iconColor }}>
+                <div style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, background: ent.iconBg, color: ent.iconColor }}>
                   <i className={`fa-solid ${ent.icon}`} />
                 </div>
-                <div className="flex-1">
-                  <span className="text-[13.5px] font-bold text-[#0A1628] block">{ent.label}</span>
-                  <span className="text-[11px] text-[#94A3B8]">{ent.sub}</span>
+                <div style={{ flex: 1 }}>
+                  <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0A1628', display: 'block' }}>{ent.label}</span>
+                  <span style={{ fontSize: '11px', color: '#94A3B8' }}>{ent.sub}</span>
                 </div>
-                <div className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 ml-auto ${
-                  selected === ent.id ? 'border-[#2563EB] bg-[#2563EB]' : 'border-[#E2E8F0]'
-                }`}>
-                  {selected === ent.id && <div className="h-2 w-2 rounded-full bg-white" />}
+                <div style={{
+                  width: '22px', height: '22px', borderRadius: '9999px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto',
+                  border: selected === ent.id ? '2px solid #2563EB' : '2px solid #E2E8F0',
+                  background: selected === ent.id ? '#2563EB' : 'transparent',
+                }}>
+                  {selected === ent.id && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />}
                 </div>
-              </button>
+              </div>
             ))}
           </div>
 
           {/* LLC Sub-selection */}
           {selected === 'llc' && (
-            <div className="rounded-xl bg-[#F8FAFC] p-3 mt-2.5">
-              <div className="text-[11px] font-bold text-[#94A3B8] uppercase tracking-[0.04em] mb-2">LLC Tax Classification</div>
-              <div className="flex flex-wrap gap-1.5">
+            <div style={{ padding: '12px', background: '#F8FAFC', borderRadius: '12px', marginTop: '10px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '8px' }}>LLC Tax Classification</div>
+              <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: '6px' }}>
                 {LLC_TYPES.map((lt) => (
-                  <button
+                  <div
                     key={lt.id}
                     onClick={() => setLlcClass(lt.id)}
-                    className={`inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all ${
-                      llcClass === lt.id ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B] hover:border-[#2563EB] hover:text-[#2563EB]'
-                    }`}
-                  >{lt.label}</button>
+                    style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '6px 12px',
+                      background: llcClass === lt.id ? '#EFF4FF' : '#F8FAFC',
+                      border: llcClass === lt.id ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                      borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+                      color: llcClass === lt.id ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                    }}
+                  >{lt.label}</div>
                 ))}
               </div>
               {llcClass && (
-                <div className="inline-flex items-center gap-1 mt-1.5 rounded-full bg-[#EFF4FF] px-2.5 py-1 text-[10px] font-bold text-[#2563EB]">
-                  <i className="fa-solid fa-file-lines text-[9px]" /> Taxed as: {RT_MAP[llcClass]}
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '3px 10px', background: '#EFF4FF', borderRadius: '20px', fontSize: '10px', fontWeight: 700, color: '#2563EB', marginTop: '6px' }}>
+                  <i className="fa-solid fa-file-lines" style={{ fontSize: '9px' }} /> Taxed as: {RT_MAP[llcClass]}
                 </div>
               )}
             </div>
@@ -123,55 +143,53 @@ export default function EntityTypePage() {
 
           {/* Return type tags */}
           {effectiveEntity && (
-            <div className="flex flex-wrap gap-1.5 mt-3">
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#EFF4FF] px-2.5 py-1 text-[10px] font-bold text-[#2563EB]">
-                <i className="fa-solid fa-file-lines text-[9px]" /> {RT_MAP[effectiveEntity] || '--'}
-              </span>
-              <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBEB] px-2.5 py-1 text-[10px] font-bold text-[#92400E]">
-                <i className="fa-solid fa-users text-[9px]" /> 941/940 if employees
-              </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: '6px', marginTop: '12px' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '3px 10px', background: '#EFF4FF', borderRadius: '20px', fontSize: '10px', fontWeight: 700, color: '#2563EB' }}>
+                <i className="fa-solid fa-file-lines" style={{ fontSize: '9px' }} /> {RT_MAP[effectiveEntity] || '--'}
+              </div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '3px 10px', background: '#FFFBEB', borderRadius: '20px', fontSize: '10px', fontWeight: 700, color: '#92400E' }}>
+                <i className="fa-solid fa-users" style={{ fontSize: '9px' }} /> 941/940 if employees
+              </div>
             </div>
           )}
 
           {/* Business Details */}
           {showDetails && (
-            <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mt-3">
-              <div className="text-sm font-bold text-[#0A1628] mb-3">
-                <i className="fa-solid fa-building text-xs text-[#2563EB] mr-1.5" /> Business Details
+            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginTop: '12px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+                <i className="fa-solid fa-building" style={{ fontSize: '12px', color: '#2563EB' }} /> Business Details
               </div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Owners / Shareholders</label>
-                  <input type="number" value={numOwners} onChange={(e) => setNumOwners(e.target.value)} min="1"
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+              <div style={{ display: 'flex', gap: '10px', marginTop: 0 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Owners / Shareholders</label>
+                  <input type="number" value={numOwners} onChange={(e) => setNumOwners(e.target.value)} min={1} style={fieldInputStyle} />
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">State of Incorporation</label>
-                  <select value={stateInc} onChange={(e) => setStateInc(e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB] appearance-none">
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>State of Incorporation</label>
+                  <select value={stateInc} onChange={(e) => setStateInc(e.target.value)} style={{ ...fieldInputStyle, appearance: 'none' as const, paddingRight: '32px' }}>
                     <option value="">Select...</option>
                     {STATES.map((s) => <option key={s}>{s}</option>)}
                   </select>
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Date of Incorporation</label>
-                  <input type="date" value={dateInc} onChange={(e) => setDateInc(e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+              </div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Date of Incorporation</label>
+                  <input type="date" value={dateInc} onChange={(e) => setDateInc(e.target.value)} style={fieldInputStyle} />
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Business EIN</label>
-                  <input type="text" placeholder="XX-XXXXXXX" maxLength={10} value={ein} onChange={(e) => setEin(e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB] placeholder:text-[#CBD5E1] placeholder:font-normal" />
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Business EIN</label>
+                  <input type="text" placeholder="XX-XXXXXXX" maxLength={10} value={ein} onChange={(e) => setEin(e.target.value)} style={fieldInputStyle} />
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Number of Employees</label>
-                  <input type="number" value={numEmployees} onChange={(e) => setNumEmployees(e.target.value)} min="0"
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+              </div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Number of Employees</label>
+                  <input type="number" value={numEmployees} onChange={(e) => setNumEmployees(e.target.value)} min={0} style={fieldInputStyle} />
                 </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">NAICS Code (optional)</label>
-                  <input type="text" placeholder="e.g. 541110" value={naics} onChange={(e) => setNaics(e.target.value)}
-                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB] placeholder:text-[#CBD5E1] placeholder:font-normal" />
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>NAICS Code (optional)</label>
+                  <input type="text" placeholder="e.g. 541110" value={naics} onChange={(e) => setNaics(e.target.value)} style={fieldInputStyle} />
                 </div>
               </div>
             </div>
@@ -179,48 +197,55 @@ export default function EntityTypePage() {
 
           {/* Operating Status */}
           {showDetails && (
-            <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mt-3">
-              <div className="text-sm font-bold text-[#0A1628] mb-3">
-                <i className="fa-solid fa-power-off text-xs text-[#2563EB] mr-1.5" /> Business Operating Status
+            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px', marginTop: '12px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+                <i className="fa-solid fa-power-off" style={{ fontSize: '12px', color: '#2563EB' }} /> Business Operating Status
               </div>
-              <div className="flex gap-2">
-                <button
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <div
                   onClick={() => setOpStatus('operating')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-3 text-xs font-semibold transition-all ${
-                    opStatus === 'operating' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
-                  }`}
+                  style={{
+                    flex: 1, justifyContent: 'center', padding: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px',
+                    background: opStatus === 'operating' ? '#EFF4FF' : '#F8FAFC',
+                    border: opStatus === 'operating' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+                    color: opStatus === 'operating' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                  }}
                 >
-                  <i className="fa-solid fa-circle-check text-[11px]" /> Operating
-                </button>
-                <button
+                  <i className="fa-solid fa-circle-check" style={{ fontSize: '11px' }} /> Operating
+                </div>
+                <div
                   onClick={() => setOpStatus('oob')}
-                  className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-3 text-xs font-semibold transition-all ${
-                    opStatus === 'oob' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
-                  }`}
+                  style={{
+                    flex: 1, justifyContent: 'center', padding: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px',
+                    background: opStatus === 'oob' ? '#EFF4FF' : '#F8FAFC',
+                    border: opStatus === 'oob' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+                    color: opStatus === 'oob' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                  }}
                 >
-                  <i className="fa-solid fa-circle-xmark text-[11px]" /> Out of Business
-                </button>
+                  <i className="fa-solid fa-circle-xmark" style={{ fontSize: '11px' }} /> Out of Business
+                </div>
               </div>
               {opStatus === 'operating' && (
-                <div className="mt-3 rounded-xl bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] p-3.5">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <i className="fa-solid fa-circle-check text-sm text-[#00A651]" />
-                    <span className="text-[13px] font-bold text-[#065F46]">Business is Operating</span>
+                <div style={{ display: 'block', marginTop: '12px', padding: '14px', borderRadius: '12px', border: '1.5px solid rgba(0,166,81,0.15)', background: '#E6F9EE' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <i className="fa-solid fa-circle-check" style={{ fontSize: '14px', color: '#00A651' }} />
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#065F46' }}>Business is Operating</span>
                   </div>
-                  <p className="text-[11.5px] text-[#065F46] leading-relaxed">Operating businesses must be current on tax deposits. Deposit compliance checked next.</p>
+                  <p style={{ fontSize: '11.5px', color: '#065F46', lineHeight: 1.5 }}>Operating businesses must be current on tax deposits. Deposit compliance checked next.</p>
                 </div>
               )}
               {opStatus === 'oob' && (
-                <div className="mt-3 rounded-xl bg-[#FFFBEB] border border-[rgba(245,166,35,0.2)] p-3.5">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <i className="fa-solid fa-triangle-exclamation text-sm text-[#92400E]" />
-                    <span className="text-[13px] font-bold text-[#92400E]">Business is Closed</span>
+                <div style={{ display: 'block', marginTop: '12px', padding: '14px', borderRadius: '12px', border: '1.5px solid rgba(245,166,35,0.2)', background: '#FFFBEB' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+                    <i className="fa-solid fa-triangle-exclamation" style={{ fontSize: '14px', color: '#92400E' }} />
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#92400E' }}>Business is Closed</span>
                   </div>
-                  <p className="text-[11.5px] text-[#92400E] leading-relaxed mb-2.5">Final returns must be filed. Trust fund liability transfers to responsible persons via TFRP.</p>
+                  <p style={{ fontSize: '11.5px', color: '#92400E', lineHeight: 1.5, marginBottom: '10px' }}>Final returns must be filed. Trust fund liability transfers to responsible persons via TFRP.</p>
                   <div>
-                    <label className="block text-[11px] font-semibold text-[#92400E] uppercase tracking-[0.04em] mb-1">Date Ceased Operations</label>
-                    <input type="date" value={dateCeased} onChange={(e) => setDateCeased(e.target.value)}
-                      className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                    <label style={{ ...labelStyle, color: '#92400E' }}>Date Ceased Operations</label>
+                    <input type="date" value={dateCeased} onChange={(e) => setDateCeased(e.target.value)} style={fieldInputStyle} />
                   </div>
                 </div>
               )}
@@ -228,17 +253,19 @@ export default function EntityTypePage() {
           )}
 
           {/* Info */}
-          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#EFF4FF] border border-[rgba(37,99,235,0.15)] p-3 mt-4">
-            <i className="fa-solid fa-circle-info text-[#2563EB] mt-0.5" />
-            <span className="text-xs text-[#0A1628]">Your entity type determines which tax returns are required and which resolution paths are available.</span>
+          <div style={{ marginTop: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#EFF4FF', border: '1px solid rgba(37,99,235,0.15)', borderRadius: '14px' }}>
+              <i className="fa-solid fa-circle-info" style={{ color: '#2563EB', marginTop: '2px' }} />
+              <span style={{ fontSize: '12px', color: '#0A1628' }}>Your entity type determines which tax returns are required and which resolution paths are available.</span>
+            </div>
           </div>
 
-          <div className="mt-5">
+          <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={() => router.push('/analysis/business/compliance')}
-              className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white"
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              Continue <i className="fa-solid fa-arrow-right text-[13px]" />
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
             </button>
           </div>
         </div>

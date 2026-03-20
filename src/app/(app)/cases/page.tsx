@@ -34,24 +34,24 @@ interface CaseItem {
 const CASES: CaseItem[] = [
   {
     id: '1042', caseNumber: 'Case #1042', status: 'active', statusLabel: 'Active',
-    statusBg: 'bg-[#E6F9EE]', statusColor: 'text-[#00A651]',
-    resolutionType: 'Offer in Compromise', resolutionIcon: 'fa-handshake', resolutionIconColor: 'text-[#0A1628]',
+    statusBg: '#E6F9EE', statusColor: '#00A651',
+    resolutionType: 'Offer in Compromise', resolutionIcon: 'fa-handshake', resolutionIconColor: '#0A1628',
     debt: '$47,250', updated: 'Updated 2h ago',
-    progressLabel: 'Under IRS Review', progressPercent: 60, progressColor: 'bg-[#0A1628]', progressDotColor: 'bg-[#2563EB]',
+    progressLabel: 'Under IRS Review', progressPercent: 60, progressColor: '#0A1628', progressDotColor: '#2563EB',
   },
   {
     id: '1038', caseNumber: 'Case #1038', status: 'pending', statusLabel: 'Pending Review',
-    statusBg: 'bg-[#FFFBEB]', statusColor: 'text-[#D97706]',
-    resolutionType: 'Installment Agreement', resolutionIcon: 'fa-calendar-check', resolutionIconColor: 'text-[#7C3AED]',
+    statusBg: '#FFFBEB', statusColor: '#D97706',
+    resolutionType: 'Installment Agreement', resolutionIcon: 'fa-calendar-check', resolutionIconColor: '#7C3AED',
     debt: '$12,800', updated: 'Updated 1d ago',
-    progressLabel: 'Documents Prepared', progressPercent: 85, progressColor: 'bg-[#7C3AED]', progressDotColor: 'bg-[#A78BFA]',
+    progressLabel: 'Documents Prepared', progressPercent: 85, progressColor: '#7C3AED', progressDotColor: '#A78BFA',
   },
   {
     id: '985', caseNumber: 'Case #985', status: 'resolved', statusLabel: 'Resolved',
-    statusBg: 'bg-[#F8FAFC]', statusColor: 'text-[#94A3B8]',
-    resolutionType: 'Penalty Abatement', resolutionIcon: 'fa-eraser', resolutionIconColor: 'text-[#0D9488]',
+    statusBg: '#F8FAFC', statusColor: '#94A3B8',
+    resolutionType: 'Penalty Abatement', resolutionIcon: 'fa-eraser', resolutionIconColor: '#0D9488',
     debt: '$5,200', updated: 'Resolved Feb 28',
-    progressLabel: 'Complete', progressPercent: 100, progressColor: 'bg-[#00A651]', progressDotColor: '',
+    progressLabel: 'Complete', progressPercent: 100, progressColor: '#00A651', progressDotColor: '',
     isComplete: true,
   },
 ]
@@ -62,98 +62,218 @@ export default function CasesPage() {
   const filteredCases = activeFilter === 'all' ? CASES : CASES.filter((c) => c.status === activeFilter)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
-        <div className="flex flex-col gap-4 px-5 pb-8 pt-4">
-          {/* Header */}
-          <div className="flex items-center justify-between pt-1">
-            <h1 className="text-[1.5rem] font-extrabold tracking-tight text-[#0A1628]">My Cases</h1>
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-                <i className="fas fa-sliders text-sm text-[#64748B]" />
+        <div style={{ padding: '0 20px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>My Cases</div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 12,
+                    background: '#F8FAFC',
+                    border: '1px solid #F1F5F9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <i className="fas fa-sliders" style={{ fontSize: 14, color: '#64748B' }} />
+                </div>
+                <Link
+                  href="/analysis/type"
+                  style={{
+                    width: 38,
+                    height: 38,
+                    borderRadius: 12,
+                    background: '#0A1628',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <i className="fas fa-plus" style={{ fontSize: 14, color: 'white' }} />
+                </Link>
               </div>
-              <Link href="/analysis/type" className="flex h-[38px] w-[38px] items-center justify-center rounded-xl bg-[#0A1628] transition hover:opacity-90">
-                <i className="fas fa-plus text-sm text-white" />
-              </Link>
             </div>
-          </div>
 
-          {/* Filter Chips */}
-          <div className="flex gap-2 overflow-x-auto pb-1">
-            {FILTERS.map((f) => (
-              <button
-                key={f.key}
-                onClick={() => setActiveFilter(f.key)}
-                className={`shrink-0 whitespace-nowrap rounded-full border-[1.5px] px-[18px] py-2 text-[0.78rem] font-semibold transition ${
-                  activeFilter === f.key
-                    ? 'border-[#0A1628] bg-[#0A1628] text-white'
-                    : 'border-[#E2E8F0] bg-white text-[#64748B] hover:-translate-y-0.5'
-                }`}
-              >
-                {f.dotColor && <i className="fas fa-circle mr-1 text-[6px]" style={{ color: activeFilter === f.key ? 'white' : f.dotColor }} />}
-                {f.label}
-              </button>
-            ))}
-          </div>
+            {/* Filter Chips */}
+            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 4 }}>
+              {FILTERS.map((f) => (
+                <button
+                  key={f.key}
+                  onClick={() => setActiveFilter(f.key)}
+                  style={{
+                    padding: '8px 18px',
+                    borderRadius: 9999,
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    border: '1.5px solid transparent',
+                    whiteSpace: 'nowrap',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    ...(activeFilter === f.key
+                      ? { background: '#0A1628', color: 'white', borderColor: '#0A1628' }
+                      : { background: 'white', color: '#64748B', borderColor: '#E2E8F0' }),
+                  }}
+                >
+                  {f.dotColor && (
+                    <i
+                      className="fas fa-circle"
+                      style={{
+                        fontSize: 6,
+                        color: activeFilter === f.key ? 'white' : f.dotColor,
+                        marginRight: 4,
+                      }}
+                    />
+                  )}
+                  {f.label}
+                </button>
+              ))}
+            </div>
 
-          {/* Case Cards - grid on desktop */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredCases.map((c) => (
-              <Link
-                key={c.id}
-                href={`/cases/${c.id}`}
-                className="block rounded-[20px] border border-[#F1F5F9] bg-white p-5 no-underline transition hover:-translate-y-0.5 active:scale-[0.98]"
-              >
-                {/* Top row */}
-                <div className="mb-2.5 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[0.9rem] font-extrabold text-[#0A1628]">{c.caseNumber}</span>
-                    <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[0.68rem] font-semibold ${c.statusBg} ${c.statusColor}`}>
-                      {c.isComplete ? <i className="fas fa-check text-[8px]" /> : <i className="fas fa-circle text-[5px]" />} {c.statusLabel}
-                    </span>
+            {/* Case Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredCases.map((c) => (
+                <Link
+                  key={c.id}
+                  href={`/cases/${c.id}`}
+                  style={{
+                    display: 'block',
+                    background: 'white',
+                    borderRadius: 20,
+                    padding: 20,
+                    border: '1px solid #F1F5F9',
+                    position: 'relative',
+                    textDecoration: 'none',
+                    color: 'inherit',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {/* Top row: case number + status */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0A1628' }}>{c.caseNumber}</span>
+                      <span
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '3px 10px',
+                          background: c.statusBg,
+                          borderRadius: 9999,
+                          fontSize: '0.68rem',
+                          fontWeight: 600,
+                          color: c.statusColor,
+                        }}
+                      >
+                        {c.isComplete ? (
+                          <i className="fas fa-check" style={{ fontSize: 8 }} />
+                        ) : (
+                          <i className="fas fa-circle" style={{ fontSize: 5 }} />
+                        )}{' '}
+                        {c.statusLabel}
+                      </span>
+                    </div>
+                    <i className="fas fa-chevron-right" style={{ fontSize: 12, color: '#CBD5E1' }} />
                   </div>
-                  <i className="fas fa-chevron-right text-xs text-[#CBD5E1]" />
-                </div>
-                {/* Resolution type */}
-                <div className="mb-1.5 text-[0.82rem] font-semibold text-[#64748B]">
-                  <i className={`fas ${c.resolutionIcon} mr-1 text-[11px] ${c.resolutionIconColor}`} />
-                  {c.resolutionType}
-                </div>
-                {/* Debt + timestamp */}
-                <div className="mb-3.5 flex items-center justify-between">
-                  <div className="text-[1.15rem] font-extrabold tracking-tight text-[#0A1628]">{c.debt}</div>
-                  <div className="text-[0.68rem] font-medium text-[#CBD5E1]">{c.updated}</div>
-                </div>
-                {/* Progress bar */}
-                <div>
-                  <div className="mb-1.5 flex items-center justify-between">
-                    <span className={`text-[0.68rem] font-semibold ${c.isComplete ? 'text-[#00A651]' : 'text-[#94A3B8]'}`}>
-                      {c.isComplete && <i className="fas fa-circle-check mr-0.5 text-[10px]" />} {c.progressLabel}
-                    </span>
-                    <span className={`text-[0.68rem] font-bold ${c.isComplete ? 'text-[#00A651]' : c.status === 'pending' ? 'text-[#7C3AED]' : 'text-[#0A1628]'}`}>{c.progressPercent}%</span>
+                  {/* Resolution type */}
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>
+                    <i className={`fas ${c.resolutionIcon}`} style={{ fontSize: 11, color: c.resolutionIconColor, marginRight: 4 }} />
+                    {c.resolutionType}
                   </div>
-                  <div className="h-[5px] overflow-hidden rounded-full bg-[#F1F5F9]">
-                    <div className={`relative h-full rounded-full ${c.progressColor}`} style={{ width: `${c.progressPercent}%` }}>
-                      {!c.isComplete && c.progressDotColor && (
-                        <div className={`absolute -top-px right-0 h-[7px] w-[7px] rounded-full ${c.progressDotColor}`} />
-                      )}
+                  {/* Debt + timestamp */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                    <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{c.debt}</div>
+                    <div style={{ fontSize: '0.68rem', color: '#CBD5E1', fontWeight: 500 }}>{c.updated}</div>
+                  </div>
+                  {/* Progress bar */}
+                  <div style={{ marginBottom: 6 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 600, color: c.isComplete ? '#00A651' : '#94A3B8' }}>
+                        {c.isComplete && <i className="fas fa-circle-check" style={{ fontSize: 10, marginRight: 2 }} />}
+                        {c.progressLabel}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: '0.68rem',
+                          fontWeight: 700,
+                          color: c.isComplete ? '#00A651' : c.status === 'pending' ? '#7C3AED' : '#0A1628',
+                        }}
+                      >
+                        {c.progressPercent}%
+                      </span>
+                    </div>
+                    <div style={{ height: 5, background: '#F1F5F9', borderRadius: 9999, overflow: 'hidden' }}>
+                      <div
+                        style={{
+                          width: `${c.progressPercent}%`,
+                          height: '100%',
+                          background: c.progressColor,
+                          borderRadius: 9999,
+                          position: 'relative',
+                        }}
+                      >
+                        {!c.isComplete && c.progressDotColor && (
+                          <div
+                            style={{
+                              position: 'absolute',
+                              right: 0,
+                              top: -1,
+                              width: 7,
+                              height: 7,
+                              background: c.progressDotColor,
+                              borderRadius: '50%',
+                            }}
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
 
-            {/* Empty State: Start New Analysis */}
-            <Link
-              href="/analysis/type"
-              className="flex cursor-pointer flex-col items-center gap-2.5 rounded-[20px] border-2 border-dashed border-[#D5D5E0] p-7 text-center no-underline transition hover:-translate-y-0.5 hover:border-[#0A1628] hover:bg-[#EFF4FF]"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#F8FAFC] transition">
-                <i className="fas fa-plus text-lg text-[#CBD5E1]" />
-              </div>
-              <div className="text-[0.88rem] font-bold text-[#64748B]">Start a new analysis</div>
-              <div className="text-[0.75rem] leading-relaxed text-[#CBD5E1]">Get a personalized resolution recommendation</div>
-            </Link>
+              {/* Empty State: Start New Analysis */}
+              <Link
+                href="/analysis/type"
+                style={{
+                  border: '2px dashed #D5D5E0',
+                  borderRadius: 20,
+                  padding: '28px 20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: 10,
+                  textAlign: 'center',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  cursor: 'pointer',
+                }}
+              >
+                <div
+                  style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: 14,
+                    background: '#F8FAFC',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <i className="fas fa-plus" style={{ fontSize: 18, color: '#CBD5E1' }} />
+                </div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>Start a new analysis</div>
+                <div style={{ fontSize: '0.75rem', color: '#CBD5E1', fontWeight: 400, lineHeight: 1.5 }}>Get a personalized resolution recommendation</div>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

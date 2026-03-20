@@ -94,51 +94,56 @@ export default function NotificationsPage() {
     <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pt-4 pb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between" style={{ padding: '16px 20px 12px' }}>
+          <div className="flex items-center" style={{ gap: 12 }}>
             <button
               onClick={() => router.back()}
               style={{ color: '#0A1628', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
             >
               <i className="fas fa-arrow-left" style={{ fontSize: 18 }} />
             </button>
-            <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0A1628' }}>Notifications</span>
+            <span style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#0A1628', flex: 1 }}>Notifications</span>
           </div>
           <button
             onClick={markAllRead}
             style={{
               fontSize: '0.75rem', fontWeight: 600, color: '#2563EB',
               background: 'none', border: 'none', cursor: 'pointer',
-              padding: '8px 12px', borderRadius: 9999,
+              fontFamily: 'inherit', padding: '8px 12px', borderRadius: 9999,
+              transition: 'all 0.2s ease',
             }}
           >
             Mark all read
           </button>
         </div>
 
-        <div className="px-5 pb-6">
-          <div className="flex flex-col gap-4">
+        <div style={{ padding: '0 20px 24px' }}>
+          <div className="flex flex-col" style={{ gap: 16 }}>
             {/* Tabs */}
-            <div className="flex gap-2 px-1">
+            <div className="flex" style={{ gap: 8, padding: '0 4px' }}>
               <button
                 onClick={() => setActiveTab('all')}
                 style={{
                   padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
                   borderRadius: 9999, border: 'none', cursor: 'pointer',
+                  fontFamily: 'inherit',
                   background: activeTab === 'all' ? '#0A1628' : 'transparent',
                   color: activeTab === 'all' ? '#FFFFFF' : '#94A3B8',
+                  transition: 'all 0.25s ease',
                 }}
               >
                 All
               </button>
               <button
                 onClick={() => setActiveTab('unread')}
-                className="flex items-center gap-1"
+                className="flex items-center"
                 style={{
                   padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
                   borderRadius: 9999, border: 'none', cursor: 'pointer',
+                  fontFamily: 'inherit',
                   background: activeTab === 'unread' ? '#0A1628' : 'transparent',
                   color: activeTab === 'unread' ? '#FFFFFF' : '#94A3B8',
+                  transition: 'all 0.25s ease',
                 }}
               >
                 Unread
@@ -158,22 +163,29 @@ export default function NotificationsPage() {
             </div>
 
             {/* Swipe hint */}
-            <div className="flex items-center justify-center gap-[6px] py-1">
+            <div className="flex items-center justify-center" style={{ gap: 6, padding: '6px 0' }}>
               <i className="fas fa-arrow-left" style={{ fontSize: 10, color: '#CBD5E1' }} />
               <span style={{ fontSize: '0.7rem', color: '#CBD5E1', fontWeight: 500 }}>Swipe to dismiss</span>
             </div>
 
             {/* Notification List */}
             {filtered.length > 0 ? (
-              <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6', overflow: 'hidden', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)' }}>
+              <div style={{
+                background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6',
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+              }}>
                 {filtered.map((notif, i) => (
                   <div
                     key={notif.id}
-                    className="flex items-start gap-3 cursor-pointer transition-colors"
+                    className="flex items-start cursor-pointer"
                     style={{
+                      gap: 12,
                       padding: 16,
                       borderBottom: i < filtered.length - 1 ? '1px solid #F1F5F9' : 'none',
                       background: notif.unread ? '#FAFBFF' : 'transparent',
+                      transition: 'all 0.25s ease',
+                      position: 'relative',
                     }}
                   >
                     <div
@@ -183,12 +195,14 @@ export default function NotificationsPage() {
                       <i className={notif.icon} style={{ fontSize: 16, color: notif.iconColor }} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center justify-between" style={{ gap: 8 }}>
                         <div style={{ fontSize: '0.85rem', fontWeight: notif.unread ? 700 : 600, color: '#0A1628' }}>
                           {notif.title}
                         </div>
-                        {notif.unread && (
+                        {notif.unread ? (
                           <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#2563EB', flexShrink: 0, marginTop: 6 }} />
+                        ) : (
+                          <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'transparent', flexShrink: 0, marginTop: 6 }} />
                         )}
                       </div>
                       <div style={{ fontSize: '0.78rem', color: '#64748B', marginTop: 3, lineHeight: 1.45 }}>
@@ -202,10 +216,10 @@ export default function NotificationsPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 px-5">
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
                 <div
-                  className="flex items-center justify-center mx-auto mb-5"
-                  style={{ width: 80, height: 80, borderRadius: 20, background: '#F8FAFC' }}
+                  className="flex items-center justify-center mx-auto"
+                  style={{ width: 80, height: 80, borderRadius: 20, background: '#F8FAFC', marginBottom: 20 }}
                 >
                   <i className="fas fa-bell-slash" style={{ fontSize: 32, color: '#CBD5E1' }} />
                 </div>

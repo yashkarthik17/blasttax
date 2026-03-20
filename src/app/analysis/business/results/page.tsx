@@ -58,103 +58,111 @@ export default function BusinessResultsPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
-        <div className="px-5 pt-4">
-          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '85%' }} />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '85%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
           </div>
-          <div className="flex justify-between items-center mt-2.5">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 7 of 8</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Results</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 7 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Results</span>
           </div>
         </div>
 
-        <div className="px-5 py-4 pb-8">
+        <div style={{ padding: '16px 20px 20px' }}>
           {/* Header */}
-          <div className="text-center pt-5 pb-4">
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[11px] font-bold text-[#2563EB] mb-3">
-              <i className="fa-solid fa-wand-magic-sparkles text-[10px]" /> Business Analysis Complete
+          <div style={{ textAlign: 'center' as const, padding: '20px 0 16px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '11px', fontWeight: 700, color: '#2563EB', background: '#EFF4FF', padding: '4px 12px', borderRadius: '9999px', marginBottom: '12px' }}>
+              <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: '10px' }} /> Business Analysis Complete
             </div>
-            <h1 className="text-[1.45rem] font-extrabold text-[#0A1628] leading-tight">Business Resolution Options</h1>
-            <p className="text-[12.5px] text-[#94A3B8] mt-1.5 leading-relaxed">Based on entity type, debt composition, and financial profile</p>
+            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2 }}>Business Resolution Options</h1>
+            <p style={{ fontSize: '12.5px', color: '#94A3B8', marginTop: '6px', lineHeight: 1.4 }}>Based on entity type, debt composition, and financial profile</p>
           </div>
 
           {/* Result Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {RESULTS.map((r) => (
-            <div key={r.rank} className={`rounded-[18px] bg-white border mb-3.5 overflow-hidden ${
-              r.recommended ? 'border-2 border-[#2563EB] relative' : 'border border-[#F1F5F9]'
-            }`}>
-              {r.recommended && <div className="absolute top-0 left-0 right-0 h-1 bg-[#0A1628]" />}
-              <div className="p-[18px] relative">
-                <div className="flex items-center justify-between mb-3.5">
-                  <div className="flex items-center gap-2">
-                    <div className={`flex h-7 w-7 items-center justify-center rounded-lg text-[13px] font-extrabold ${
-                      r.recommended ? 'bg-[#2563EB] text-white' : 'bg-[#F8FAFC] text-[#64748B]'
-                    }`}>{r.rank}</div>
+            <div key={r.rank} style={{
+              background: 'white', border: r.recommended ? '2px solid #2563EB' : '1px solid #F1F5F9',
+              borderRadius: '18px', padding: 0, marginBottom: '14px', overflow: 'hidden',
+              position: 'relative' as const,
+            }}>
+              {r.recommended && <div style={{ position: 'absolute' as const, top: 0, left: 0, right: 0, height: '4px', background: '#0A1628', zIndex: 1 }} />}
+              <div style={{ padding: '18px', position: 'relative' as const }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '28px', height: '28px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '13px', fontWeight: 800, flexShrink: 0,
+                      background: r.recommended ? '#2563EB' : '#F8FAFC',
+                      color: r.recommended ? 'white' : '#64748B',
+                    }}>{r.rank}</div>
                     {r.recommended && (
-                      <span className="rounded-md bg-[#0A1628] px-2.5 py-[3px] text-[9.5px] font-extrabold text-white uppercase tracking-[0.06em]">Recommended</span>
+                      <span style={{ fontSize: '9.5px', fontWeight: 800, color: 'white', background: '#0A1628', padding: '3px 10px', borderRadius: '6px', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Recommended</span>
                     )}
                   </div>
                 </div>
-                <h3 className="text-base font-extrabold text-[#0A1628] mb-2.5">{r.title}</h3>
-                <div className="flex items-baseline gap-1.5 mb-1.5">
+                {r.recommended ? (
+                  <h3 style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', marginBottom: '10px' }}>{r.title}</h3>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628', flex: 1 }}>{r.title}</h3>
+                  </div>
+                )}
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '6px' }}>
                   {r.rank === 4 ? (
                     <>
-                      <span className="text-xs text-[#64748B]">Remove</span>
-                      <span className="text-xl font-black" style={{ color: r.amountColor }}>{r.amount}</span>
-                      <span className="text-xs text-[#64748B]">{r.amountSub}</span>
+                      <span style={{ fontSize: '12px', color: '#64748B' }}>Remove</span>
+                      <span style={{ fontSize: '20px', fontWeight: 900, color: r.amountColor }}>{r.amount}</span>
+                      <span style={{ fontSize: '12px', color: '#64748B' }}>{r.amountSub}</span>
                     </>
                   ) : (
                     <>
-                      <span className="text-[22px] font-black" style={{ color: r.amountColor }}>{r.amount}</span>
-                      <span className="text-[13px] text-[#64748B] font-medium">{r.amountSub}</span>
+                      <span style={{ fontSize: '22px', fontWeight: 900, color: r.amountColor }}>{r.amount}</span>
+                      <span style={{ fontSize: '13px', color: '#64748B', fontWeight: 500 }}>{r.amountSub}</span>
                     </>
                   )}
                 </div>
-                <p className="text-xs text-[#94A3B8] mb-3 leading-relaxed">{r.description}</p>
-                <div className="flex items-center gap-2.5">
-                  <span className="text-[11px] font-semibold" style={{ color: r.confidenceColor }}>{r.confidenceLabel}</span>
-                  <div className="flex-1 h-1.5 bg-[#F1F5F9] rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-[1500ms]"
-                      style={{ background: r.barColor, width: animated ? `${r.confidence}%` : '0%' }}
-                    />
+                <p style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '12px', lineHeight: 1.4 }}>{r.description}</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: 600, color: r.confidenceColor }}>{r.confidenceLabel}</span>
+                  <div style={{ flex: 1, height: '6px', background: '#F1F5F9', borderRadius: '3px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', borderRadius: '3px', transition: 'width 1.5s ease', width: animated ? `${r.confidence}%` : '0%', background: r.barColor }} />
                   </div>
-                  <span className="text-[11px] font-bold" style={{ color: r.confidenceColor }}>{r.confidence}%</span>
+                  <span style={{ fontSize: '11px', fontWeight: 700, color: r.confidenceColor }}>{r.confidence}%</span>
                 </div>
               </div>
             </div>
           ))}
-          </div>
 
           {/* CNC Not Available */}
-          <div className="rounded-[14px] bg-[#FEF2F2] border border-[#FEE2E2] p-4 mb-3.5">
-            <div className="flex items-center gap-2 mb-1.5">
-              <i className="fa-solid fa-ban text-sm text-[#E63946]" />
-              <span className="text-[13px] font-bold text-[#991B1B]">CNC Not Available for Businesses</span>
+          <div style={{ background: '#FEF2F2', border: '1px solid #FEE2E2', borderRadius: '14px', padding: '14px 16px', marginBottom: '14px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+              <i className="fa-solid fa-ban" style={{ fontSize: '14px', color: '#E63946' }} />
+              <span style={{ fontSize: '13px', fontWeight: 700, color: '#991B1B' }}>CNC Not Available for Businesses</span>
             </div>
-            <div className="text-xs text-[#991B1B] leading-relaxed">
+            <div style={{ fontSize: '12px', color: '#991B1B', lineHeight: 1.5 }}>
               Businesses CANNOT be placed in Currently Not Collectible (CNC) status. If the business cannot pay, the IRS expects it to close/dissolve. Remaining trust fund liability is pursued against responsible persons via TFRP.
             </div>
           </div>
 
           {/* TFRP Warning */}
-          <div className="rounded-xl bg-[#FEF3C7] border border-[#FDE68A] p-3 mb-4">
-            <div className="text-xs font-bold text-[#92400E]">
-              <i className="fa-solid fa-user-shield text-[11px] mr-1" /> TFRP Personal Liability Warning
+          <div style={{ marginTop: '8px', padding: '12px', background: '#FEF3C7', border: '1px solid #FDE68A', borderRadius: '12px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#92400E' }}>
+              <i className="fa-solid fa-user-shield" style={{ fontSize: '11px' }} /> TFRP Personal Liability Warning
             </div>
-            <div className="text-[11.5px] text-[#92400E] mt-1">Responsible persons may be personally assessed $29,260 (trust fund portion) regardless of business resolution outcome. See TFRP screens for defense strategies.</div>
+            <div style={{ fontSize: '11.5px', color: '#92400E', marginTop: '4px' }}>Responsible persons may be personally assessed $29,260 (trust fund portion) regardless of business resolution outcome. See TFRP screens for defense strategies.</div>
           </div>
 
-          <button
-            onClick={() => router.push('/analysis/business/plan')}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white"
-          >
-            <i className="fa-solid fa-check-circle mr-1.5" /> Choose Resolution
-          </button>
+          <div style={{ padding: '12px 0 20px' }}>
+            <button
+              onClick={() => router.push('/analysis/business/plan')}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              <i className="fa-solid fa-check-circle" style={{ marginRight: '6px' }} /> Choose Resolution
+            </button>
+          </div>
         </div>
       </div>
     </div>

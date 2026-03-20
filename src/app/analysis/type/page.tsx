@@ -37,63 +37,75 @@ export default function AnalysisTypePage() {
   const canContinue = selectedEntity !== null && selectedDepth !== null
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 pb-2 pt-4">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px' }}>
           <button
             onClick={() => router.push('/dashboard')}
-            className="flex h-10 w-10 items-center justify-center rounded-full text-[#0A1628] transition-colors hover:bg-[#F1F5F9]"
+            style={{
+              width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center',
+              borderRadius: '50%', border: 'none', background: 'transparent', cursor: 'pointer',
+              color: '#0A1628', fontSize: 16,
+            }}
           >
-            <i className="fa-solid fa-arrow-left text-base" />
+            <i className="fa-solid fa-arrow-left" />
           </button>
-          <span className="text-[15px] font-semibold text-[#0A1628]">New Analysis</span>
-          <div className="w-10" />
+          <span style={{ fontSize: 15, fontWeight: 600, color: '#0A1628' }}>New Analysis</span>
+          <div style={{ width: 40 }} />
         </div>
 
         {/* Content */}
-        <div className="px-5 pb-6">
+        <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 0 }}>
           {/* Heading */}
-          <div className="pb-5 pt-1">
-            <h1 className="text-[1.5rem] font-extrabold leading-tight tracking-[-0.01em] text-[#0A1628]">
+          <div style={{ padding: '4px 0 20px' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2, letterSpacing: '-0.01em', marginBottom: 6 }}>
               What type of tax debt?
             </h1>
-            <p className="mt-1.5 text-[13px] text-[#94A3B8]">
+            <p style={{ fontSize: 13, color: '#94A3B8', margin: 0 }}>
               This determines which resolution paths we evaluate
             </p>
           </div>
 
           {/* Entity Type Selection */}
-          <div className="space-y-2.5 md:grid md:grid-cols-3 md:gap-3 md:space-y-0">
+          <div>
             {/* Individual */}
             <button
               onClick={() => selectEntity('individual')}
-              className={`relative flex w-full items-center gap-3.5 rounded-[16px] border-2 p-[18px_16px] text-left transition-all active:scale-[0.98] ${
-                selectedEntity === 'individual'
-                  ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.08)]'
-                  : 'border-[#F1F5F9] bg-white hover:-translate-y-0.5'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 14, padding: '18px 16px',
+                background: selectedEntity === 'individual' ? '#EFF4FF' : 'white',
+                border: `2px solid ${selectedEntity === 'individual' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 16, cursor: 'pointer', width: '100%', textAlign: 'left',
+                position: 'relative', overflow: 'hidden',
+                boxShadow: selectedEntity === 'individual' ? '0 0 0 2px rgba(10,22,40,0.08)' : 'none',
+                transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
             >
-              <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[16px] bg-[#0A1628] text-[22px] text-white">
+              <div style={{
+                width: 52, height: 52, borderRadius: 16, display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: 22, flexShrink: 0, color: 'white', background: '#0A1628',
+              }}>
                 <i className="fa-solid fa-user" />
               </div>
-              <div className="flex-1 pr-2">
-                <div className="text-[15px] font-bold text-[#0A1628]">Individual (1040)</div>
-                <div className="mt-0.5 text-[13px] leading-snug text-[#94A3B8]">Personal income tax debt</div>
+              <div style={{ flex: 1, paddingRight: 8 }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 3 }}>Individual (1040)</div>
+                <div style={{ fontSize: 13, color: '#94A3B8', lineHeight: 1.4 }}>Personal income tax debt</div>
               </div>
-              <div
-                className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                  selectedEntity === 'individual'
-                    ? 'border-[#2563EB] bg-[#2563EB]'
-                    : 'border-[#F1F5F9]'
-                }`}
-              >
-                {selectedEntity === 'individual' && (
-                  <div className="h-2 w-2 rounded-full bg-white" />
-                )}
+              <div style={{
+                width: 22, height: 22, border: `2px solid ${selectedEntity === 'individual' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedEntity === 'individual' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedEntity === 'individual' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
               </div>
               {/* Most Common badge */}
-              <div className="absolute -top-px right-4 rounded-b-lg bg-[#0A1628] px-2.5 py-[3px_10px_4px] text-[9px] font-bold uppercase tracking-[0.04em] text-white">
+              <div style={{
+                position: 'absolute', top: -1, right: 16, background: '#0A1628', color: 'white',
+                fontSize: 9, fontWeight: 700, padding: '3px 10px 4px', borderRadius: '0 0 8px 8px',
+                letterSpacing: '0.04em', textTransform: 'uppercase' as const,
+              }}>
                 Most Common
               </div>
             </button>
@@ -101,201 +113,227 @@ export default function AnalysisTypePage() {
             {/* Business */}
             <button
               onClick={() => selectEntity('business')}
-              className={`flex w-full items-center gap-3.5 rounded-[16px] border-2 p-[18px_16px] text-left transition-all active:scale-[0.98] ${
-                selectedEntity === 'business'
-                  ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.08)]'
-                  : 'border-[#F1F5F9] bg-white hover:-translate-y-0.5'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 14, padding: '18px 16px',
+                background: selectedEntity === 'business' ? '#EFF4FF' : 'white',
+                border: `2px solid ${selectedEntity === 'business' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 16, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginTop: 10,
+                boxShadow: selectedEntity === 'business' ? '0 0 0 2px rgba(10,22,40,0.08)' : 'none',
+                transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
             >
-              <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[16px] bg-[#0D9488] text-[22px] text-white">
+              <div style={{
+                width: 52, height: 52, borderRadius: 16, display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: 22, flexShrink: 0, color: 'white', background: '#0D9488',
+              }}>
                 <i className="fa-solid fa-building" />
               </div>
-              <div className="flex-1">
-                <div className="text-[15px] font-bold text-[#0A1628]">Business (941/940)</div>
-                <div className="mt-0.5 text-[13px] leading-snug text-[#94A3B8]">Payroll tax / employment tax</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 3 }}>Business (941/940)</div>
+                <div style={{ fontSize: 13, color: '#94A3B8', lineHeight: 1.4 }}>Payroll tax / employment tax</div>
               </div>
-              <div
-                className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                  selectedEntity === 'business'
-                    ? 'border-[#2563EB] bg-[#2563EB]'
-                    : 'border-[#F1F5F9]'
-                }`}
-              >
-                {selectedEntity === 'business' && (
-                  <div className="h-2 w-2 rounded-full bg-white" />
-                )}
+              <div style={{
+                width: 22, height: 22, border: `2px solid ${selectedEntity === 'business' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedEntity === 'business' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedEntity === 'business' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
               </div>
             </button>
 
             {/* Both */}
             <button
               onClick={() => selectEntity('both')}
-              className={`flex w-full items-center gap-3.5 rounded-[16px] border-2 p-[18px_16px] text-left transition-all active:scale-[0.98] ${
-                selectedEntity === 'both'
-                  ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.08)]'
-                  : 'border-[#F1F5F9] bg-white hover:-translate-y-0.5'
-              }`}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 14, padding: '18px 16px',
+                background: selectedEntity === 'both' ? '#EFF4FF' : 'white',
+                border: `2px solid ${selectedEntity === 'both' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 16, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginTop: 10,
+                boxShadow: selectedEntity === 'both' ? '0 0 0 2px rgba(10,22,40,0.08)' : 'none',
+                transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
             >
-              <div className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[16px] bg-[#7C3AED] text-[22px] text-white">
+              <div style={{
+                width: 52, height: 52, borderRadius: 16, display: 'flex', alignItems: 'center',
+                justifyContent: 'center', fontSize: 22, flexShrink: 0, color: 'white', background: '#7C3AED',
+              }}>
                 <i className="fa-solid fa-users" />
               </div>
-              <div className="flex-1">
-                <div className="text-[15px] font-bold text-[#0A1628]">Both Individual & Business</div>
-                <div className="mt-0.5 text-[13px] leading-snug text-[#94A3B8]">I have both types of debt</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, fontWeight: 700, color: '#0A1628', marginBottom: 3 }}>Both Individual & Business</div>
+                <div style={{ fontSize: 13, color: '#94A3B8', lineHeight: 1.4 }}>I have both types of debt</div>
               </div>
-              <div
-                className={`flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                  selectedEntity === 'both'
-                    ? 'border-[#2563EB] bg-[#2563EB]'
-                    : 'border-[#F1F5F9]'
-                }`}
-              >
-                {selectedEntity === 'both' && (
-                  <div className="h-2 w-2 rounded-full bg-white" />
-                )}
+              <div style={{
+                width: 22, height: 22, border: `2px solid ${selectedEntity === 'both' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedEntity === 'both' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedEntity === 'both' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
               </div>
             </button>
           </div>
 
-          {/* Analysis Depth (shown after entity selection) */}
-          <div
-            className={`overflow-hidden transition-all duration-500 ${
-              showDepth ? 'mt-6 max-h-[600px] opacity-100' : 'mt-0 max-h-0 opacity-0'
-            }`}
-          >
-            <div className="mb-3.5">
-              <div className="text-[13px] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
+          {/* Analysis Depth (hidden until entity selected) */}
+          <div style={{
+            maxHeight: showDepth ? 600 : 0, overflow: 'hidden',
+            opacity: showDepth ? 1 : 0, marginTop: showDepth ? 24 : 0,
+            transition: 'max-height 0.6s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), margin 0.4s ease',
+          }}>
+            <div style={{ marginBottom: 14 }}>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>
                 Analysis Depth
               </div>
             </div>
 
-            <div className="space-y-2.5 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
-              {/* Full Resolution */}
-              <button
-                onClick={() => selectDepth('full')}
-                className={`flex w-full items-center gap-3 rounded-[14px] border-[1.5px] p-3.5 text-left transition-all hover:-translate-y-0.5 active:scale-[0.98] ${
-                  selectedDepth === 'full'
-                    ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-                    : 'border-[#F1F5F9] bg-white'
-                }`}
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EFF4FF] text-[16px] text-[#0A1628]">
-                  <i className="fa-solid fa-compass" />
+            {/* Full Resolution */}
+            <button
+              onClick={() => selectDepth('full')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, padding: 14,
+                background: selectedDepth === 'full' ? '#EFF4FF' : 'white',
+                border: `1.5px solid ${selectedDepth === 'full' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 14, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginBottom: 10, position: 'relative',
+                boxShadow: selectedDepth === 'full' ? '0 0 0 2px rgba(10,22,40,0.06)' : 'none',
+                transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            >
+              <div style={{ width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, background: '#EFF4FF', color: '#0A1628' }}>
+                <i className="fa-solid fa-compass" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Full Resolution Analysis</span>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 9, fontWeight: 700,
+                    color: '#2563EB', background: 'rgba(10,22,40,0.08)', padding: '2px 7px', borderRadius: 6,
+                    textTransform: 'uppercase' as const, letterSpacing: '0.03em',
+                  }}>
+                    <i className="fa-solid fa-star" style={{ fontSize: 7 }} /> Recommended
+                  </span>
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-sm font-bold text-[#0A1628]">Full Resolution Analysis</span>
-                    <span className="inline-flex items-center gap-[3px] rounded-md bg-[rgba(10,22,40,0.08)] px-[7px] py-0.5 text-[9px] font-bold uppercase tracking-[0.03em] text-[#2563EB]">
-                      <i className="fa-solid fa-star text-[7px]" /> Recommended
-                    </span>
-                  </div>
-                  <div className="mt-0.5 text-xs leading-snug text-[#94A3B8]">Complete assessment of all 13+ resolution options</div>
-                </div>
-                <div
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                    selectedDepth === 'full'
-                      ? 'border-[#2563EB] bg-[#2563EB]'
-                      : 'border-[#F1F5F9]'
-                  }`}
-                >
-                  {selectedDepth === 'full' && <div className="h-[7px] w-[7px] rounded-full bg-white" />}
-                </div>
-              </button>
+                <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.4 }}>Complete assessment of all 13+ resolution options</div>
+              </div>
+              <div style={{
+                width: 20, height: 20, border: `2px solid ${selectedDepth === 'full' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedDepth === 'full' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedDepth === 'full' && <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'white' }} />}
+              </div>
+            </button>
 
-              {/* Quick Check */}
-              <button
-                onClick={() => selectDepth('quick')}
-                className={`flex w-full items-center gap-3 rounded-[14px] border-[1.5px] p-3.5 text-left transition-all hover:-translate-y-0.5 active:scale-[0.98] ${
-                  selectedDepth === 'quick'
-                    ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-                    : 'border-[#F1F5F9] bg-white'
-                }`}
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#FEF3C7] text-[16px] text-[#D97706]">
-                  <i className="fa-solid fa-bolt" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0A1628]">Quick Eligibility Check</div>
-                  <div className="mt-0.5 text-xs leading-snug text-[#94A3B8]">Fast screening for common resolution types</div>
-                </div>
-                <div
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                    selectedDepth === 'quick'
-                      ? 'border-[#2563EB] bg-[#2563EB]'
-                      : 'border-[#F1F5F9]'
-                  }`}
-                >
-                  {selectedDepth === 'quick' && <div className="h-[7px] w-[7px] rounded-full bg-white" />}
-                </div>
-              </button>
+            {/* Quick Check */}
+            <button
+              onClick={() => selectDepth('quick')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, padding: 14,
+                background: selectedDepth === 'quick' ? '#EFF4FF' : 'white',
+                border: `1.5px solid ${selectedDepth === 'quick' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 14, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginBottom: 10,
+                boxShadow: selectedDepth === 'quick' ? '0 0 0 2px rgba(10,22,40,0.06)' : 'none',
+                transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            >
+              <div style={{ width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, background: '#FEF3C7', color: '#D97706' }}>
+                <i className="fa-solid fa-bolt" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', marginBottom: 2 }}>Quick Eligibility Check</div>
+                <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.4 }}>Fast screening for common resolution types</div>
+              </div>
+              <div style={{
+                width: 20, height: 20, border: `2px solid ${selectedDepth === 'quick' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedDepth === 'quick' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedDepth === 'quick' && <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'white' }} />}
+              </div>
+            </button>
 
-              {/* Penalty Review */}
-              <button
-                onClick={() => selectDepth('penalty')}
-                className={`flex w-full items-center gap-3 rounded-[14px] border-[1.5px] p-3.5 text-left transition-all hover:-translate-y-0.5 active:scale-[0.98] ${
-                  selectedDepth === 'penalty'
-                    ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-                    : 'border-[#F1F5F9] bg-white'
-                }`}
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F0FF] text-[16px] text-[#7C3AED]">
-                  <i className="fa-solid fa-eraser" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0A1628]">Penalty Review Only</div>
-                  <div className="mt-0.5 text-xs leading-snug text-[#94A3B8]">Check penalty abatement eligibility</div>
-                </div>
-                <div
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                    selectedDepth === 'penalty'
-                      ? 'border-[#2563EB] bg-[#2563EB]'
-                      : 'border-[#F1F5F9]'
-                  }`}
-                >
-                  {selectedDepth === 'penalty' && <div className="h-[7px] w-[7px] rounded-full bg-white" />}
-                </div>
-              </button>
+            {/* Penalty Review */}
+            <button
+              onClick={() => selectDepth('penalty')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, padding: 14,
+                background: selectedDepth === 'penalty' ? '#EFF4FF' : 'white',
+                border: `1.5px solid ${selectedDepth === 'penalty' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 14, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginBottom: 10,
+                boxShadow: selectedDepth === 'penalty' ? '0 0 0 2px rgba(10,22,40,0.06)' : 'none',
+                transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            >
+              <div style={{ width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, background: '#F5F0FF', color: '#7C3AED' }}>
+                <i className="fa-solid fa-eraser" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', marginBottom: 2 }}>Penalty Review Only</div>
+                <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.4 }}>Check penalty abatement eligibility</div>
+              </div>
+              <div style={{
+                width: 20, height: 20, border: `2px solid ${selectedDepth === 'penalty' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedDepth === 'penalty' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedDepth === 'penalty' && <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'white' }} />}
+              </div>
+            </button>
 
-              {/* CSED Calculator */}
-              <button
-                onClick={() => selectDepth('csed')}
-                className={`flex w-full items-center gap-3 rounded-[14px] border-[1.5px] p-3.5 text-left transition-all hover:-translate-y-0.5 active:scale-[0.98] ${
-                  selectedDepth === 'csed'
-                    ? 'border-[#2563EB] bg-[#EFF4FF] shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-                    : 'border-[#F1F5F9] bg-white'
-                }`}
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F0FDFA] text-[16px] text-[#0D9488]">
-                  <i className="fa-solid fa-clock" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-sm font-bold text-[#0A1628]">CSED Calculator</div>
-                  <div className="mt-0.5 text-xs leading-snug text-[#94A3B8]">Calculate when your debts expire</div>
-                </div>
-                <div
-                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                    selectedDepth === 'csed'
-                      ? 'border-[#2563EB] bg-[#2563EB]'
-                      : 'border-[#F1F5F9]'
-                  }`}
-                >
-                  {selectedDepth === 'csed' && <div className="h-[7px] w-[7px] rounded-full bg-white" />}
-                </div>
-              </button>
-            </div>
+            {/* CSED Calculator */}
+            <button
+              onClick={() => selectDepth('csed')}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 12, padding: 14,
+                background: selectedDepth === 'csed' ? '#EFF4FF' : 'white',
+                border: `1.5px solid ${selectedDepth === 'csed' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: 14, cursor: 'pointer', width: '100%', textAlign: 'left',
+                marginBottom: 10,
+                boxShadow: selectedDepth === 'csed' ? '0 0 0 2px rgba(10,22,40,0.06)' : 'none',
+                transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+              }}
+            >
+              <div style={{ width: 40, height: 40, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0, background: '#F0FDFA', color: '#0D9488' }}>
+                <i className="fa-solid fa-clock" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', marginBottom: 2 }}>CSED Calculator</div>
+                <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.4 }}>Calculate when your debts expire</div>
+              </div>
+              <div style={{
+                width: 20, height: 20, border: `2px solid ${selectedDepth === 'csed' ? '#2563EB' : '#F1F5F9'}`,
+                borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: selectedDepth === 'csed' ? '#2563EB' : 'transparent',
+                marginLeft: 'auto', transition: 'all 0.2s ease',
+              }}>
+                {selectedDepth === 'csed' && <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'white' }} />}
+              </div>
+            </button>
           </div>
 
           {/* Continue Button */}
           <button
             onClick={handleContinue}
             disabled={!canContinue}
-            className={`mt-5 w-full rounded-full py-[15px] text-[15px] font-bold transition-all ${
-              canContinue
-                ? 'bg-[#00A651] text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:-translate-y-0.5 active:scale-[0.97]'
-                : 'pointer-events-none bg-[#E2E8F0] text-[#CBD5E1]'
-            }`}
+            style={{
+              marginTop: 20, width: '100%', padding: 15, border: 'none', borderRadius: 9999,
+              fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 700, cursor: canContinue ? 'pointer' : 'default',
+              background: canContinue ? '#00A651' : '#E2E8F0',
+              color: canContinue ? 'white' : '#CBD5E1',
+              boxShadow: canContinue ? '0 1px 2px rgba(0,0,0,0.03)' : 'none',
+              pointerEvents: canContinue ? 'auto' : 'none',
+              transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
+            }}
           >
-            Continue <i className="fa-solid fa-arrow-right ml-1 text-[13px]" />
+            Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: 13 }} />
           </button>
         </div>
       </div>

@@ -15,132 +15,148 @@ export default function BusinessDepositsPage() {
   const [schedule, setSchedule] = useState<'monthly' | 'semiweekly'>('monthly')
   const [nextDayRule, setNextDayRule] = useState(false)
 
+  const toggleSwitchStyle = (checked: boolean): React.CSSProperties => ({
+    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#E2E8F0',
+    borderRadius: '10px', position: 'relative' as const, cursor: 'pointer', transition: 'background 0.2s ease', flexShrink: 0, border: 'none',
+  })
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
-        <div className="px-5 pt-4">
-          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '22%' }} />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '22%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
           </div>
-          <div className="flex justify-between items-center mt-2.5">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 2 of 8</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Deposit Compliance</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 2 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Deposit Compliance</span>
           </div>
         </div>
 
-        <div className="px-5 py-4 pb-8">
-          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight mb-1">Deposit Compliance</h1>
-          <p className="text-[13px] text-[#94A3B8] leading-relaxed mb-3.5">Operating businesses must be current on federal tax deposits.</p>
+        <div style={{ padding: '16px 20px 20px' }}>
+          <div style={{ marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Deposit Compliance</h1>
+            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>Operating businesses must be current on federal tax deposits.</p>
+          </div>
 
-          {/* Warning */}
-          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#FEF2F2] border border-[rgba(230,57,70,0.15)] p-3.5 mb-3.5">
-            <i className="fa-solid fa-triangle-exclamation text-[#E63946]" />
-            <span className="text-xs text-[#991B1B]">IRS will REJECT resolution if deposits are not current. This prevents &quot;pyramiding&quot; of new debt.</span>
+          {/* Warning Alert */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#FEF2F2', border: '1px solid rgba(230,57,70,0.15)', borderRadius: '14px', marginBottom: '14px' }}>
+            <i className="fa-solid fa-triangle-exclamation" style={{ color: '#E63946' }} />
+            <span style={{ fontSize: '12px', color: '#991B1B' }}>IRS will REJECT resolution if deposits are not current. This prevents &quot;pyramiding&quot; of new debt.</span>
           </div>
 
           {/* EFTPS Enrollment */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-building-columns text-xs text-[#2563EB] mr-1.5" /> EFTPS Enrollment
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-building-columns" style={{ fontSize: '12px', color: '#2563EB' }} /> EFTPS Enrollment
             </div>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', cursor: 'pointer' }}>
               <input
                 type="checkbox"
                 checked={eftpsEnrolled}
                 onChange={() => setEftpsEnrolled(!eftpsEnrolled)}
-                className="h-5 w-9 appearance-none rounded-full bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
-                  after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
-                  checked:after:translate-x-4"
+                style={toggleSwitchStyle(eftpsEnrolled)}
               />
-              <span className="text-xs font-medium text-[#64748B]">Enrolled in EFTPS (Electronic Federal Tax Payment System)?</span>
+              <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Enrolled in EFTPS (Electronic Federal Tax Payment System)?</span>
             </label>
-            <div className="text-[10.5px] text-[#64748B] mt-2 p-2 bg-[#F8FAFC] rounded-lg">If not enrolled, enroll at EFTPS.gov. PIN arrives by mail in 5-7 business days.</div>
+            <div style={{ fontSize: '10.5px', color: '#64748B', marginTop: '8px', padding: '8px', background: '#F8FAFC', borderRadius: '8px' }}>If not enrolled, enroll at EFTPS.gov. PIN arrives by mail in 5-7 business days.</div>
           </div>
 
           {/* Depositor Schedule */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-calendar-check text-xs text-[#2563EB] mr-1.5" /> Depositor Schedule
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-calendar-check" style={{ fontSize: '12px', color: '#2563EB' }} /> Depositor Schedule
             </div>
-            <div className="flex gap-2">
-              <button
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <div
                 onClick={() => setSchedule('monthly')}
-                className={`flex-1 flex items-center justify-center rounded-lg py-2.5 text-xs font-semibold transition-all ${
-                  schedule === 'monthly' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
-                }`}
-              >Monthly</button>
-              <button
+                style={{
+                  flex: 1, justifyContent: 'center', padding: '10px', display: 'inline-flex', alignItems: 'center',
+                  background: schedule === 'monthly' ? '#EFF4FF' : '#F8FAFC',
+                  border: schedule === 'monthly' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                  borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+                  color: schedule === 'monthly' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                }}
+              >Monthly</div>
+              <div
                 onClick={() => setSchedule('semiweekly')}
-                className={`flex-1 flex items-center justify-center rounded-lg py-2.5 text-xs font-semibold transition-all ${
-                  schedule === 'semiweekly' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
-                }`}
-              >Semi-Weekly</button>
+                style={{
+                  flex: 1, justifyContent: 'center', padding: '10px', display: 'inline-flex', alignItems: 'center',
+                  background: schedule === 'semiweekly' ? '#EFF4FF' : '#F8FAFC',
+                  border: schedule === 'semiweekly' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                  borderRadius: '8px', fontSize: '12px', fontWeight: 600,
+                  color: schedule === 'semiweekly' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                }}
+              >Semi-Weekly</div>
             </div>
-            <div className="text-[10.5px] text-[#64748B] mt-2 p-2 bg-[#F8FAFC] rounded-lg">Based on lookback period: If total 941 tax &gt; $50,000 (Jul 1 - Jun 30 two years prior), semi-weekly depositor.</div>
+            <div style={{ fontSize: '10.5px', color: '#64748B', marginTop: '8px', padding: '8px', background: '#F8FAFC', borderRadius: '8px' }}>Based on lookback period: If total 941 tax &gt; $50,000 (Jul 1 - Jun 30 two years prior), semi-weekly depositor.</div>
           </div>
 
           {/* Current Quarter Deposits */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-table text-xs text-[#2563EB] mr-1.5" /> Current Quarter Deposits
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-table" style={{ fontSize: '12px', color: '#2563EB' }} /> Current Quarter Deposits
             </div>
-            <table className="w-full text-xs">
+            <table style={{ width: '100%', fontSize: '12px', borderCollapse: 'collapse' as const }}>
               <thead>
-                <tr className="bg-[#F8FAFC]">
-                  <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">Date</th>
-                  <th className="py-2 px-2 text-right font-semibold text-[#94A3B8]">Amount</th>
-                  <th className="py-2 px-2 text-center font-semibold text-[#94A3B8]">Status</th>
+                <tr style={{ background: '#F8FAFC' }}>
+                  <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>Date</th>
+                  <th style={{ padding: '8px', textAlign: 'right' as const, fontWeight: 600, color: '#94A3B8' }}>Amount</th>
+                  <th style={{ padding: '8px', textAlign: 'center' as const, fontWeight: 600, color: '#94A3B8' }}>Status</th>
                 </tr>
               </thead>
               <tbody>
                 {DEPOSIT_DATA.map((d, i) => (
-                  <tr key={i} className="border-b border-[#F1F5F9] last:border-0">
-                    <td className="py-2 px-2 font-semibold text-[#0A1628]">{d.date}</td>
-                    <td className="py-2 px-2 text-right font-semibold text-[#0A1628]">{d.amount}</td>
-                    <td className="py-2 px-2 text-center">
-                      <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                        d.status === 'Timely' ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#FEF2F2] text-[#E63946]'
-                      }`}>{d.status}</span>
+                  <tr key={i} style={{ borderBottom: i < DEPOSIT_DATA.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                    <td style={{ padding: '8px', fontWeight: 600 }}>{d.date}</td>
+                    <td style={{ padding: '8px', textAlign: 'right' as const, fontWeight: 600 }}>{d.amount}</td>
+                    <td style={{ padding: '8px', textAlign: 'center' as const }}>
+                      <span style={{
+                        padding: '2px 8px',
+                        background: d.status === 'Timely' ? '#E6F9EE' : '#FEF2F2',
+                        color: d.status === 'Timely' ? '#00A651' : '#E63946',
+                        borderRadius: '20px', fontSize: '10px', fontWeight: 700,
+                      }}>{d.status}</span>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="mt-3 rounded-[10px] bg-[#FEF2F2] p-2.5">
-              <div className="text-xs font-bold text-[#991B1B]">Deposit Shortfall: $4,250</div>
-              <div className="text-[11px] text-[#991B1B] mt-0.5">March deposit missing. Must be made before resolution can proceed.</div>
+            <div style={{ marginTop: '12px', padding: '10px', background: '#FEF2F2', borderRadius: '10px' }}>
+              <div style={{ fontSize: '12px', fontWeight: 700, color: '#991B1B' }}>Deposit Shortfall: $4,250</div>
+              <div style={{ fontSize: '11px', color: '#991B1B', marginTop: '2px' }}>March deposit missing. Must be made before resolution can proceed.</div>
             </div>
           </div>
 
           {/* $100K Rule */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-4">
-            <div className="flex items-center gap-2">
-              <i className="fa-solid fa-bolt text-sm text-[#F59E0B]" />
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <i className="fa-solid fa-bolt" style={{ fontSize: '14px', color: '#F59E0B' }} />
               <div>
-                <span className="text-[13px] font-bold text-[#0A1628]">$100,000 Next-Day Rule</span>
-                <p className="text-[11.5px] text-[#64748B] mt-0.5">If accumulated tax reaches $100,000+ on any day, deposit must be made by the next business day (IRC 6302).</p>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>$100,000 Next-Day Rule</span>
+                <p style={{ fontSize: '11.5px', color: '#64748B', marginTop: '2px' }}>If accumulated tax reaches $100,000+ on any day, deposit must be made by the next business day (IRC 6302).</p>
               </div>
             </div>
-            <label className="flex items-center gap-2 mt-2.5 cursor-pointer">
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', cursor: 'pointer' }}>
               <input
                 type="checkbox"
                 checked={nextDayRule}
                 onChange={() => setNextDayRule(!nextDayRule)}
-                className="h-5 w-9 appearance-none rounded-full bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
-                  after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
-                  checked:after:translate-x-4"
+                style={toggleSwitchStyle(nextDayRule)}
               />
-              <span className="text-xs font-medium text-[#64748B]">$100,000 next-day rule applies?</span>
+              <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>$100,000 next-day rule applies?</span>
             </label>
           </div>
 
-          <button
-            onClick={() => router.push('/analysis/business/trust-fund')}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white"
-          >
-            Continue <i className="fa-solid fa-arrow-right text-[13px]" />
-          </button>
+          <div style={{ padding: '12px 0 20px' }}>
+            <button
+              onClick={() => router.push('/analysis/business/trust-fund')}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

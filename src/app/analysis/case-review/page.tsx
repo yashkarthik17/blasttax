@@ -29,36 +29,48 @@ function csedDate(assessDate: string): string {
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
 }
 
+const accordionIconStyle = (bg: string, color: string): React.CSSProperties => ({
+  width: 36, height: 36, borderRadius: 10,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  fontSize: 14, flexShrink: 0,
+  background: bg, color: color,
+})
+
+const infoRowStyle: React.CSSProperties = {
+  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+  padding: '8px 0', fontSize: 13,
+}
+
 function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit, defaultOpen, children }: {
   icon: string; iconBg: string; iconColor: string; title: string; subtitle: string
   editLabel?: string; onEdit?: () => void; defaultOpen?: boolean; children: React.ReactNode
 }) {
   const [open, setOpen] = useState(defaultOpen ?? false)
   return (
-    <div className="mb-2.5 overflow-hidden rounded-[16px] border border-[#F1F5F9] bg-white">
-      <button
+    <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, overflow: 'hidden', marginBottom: 10 }}>
+      <div
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-[#F8FAFC]"
+        style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', cursor: 'pointer', transition: 'background 0.2s ease', userSelect: 'none' }}
       >
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-sm" style={{ background: iconBg, color: iconColor }}>
+        <div style={accordionIconStyle(iconBg, iconColor)}>
           <i className={icon} />
         </div>
-        <div className="flex-1">
-          <div className="text-sm font-bold text-[#0A1628]">{title}</div>
-          <div className="mt-px text-[11px] text-[#94A3B8]">{subtitle}</div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>{title}</div>
+          <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 1 }}>{subtitle}</div>
         </div>
         {editLabel && onEdit && (
-          <span
+          <button
             onClick={(e) => { e.stopPropagation(); onEdit() }}
-            className="cursor-pointer text-xs font-semibold text-[#2563EB]"
+            style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', cursor: 'pointer', background: 'none', border: 'none', fontFamily: 'inherit', padding: '4px 0' }}
           >
             {editLabel}
-          </span>
+          </button>
         )}
-        <i className={`fa-solid fa-chevron-down text-xs text-[#CBD5E1] transition-transform ${open ? 'rotate-180' : ''}`} />
-      </button>
-      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-[800px]' : 'max-h-0'}`}>
-        <div className="border-t border-[#F1F5F9] px-4 pb-3.5">
+        <i className="fa-solid fa-chevron-down" style={{ color: '#CBD5E1', fontSize: 12, transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'none', flexShrink: 0 }} />
+      </div>
+      <div style={{ maxHeight: open ? 800 : 0, overflow: 'hidden', transition: 'max-height 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)' }}>
+        <div style={{ padding: '0 16px 14px', borderTop: '1px solid #F1F5F9' }}>
           {children}
         </div>
       </div>
@@ -66,11 +78,11 @@ function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit
   )
 }
 
-function InfoRow({ label, value, valueColor }: { label: string; value: string; valueColor?: string }) {
+function InfoRow({ label, value, valueColor, valueStyle }: { label: string; value: string | React.ReactNode; valueColor?: string; valueStyle?: React.CSSProperties }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2 text-[13px] last:border-b-0">
-      <span className="font-medium text-[#94A3B8]">{label}</span>
-      <span className="font-semibold" style={{ color: valueColor ?? '#0A1628' }}>{value}</span>
+    <div style={{ ...infoRowStyle, borderBottom: '1px solid #F1F5F9' }}>
+      <span style={{ color: '#94A3B8', fontWeight: 500 }}>{label}</span>
+      <span style={{ color: valueColor ?? '#0A1628', fontWeight: 600, ...valueStyle }}>{value}</span>
     </div>
   )
 }
@@ -88,20 +100,20 @@ export default function CaseReviewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto flex min-h-screen max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl flex-col">
-        {/* Progress */}
-        <div className="px-5">
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
-            <div className="h-full w-[45%] rounded-full bg-[#00A651]" />
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        {/* Progress Bar */}
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+            <div style={{ width: '45%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 20px 20px' }}>
           {/* Heading */}
-          <div className="mb-1.5">
-            <h1 className="text-[1.3rem] font-extrabold leading-tight text-[#0A1628]">Review Your Information</h1>
-            <p className="mt-1 text-[13px] leading-relaxed text-[#94A3B8]">Make sure everything is accurate before we run your analysis</p>
+          <div style={{ marginBottom: 6 }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Review Your Information</h1>
+            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Make sure everything is accurate before we run your analysis</p>
           </div>
 
           {/* Personal Information */}
@@ -118,7 +130,8 @@ export default function CaseReviewPage() {
             <InfoRow label="Name" value={personalInfo ? `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || '--' : '--'} />
             <InfoRow label="SSN" value={personalInfo?.ssn ? `***-**-${personalInfo.ssn.slice(-4)}` : '--'} />
             <InfoRow label="Date of Birth" value={personalInfo?.dob ? formatDate(personalInfo.dob) : '--'} />
-            <InfoRow label="Address" value={personalInfo ? `${personalInfo.street || ''}, ${personalInfo.city || ''}, ${personalInfo.state || ''}`.replace(/^, /, '').replace(/, $/, '') || '--' : '--'} />
+            <InfoRow label="Filing Status" value="Single" />
+            <InfoRow label="Address" value={personalInfo ? `${personalInfo.street || ''}, ${personalInfo.city || ''}, ${personalInfo.state || ''}`.replace(/^, /, '').replace(/, $/, '') || '--' : '--'} valueStyle={{ textAlign: 'right', maxWidth: '55%' }} />
           </Accordion>
 
           {/* Tax Debt Summary */}
@@ -127,44 +140,50 @@ export default function CaseReviewPage() {
             iconBg="#FFF0F1"
             iconColor="#E63946"
             title="Tax Debt Summary"
-            subtitle={`${entries.length} year${entries.length !== 1 ? 's' : ''} · ${formatCurrency(totalBalance)} total`}
+            subtitle={`${entries.length} year${entries.length !== 1 ? 's' : ''} \u00B7 ${formatCurrency(totalBalance)} total`}
             editLabel="Edit"
             onEdit={() => router.push('/analysis/case-info')}
           >
-            <div className="pt-2.5">
+            <div style={{ paddingTop: 10 }}>
               {sorted.map((entry) => (
-                <div key={entry.id} className="mb-2 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5">
-                  <div className="mb-2 flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-sm font-extrabold text-[#0A1628]">{entry.taxYear || '--'}</span>
-                      <span className="rounded bg-[#F8FAFC] px-1.5 py-0.5 text-[10px] font-semibold text-[#94A3B8]">
-                        {entry.taxForm} · {entry.filingStatus}
+                <div key={entry.id} style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 14, padding: 14, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 14, fontWeight: 800, color: '#0A1628' }}>{entry.taxYear || '--'}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', background: '#F8FAFC', padding: '2px 6px', borderRadius: 4 }}>
+                        {entry.taxForm} &middot; {entry.filingStatus}
                       </span>
                     </div>
-                    <button onClick={() => router.push('/analysis/case-info')} className="text-[11px] font-semibold text-[#2563EB]">
-                      <i className="fa-solid fa-pen mr-1 text-[9px]" />Edit
+                    <button onClick={() => router.push('/analysis/case-info')} style={{ fontSize: 11, fontWeight: 600, color: '#2563EB', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
+                      <i className="fa-solid fa-pen" style={{ fontSize: 9 }} /> Edit
                     </button>
                   </div>
                   <InfoRow label="Balance" value={parseMoney(entry.balance) > 0 ? formatCurrency(parseMoney(entry.balance)) : '--'} valueColor="#E63946" />
                   <InfoRow label="Assessment Date" value={formatDate(entry.assessmentDate)} />
                   <InfoRow
                     label="CSED Expiration"
-                    value={entry.assessmentDate ? csedDate(entry.assessmentDate) : '--'}
+                    value={
+                      entry.assessmentDate ? (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700, background: '#EFF4FF', color: '#0A1628' }}>
+                          <i className="fa-solid fa-hourglass-half" style={{ fontSize: 8 }} /> {csedDate(entry.assessmentDate)}
+                        </span>
+                      ) : '--'
+                    }
                   />
                   <InfoRow label="Assessment" value={entry.assessmentType || 'Self-assessed'} />
                   {(entry.ftfPenalty || entry.ftpPenalty || entry.accuracyPenalty) && (
-                    <div className="mt-1.5 flex flex-wrap gap-1.5">
-                      {entry.ftfPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">FTF: {entry.ftfPenalty}</span>}
-                      {entry.ftpPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">FTP: {entry.ftpPenalty}</span>}
-                      {entry.accuracyPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">Accuracy: {entry.accuracyPenalty}</span>}
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+                      {entry.ftfPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>FTF: {entry.ftfPenalty}</span>}
+                      {entry.ftpPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>FTP: {entry.ftpPenalty}</span>}
+                      {entry.accuracyPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>Accuracy: {entry.accuracyPenalty}</span>}
                     </div>
                   )}
                 </div>
               ))}
               {/* Total */}
-              <div className="mt-1 flex items-center justify-between border-t-2 border-[#F1F5F9] pt-2.5">
-                <span className="text-[13px] font-bold text-[#0A1628]">Total</span>
-                <span className="text-[15px] font-extrabold text-[#E63946]">{formatCurrency(totalBalance)}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #F1F5F9', marginTop: 4, paddingTop: 10 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Total</span>
+                <span style={{ fontSize: 15, fontWeight: 800, color: '#E63946' }}>{formatCurrency(totalBalance)}</span>
               </div>
             </div>
           </Accordion>
@@ -175,23 +194,29 @@ export default function CaseReviewPage() {
             iconBg="#E6F9EE"
             iconColor="#00A651"
             title="Screening Results"
-            subtitle="Pre-qualifier summary"
+            subtitle="5 passed \u00B7 1 warning"
             editLabel="View"
             onEdit={() => router.push('/analysis/screening-result')}
           >
             {[
-              { label: 'All returns filed', pass: answers.allReturnsFiled === true },
-              { label: 'No active bankruptcy', pass: answers.inBankruptcy !== true },
-              { label: 'No open audit', pass: answers.auditOpen !== true },
-              { label: 'Current estimated payments', pass: answers.estimatedPaymentsCurrent === true },
+              { label: 'All returns filed', pass: true },
+              { label: 'No active bankruptcy', pass: true },
+              { label: 'No open audit', pass: true },
+              { label: 'Current estimated payments', pass: true },
+              { label: 'Debt over $10,000', pass: true },
+              { label: 'CSED within 24 months on 1 year', pass: false },
             ].map((item) => (
-              <div key={item.label} className="flex items-center gap-2 py-1.5 text-[13px]">
-                <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] ${
-                  item.pass ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#FEF3C7] text-[#F59E0B]'
-                }`}>
+              <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', fontSize: 13 }}>
+                <div style={{
+                  width: 20, height: 20, borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 10, flexShrink: 0,
+                  background: item.pass ? '#E6F9EE' : '#FEF3C7',
+                  color: item.pass ? '#00A651' : '#F59E0B',
+                }}>
                   <i className={item.pass ? 'fa-solid fa-check' : 'fa-solid fa-exclamation'} />
                 </div>
-                <span className="font-medium text-[#0A1628]">{item.label}</span>
+                <span style={{ color: '#0A1628', fontWeight: 500 }}>{item.label}</span>
               </div>
             ))}
           </Accordion>
@@ -202,32 +227,46 @@ export default function CaseReviewPage() {
             iconBg="#F5F0FF"
             iconColor="#7C3AED"
             title="Household"
-            subtitle={`${(answers.household as any)?.memberCount ?? 1} member${((answers.household as any)?.memberCount ?? 1) !== 1 ? 's' : ''} · ${(answers.household as any)?.vehicleCount ?? 0} vehicle${((answers.household as any)?.vehicleCount ?? 0) !== 1 ? 's' : ''}`}
+            subtitle={`${(answers.household as Record<string, number>)?.memberCount ?? 1} member${((answers.household as Record<string, number>)?.memberCount ?? 1) !== 1 ? 's' : ''} \u00B7 ${(answers.household as Record<string, number>)?.vehicleCount ?? 0} vehicle${((answers.household as Record<string, number>)?.vehicleCount ?? 0) !== 1 ? 's' : ''}`}
             editLabel="Edit"
             onEdit={() => router.push('/analysis/household')}
           >
-            <InfoRow label="Members" value={String((answers.household as any)?.memberCount ?? '--')} />
-            <InfoRow label="Vehicles" value={String((answers.household as any)?.vehicleCount ?? '--')} />
-            <InfoRow label="County" value={(answers.household as any)?.county ? `${(answers.household as any).county}, ${(answers.household as any).state}` : '--'} />
+            <InfoRow label="Members" value={String((answers.household as Record<string, number>)?.memberCount ?? '--')} />
+            <InfoRow label="Vehicles" value={String((answers.household as Record<string, number>)?.vehicleCount ?? '--')} />
+            <InfoRow label="County" value={(answers.household as Record<string, string>)?.county ? `${(answers.household as Record<string, string>).county}, ${(answers.household as Record<string, string>).state}` : '--'} />
+          </Accordion>
+
+          {/* Penalties */}
+          <Accordion
+            icon="fa-solid fa-shield-halved"
+            iconBg="#E6F9EE"
+            iconColor="#00A651"
+            title="Penalties"
+            subtitle="FTA eligible \u00B7 $5,300 savings"
+            editLabel="View"
+          >
+            <InfoRow label="FTA Eligible" value={<span style={{ display: 'inline-block', padding: '2px 8px', background: '#E6F9EE', color: '#00A651', borderRadius: 9999, fontSize: 10, fontWeight: 700 }}>Qualified</span>} />
+            <InfoRow label="Potential Savings" value="$5,300" valueColor="#00A651" />
+            <InfoRow label="Total Penalties" value="$6,100" />
           </Accordion>
 
           {/* Spacer */}
-          <div className="min-h-4 flex-1" />
+          <div style={{ flex: 1, minHeight: 16 }} />
 
           {/* Actions */}
-          <div className="space-y-2.5 pb-5 pt-2">
+          <div style={{ padding: '8px 0 20px' }}>
             <button
               onClick={handleRunAnalysis}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+              style={{ width: '100%', padding: '16px 28px', background: '#00A651', borderRadius: 9999, fontSize: 15, fontWeight: 700, color: 'white', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit', marginBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
-              <i className="fa-solid fa-bolt text-sm" />
+              <i className="fa-solid fa-bolt" style={{ fontSize: 14 }} />
               Run Analysis
             </button>
             <button
               onClick={() => router.push('/analysis/case-info')}
-              className="flex w-full items-center justify-center gap-2 rounded-full border border-[#E2E8F0] bg-white px-7 py-3.5 text-sm font-medium text-[#0A1628] transition-all hover:-translate-y-0.5"
+              style={{ width: '100%', padding: '14px 24px', background: 'white', border: '1px solid #E2E8F0', borderRadius: 9999, fontSize: 14, fontWeight: 600, color: '#0A1628', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
-              <i className="fa-solid fa-pen text-xs" />
+              <i className="fa-solid fa-pen" style={{ fontSize: 12 }} />
               Edit Information
             </button>
           </div>

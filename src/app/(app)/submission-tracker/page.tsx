@@ -27,30 +27,47 @@ export default function SubmissionTrackerPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
-          </button>
-          <div className="text-[0.95rem] font-extrabold text-[#0A1628]">Submission Tracker</div>
-          <div className="w-9" />
+        <div style={{ padding: '14px 20px 12px', display: 'flex', alignItems: 'center' }}>
+          <div
+            onClick={() => router.back()}
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: 12,
+              background: '#F8FAFC',
+              border: '1px solid #F1F5F9',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          </div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Submission Tracker</div>
+          <div style={{ width: 36, flexShrink: 0 }} />
         </div>
 
-        <div className="flex flex-col gap-5 px-5 pb-8">
-          {/* Progress Circle */}
-          <div className="flex flex-col items-center py-2">
-            <div className="relative h-[180px] w-[180px]">
-              <svg width="180" height="180" viewBox="0 0 180 180" className="-rotate-90">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '0 20px 20px' }}>
+          {/* Animated Progress Circle */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0' }}>
+            <div style={{ position: 'relative', width: 180, height: 180 }}>
+              <svg width="180" height="180" viewBox="0 0 180 180" style={{ transform: 'rotate(-90deg)' }}>
+                {/* Background circle */}
                 <circle cx="90" cy="90" r="75" fill="none" stroke="#F1F5F9" strokeWidth="10" />
+                {/* Progress arc */}
                 <circle
-                  cx="90" cy="90" r="75" fill="none"
+                  cx="90" cy="90" r="75"
+                  fill="none"
                   stroke="url(#progressGrad)"
                   strokeWidth="10"
                   strokeLinecap="round"
-                  strokeDasharray="471.24"
-                  strokeDashoffset="188.5"
+                  strokeDasharray="282.74"
+                  strokeDashoffset="113.1"
                 />
                 <defs>
                   <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -59,76 +76,125 @@ export default function SubmissionTrackerPage() {
                   </linearGradient>
                 </defs>
               </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-[0.72rem] font-semibold uppercase tracking-wider text-[#94A3B8]">Step</div>
-                <div className="text-[2.2rem] font-black leading-none tracking-tight text-[#0A1628]">
-                  3 <span className="text-base font-semibold text-[#CBD5E1]">of 5</span>
+              {/* Center text */}
+              <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Step</div>
+                <div style={{ fontSize: '2.2rem', fontWeight: 900, color: '#0A1628', letterSpacing: '-0.02em', lineHeight: 1 }}>
+                  3 <span style={{ fontSize: '1rem', fontWeight: 600, color: '#CBD5E1' }}>of 5</span>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Current Status */}
-          <div className="rounded-[20px] border border-[rgba(0,61,165,0.1)] bg-white p-5 text-center">
-            <span className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-[0.78rem] font-bold text-[#0A1628]">
-              <i className="fas fa-sync-alt text-[10px]" /> Under IRS Review
-            </span>
-            <div className="mt-1.5 text-[0.82rem] leading-relaxed text-[#64748B]">
+          {/* Current Status Card */}
+          <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid rgba(0,61,165,0.1)', textAlign: 'center' }}>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '5px 14px',
+                background: 'white',
+                borderRadius: 9999,
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                color: '#0A1628',
+                marginBottom: 10,
+              }}
+            >
+              <i className="fas fa-sync-alt" style={{ fontSize: 10 }} /> Under IRS Review
+            </div>
+            <div style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.6, marginTop: 6 }}>
               Your Offer in Compromise has been assigned to an IRS examiner who is reviewing your financial information.
             </div>
-            <div className="mt-3 rounded-[10px] border border-[rgba(245,166,35,0.15)] bg-[rgba(245,166,35,0.08)] px-3.5 py-2 text-[0.75rem] font-medium text-[#92400E]">
-              <i className="fas fa-clock mr-1 text-[10px]" />
+            <div
+              style={{
+                marginTop: 12,
+                padding: '8px 14px',
+                background: 'rgba(245,166,35,0.08)',
+                border: '1px solid rgba(245,166,35,0.15)',
+                borderRadius: 10,
+                fontSize: '0.75rem',
+                color: '#92400E',
+                fontWeight: 500,
+              }}
+            >
+              <i className="fas fa-clock" style={{ fontSize: 10, marginRight: 4 }} />
               Processing typically takes 6-12 months for OIC
             </div>
           </div>
 
-          {/* Milestones */}
+          {/* Milestone List */}
           <div>
-            <div className="mb-3 px-1 text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Milestones</div>
-            <div className="rounded-[20px] border border-[#F1F5F9] bg-white p-5">
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Milestones</div>
+            <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid #F1F5F9' }}>
               {milestones.map((m, i) => (
-                <div key={m.label} className="flex gap-3.5">
-                  <div className="flex flex-col items-center">
+                <div key={m.label} style={{ display: 'flex', gap: 14, position: 'relative' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                     {m.status === 'complete' ? (
-                      <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#00A651]">
-                        <i className="fas fa-check text-[10px] text-white" />
+                      <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#00A651', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <i className="fas fa-check" style={{ fontSize: 10, color: 'white' }} />
                       </div>
                     ) : m.status === 'current' ? (
-                      <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full bg-[#2563EB]">
-                        <div className="h-2 w-2 rounded-full bg-white" />
+                      <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />
                       </div>
                     ) : (
-                      <div className="flex h-[26px] w-[26px] items-center justify-center rounded-full border-2 border-[#D5D5E0] bg-[#F8FAFC]">
-                        <div className="h-1.5 w-1.5 rounded-full bg-[#D5D5E0]" />
+                      <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#F8FAFC', border: '2px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#D5D5E0' }} />
                       </div>
                     )}
                     {i < milestones.length - 1 && (
                       <div
-                        className="my-1 min-h-[16px] w-0.5 flex-1"
                         style={{
+                          width: 2,
+                          flex: 1,
+                          margin: '4px 0',
+                          minHeight: 16,
                           background:
-                            m.status === 'complete' ? '#00A651'
-                              : m.status === 'current' ? 'linear-gradient(to bottom, #2563EB, #F1F5F9)'
+                            m.status === 'complete'
+                              ? '#00A651'
+                              : m.status === 'current'
+                              ? 'linear-gradient(to bottom, #2563EB, #F1F5F9)'
                               : '#E2E8F0',
                         }}
                       />
                     )}
                   </div>
-                  <div className="pb-[18px]">
-                    <div className={`text-[0.82rem] font-bold ${m.status === 'current' ? 'text-[#2563EB]' : m.status === 'complete' ? 'text-[#0A1628]' : 'text-[#94A3B8]'}`}>
+                  <div style={{ paddingBottom: 18 }}>
+                    <div
+                      style={{
+                        fontSize: '0.82rem',
+                        fontWeight: 700,
+                        color: m.status === 'current' ? '#2563EB' : m.status === 'complete' ? '#0A1628' : '#94A3B8',
+                      }}
+                    >
                       {m.label}
                     </div>
                     {m.status === 'current' ? (
-                      <div className="mt-0.5 text-[0.7rem] font-medium text-[#2563EB]">Current</div>
+                      <div style={{ fontSize: '0.7rem', color: '#2563EB', fontWeight: 500, marginTop: 2 }}>Current</div>
                     ) : m.date ? (
-                      <div className="mt-0.5 text-[0.7rem] text-[#94A3B8]">{m.date}</div>
+                      <div style={{ fontSize: '0.7rem', color: '#94A3B8', marginTop: 2 }}>{m.date}</div>
                     ) : m.status === 'upcoming' ? (
-                      <div className="mt-0.5 text-[0.7rem] text-[#CBD5E1]">Upcoming</div>
+                      <div style={{ fontSize: '0.7rem', color: '#CBD5E1', marginTop: 2 }}>Upcoming</div>
                     ) : null}
                     {m.badge && (
-                      <span className="mt-1 inline-flex items-center gap-1 rounded-md bg-[#E6F9EE] px-2 py-0.5 text-[0.65rem] font-semibold text-[#065F46]">
-                        <i className="fas fa-envelope text-[8px]" /> {m.badge}
-                      </span>
+                      <div
+                        style={{
+                          marginTop: 4,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 4,
+                          padding: '3px 8px',
+                          background: '#E6F9EE',
+                          borderRadius: 6,
+                          fontSize: '0.65rem',
+                          fontWeight: 600,
+                          color: '#065F46',
+                        }}
+                      >
+                        <i className="fas fa-envelope" style={{ fontSize: 8 }} /> {m.badge}
+                      </div>
                     )}
                   </div>
                 </div>
@@ -136,34 +202,78 @@ export default function SubmissionTrackerPage() {
             </div>
           </div>
 
-          {/* Helpful Info */}
-          <div className="overflow-hidden rounded-[20px] border border-[#F1F5F9] bg-white">
-            <div className="flex items-center gap-2.5 border-b border-[#F1F5F9] p-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-[#EFF4FF]">
-                <i className="fas fa-lightbulb text-sm text-[#0A1628]" />
+          {/* Helpful Info Card (FAQ) */}
+          <div style={{ background: 'white', borderRadius: 20, border: '1px solid #F1F5F9', overflow: 'hidden' }}>
+            <div style={{ padding: 16, display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid #F1F5F9' }}>
+              <div style={{ width: 32, height: 32, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <i className="fas fa-lightbulb" style={{ fontSize: 14, color: '#0A1628' }} />
               </div>
-              <span className="text-[0.88rem] font-bold text-[#0A1628]">What to expect during review</span>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0A1628' }}>What to expect during review</div>
             </div>
+
             {faqs.map((faq, i) => (
               <div key={i}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  className={`flex w-full items-center justify-between px-4 py-3.5 text-left transition hover:bg-[#F8FAFC] ${i < faqs.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    borderBottom: i < faqs.length - 1 ? '1px solid #F1F5F9' : 'none',
+                    background: 'none',
+                    border: 'none',
+                    borderBottomWidth: i < faqs.length - 1 ? 1 : 0,
+                    borderBottomStyle: 'solid',
+                    borderBottomColor: '#F1F5F9',
+                    cursor: 'pointer',
+                    fontFamily: 'inherit',
+                    textAlign: 'left',
+                  }}
                 >
-                  <span className="text-[0.8rem] font-semibold text-[#64748B]">{faq.question}</span>
-                  <i className={`fas fa-chevron-down shrink-0 text-[10px] text-[#CBD5E1] transition-transform ${openFaq === i ? 'rotate-180' : ''}`} />
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: '#64748B' }}>{faq.question}</span>
+                  <i
+                    className="fas fa-chevron-down"
+                    style={{
+                      fontSize: 10,
+                      color: '#CBD5E1',
+                      flexShrink: 0,
+                      transition: 'transform 0.3s ease',
+                      transform: openFaq === i ? 'rotate(180deg)' : 'rotate(0deg)',
+                    }}
+                  />
                 </button>
-                <div className={`overflow-hidden transition-all ${openFaq === i ? 'max-h-48 px-4 pb-3.5' : 'max-h-0'}`}>
-                  <p className="text-[0.78rem] leading-relaxed text-[#94A3B8]">{faq.answer}</p>
+                <div
+                  style={{
+                    overflow: 'hidden',
+                    maxHeight: openFaq === i ? 200 : 0,
+                    padding: openFaq === i ? '0 16px 14px' : '0 16px',
+                    transition: 'max-height 0.4s cubic-bezier(0.25, 0.1, 0.25, 1), padding 0.3s ease',
+                  }}
+                >
+                  <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.6 }}>{faq.answer}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Contact Expert */}
-          <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0A1628] px-4 py-4 text-[0.88rem] font-bold text-white shadow-sm transition hover:-translate-y-0.5">
-            <i className="fas fa-headset" /> Contact Your Expert
-          </button>
+          {/* Contact Expert Button */}
+          <div
+            style={{
+              padding: 16,
+              background: '#0A1628',
+              borderRadius: 9999,
+              textAlign: 'center',
+              color: 'white',
+              fontSize: '0.88rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+            }}
+          >
+            <i className="fas fa-headset" style={{ marginRight: 8 }} /> Contact Your Expert
+          </div>
         </div>
       </div>
     </div>

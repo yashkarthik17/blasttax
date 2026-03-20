@@ -70,8 +70,10 @@ export default function Form656Page() {
   // Section 6: Terms acknowledged
   const [termsAccepted, setTermsAccepted] = useState(false)
 
-  const [generating, setGenerating] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+
+  // Expandable info card
+  const [infoOpen, setInfoOpen] = useState(false)
 
   // Keep offer amount at or above minimum
   const minimumForOption = paymentOption === 'lump' ? rcpMinimum : rcpPeriodicMin
@@ -91,28 +93,6 @@ export default function Form656Page() {
     )
   }
 
-  async function handleGeneratePdf() {
-    setGenerating(true)
-    try {
-      const res = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, formType: 'form-656' }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'Form-656-OIC.pdf'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setGenerating(false)
-    }
-  }
-
   async function handleSubmit() {
     setSubmitting(true)
     await new Promise((r) => setTimeout(r, 400))
@@ -127,64 +107,66 @@ export default function Form656Page() {
     return '1040'
   }
 
+  /* Shared select arrow SVG as a data URI */
+  const selectArrow = "url(\"data:image/svg+xml,%3Csvg width='12' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238585A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\")"
+
   return (
-    <div className="flex flex-col gap-[18px]">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, paddingTop: 8, paddingBottom: 20 }}>
       {/* Heading */}
       <div>
-        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">
+        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.3 }}>
           Let&apos;s prepare your Offer in Compromise
         </div>
-        <div className="text-[0.82rem] text-[#94A3B8] mt-1.5 leading-relaxed">
+        <div style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: 6, lineHeight: 1.5 }}>
           We&apos;ve pre-filled your info from onboarding. Just review and continue.
         </div>
       </div>
 
       {/* Section: Taxpayer Information */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Taxpayer Information</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Taxpayer Information</div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Name (pre-filled) */}
-        <div>
-          <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Full Name</div>
-          <div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3">
-            <span className="text-[0.85rem] font-semibold text-[#0A1628]">{name}</span>
-            <i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" />
+        {/* Name field (pre-filled) */}
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Full Name</div>
+          <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, padding: '12px 16px', position: 'relative' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{name}</span>
+            <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 12 }} />
           </div>
         </div>
 
-        {/* SSN */}
-        <div className="mb-3">
-          <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Social Security Number</div>
-          <div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3">
-            <span className="text-[0.85rem] font-semibold text-[#0A1628] tracking-wider">{ssn}</span>
-            <i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" />
+        {/* SSN field (masked) */}
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Social Security Number</div>
+          <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, padding: '12px 16px', position: 'relative' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', letterSpacing: '0.05em' }}>{ssn}</span>
+            <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 12 }} />
           </div>
         </div>
 
-        {/* Address */}
-        <div className="mb-3">
-          <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Address</div>
-          <div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3">
-            <span className="text-[0.85rem] font-semibold text-[#0A1628]">{address}</span>
-            <i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-xs" />
+        {/* Address field (pre-filled) */}
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Address</div>
+          <div style={{ background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, padding: '12px 16px', position: 'relative' }}>
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{address}</span>
+            <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 12 }} />
           </div>
         </div>
 
         {/* Phone */}
-        <div className="md:col-span-2">
-          <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Phone Number(s)</div>
-          <div className="flex gap-2">
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Phone Number(s)</div>
+          <div style={{ display: 'flex', gap: 8 }}>
             <input
               type="tel"
-              className="flex-1 px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+              style={{ flex: 1, padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none' }}
               placeholder="Primary phone"
               value={primaryPhone}
               onChange={(e) => setPrimaryPhone(e.target.value)}
             />
             <input
               type="tel"
-              className="flex-1 px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+              style={{ flex: 1, padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none' }}
               placeholder="Alternate"
               value={altPhone}
               onChange={(e) => setAltPhone(e.target.value)}
@@ -193,51 +175,50 @@ export default function Form656Page() {
         </div>
 
         {/* Email */}
-        <div className="md:col-span-2">
-          <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Email Address</div>
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Email Address</div>
           <input
             type="email"
-            className="w-full px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+            style={{ width: '100%', padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
             placeholder="email@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        </div>
       </div>
 
-      {/* Section: Spouse Information */}
+      {/* Section: Spouse Information (for joint offers) */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">
-          Spouse Information <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">(joint offers only)</span>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>
+          Spouse Information <span style={{ fontSize: '0.65rem', fontWeight: 500, textTransform: 'none', letterSpacing: '0', color: '#94A3B8' }}>(joint offers only)</span>
         </div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="mb-3">
-            <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse Full Name</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ marginBottom: 12 }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Spouse Full Name</div>
             <input
               type="text"
-              className="w-full px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+              style={{ width: '100%', padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
               placeholder="Spouse full legal name"
               value={spouseName}
               onChange={(e) => setSpouseName(e.target.value)}
             />
           </div>
-          <div className="flex gap-2 mb-3">
-            <div className="flex-1">
-              <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse SSN</div>
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Spouse SSN</div>
               <input
                 type="text"
-                className="w-full px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+                style={{ width: '100%', padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
                 placeholder="***-**-****"
                 value={spouseSsn}
                 onChange={(e) => setSpouseSsn(e.target.value)}
               />
             </div>
-            <div className="flex-1">
-              <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse DOB</div>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>Spouse DOB</div>
               <input
                 type="date"
-                className="w-full px-4 py-3 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl font-semibold text-[0.85rem] text-[#0A1628] outline-none focus:border-[#0A1628] transition-colors"
+                style={{ width: '100%', padding: '12px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 12, fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
                 value={spouseDob}
                 onChange={(e) => setSpouseDob(e.target.value)}
               />
@@ -246,18 +227,38 @@ export default function Form656Page() {
         </div>
       </div>
 
-      {/* Section: Tax Years */}
+      {/* Section: Tax Years Included in Offer */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Tax Years Included in Offer</div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Tax Years Included in Offer</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
           {taxPeriods.map((row, idx) => (
             <div
               key={idx}
-              className={`flex items-center justify-between py-2.5 ${idx < taxPeriods.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '10px 0',
+                borderBottom: idx < taxPeriods.length - 1 ? '1px solid #F1F5F9' : 'none',
+              }}
             >
-              <span className="text-[0.82rem] font-semibold text-[#0A1628]">{row.year}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>{row.year}</span>
               <select
-                className="px-2.5 py-1.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-lg font-semibold text-[0.75rem] text-[#0A1628] outline-none"
+                style={{
+                  padding: '6px 28px 6px 10px',
+                  background: '#F8FAFC',
+                  border: '1.5px solid #F3F4F6',
+                  borderRadius: 8,
+                  fontFamily: 'inherit',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                  color: '#0A1628',
+                  outline: 'none',
+                  appearance: 'none' as const,
+                  backgroundImage: selectArrow,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 8px center',
+                }}
                 value={selectedForm(row)}
                 onChange={(e) => updateTaxPeriodForm(idx, e.target.value)}
               >
@@ -270,29 +271,42 @@ export default function Form656Page() {
         </div>
       </div>
 
-      {/* Section: Offer Basis */}
+      {/* Section: OIC Basis */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Offer Basis</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Offer Basis</div>
 
         {/* DATC */}
         <button
           type="button"
           onClick={() => setOicBasis('DATC')}
-          className={`flex gap-3.5 p-4 bg-white border-[1.5px] rounded-2xl mb-2 w-full text-left transition-all ${
-            oicBasis === 'DATC' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
-          }`}
+          style={{
+            display: 'flex',
+            gap: 14,
+            padding: 16,
+            background: oicBasis === 'DATC' ? '#EBF0FF' : 'white',
+            border: oicBasis === 'DATC' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            borderRadius: 16,
+            marginBottom: 8,
+            width: '100%',
+            textAlign: 'left' as const,
+            cursor: 'pointer',
+            boxShadow: oicBasis === 'DATC' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-            oicBasis === 'DATC' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-          }`}>
-            {oicBasis === 'DATC' && <div className="w-2 h-2 rounded-full bg-white" />}
+          <div style={{
+            width: 22, height: 22, border: `2px solid ${oicBasis === 'DATC' ? '#0A1628' : '#D5D5E0'}`,
+            borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginTop: 2, background: oicBasis === 'DATC' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+          }}>
+            {oicBasis === 'DATC' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-[0.85rem] font-bold text-[#0A1628]">Doubt as to Collectibility (DATC)</span>
-              <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.6rem] font-bold text-[#00A651]">COMMON</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A1628' }}>Doubt as to Collectibility (DATC)</span>
+              <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#E6F9EE', borderRadius: 9999, fontSize: '0.6rem', fontWeight: 700, color: '#00A651' }}>COMMON</span>
             </div>
-            <div className="text-[0.75rem] text-[#94A3B8] leading-relaxed">Your assets and income are less than the full amount owed. The IRS doubts they can collect the full balance.</div>
+            <div style={{ fontSize: '0.75rem', color: '#94A3B8', lineHeight: 1.5 }}>Your assets and income are less than the full amount owed. The IRS doubts they can collect the full balance.</div>
           </div>
         </button>
 
@@ -300,30 +314,41 @@ export default function Form656Page() {
         <button
           type="button"
           onClick={() => setOicBasis('ETA')}
-          className={`flex gap-3.5 p-4 bg-white border-[1.5px] rounded-2xl w-full text-left transition-all ${
-            oicBasis === 'ETA' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
-          }`}
+          style={{
+            display: 'flex',
+            gap: 14,
+            padding: 16,
+            background: oicBasis === 'ETA' ? '#EBF0FF' : 'white',
+            border: oicBasis === 'ETA' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            borderRadius: 16,
+            width: '100%',
+            textAlign: 'left' as const,
+            cursor: 'pointer',
+            boxShadow: oicBasis === 'ETA' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-            oicBasis === 'ETA' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-          }`}>
-            {oicBasis === 'ETA' && <div className="w-2 h-2 rounded-full bg-white" />}
+          <div style={{
+            width: 22, height: 22, border: `2px solid ${oicBasis === 'ETA' ? '#0A1628' : '#D5D5E0'}`,
+            borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginTop: 2, background: oicBasis === 'ETA' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+          }}>
+            {oicBasis === 'ETA' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
           </div>
-          <div className="flex-1">
-            <div className="text-[0.85rem] font-bold text-[#0A1628] mb-1">Effective Tax Administration (ETA)</div>
-            <div className="text-[0.75rem] text-[#94A3B8] leading-relaxed">You can pay in full, but doing so would cause exceptional hardship or would be unfair due to special circumstances (e.g., disability, serious illness).</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Effective Tax Administration (ETA)</div>
+            <div style={{ fontSize: '0.75rem', color: '#94A3B8', lineHeight: 1.5 }}>You can pay in full, but doing so would cause exceptional hardship or would be unfair due to special circumstances (e.g., disability, serious illness).</div>
           </div>
         </button>
       </div>
 
       {/* Section: Offer Amount */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Offer Amount</div>
-        <div className="bg-white rounded-2xl p-5 border-[1.5px] border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="flex items-center gap-1">
-            <span className="text-[2rem] font-black text-[#CBD5E1]">$</span>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Offer Amount</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 20, border: '1.5px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ fontSize: '2rem', fontWeight: 900, color: '#CBD5E1' }}>$</span>
             <input
-              className="text-[2rem] font-black text-[#0A1628] tracking-tight bg-transparent border-none outline-none w-full caret-[#0A1628]"
               type="text"
               value={offerAmount}
               onChange={(e) => {
@@ -332,13 +357,18 @@ export default function Form656Page() {
                 else setOfferAmount('')
               }}
               placeholder="0"
+              style={{
+                fontSize: '2rem', fontWeight: 900, color: '#0A1628', letterSpacing: '-0.02em',
+                background: 'transparent', border: 'none', outline: 'none', width: '100%',
+                fontFamily: 'inherit', caretColor: '#0A1628',
+              }}
             />
           </div>
-          <div className="text-[0.72rem] text-[#0A1628] mt-1.5 px-2.5 py-1.5 bg-[#EBF0FF] rounded-lg">
-            <i className="fas fa-calculator text-[10px] mr-1 text-[#2563EB]" />
+          <div style={{ fontSize: '0.72rem', color: '#0A1628', marginTop: 6, padding: '6px 10px', background: '#EBF0FF', borderRadius: 8 }}>
+            <i className="fas fa-calculator" style={{ fontSize: 10, marginRight: 3, color: '#2563EB' }} />
             <strong>Minimum offer based on your RCP: ${rcpMinimum.toLocaleString()}</strong>
           </div>
-          <div className="text-[0.68rem] text-[#94A3B8] mt-1.5 leading-relaxed">
+          <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 6, lineHeight: 1.5 }}>
             This amount is pulled from your Reasonable Collection Potential (RCP) analysis on the Results screen. You may offer more but cannot offer less.
           </div>
         </div>
@@ -346,145 +376,193 @@ export default function Form656Page() {
 
       {/* Section: Payment Option */}
       <div>
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Payment Option</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Payment Option</div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-        {/* Lump Sum */}
+        {/* Lump Sum (selected) */}
         <button
           type="button"
           onClick={() => setPaymentOption('lump')}
-          className={`flex gap-3.5 p-[18px] bg-white border-[1.5px] rounded-2xl mb-2.5 w-full text-left transition-all ${
-            paymentOption === 'lump' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
-          }`}
+          style={{
+            display: 'flex',
+            gap: 14,
+            padding: 18,
+            background: paymentOption === 'lump' ? '#EBF0FF' : 'white',
+            border: paymentOption === 'lump' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            borderRadius: 16,
+            marginBottom: 10,
+            width: '100%',
+            textAlign: 'left' as const,
+            cursor: 'pointer',
+            boxShadow: paymentOption === 'lump' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-            paymentOption === 'lump' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-          }`}>
-            {paymentOption === 'lump' && <div className="w-2 h-2 rounded-full bg-white" />}
+          <div style={{
+            width: 22, height: 22, border: `2px solid ${paymentOption === 'lump' ? '#0A1628' : '#D5D5E0'}`,
+            borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginTop: 2, background: paymentOption === 'lump' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+          }}>
+            {paymentOption === 'lump' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="text-[0.88rem] font-bold text-[#0A1628]">Lump Sum</span>
-              <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.6rem] font-bold text-[#00A651]">RECOMMENDED</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0A1628' }}>Lump Sum</span>
+              <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#E6F9EE', borderRadius: 9999, fontSize: '0.6rem', fontWeight: 700, color: '#00A651' }}>RECOMMENDED</span>
             </div>
-            <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed">20% upfront ($1,700), remainder within 5 months of acceptance</div>
+            <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.5 }}>20% upfront ($1,700), remainder within 5 months of acceptance</div>
           </div>
         </button>
 
-        {/* Periodic */}
+        {/* Periodic Payment */}
         <button
           type="button"
           onClick={() => setPaymentOption('periodic')}
-          className={`flex gap-3.5 p-[18px] bg-white border-[1.5px] rounded-2xl w-full text-left transition-all ${
-            paymentOption === 'periodic' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
-          }`}
+          style={{
+            display: 'flex',
+            gap: 14,
+            padding: 18,
+            background: paymentOption === 'periodic' ? '#EBF0FF' : 'white',
+            border: paymentOption === 'periodic' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            borderRadius: 16,
+            width: '100%',
+            textAlign: 'left' as const,
+            cursor: 'pointer',
+            boxShadow: paymentOption === 'periodic' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 transition-all ${
-            paymentOption === 'periodic' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
-          }`}>
-            {paymentOption === 'periodic' && <div className="w-2 h-2 rounded-full bg-white" />}
+          <div style={{
+            width: 22, height: 22, border: `2px solid ${paymentOption === 'periodic' ? '#0A1628' : '#D5D5E0'}`,
+            borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            marginTop: 2, background: paymentOption === 'periodic' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+          }}>
+            {paymentOption === 'periodic' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
           </div>
-          <div className="flex-1">
-            <div className="text-[0.88rem] font-bold text-[#0A1628] mb-1">Periodic Payment</div>
-            <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed">Monthly payments over 6-24 months during IRS review</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Periodic Payment</div>
+            <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.5 }}>Monthly payments over 6-24 months during IRS review</div>
           </div>
         </button>
-        </div>
       </div>
 
       {/* Low-Income Certification */}
-      <div className="bg-[#FFFBEB] rounded-2xl p-4 border border-[rgba(245,166,35,0.15)]">
-        <div className="flex items-start gap-2.5">
+      <div style={{ background: '#FFFBEB', borderRadius: 16, padding: 16, border: '1px solid rgba(245,166,35,0.15)' }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <input
             type="checkbox"
             checked={lowIncomeCert}
             onChange={(e) => setLowIncomeCert(e.target.checked)}
-            className="w-5 h-5 mt-0.5 flex-shrink-0 accent-[#0A1628]"
+            style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#0A1628' }}
           />
           <div>
-            <div className="text-[0.82rem] font-bold text-[#92400E] mb-1">Low-Income Certification</div>
-            <div className="text-[0.75rem] text-[#92400E] leading-relaxed">
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#92400E', marginBottom: 4 }}>Low-Income Certification</div>
+            <div style={{ fontSize: '0.75rem', color: '#92400E', lineHeight: 1.5 }}>
               If your household income is at or below 250% of the Federal Poverty Level, application fees and initial payments may be waived.
             </div>
             <button
               onClick={() => router.push('/forms/form-656a')}
-              className="inline-flex items-center gap-1 mt-2 text-[0.72rem] font-bold text-[#2563EB]"
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 8, fontSize: '0.72rem', fontWeight: 700, color: '#2563EB', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
             >
-              <i className="fas fa-external-link-alt text-[9px]" />
+              <i className="fas fa-external-link-alt" style={{ fontSize: 9 }} />
               Complete Form 656-A (Income Certification)
             </button>
           </div>
         </div>
       </div>
 
-      {/* Terms & Conditions */}
-      <div className="bg-white rounded-2xl p-4 border-[1.5px] border-[#F3F4F6]">
-        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Terms &amp; Conditions</div>
-        <div className="flex items-start gap-2.5">
+      {/* Terms and Conditions */}
+      <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1.5px solid #F3F4F6' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Terms &amp; Conditions</div>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <input
             type="checkbox"
             checked={termsAccepted}
             onChange={(e) => setTermsAccepted(e.target.checked)}
-            className="w-5 h-5 mt-0.5 flex-shrink-0 accent-[#0A1628]"
+            style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#0A1628' }}
           />
-          <div className="text-[0.78rem] text-[#64748B] leading-relaxed">
-            I understand that if my offer is accepted, I must remain in full compliance with all tax filing and payment obligations for <strong className="text-[#0A1628]">5 years</strong> from the date of acceptance. Failure to comply will default the offer and reinstate the full original balance.
+          <div style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.6 }}>
+            I understand that if my offer is accepted, I must remain in full compliance with all tax filing and payment obligations for <strong style={{ color: '#0A1628' }}>5 years</strong> from the date of acceptance. Failure to comply will default the offer and reinstate the full original balance.
           </div>
         </div>
       </div>
 
       {/* Required Companion Form Note */}
-      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#EFF4FF] border border-[#BFDBFE] rounded-[14px]">
-        <i className="fas fa-file-circle-check text-sm text-[#2563EB] flex-shrink-0 mt-0.5" />
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '14px 16px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 14 }}>
+        <i className="fas fa-file-circle-check" style={{ fontSize: 14, color: '#2563EB', flexShrink: 0, marginTop: 2 }} />
         <div>
-          <div className="text-[0.82rem] font-bold text-[#0A1628] mb-1">Required Companion Form</div>
-          <div className="text-[0.75rem] text-[#64748B] leading-relaxed">
+          <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Required Companion Form</div>
+          <div style={{ fontSize: '0.75rem', color: '#64748B', lineHeight: 1.5 }}>
             <strong>Form 433-A(OIC)</strong> (Collection Information Statement) must accompany this form. It will be generated from your financial data.
           </div>
           <button
             onClick={() => router.push('/forms/form-433a-oic')}
-            className="inline-flex items-center gap-1 mt-1.5 text-[0.72rem] font-bold text-[#2563EB]"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 6, fontSize: '0.72rem', fontWeight: 700, color: '#2563EB', textDecoration: 'none', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
           >
-            <i className="fas fa-arrow-right text-[9px]" />
+            <i className="fas fa-arrow-right" style={{ fontSize: 9 }} />
             Review Form 433-A(OIC)
           </button>
         </div>
       </div>
 
       {/* Helpful Info Card */}
-      <details className="bg-[#F5F0FF] rounded-2xl border border-[rgba(124,58,237,0.1)] overflow-hidden group">
-        <summary className="px-4 py-3.5 flex items-center gap-2.5 cursor-pointer list-none">
-          <div className="w-8 h-8 rounded-[10px] bg-[rgba(124,58,237,0.1)] flex items-center justify-center flex-shrink-0">
-            <i className="fas fa-lightbulb text-sm text-[#7C3AED]" />
+      <div>
+        <div
+          onClick={() => setInfoOpen(!infoOpen)}
+          style={{ background: '#F5F0FF', borderRadius: 16, border: '1px solid rgba(124,58,237,0.1)', overflow: 'hidden', cursor: 'pointer', transition: 'all 0.3s ease' }}
+        >
+          <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 32, height: 32, borderRadius: 10, background: 'rgba(124,58,237,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <i className="fas fa-lightbulb" style={{ fontSize: 14, color: '#7C3AED' }} />
+            </div>
+            <div style={{ flex: 1, fontSize: '0.82rem', fontWeight: 600, color: '#64748B' }}>How is the offer amount calculated?</div>
+            <i className="fas fa-chevron-down" style={{ fontSize: 10, color: '#CBD5E1', transition: 'transform 0.3s ease', transform: infoOpen ? 'rotate(180deg)' : 'rotate(0deg)' }} />
           </div>
-          <div className="flex-1 text-[0.82rem] font-semibold text-[#64748B]">How is the offer amount calculated?</div>
-          <i className="fas fa-chevron-down text-[10px] text-[#CBD5E1] transition-transform group-open:rotate-180" />
-        </summary>
-        <div className="px-4 pb-3.5">
-          <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed">
-            The IRS uses a formula based on your <strong className="text-[#64748B]">Reasonable Collection Potential (RCP)</strong>: your assets&apos; equity plus future disposable income. Our AI analyzed your financial data to calculate the lowest defensible offer amount.
-          </div>
+          {infoOpen && (
+            <div style={{ padding: '0 16px 14px' }}>
+              <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.6 }}>
+                The IRS uses a formula based on your <strong style={{ color: '#64748B' }}>Reasonable Collection Potential (RCP)</strong>: your assets&apos; equity plus future disposable income. Our AI analyzed your financial data to calculate the lowest defensible offer amount.
+              </div>
+            </div>
+          )}
         </div>
-      </details>
+      </div>
 
       {/* Buttons */}
-      <div className="flex flex-col gap-3 pt-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, paddingTop: 4 }}>
         <button
           onClick={handleSubmit}
           disabled={submitting || !termsAccepted}
-          className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{
+            padding: 16,
+            background: '#00A651',
+            borderRadius: 9999,
+            textAlign: 'center',
+            color: 'white',
+            fontSize: '0.88rem',
+            fontWeight: 700,
+            boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
+            border: 'none',
+            cursor: submitting || !termsAccepted ? 'not-allowed' : 'pointer',
+            opacity: submitting || !termsAccepted ? 0.5 : 1,
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          Continue <i className="fas fa-arrow-right ml-1.5 text-xs" />
+          Continue <i className="fas fa-arrow-right" style={{ marginLeft: 6, fontSize: 12 }} />
         </button>
         <button
-          onClick={handleGeneratePdf}
-          disabled={generating}
-          className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50"
+          style={{
+            padding: 12,
+            textAlign: 'center',
+            color: '#94A3B8',
+            fontSize: '0.82rem',
+            fontWeight: 600,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
+          }}
         >
-          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
-        </button>
-        <button className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97]">
-          <i className="fas fa-bookmark mr-1.5 text-[11px]" /> Save &amp; Exit
+          <i className="fas fa-bookmark" style={{ marginRight: 6, fontSize: 11 }} /> Save &amp; Exit
         </button>
       </div>
     </div>

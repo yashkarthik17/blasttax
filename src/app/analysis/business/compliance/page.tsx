@@ -29,98 +29,103 @@ export default function BusinessCompliancePage() {
   const [opChecks, setOpChecks] = useState<Record<number, boolean>>({})
   const [oobChecks, setOobChecks] = useState<Record<number, boolean>>({})
 
+  const toggleSwitchStyle = (checked: boolean): React.CSSProperties => ({
+    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#E2E8F0',
+    borderRadius: '10px', position: 'relative' as const, cursor: 'pointer', transition: 'background 0.2s ease', flexShrink: 0, border: 'none',
+  })
+
+  const fieldInputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
+    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+  }
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
-        <div className="px-5 pt-4">
-          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
-            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '20%' }} />
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '20%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
           </div>
-          <div className="flex justify-between items-center mt-2.5">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 2 of 8</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Filing Compliance</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 2 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Filing Compliance</span>
           </div>
         </div>
 
-        <div className="px-5 py-4 pb-8">
-          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight mb-1">Filing Compliance Check</h1>
-          <p className="text-[13px] text-[#94A3B8] leading-relaxed mb-3.5">IRS requires all returns filed before any resolution. Check each item below.</p>
-
-          {/* Warning */}
-          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#FEF2F2] border border-[rgba(230,57,70,0.15)] p-3.5 mb-3.5">
-            <i className="fa-solid fa-triangle-exclamation text-[#E63946]" />
-            <span className="text-xs text-[#991B1B]">Filing compliance is the FIRST gate. IRS will not process any resolution request until the business is in compliance.</span>
+        <div style={{ padding: '16px 20px 20px' }}>
+          <div style={{ marginBottom: '6px' }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Filing Compliance Check</h1>
+            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>IRS requires all returns filed before any resolution. Check each item below.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+          {/* Warning Alert */}
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#FEF2F2', border: '1px solid rgba(230,57,70,0.15)', borderRadius: '14px', marginBottom: '14px' }}>
+            <i className="fa-solid fa-triangle-exclamation" style={{ color: '#E63946' }} />
+            <span style={{ fontSize: '12px', color: '#991B1B' }}>Filing compliance is the FIRST gate. IRS will not process any resolution request until the business is in compliance.</span>
+          </div>
+
           {/* Operating Checklist */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-file-lines text-xs text-[#2563EB] mr-1.5" /> Operating Business Checklist
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-file-lines" style={{ fontSize: '12px', color: '#2563EB' }} /> Operating Business Checklist
             </div>
             {OPERATING_ITEMS.map((item, i) => (
-              <label key={i} className="flex items-center gap-2 mt-2.5 cursor-pointer">
+              <label key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
                   checked={opChecks[i] || false}
                   onChange={() => setOpChecks((p) => ({ ...p, [i]: !p[i] }))}
-                  className="h-9 w-9 appearance-none rounded-[10px] bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
-                    after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
-                    checked:after:translate-x-4"
-                  style={{ width: '36px', height: '20px' }}
+                  style={toggleSwitchStyle(opChecks[i] || false)}
                 />
-                <span className="text-xs font-medium text-[#64748B]">{item}</span>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>{item}</span>
               </label>
             ))}
           </div>
 
           {/* OOB Checklist */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-door-closed text-xs text-[#92400E] mr-1.5" /> Out-of-Business Checklist
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-door-closed" style={{ fontSize: '12px', color: '#92400E' }} /> Out-of-Business Checklist
             </div>
             {OOB_ITEMS.map((item, i) => (
-              <label key={i} className="flex items-center gap-2 mt-2.5 cursor-pointer">
+              <label key={i} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
                   checked={oobChecks[i] || false}
                   onChange={() => setOobChecks((p) => ({ ...p, [i]: !p[i] }))}
-                  className="h-9 w-9 appearance-none rounded-[10px] bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
-                    after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
-                    checked:after:translate-x-4"
-                  style={{ width: '36px', height: '20px' }}
+                  style={toggleSwitchStyle(oobChecks[i] || false)}
                 />
-                <span className="text-xs font-medium text-[#64748B]">{item}</span>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>{item}</span>
               </label>
             ))}
           </div>
-          </div>
 
           {/* Per-Quarter Table */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
-            <div className="text-sm font-bold text-[#0A1628] mb-3">
-              <i className="fa-solid fa-table text-xs text-[#2563EB] mr-1.5" /> Per-Quarter 941 Filing Status
+          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+              <i className="fa-solid fa-table" style={{ fontSize: '12px', color: '#2563EB' }} /> Per-Quarter 941 Filing Status
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-xs">
+            <div style={{ overflowX: 'auto' as const }}>
+              <table style={{ width: '100%', fontSize: '12px', borderCollapse: 'collapse' as const }}>
                 <thead>
-                  <tr className="bg-[#F8FAFC]">
-                    <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">Quarter</th>
-                    <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">Filed?</th>
-                    <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">TC 150</th>
-                    <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">SFR?</th>
+                  <tr style={{ background: '#F8FAFC' }}>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>Quarter</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>Filed?</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>TC 150</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>SFR?</th>
                   </tr>
                 </thead>
                 <tbody>
                   {QUARTERS.map((q, i) => (
-                    <tr key={i} className="border-b border-[#F1F5F9] last:border-0">
-                      <td className="py-2 px-2 font-semibold text-[#0A1628]">{q.quarter}</td>
-                      <td className="py-2 px-2">
-                        <span className={`font-bold ${q.filed ? 'text-[#00A651]' : 'text-[#E63946]'}`}>{q.filed ? 'Yes' : 'No'}</span>
+                    <tr key={i} style={{ borderBottom: i < QUARTERS.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                      <td style={{ padding: '8px', fontWeight: 600 }}>{q.quarter}</td>
+                      <td style={{ padding: '8px' }}>
+                        <span style={{ color: q.filed ? '#00A651' : '#E63946', fontWeight: 700 }}>{q.filed ? 'Yes' : 'No'}</span>
                       </td>
-                      <td className="py-2 px-2 text-[#0A1628]">{q.tc150}</td>
-                      <td className="py-2 px-2 text-[#0A1628]">{q.sfr}</td>
+                      <td style={{ padding: '8px' }}>{q.tc150}</td>
+                      <td style={{ padding: '8px' }}>{q.sfr}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -129,22 +134,24 @@ export default function BusinessCompliancePage() {
           </div>
 
           {/* Compliance Result */}
-          <div className="rounded-xl bg-[#FEF2F2] border border-[rgba(230,57,70,0.15)] p-3.5 mb-3">
-            <div className="flex items-center gap-2">
-              <i className="fa-solid fa-circle-xmark text-[#E63946] text-base" />
+          <div style={{ padding: '14px', background: '#FEF2F2', border: '1px solid rgba(230,57,70,0.15)', borderRadius: '12px', marginBottom: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <i className="fa-solid fa-circle-xmark" style={{ color: '#E63946', fontSize: '16px' }} />
               <div>
-                <span className="text-[13px] font-bold text-[#991B1B]">Not in Compliance</span>
-                <p className="text-[11.5px] text-[#991B1B] mt-0.5">2 unfiled quarterly returns detected. Must resolve before proceeding with any resolution request.</p>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#991B1B' }}>Not in Compliance</span>
+                <p style={{ fontSize: '11.5px', color: '#991B1B', marginTop: '2px' }}>2 unfiled quarterly returns detected. Must resolve before proceeding with any resolution request.</p>
               </div>
             </div>
           </div>
 
-          <button
-            onClick={() => router.push('/analysis/business/deposits')}
-            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white mt-4"
-          >
-            Continue <i className="fa-solid fa-arrow-right text-[13px]" />
-          </button>
+          <div style={{ padding: '12px 0 20px' }}>
+            <button
+              onClick={() => router.push('/analysis/business/deposits')}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            >
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -9,11 +9,11 @@ const RELIEF_OPTIONS = [
     description: 'Temporarily stop all IRS collection activity. The IRS acknowledges you cannot afford to pay and suspends enforcement actions like levies and garnishments.',
     accentColor: '#D97706',
     icon: 'fa-pause-circle',
-    iconBg: 'bg-[#FEF3C7]',
+    iconBg: '#FEF3C7',
     tags: [
-      { icon: 'fa-coins', label: 'MDI $0 requirement', bg: 'bg-[#FFFBEB]', color: 'text-[#92400E]' },
-      { icon: 'fa-file-lines', label: 'Form 433-F', bg: 'bg-[#FFFBEB]', color: 'text-[#92400E]' },
-      { icon: 'fa-clock', label: 'Debt continues accruing', bg: 'bg-[#FFFBEB]', color: 'text-[#92400E]' },
+      { icon: 'fa-coins', label: 'MDI $0 requirement', bg: '#FFFBEB', color: '#92400E' },
+      { icon: 'fa-file-lines', label: 'Form 433-F', bg: '#FFFBEB', color: '#92400E' },
+      { icon: 'fa-clock', label: 'Debt continues accruing', bg: '#FFFBEB', color: '#92400E' },
     ],
     href: '/relief/cnc-guidance',
   },
@@ -22,11 +22,11 @@ const RELIEF_OPTIONS = [
     description: 'If your spouse (or former spouse) improperly reported items or omitted items on a joint return, you may be relieved of responsibility for the tax, interest, and penalties.',
     accentColor: '#E63946',
     icon: 'fa-shield-halved',
-    iconBg: 'bg-[#FFF0F1]',
+    iconBg: '#FFF0F1',
     tags: [
-      { icon: 'fa-file-signature', label: 'Form 8857', bg: 'bg-[#FFF0F1]', color: 'text-[#9F1239]' },
-      { icon: 'fa-list-ol', label: '3 types available', bg: 'bg-[#FFF0F1]', color: 'text-[#9F1239]' },
-      { icon: 'fa-calendar', label: '2-year filing deadline', bg: 'bg-[#FFF0F1]', color: 'text-[#9F1239]' },
+      { icon: 'fa-file-signature', label: 'Form 8857', bg: '#FFF0F1', color: '#9F1239' },
+      { icon: 'fa-list-ol', label: '3 types available', bg: '#FFF0F1', color: '#9F1239' },
+      { icon: 'fa-calendar', label: '2-year filing deadline', bg: '#FFF0F1', color: '#9F1239' },
     ],
     href: '/relief/spouse-hub',
   },
@@ -35,11 +35,11 @@ const RELIEF_OPTIONS = [
     description: 'A Collection Due Process hearing gives you the right to challenge IRS collection actions. It pauses enforcement while your case is reviewed by an independent appeals officer.',
     accentColor: '#4F46E5',
     icon: 'fa-gavel',
-    iconBg: 'bg-[#EEF2FF]',
+    iconBg: '#EEF2FF',
     tags: [
-      { icon: 'fa-file-lines', label: 'Form 12153', bg: 'bg-[#EEF2FF]', color: 'text-[#3730A3]' },
-      { icon: 'fa-clock', label: 'Within 30 days of notice', bg: 'bg-[#EEF2FF]', color: 'text-[#3730A3]' },
-      { icon: 'fa-ban', label: 'Stops levies', bg: 'bg-[#EEF2FF]', color: 'text-[#3730A3]' },
+      { icon: 'fa-file-lines', label: 'Form 12153', bg: '#EEF2FF', color: '#3730A3' },
+      { icon: 'fa-clock', label: 'Within 30 days of notice', bg: '#EEF2FF', color: '#3730A3' },
+      { icon: 'fa-ban', label: 'Stops levies', bg: '#EEF2FF', color: '#3730A3' },
     ],
     href: '#',
   },
@@ -48,11 +48,11 @@ const RELIEF_OPTIONS = [
     description: 'In certain circumstances, tax debts can be discharged through Chapter 7 bankruptcy. Strict timing rules must be met before the debt qualifies for discharge.',
     accentColor: '#6B7280',
     icon: 'fa-scale-balanced',
-    iconBg: 'bg-[#F3F4F6]',
+    iconBg: '#F3F4F6',
     tags: [
-      { icon: 'fa-calendar-days', label: '3-year rule', bg: 'bg-[#F3F4F6]', color: 'text-[#374151]' },
-      { icon: 'fa-calendar-check', label: '2-year rule', bg: 'bg-[#F3F4F6]', color: 'text-[#374151]' },
-      { icon: 'fa-hourglass-end', label: '240-day rule', bg: 'bg-[#F3F4F6]', color: 'text-[#374151]' },
+      { icon: 'fa-calendar-days', label: '3-year rule', bg: '#F3F4F6', color: '#374151' },
+      { icon: 'fa-calendar-check', label: '2-year rule', bg: '#F3F4F6', color: '#374151' },
+      { icon: 'fa-hourglass-end', label: '240-day rule', bg: '#F3F4F6', color: '#374151' },
     ],
     href: '#',
   },
@@ -62,23 +62,26 @@ export default function OtherReliefPage() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
-          </button>
-          <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Other Relief Options</div>
-          <div className="w-9" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <div
+            onClick={() => router.back()}
+            style={{ width: 36, height: 36, borderRadius: 12, background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+          >
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          </div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Other Relief Options</div>
+          <div style={{ width: 36, flexShrink: 0 }} />
         </div>
 
-        <div className="flex flex-col gap-3.5 px-5 pb-24">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '0 20px', paddingBottom: 90 }}>
           {/* Intro text */}
-          <div className="py-0.5 pb-1.5 text-center">
-            <p className="text-[0.82rem] leading-relaxed text-[#64748B]">
+          <div style={{ textAlign: 'center', padding: '2px 0 6px' }}>
+            <div style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5 }}>
               Beyond standard payment plans and offers, these relief options may apply to your situation.
-            </p>
+            </div>
           </div>
 
           {/* Relief Cards */}
@@ -86,26 +89,32 @@ export default function OtherReliefPage() {
             <Link
               key={option.title}
               href={option.href}
-              className="relative block overflow-hidden rounded-[18px] border border-[#E2E8F0] bg-white p-[18px] no-underline shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition hover:-translate-y-0.5 active:scale-[0.99]"
+              style={{ textDecoration: 'none', display: 'block', background: 'white', border: '1px solid #E2E8F0', borderRadius: 18, padding: 18, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
             >
-              <div className="absolute left-0 right-0 top-0 h-[3px]" style={{ background: option.accentColor }} />
-              <div className="flex items-start gap-3.5">
-                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] ${option.iconBg}`}>
-                  <i className={`fas ${option.icon} text-xl`} style={{ color: option.accentColor }} />
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: option.accentColor }} />
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+                <div style={{ width: 44, height: 44, borderRadius: 14, background: option.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <i className={`fas ${option.icon}`} style={{ fontSize: 20, color: option.accentColor }} />
                 </div>
-                <div className="flex-1">
-                  <div className="mb-1.5 text-[0.92rem] font-extrabold text-[#0A1628]">{option.title}</div>
-                  <p className="mb-3 text-[0.78rem] leading-relaxed text-[#64748B]">{option.description}</p>
-                  <div className="mb-3 flex flex-wrap gap-1.5">
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0A1628' }}>{option.title}</div>
+                  </div>
+                  <div style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.55, marginBottom: 12 }}>
+                    {option.description}
+                  </div>
+
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
                     {option.tags.map((tag) => (
-                      <span key={tag.label} className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[0.65rem] font-semibold ${tag.bg} ${tag.color}`}>
-                        <i className={`fas ${tag.icon} text-[8px]`} /> {tag.label}
-                      </span>
+                      <div key={tag.label} style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 8px', borderRadius: 6, fontSize: '0.65rem', fontWeight: 600, background: tag.bg, color: tag.color }}>
+                        <i className={`fas ${tag.icon}`} style={{ fontSize: 8 }} /> {tag.label}
+                      </div>
                     ))}
                   </div>
-                  <span className="inline-flex items-center gap-1.5 text-[0.78rem] font-bold" style={{ color: option.accentColor }}>
-                    Learn More <i className="fas fa-arrow-right text-[10px]" />
-                  </span>
+
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.78rem', fontWeight: 700, color: option.accentColor, cursor: 'pointer' }}>
+                    Learn More <i className="fas fa-arrow-right" style={{ fontSize: 10 }} />
+                  </div>
                 </div>
               </div>
             </Link>

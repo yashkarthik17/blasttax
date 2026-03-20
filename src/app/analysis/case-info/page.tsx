@@ -32,9 +32,34 @@ function formatCurrency(v: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(v)
 }
 
-const inputClass = 'w-full rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-3 py-2.5 text-sm font-semibold text-[#0A1628] outline-none transition-all placeholder:font-normal placeholder:text-[#CBD5E1] focus:border-[#2563EB] focus:bg-white focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-const selectClass = inputClass + ' appearance-none bg-[url("data:image/svg+xml,%3Csvg%20width%3D%2712%27%20height%3D%278%27%20fill%3D%27none%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cpath%20d%3D%27M1%201.5L6%206.5L11%201.5%27%20stroke%3D%27%238585A0%27%20stroke-width%3D%271.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E")] bg-[right_12px_center] bg-no-repeat pr-8'
-const labelClass = 'block text-[11px] font-semibold uppercase tracking-[0.04em] text-[#94A3B8] mb-1.5'
+const fieldInputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '10px 12px',
+  background: '#F8FAFC',
+  border: '1.5px solid #F1F5F9',
+  borderRadius: 10,
+  fontFamily: 'inherit',
+  fontSize: 14,
+  fontWeight: 600,
+  color: '#0A1628',
+  outline: 'none',
+  transition: 'all 0.2s ease',
+  boxSizing: 'border-box' as const,
+}
+
+const fieldSelectStyle: React.CSSProperties = {
+  ...fieldInputStyle,
+  appearance: 'none' as const,
+  backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%238585A0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right 12px center',
+  paddingRight: 32,
+}
+
+const labelStyle: React.CSSProperties = {
+  display: 'block', fontSize: 11, fontWeight: 600, color: '#94A3B8',
+  textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5,
+}
 
 export default function CaseInfoPage() {
   const router = useRouter()
@@ -65,112 +90,120 @@ export default function CaseInfoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
-        {/* Progress */}
-        <div className="px-5">
-          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
-            <div className="h-full w-[40%] rounded-full bg-[#00A651]" />
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: 480, margin: '0 auto' }}>
+        {/* Progress Bar */}
+        <div style={{ padding: '0 20px' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+            <div style={{ width: '40%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
-          <div className="mt-2.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 6</span>
-            <span className="text-xs font-semibold text-[#2563EB]">Tax Debt Inventory</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Tax Debt Inventory</span>
           </div>
         </div>
 
-        <div className="px-5 pb-5 pt-4">
+        <div style={{ padding: '16px 20px 20px' }}>
           {/* Heading */}
-          <div className="mb-1.5">
-            <h1 className="text-[1.3rem] font-extrabold leading-tight text-[#0A1628]">Tell us about your tax debt</h1>
-            <p className="mt-1 text-[13px] text-[#94A3B8]">Add each tax year you owe</p>
+          <div style={{ marginBottom: 6 }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Tell us about your tax debt</h1>
+            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, margin: '4px 0 0' }}>Add each tax year you owe</p>
           </div>
 
           {/* Pre-populated banner */}
-          <div className="mb-4 flex items-center gap-2 rounded-xl border border-[#BFDBFE] bg-[#EFF4FF] px-3.5 py-2.5 text-[13px] text-[#0A1628]">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, marginBottom: 16, fontSize: 13, color: '#0A1628' }}>
             <i className="fa-solid fa-sparkles" />
             <span>Pre-populated from your IRS transcript. Verify and adjust if needed.</span>
           </div>
 
           {/* Year Cards */}
           {entries.map((entry, idx) => (
-            <div key={entry.id} className="mb-3 rounded-[16px] border border-[#F1F5F9] bg-white p-[18px]">
+            <div key={entry.id} style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, padding: 18, marginBottom: 12 }}>
               {/* Header */}
-              <div className="mb-3 flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-xs font-bold text-[#2563EB]">
-                  <i className="fa-solid fa-calendar text-[10px]" />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '4px 12px', background: '#EFF4FF', color: '#2563EB', borderRadius: 9999, fontSize: 12, fontWeight: 700 }}>
+                  <i className="fa-solid fa-calendar" style={{ fontSize: 10 }} />
                   {entry.taxYear || 'New Year'}
                 </span>
-                <span className="text-[11px] text-[#94A3B8]">Income Tax</span>
+                <span style={{ fontSize: 11, color: '#94A3B8' }}>Income Tax</span>
               </div>
 
               {/* Year + Balance */}
-              <div className="mb-3 flex gap-2.5">
-                <div className="flex-1">
-                  <div className={labelClass}>Tax Year</div>
-                  <select className={selectClass} value={entry.taxYear} onChange={(e) => updateEntry(idx, 'taxYear', e.target.value)}>
+              <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Tax Year</label>
+                  <select style={fieldSelectStyle} value={entry.taxYear} onChange={(e) => updateEntry(idx, 'taxYear', e.target.value)}>
                     <option value="">Select</option>
                     {taxYears.map((y) => <option key={y} value={y}>{y}</option>)}
                   </select>
                 </div>
-                <div className="flex-1">
-                  <div className={labelClass}>Balance Owed</div>
-                  <input type="text" className={inputClass} value={entry.balance} onChange={(e) => updateEntry(idx, 'balance', e.target.value)} placeholder="$0" />
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Balance Owed</label>
+                  <input type="text" style={fieldInputStyle} value={entry.balance} onChange={(e) => updateEntry(idx, 'balance', e.target.value)} placeholder="$0" />
                 </div>
               </div>
 
               {/* Form + Filing */}
-              <div className="mb-3 flex gap-2.5">
-                <div className="flex-1">
-                  <div className={labelClass}>Tax Form Type</div>
-                  <select className={selectClass} value={entry.taxForm} onChange={(e) => updateEntry(idx, 'taxForm', e.target.value)}>
+              <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Tax Form Type</label>
+                  <select style={fieldSelectStyle} value={entry.taxForm} onChange={(e) => updateEntry(idx, 'taxForm', e.target.value)}>
                     {TAX_FORMS.map((f) => <option key={f} value={f}>{f}</option>)}
                   </select>
                 </div>
-                <div className="flex-1">
-                  <div className={labelClass}>Filing Status</div>
-                  <select className={selectClass} value={entry.filingStatus} onChange={(e) => updateEntry(idx, 'filingStatus', e.target.value)}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Filing Status</label>
+                  <select style={fieldSelectStyle} value={entry.filingStatus} onChange={(e) => updateEntry(idx, 'filingStatus', e.target.value)}>
                     {FILING_STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </div>
               </div>
 
-              {/* Assessment Date + Last Payment */}
-              <div className="md:grid md:grid-cols-2 md:gap-2.5">
-              <div className="mb-3">
-                <div className={labelClass}>Original Assessment Date (TC 150)</div>
-                <input type="date" className={inputClass} value={entry.assessmentDate} onChange={(e) => updateEntry(idx, 'assessmentDate', e.target.value)} />
+              {/* Assessment Date */}
+              <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Original Assessment Date (TC 150)</label>
+                  <input type="date" style={fieldInputStyle} value={entry.assessmentDate} onChange={(e) => updateEntry(idx, 'assessmentDate', e.target.value)} />
+                </div>
               </div>
 
-              <div className="mb-3">
-                <div className={labelClass}>Date of Last Payment</div>
-                <input type="date" className={inputClass} value={entry.lastPaymentDate} onChange={(e) => updateEntry(idx, 'lastPaymentDate', e.target.value)} />
-              </div>
+              {/* Last Payment */}
+              <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <label style={labelStyle}>Date of Last Payment</label>
+                  <input type="date" style={fieldInputStyle} value={entry.lastPaymentDate} onChange={(e) => updateEntry(idx, 'lastPaymentDate', e.target.value)} />
+                </div>
               </div>
 
               {/* SFR Toggle */}
-              <label className="mb-2.5 flex items-center gap-2">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 10 }}>
                 <input
                   type="checkbox"
                   checked={entry.isSfr}
                   onChange={(e) => updateEntry(idx, 'isSfr', e.target.checked)}
-                  className="h-[20px] w-[36px] cursor-pointer appearance-none rounded-[10px] bg-[#E2E8F0] transition-colors checked:bg-[#2563EB] relative after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform checked:after:translate-x-4"
+                  style={{ width: 36, height: 20, appearance: 'none', background: entry.isSfr ? '#2563EB' : '#E2E8F0', borderRadius: 10, position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', flexShrink: 0, border: 'none' }}
                 />
-                <span className="text-xs font-medium text-[#64748B]">Substitute for Return (SFR / IRS-prepared)?</span>
-              </label>
+                <span style={{ fontSize: 12, fontWeight: 500, color: '#64748B' }}>Substitute for Return (SFR / IRS-prepared)?</span>
+              </div>
 
               {/* Assessment Type */}
-              <div className="mb-2.5">
-                <div className={labelClass}>Assessment Type</div>
-                <div className="flex flex-wrap gap-1.5">
+              <div style={{ marginTop: 10 }}>
+                <label style={labelStyle}>Assessment Type</label>
+                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
                   {ASSESSMENT_TYPES.map((type) => (
                     <button
                       key={type}
                       onClick={() => updateEntry(idx, 'assessmentType', type)}
-                      className={`rounded-lg border-[1.5px] px-2.5 py-1.5 text-[11px] font-semibold transition-all ${
-                        entry.assessmentType === type
-                          ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]'
-                          : 'border-[#F1F5F9] bg-[#F8FAFC] text-[#64748B] hover:border-[#2563EB] hover:text-[#2563EB]'
-                      }`}
+                      style={{
+                        display: 'inline-flex', alignItems: 'center', gap: 4,
+                        padding: '6px 10px',
+                        background: entry.assessmentType === type ? '#EFF4FF' : '#F8FAFC',
+                        border: entry.assessmentType === type ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                        borderRadius: 8,
+                        fontSize: 11, fontWeight: 600,
+                        color: entry.assessmentType === type ? '#2563EB' : '#64748B',
+                        cursor: 'pointer', transition: 'all 0.2s ease', fontFamily: 'inherit',
+                      }}
                     >
                       {type}
                     </button>
@@ -179,53 +212,55 @@ export default function CaseInfoPage() {
               </div>
 
               {/* Penalty Toggle */}
-              <button
-                onClick={() => updateEntry(idx, 'showPenalties', !entry.showPenalties)}
-                className="flex items-center gap-1 text-[11.5px] font-semibold text-[#2563EB]"
-              >
-                <i className={`fa-solid ${entry.showPenalties ? 'fa-minus' : 'fa-plus'} text-[9px]`} />
-                {entry.showPenalties ? 'Hide penalty & interest' : 'Penalty & interest breakdown'}
-              </button>
-              {entry.showPenalties && (
-                <div className="mt-2.5 space-y-2.5">
-                  <div className="flex gap-2.5">
-                    <div className="flex-1">
-                      <div className={labelClass}>Total Penalty</div>
-                      <input type="text" className={inputClass} value={entry.totalPenalty} onChange={(e) => updateEntry(idx, 'totalPenalty', e.target.value)} placeholder="$0" />
+              <div style={{ marginTop: 8 }}>
+                <button
+                  onClick={() => updateEntry(idx, 'showPenalties', !entry.showPenalties)}
+                  style={{ fontSize: 11.5, color: '#2563EB', fontWeight: 600, cursor: 'pointer', background: 'none', border: 'none', fontFamily: 'inherit', padding: 0, display: 'flex', alignItems: 'center', gap: 4 }}
+                >
+                  <i className={`fa-solid ${entry.showPenalties ? 'fa-minus' : 'fa-plus'}`} style={{ fontSize: 9 }} />
+                  {entry.showPenalties ? ' Hide penalty & interest' : ' Penalty & interest breakdown'}
+                </button>
+                {entry.showPenalties && (
+                  <div style={{ marginTop: 10 }}>
+                    <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                      <div style={{ flex: 1 }}>
+                        <label style={labelStyle}>Total Penalty</label>
+                        <input type="text" style={fieldInputStyle} value={entry.totalPenalty} onChange={(e) => updateEntry(idx, 'totalPenalty', e.target.value)} placeholder="$0" />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <label style={labelStyle}>Interest</label>
+                        <input type="text" style={fieldInputStyle} value={entry.interest} onChange={(e) => updateEntry(idx, 'interest', e.target.value)} placeholder="$0" />
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <div className={labelClass}>Interest</div>
-                      <input type="text" className={inputClass} value={entry.interest} onChange={(e) => updateEntry(idx, 'interest', e.target.value)} placeholder="$0" />
+                    <div style={{ fontSize: 10.5, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 6, marginTop: 10 }}>Penalty Breakdown</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+                      <div>
+                        <label style={labelStyle}>FTF (Failure to File)</label>
+                        <input type="text" style={fieldInputStyle} value={entry.ftfPenalty} onChange={(e) => updateEntry(idx, 'ftfPenalty', e.target.value)} placeholder="$0" />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>FTP (Failure to Pay)</label>
+                        <input type="text" style={fieldInputStyle} value={entry.ftpPenalty} onChange={(e) => updateEntry(idx, 'ftpPenalty', e.target.value)} placeholder="$0" />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>Accuracy-Related</label>
+                        <input type="text" style={fieldInputStyle} value={entry.accuracyPenalty} onChange={(e) => updateEntry(idx, 'accuracyPenalty', e.target.value)} placeholder="$0" />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>Estimated Tax</label>
+                        <input type="text" style={fieldInputStyle} value={entry.estimatedTaxPenalty} onChange={(e) => updateEntry(idx, 'estimatedTaxPenalty', e.target.value)} placeholder="$0" />
+                      </div>
                     </div>
                   </div>
-                  <div className="text-[10.5px] font-bold uppercase tracking-[0.04em] text-[#94A3B8]">Penalty Breakdown</div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <div className={labelClass}>FTF (Failure to File)</div>
-                      <input type="text" className={inputClass} value={entry.ftfPenalty} onChange={(e) => updateEntry(idx, 'ftfPenalty', e.target.value)} placeholder="$0" />
-                    </div>
-                    <div>
-                      <div className={labelClass}>FTP (Failure to Pay)</div>
-                      <input type="text" className={inputClass} value={entry.ftpPenalty} onChange={(e) => updateEntry(idx, 'ftpPenalty', e.target.value)} placeholder="$0" />
-                    </div>
-                    <div>
-                      <div className={labelClass}>Accuracy-Related</div>
-                      <input type="text" className={inputClass} value={entry.accuracyPenalty} onChange={(e) => updateEntry(idx, 'accuracyPenalty', e.target.value)} placeholder="$0" />
-                    </div>
-                    <div>
-                      <div className={labelClass}>Estimated Tax</div>
-                      <input type="text" className={inputClass} value={entry.estimatedTaxPenalty} onChange={(e) => updateEntry(idx, 'estimatedTaxPenalty', e.target.value)} placeholder="$0" />
-                    </div>
-                  </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ))}
 
           {/* Add Year */}
           <button
             onClick={addEntry}
-            className="mb-4 flex w-full items-center justify-center gap-2 rounded-[16px] border-2 border-dashed border-[#F1F5F9] py-4 text-[13px] font-semibold text-[#64748B] transition-all hover:border-[#2563EB] hover:bg-[#EFF4FF] hover:text-[#2563EB]"
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 16, border: '2px dashed #F1F5F9', borderRadius: 16, cursor: 'pointer', transition: 'all 0.3s ease', color: '#64748B', fontSize: 13, fontWeight: 600, background: 'transparent', width: '100%', fontFamily: 'inherit' }}
           >
             <i className="fa-solid fa-plus" />
             Add another tax year
@@ -233,25 +268,30 @@ export default function CaseInfoPage() {
 
           {/* Summary Bar */}
           {totalDebt > 0 && (
-            <div className="mb-4 flex items-center justify-between rounded-[14px] bg-[#0A1628] px-[18px] py-4">
+            <div style={{ background: '#0A1628', borderRadius: 14, padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16 }}>
               <div>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.06em] text-white/50">Total Debt</span>
-                <div className="mt-0.5 text-[1.35rem] font-black tracking-tight text-white">{formatCurrency(totalDebt)}</div>
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Total Debt</span>
+                <div style={{ fontSize: '1.35rem', fontWeight: 900, color: 'white', letterSpacing: '-0.02em', marginTop: 2 }}>{formatCurrency(totalDebt)}</div>
               </div>
-              <div className="text-right">
-                <span className="text-[11px] font-semibold text-white/50">across</span>
-                <div className="text-[1.1rem] font-extrabold text-white">{yearCount} year{yearCount !== 1 ? 's' : ''}</div>
+              <div style={{ textAlign: 'right' }}>
+                <span style={{ fontSize: 11, fontWeight: 600, color: 'rgba(255,255,255,0.5)' }}>across</span>
+                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white' }}>{yearCount} year{yearCount !== 1 ? 's' : ''}</div>
               </div>
             </div>
           )}
 
+          {/* Spacer */}
+          <div style={{ minHeight: 16 }} />
+
           {/* Continue */}
-          <button
-            onClick={handleNext}
-            className="w-full rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 active:scale-[0.97]"
-          >
-            Continue <i className="fa-solid fa-arrow-right ml-1 text-[13px]" />
-          </button>
+          <div style={{ padding: '12px 0 20px' }}>
+            <button
+              onClick={handleNext}
+              style={{ width: '100%', padding: '16px 28px', background: '#00A651', borderRadius: 9999, fontSize: 15, fontWeight: 700, color: 'white', border: 'none', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit' }}
+            >
+              Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: 13 }} />
+            </button>
+          </div>
         </div>
       </div>
     </div>

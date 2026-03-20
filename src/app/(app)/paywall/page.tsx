@@ -1,191 +1,145 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
-type PlanId = 'free' | 'starter' | 'pro' | 'enterprise'
-
-interface Plan {
-  id: PlanId
-  name: string
-  price: string
-  period?: string
-  badge?: string
-  recommended?: boolean
-  current?: boolean
-  features: string[]
-  cta?: string
-}
-
-const plans: Plan[] = [
-  {
-    id: 'free',
-    name: 'Free',
-    price: '$0',
-    current: true,
-    badge: 'Current Plan',
-    features: ['Basic tax screening', '1 resolution analysis', 'Learn articles'],
-  },
-  {
-    id: 'starter',
-    name: 'Starter',
-    price: '$19',
-    period: '/mo',
-    features: ['Full resolution analysis', 'IRS form preparation', 'AI chat assistant'],
-  },
-  {
-    id: 'pro',
-    name: 'Pro',
-    price: '$49',
-    period: '/mo',
-    recommended: true,
-    badge: 'Recommended',
-    features: ['Everything in Starter', 'Expert consultation included', 'IRS representation', 'Priority support'],
-  },
-  {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: 'Custom',
-    features: ['For tax professionals', 'Multi-client management', 'Custom integrations & API'],
-    cta: 'Contact Sales',
-  },
-]
 
 export default function PaywallPage() {
   const router = useRouter()
-  const [selectedPlan, setSelectedPlan] = useState<PlanId>('pro')
 
   return (
-    <div className="min-h-screen bg-white p-4 sm:p-8">
-      <div className="mx-auto max-w-2xl space-y-5">
-        {/* Close */}
-        <div className="flex justify-end">
-          <button
-            onClick={() => router.back()}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-[rgba(10,22,40,0.06)]"
-          >
-            <svg className="h-4 w-4 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Header */}
-        <div className="px-2.5 text-center">
-          <div className="mx-auto mb-3.5 flex h-14 w-14 items-center justify-center rounded-[18px] bg-[#0A1628]">
-            <svg className="h-6 w-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
-            </svg>
-          </div>
-          <h1 className="mb-1.5 text-2xl font-extrabold tracking-tight text-[#0A1628]">Unlock Full Access</h1>
-          <p className="text-sm text-[#94A3B8]">Choose the plan that fits your needs</p>
-        </div>
-
-        {/* Plans */}
-        <div className="space-y-3">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              onClick={() => !plan.current && setSelectedPlan(plan.id)}
-              className={`relative cursor-pointer overflow-hidden rounded-2xl border-[1.5px] p-[18px] transition hover:-translate-y-0.5 ${
-                plan.current
-                  ? 'border-[#E2E8F0] bg-[#F8FAFC]'
-                  : plan.recommended
-                    ? 'border-transparent p-5'
-                    : 'border-[#E2E8F0] bg-white'
-              } ${selectedPlan === plan.id && !plan.current ? 'ring-2 ring-[#0A1628]' : ''}`}
+    <div style={{ minHeight: '100vh', background: '#FFFFFF' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '8px 20px 40px' }}>
+          {/* Close button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => router.back()}
+              style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(10,22,40,0.06)', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontFamily: 'inherit' }}
             >
-              {plan.recommended && (
-                <div className="absolute right-4 top-0">
-                  <div className="rounded-b-[10px] bg-[#0A1628] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-white">
-                    Most Popular
-                  </div>
+              <i className="fas fa-xmark" style={{ fontSize: 16, color: '#64748B' }} />
+            </button>
+          </div>
+
+          {/* Header */}
+          <div style={{ textAlign: 'center', padding: '0 10px' }}>
+            <div style={{ width: 56, height: 56, borderRadius: 18, background: '#0A1628', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px' }}>
+              <i className="fas fa-crown" style={{ fontSize: 22, color: 'white' }} />
+            </div>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', marginBottom: 6, marginTop: 0 }}>Unlock Full Access</h1>
+            <p style={{ fontSize: '0.84rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.5, margin: 0 }}>Choose the plan that fits your needs</p>
+          </div>
+
+          {/* Plans */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {/* Free Plan */}
+            <div style={{ background: '#F8FAFC', border: '1.5px solid #E2E8F0', borderRadius: 16, padding: 18, position: 'relative', overflow: 'hidden' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0A1628' }}>Free</span>
+                  <span style={{ fontSize: '0.82rem', fontWeight: 400, color: '#94A3B8', marginLeft: 4 }}>$0</span>
                 </div>
-              )}
-              <div className="mb-2.5 flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <span className={`font-bold text-[#0A1628] ${plan.recommended ? 'text-[1.05rem] font-extrabold' : 'text-[0.95rem]'}`}>
-                    {plan.name}
-                  </span>
-                  {plan.badge && (
-                    <span
-                      className={`rounded-full px-2.5 py-0.5 text-[0.6rem] font-bold uppercase tracking-wider ${
-                        plan.current
-                          ? 'bg-[#E2E8F0] text-[#64748B]'
-                          : 'bg-[#EFF4FF] text-[#0A1628]'
-                      }`}
-                    >
-                      {plan.badge}
-                    </span>
-                  )}
-                </div>
-                {plan.id !== 'enterprise' ? (
-                  <div>
-                    <span className={`font-extrabold text-[#0A1628] ${plan.recommended ? 'text-[1.4rem]' : plan.current ? 'text-[0.82rem]' : 'text-[1.25rem]'}`}>
-                      {plan.price}
-                    </span>
-                    {plan.period && <span className="text-[0.78rem] text-[#94A3B8]">{plan.period}</span>}
-                  </div>
-                ) : (
-                  <span className="text-[0.88rem] font-semibold text-[#7C3AED]">{plan.price}</span>
-                )}
+                <span style={{ padding: '3px 10px', background: '#E2E8F0', borderRadius: 9999, fontSize: '0.65rem', fontWeight: 600, color: '#64748B' }}>Current Plan</span>
               </div>
-              <div className="space-y-1">
-                {plan.features.map((feature) => (
-                  <div key={feature} className="flex items-center gap-2 py-0.5">
-                    {plan.recommended ? (
-                      <svg className="h-3 w-3 text-[#0A1628]" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                    ) : (
-                      <svg className="h-2.5 w-2.5 text-[#00A651]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    )}
-                    <span className={`text-[0.78rem] ${plan.recommended ? 'font-medium text-[#0A1628]' : 'text-[#64748B]'}`}>
-                      {feature}
-                    </span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {['Basic tax screening', '1 resolution analysis', 'Learn articles'].map((f) => (
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
+                    <i className="fas fa-check" style={{ fontSize: 10, color: '#00A651' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#64748B' }}>{f}</span>
                   </div>
                 ))}
               </div>
-              {plan.cta && (
-                <div className="mt-2.5">
-                  <span className="flex items-center gap-1 text-[0.8rem] font-semibold text-[#7C3AED]">
-                    {plan.cta}
-                    <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </div>
-              )}
             </div>
-          ))}
-        </div>
 
-        {/* CTA */}
-        <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#00A651] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90">
-          <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M7 2v11h3v9l7-12h-4l4-8z" />
-          </svg>
-          Start Pro Trial &mdash; 7 days free
-        </button>
+            {/* Starter Plan */}
+            <div style={{ background: 'white', border: '1.5px solid #E2E8F0', borderRadius: 16, padding: 18, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0A1628' }}>Starter</span>
+                </div>
+                <div>
+                  <span style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628' }}>$19</span>
+                  <span style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 400 }}>/mo</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {['Full resolution analysis', 'IRS form preparation', 'AI chat assistant'].map((f) => (
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
+                    <i className="fas fa-check" style={{ fontSize: 10, color: '#00A651' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#64748B' }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-        {/* Compare */}
-        <div className="text-center">
-          <button className="inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-[#94A3B8] transition hover:text-[#0A1628]">
-            Compare all features
-            <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          </button>
-        </div>
+            {/* Pro Plan (Recommended) */}
+            <div style={{ background: 'white', border: '2px solid transparent', borderRadius: 16, padding: 20, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+              {/* Most Popular Badge */}
+              <div style={{ position: 'absolute', top: 0, right: 16 }}>
+                <div style={{ padding: '4px 12px', background: '#0A1628', borderRadius: '0 0 10px 10px', fontSize: '0.65rem', fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Most Popular</div>
+              </div>
 
-        {/* Reassurance */}
-        <div className="flex items-center justify-center gap-1.5 py-1">
-          <svg className="h-3 w-3 text-[#00A651]" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
-          </svg>
-          <span className="text-[0.72rem] font-medium text-[#94A3B8]">No commitment, cancel anytime</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, marginTop: 4 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ fontSize: '1.05rem', fontWeight: 800, color: '#0A1628' }}>Pro</span>
+                  <span style={{ padding: '3px 8px', background: '#EFF4FF', borderRadius: 9999, fontSize: '0.6rem', fontWeight: 700, color: '#0A1628', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Recommended</span>
+                </div>
+                <div>
+                  <span style={{ fontSize: '1.4rem', fontWeight: 900, color: '#0A1628' }}>$49</span>
+                  <span style={{ fontSize: '0.78rem', color: '#94A3B8', fontWeight: 400 }}>/mo</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {['Everything in Starter', 'Expert consultation included', 'IRS representation', 'Priority support'].map((f) => (
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
+                    <i className="fas fa-check-circle" style={{ fontSize: 12, color: '#0A1628' }} />
+                    <span style={{ fontSize: '0.8rem', color: '#0A1628', fontWeight: 500 }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Enterprise Plan */}
+            <div style={{ background: 'white', border: '1.5px solid #E2E8F0', borderRadius: 16, padding: 18, position: 'relative', overflow: 'hidden', cursor: 'pointer' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                <div>
+                  <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#0A1628' }}>Enterprise</span>
+                </div>
+                <span style={{ fontSize: '0.88rem', fontWeight: 600, color: '#7C3AED' }}>Custom</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                {['For tax professionals', 'Multi-client management', 'Custom integrations & API'].map((f) => (
+                  <div key={f} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
+                    <i className="fas fa-check" style={{ fontSize: 10, color: '#00A651' }} />
+                    <span style={{ fontSize: '0.78rem', color: '#64748B' }}>{f}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: 10 }}>
+                <a href="#" style={{ fontSize: '0.8rem', fontWeight: 600, color: '#7C3AED', textDecoration: 'none' }}>Contact Sales <i className="fas fa-arrow-right" style={{ fontSize: 10 }} /></a>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, paddingTop: 6 }}>
+            <button style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', background: '#00A651', color: 'white', border: 'none', borderRadius: 9999, fontFamily: 'inherit', fontSize: '0.95rem', fontWeight: 700, cursor: 'pointer' }}>
+              <i className="fas fa-bolt" style={{ fontSize: 14 }} />
+              Start Pro Trial &mdash; 7 days free
+            </button>
+          </div>
+
+          {/* Compare all features */}
+          <div style={{ textAlign: 'center' }}>
+            <a href="#" style={{ fontSize: '0.82rem', fontWeight: 600, color: '#94A3B8', display: 'inline-flex', alignItems: 'center', gap: 5, textDecoration: 'none' }}>
+              Compare all features
+              <i className="fas fa-chevron-down" style={{ fontSize: 10 }} />
+            </a>
+          </div>
+
+          {/* Reassurance */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, padding: '4px 0' }}>
+            <i className="fas fa-shield-check" style={{ fontSize: 11, color: '#00A651' }} />
+            <span style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>No commitment, cancel anytime</span>
+          </div>
         </div>
       </div>
     </div>

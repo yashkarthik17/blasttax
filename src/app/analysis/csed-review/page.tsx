@@ -203,39 +203,42 @@ export default function CSEDReviewPage() {
     <div className="min-h-screen bg-[#F8FAFC]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
-        <div className="flex items-center gap-3 pt-4 pb-3">
-          <button onClick={() => router.back()} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition-all hover:border-[#2563EB]">
-            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
-          </button>
-          <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">CSED Review</div>
-          <div className="w-9 shrink-0" />
+        <div style={{ padding: '14px 0 12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div
+            onClick={() => router.back()}
+            style={{ width: '36px', height: '36px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s ease', flexShrink: 0 }}
+          >
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: '14px', color: '#64748B' }} />
+          </div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>CSED Review</div>
+          <div style={{ width: '36px', flexShrink: 0 }} />
         </div>
 
         {/* Heading */}
-        <div className="text-center py-1">
-          <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[0.65rem] font-bold text-[#0A1628]">
-            <i className="fa-solid fa-clock text-[9px]" /> COLLECTION TIMELINE
+        <div style={{ textAlign: 'center', padding: '4px 0 8px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 12px', background: '#EFF4FF', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 700, color: '#0A1628', marginBottom: '10px' }}>
+            <i className="fa-solid fa-clock" style={{ fontSize: '9px' }} /> COLLECTION TIMELINE
           </div>
-          <h1 className="text-[1.35rem] font-extrabold leading-tight tracking-tight text-[#0A1628]">
+          <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
             When does your tax debt expire?
           </h1>
         </div>
 
         {/* Info Card */}
-        <div className="mt-3.5 flex gap-3 rounded-2xl border border-[rgba(10,22,40,0.1)] bg-white p-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <i className="fa-solid fa-info-circle text-base text-[#0A1628]" />
+        <div style={{ background: 'white', border: '1px solid rgba(10,22,40,0.1)', borderRadius: '16px', padding: '16px', display: 'flex', gap: '12px', marginTop: '14px' }}>
+          <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <i className="fa-solid fa-info-circle" style={{ fontSize: '16px', color: '#0A1628' }} />
           </div>
           <div>
-            <div className="text-[0.82rem] font-bold text-[#0A1628] mb-1">What is CSED?</div>
-            <div className="text-[0.72rem] leading-relaxed text-[#64748B]">
-              The IRS has <strong className="text-[#0A1628]">10 years</strong> from the date of assessment to collect a tax debt. After the Collection Statute Expiration Date (CSED), the debt is legally uncollectible.
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>What is CSED?</div>
+            <div style={{ fontSize: '0.72rem', color: '#64748B', lineHeight: 1.6 }}>
+              The IRS has <strong style={{ color: '#0A1628' }}>10 years</strong> from the date of assessment to collect a tax debt. After the Collection Statute Expiration Date (CSED), the debt is legally uncollectible.
             </div>
           </div>
         </div>
 
         {/* Section Label */}
-        <div className="mt-4 px-1 text-[0.7rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
+        <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 4px', marginTop: '16px' }}>
           Your Tax Year Timeline
         </div>
 
@@ -334,11 +337,11 @@ export default function CSEDReviewPage() {
         </div>
 
         {/* Tolling Warning */}
-        <div className="mt-3 flex gap-2.5 rounded-[14px] border border-[#FDE68A] bg-[#FFFBEB] px-4 py-3.5">
-          <i className="fa-solid fa-triangle-exclamation mt-0.5 shrink-0 text-sm text-[#D97706]" />
+        <div style={{ display: 'flex', gap: '10px', padding: '14px 16px', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: '14px', marginTop: '12px' }}>
+          <i className="fa-solid fa-triangle-exclamation" style={{ fontSize: '14px', color: '#D97706', flexShrink: 0, marginTop: '2px' }} />
           <div>
-            <div className="text-[0.78rem] font-bold text-[#92400E] mb-0.5">Tolling Events Extend Your CSED</div>
-            <div className="text-[0.72rem] leading-relaxed text-[#92400E]">
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#92400E', marginBottom: '3px' }}>Tolling Events Extend Your CSED</div>
+            <div style={{ fontSize: '0.72rem', color: '#92400E', lineHeight: 1.55 }}>
               Filing an OIC <strong>pauses the CSED clock + adds 30 days</strong> after rejection. CDP hearing requests, bankruptcy filings, time abroad (6+ months), and military combat zone service also toll the statute.
             </div>
           </div>
@@ -346,44 +349,61 @@ export default function CSEDReviewPage() {
 
         {/* Summary Card */}
         {earliest && latest && (
-          <div className="mt-3 relative overflow-hidden rounded-[18px] bg-[#0A1628] p-5">
-            <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/[0.06]" />
-            <div className="absolute -bottom-5 -left-2.5 h-[60px] w-[60px] rounded-full bg-white/[0.04]" />
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-white/[0.15]">
-                <i className="fa-solid fa-chart-line text-sm text-white" />
+          <div style={{ background: '#0A1628', borderRadius: '18px', padding: '20px', position: 'relative', overflow: 'hidden', marginTop: '12px' }}>
+            <div style={{ position: 'absolute', top: '-15px', right: '-15px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
+            <div style={{ position: 'absolute', bottom: '-20px', left: '-10px', width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+              <div style={{ width: '32px', height: '32px', borderRadius: '10px', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <i className="fa-solid fa-chart-line" style={{ fontSize: '14px', color: 'white' }} />
               </div>
-              <div className="text-[0.82rem] font-bold text-white">Summary</div>
+              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'white' }}>Summary</div>
             </div>
-            <div className="text-[1.1rem] font-extrabold leading-tight text-white mb-1.5">
+            <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'white', marginBottom: '6px', lineHeight: 1.3 }}>
               Your debts expire between {fmtDateShort(earliest.adjustedCSED)} &ndash; {fmtDateShort(latest.adjustedCSED)}
             </div>
-            <div className="text-[0.72rem] leading-snug text-white/75 mb-2.5">
+            <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: '10px' }}>
               The nearest CSED is {fmtDate(earliest.adjustedCSED)} (Tax Year {earliest.taxYear}, {earliest.remaining} months remaining). Strategic planning around these dates can maximize your resolution options.
             </div>
-            <div className="flex gap-2">
-              <div className="flex-1 rounded-[10px] bg-white/10 px-2.5 py-2">
-                <div className="text-[0.62rem] uppercase tracking-wider text-white/50">Earliest</div>
-                <div className="text-[0.82rem] font-extrabold text-white">{fmtDateShort(earliest.adjustedCSED)}</div>
-                <div className="text-[0.62rem] text-white/60">{earliest.remaining} months</div>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' as const }}>
+              <div style={{ flex: 1, minWidth: '100px', padding: '8px 10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
+                <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const, letterSpacing: '0.04em' }}>Earliest</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'white' }}>{fmtDateShort(earliest.adjustedCSED)}</div>
+                <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.6)' }}>{earliest.remaining} months</div>
               </div>
-              <div className="flex-1 rounded-[10px] bg-white/10 px-2.5 py-2">
-                <div className="text-[0.62rem] uppercase tracking-wider text-white/50">Latest</div>
-                <div className="text-[0.82rem] font-extrabold text-white">{fmtDateShort(latest.adjustedCSED)}</div>
-                <div className="text-[0.62rem] text-white/60">{latest.remaining} months</div>
+              <div style={{ flex: 1, minWidth: '100px', padding: '8px 10px', background: 'rgba(255,255,255,0.1)', borderRadius: '10px' }}>
+                <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const, letterSpacing: '0.04em' }}>Latest</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 800, color: 'white' }}>{fmtDateShort(latest.adjustedCSED)}</div>
+                <div style={{ fontSize: '0.62rem', color: 'rgba(255,255,255,0.6)' }}>{latest.remaining} months</div>
               </div>
             </div>
           </div>
         )}
 
         {/* Continue Button */}
-        <div className="mt-4">
+        <div style={{ marginTop: '16px' }}>
           <button
             onClick={handleContinue}
-            className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00A651] py-4 text-[0.9rem] font-semibold text-white transition-colors hover:bg-[#008C44]"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              border: 'none',
+              borderRadius: '9999px',
+              padding: '16px 28px',
+              fontFamily: 'inherit',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              background: '#00A651',
+              color: 'white',
+              width: '100%',
+              boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+              transition: 'opacity 0.15s ease, transform 0.15s ease',
+            }}
           >
             Continue
-            <i className="fa-solid fa-arrow-right text-[13px]" />
+            <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
           </button>
         </div>
       </div>

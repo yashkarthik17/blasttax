@@ -6,127 +6,145 @@ export default function PenaltyReliefPage() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3.5">
-          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
-            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
-          </button>
-          <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Penalty Relief</div>
-          <div className="w-9" />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
+          <div
+            onClick={() => router.back()}
+            style={{ width: 36, height: 36, borderRadius: 12, background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+          >
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          </div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Penalty Relief</div>
+          <div style={{ width: 36, flexShrink: 0 }} />
         </div>
 
-        <div className="flex flex-col gap-4 px-5 pb-8">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '0 20px', paddingBottom: 32 }}>
           {/* Heading */}
-          <div className="py-1 text-center">
-            <span className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#FFF0F1] px-3 py-1 text-[0.65rem] font-bold text-[#E63946]">
-              <i className="fas fa-percent text-[9px]" /> PENALTY REDUCTION
-            </span>
-            <h1 className="text-[1.35rem] font-extrabold leading-tight tracking-tight text-[#0A1628]">
+          <div style={{ textAlign: 'center', padding: '4px 0' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 12px', background: '#FFF0F1', borderRadius: 9999, fontSize: '0.65rem', fontWeight: 700, color: '#E63946', marginBottom: 10 }}>
+              <i className="fas fa-percent" style={{ fontSize: 9 }} /> PENALTY REDUCTION
+            </div>
+            <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0 }}>
               Reduce Your Tax Penalties
             </h1>
           </div>
 
           {/* Penalty Totals Card */}
-          <div className="rounded-[18px] border border-[#E2E8F0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-            <div className="mb-3.5 text-[0.7rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Current Penalties</div>
-            <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2.5">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#FEF2F2]">
-                  <i className="fas fa-file-circle-xmark text-xs text-[#EF4444]" />
+          <div style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: 18, padding: 18, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Current Penalties</div>
+
+            {/* Penalty row 1 */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #F1F5F9' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 30, height: 30, borderRadius: 8, background: '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-file-circle-xmark" style={{ fontSize: 12, color: '#EF4444' }} />
                 </div>
                 <div>
-                  <div className="text-[0.82rem] font-semibold text-[#0A1628]">Failure to File</div>
-                  <div className="text-[0.68rem] text-[#94A3B8]">IRC 6651(a)(1)</div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Failure to File</div>
+                  <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>IRC 6651(a)(1)</div>
                 </div>
               </div>
-              <div className="text-[0.9rem] font-extrabold text-[#EF4444]">$3,200</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#EF4444' }}>$3,200</div>
             </div>
-            <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2.5">
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#FEF2F2]">
-                  <i className="fas fa-hand-holding-dollar text-xs text-[#EF4444]" />
+
+            {/* Penalty row 2 */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #F1F5F9' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ width: 30, height: 30, borderRadius: 8, background: '#FEF2F2', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-hand-holding-dollar" style={{ fontSize: 12, color: '#EF4444' }} />
                 </div>
                 <div>
-                  <div className="text-[0.82rem] font-semibold text-[#0A1628]">Failure to Pay</div>
-                  <div className="text-[0.68rem] text-[#94A3B8]">IRC 6651(a)(2)</div>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Failure to Pay</div>
+                  <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>IRC 6651(a)(2)</div>
                 </div>
               </div>
-              <div className="text-[0.9rem] font-extrabold text-[#EF4444]">$2,100</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 800, color: '#EF4444' }}>$2,100</div>
             </div>
-            <div className="flex items-center justify-between pb-0.5 pt-3">
-              <div className="text-[0.85rem] font-bold text-[#0A1628]">Total Penalties</div>
-              <div className="text-[1.15rem] font-black tracking-tight text-[#E63946]">$5,300</div>
+
+            {/* Total row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 0 2px' }}>
+              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A1628' }}>Total Penalties</div>
+              <div style={{ fontSize: '1.15rem', fontWeight: 900, color: '#E63946', letterSpacing: '-0.01em' }}>$5,300</div>
             </div>
           </div>
 
           {/* Section Label */}
-          <div className="mt-0.5 px-1 text-[0.7rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Relief Strategies</div>
+          <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 4px', marginTop: 2 }}>
+            Relief Strategies
+          </div>
 
           {/* Strategy Card 1: FTA (Recommended) */}
-          <div className="relative overflow-hidden rounded-[18px] border-2 border-[#0A1628] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition hover:-translate-y-0.5">
-            <div className="h-1 bg-[#0A1628]" />
-            <div className="p-[18px]">
-              <div className="mb-3.5 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#EBF0FF]">
-                    <i className="fas fa-shield-halved text-base text-[#0A1628]" />
+          <div style={{ background: 'white', border: '2px solid #0A1628', borderRadius: 18, overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)', position: 'relative' }}>
+            <div style={{ height: 4, background: '#0A1628' }} />
+            <div style={{ padding: 18 }}>
+              {/* Title row */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EBF0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <i className="fas fa-shield-halved" style={{ fontSize: 16, color: '#0A1628' }} />
                   </div>
                   <div>
-                    <div className="text-[0.92rem] font-extrabold text-[#0A1628]">First-Time Abatement</div>
-                    <div className="mt-px text-[0.68rem] text-[#94A3B8]">Administrative waiver</div>
+                    <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0A1628' }}>First-Time Abatement</div>
+                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Administrative waiver</div>
                   </div>
                 </div>
-                <div className="rounded-lg bg-[#0A1628] px-2.5 py-1 text-[0.6rem] font-extrabold uppercase tracking-wider text-white">
+                <div style={{ padding: '4px 10px', background: '#0A1628', borderRadius: 8, fontSize: '0.6rem', fontWeight: 800, color: 'white', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Recommended
                 </div>
               </div>
 
-              <div className="mb-3.5 rounded-xl bg-[#F8FAFC] p-3 px-3.5">
-                <div className="mb-2 text-[0.7rem] font-bold uppercase tracking-wide text-[#64748B]">Eligibility Check</div>
+              {/* Eligibility checklist */}
+              <div style={{ background: '#F8FAFC', borderRadius: 12, padding: '12px 14px', marginBottom: 14 }}>
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 8 }}>Eligibility Check</div>
                 {['No prior penalties in last 3 years', 'All required returns filed', 'Current on payment agreement (or paid)'].map((item) => (
-                  <div key={item} className="flex items-center gap-2 py-1.5">
-                    <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-[#00A651]">
-                      <i className="fas fa-check text-[10px] text-white" />
+                  <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0' }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 6, background: '#00A651', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <i className="fas fa-check" style={{ fontSize: 10, color: 'white' }} />
                     </div>
-                    <span className="text-[0.78rem] font-medium text-[#0A1628]">{item}</span>
+                    <span style={{ fontSize: '0.78rem', fontWeight: 500, color: '#0A1628' }}>{item}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="mb-3.5 flex items-center justify-between rounded-xl border border-[#A7F3D0] bg-[#ECFDF5] px-3.5 py-3">
-                <div className="flex items-center gap-1.5">
-                  <i className="fas fa-piggy-bank text-[13px] text-[#10B981]" />
-                  <span className="text-[0.78rem] font-semibold text-[#065F46]">Estimated Savings</span>
+              {/* Estimated savings */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 14px', background: '#ECFDF5', border: '1px solid #A7F3D0', borderRadius: 12, marginBottom: 14 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <i className="fas fa-piggy-bank" style={{ fontSize: 13, color: '#10B981' }} />
+                  <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#065F46' }}>Estimated Savings</span>
                 </div>
-                <span className="text-[1.05rem] font-black text-[#10B981]">$5,300</span>
+                <span style={{ fontSize: '1.05rem', fontWeight: 900, color: '#10B981' }}>$5,300</span>
               </div>
 
-              <button className="w-full rounded-full bg-[#00A651] py-3.5 text-center text-[0.85rem] font-bold text-white transition hover:-translate-y-0.5 active:scale-[0.97]">
-                <i className="fas fa-paper-plane mr-1.5 text-xs" /> Apply for FTA
-              </button>
+              {/* Apply button */}
+              <div style={{ padding: 13, background: '#00A651', borderRadius: 9999, textAlign: 'center', color: 'white', fontSize: '0.85rem', fontWeight: 700, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', cursor: 'pointer' }}>
+                <i className="fas fa-paper-plane" style={{ marginRight: 6, fontSize: 12 }} /> Apply for FTA
+              </div>
             </div>
           </div>
 
           {/* Strategy Card 2: Reasonable Cause */}
-          <div className="rounded-[18px] border border-[#E2E8F0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition hover:-translate-y-0.5">
-            <div className="mb-3.5 flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#F5F0FF]">
-                <i className="fas fa-scale-balanced text-base text-[#7C3AED]" />
+          <div style={{ background: 'white', border: '1px solid #E2E8F0', borderRadius: 18, padding: 18, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            {/* Title row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <i className="fas fa-scale-balanced" style={{ fontSize: 16, color: '#7C3AED' }} />
               </div>
               <div>
-                <div className="text-[0.92rem] font-extrabold text-[#0A1628]">Reasonable Cause</div>
-                <div className="mt-px text-[0.68rem] text-[#94A3B8]">Circumstance-based relief</div>
+                <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0A1628' }}>Reasonable Cause</div>
+                <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Circumstance-based relief</div>
               </div>
             </div>
 
-            <p className="mb-3.5 text-[0.78rem] leading-relaxed text-[#64748B]">
+            {/* Description */}
+            <div style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.6, marginBottom: 14 }}>
               If you can demonstrate that your failure to file or pay was due to circumstances beyond your control, the IRS may abate your penalties.
-            </p>
+            </div>
 
-            <div className="mb-3.5 rounded-xl bg-[#F8FAFC] p-3 px-3.5">
-              <div className="mb-2 text-[0.7rem] font-bold uppercase tracking-wide text-[#64748B]">Qualifying Reasons</div>
+            {/* Qualifying reasons */}
+            <div style={{ background: '#F8FAFC', borderRadius: 12, padding: '12px 14px', marginBottom: 14 }}>
+              <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 8 }}>Qualifying Reasons</div>
               {[
                 { icon: 'fa-hospital', label: 'Serious illness or incapacitation' },
                 { icon: 'fa-house-crack', label: 'Natural disaster or casualty' },
@@ -134,23 +152,24 @@ export default function PenaltyReliefPage() {
                 { icon: 'fa-file-circle-question', label: 'Inability to obtain records' },
                 { icon: 'fa-user-tie', label: 'Erroneous advice from tax professional' },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-2 py-1.5">
-                  <i className={`fas ${item.icon} text-[11px] text-[#7C3AED]`} />
-                  <span className="text-[0.75rem] font-medium text-[#0A1628]">{item.label}</span>
+                <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '5px 0' }}>
+                  <i className={`fas ${item.icon}`} style={{ fontSize: 11, color: '#7C3AED' }} />
+                  <span style={{ fontSize: '0.75rem', color: '#0A1628', fontWeight: 500 }}>{item.label}</span>
                 </div>
               ))}
             </div>
 
-            <button className="w-full rounded-full border-[1.5px] border-[#E2E8F0] bg-white py-3.5 text-center text-[0.85rem] font-semibold text-[#64748B] transition hover:-translate-y-0.5 active:scale-[0.97]">
-              <i className="fas fa-file-pen mr-1.5 text-xs text-[#7C3AED]" /> Apply for Reasonable Cause
-            </button>
+            {/* Apply button */}
+            <div style={{ padding: 13, background: 'white', border: '1.5px solid #E2E8F0', borderRadius: 9999, textAlign: 'center', color: '#64748B', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>
+              <i className="fas fa-file-pen" style={{ marginRight: 6, fontSize: 12, color: '#7C3AED' }} /> Apply for Reasonable Cause
+            </div>
           </div>
 
           {/* Continue Button */}
-          <div className="mt-1">
-            <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0A1628] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90">
+          <div style={{ marginTop: 4 }}>
+            <button style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '16px 28px', background: '#0A1628', color: 'white', border: 'none', borderRadius: 9999, fontSize: '0.9rem', fontWeight: 700, fontFamily: 'inherit', cursor: 'pointer' }}>
               Continue
-              <i className="fas fa-arrow-right text-[13px]" />
+              <i className="fas fa-arrow-right" style={{ fontSize: 13 }} />
             </button>
           </div>
         </div>

@@ -1,12 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function CNCPostSubmissionPage() {
   const router = useRouter()
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
 
   const timelineItems = [
     { label: 'CNC Request Made', date: 'Mar 15', completed: true },
@@ -17,11 +14,11 @@ export default function CNCPostSubmissionPage() {
   ]
 
   const effects = [
-    { icon: 'fa-circle-check', color: 'text-[#00A651]', label: 'Collection activity stopped', sub: null },
-    { icon: 'fa-circle-check', color: 'text-[#00A651]', label: 'CSED running', sub: 'Debt expires 2028-2031' },
-    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'Interest accruing', sub: '~$150/month still adding up' },
-    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'Tax refunds will be offset', sub: null },
-    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'NFTL may be on file', sub: null },
+    { icon: 'fa-circle-check', color: '#00A651', label: 'Collection activity stopped', sub: null },
+    { icon: 'fa-circle-check', color: '#00A651', label: 'CSED running', sub: 'Debt expires 2028-2031' },
+    { icon: 'fa-triangle-exclamation', color: '#F59E0B', label: 'Interest accruing', sub: '~$150/month still adding up' },
+    { icon: 'fa-triangle-exclamation', color: '#F59E0B', label: 'Tax refunds will be offset', sub: null },
+    { icon: 'fa-triangle-exclamation', color: '#F59E0B', label: 'NFTL may be on file', sub: null },
   ]
 
   const warnings = [
@@ -30,120 +27,123 @@ export default function CNCPostSubmissionPage() {
     { icon: 'fa-rotate-left', text: 'If revoked (TC 531): back to active collection' },
   ]
 
-  if (!mounted) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#2563EB] border-t-transparent" />
-      </div>
-    )
-  }
-
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
+    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+      <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
-          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
-            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
           </button>
-          <span className="text-[15px] font-bold text-[#0A1628]">CNC Status</span>
-          <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
-            <i className="fa-solid fa-ellipsis-vertical text-[#94A3B8]" />
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>CNC Status</span>
+          <button style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-ellipsis-vertical" style={{ color: '#94A3B8' }} />
           </button>
         </div>
 
-        <div className="px-5 py-5 pb-8">
+        <div style={{ padding: '20px', paddingBottom: '20px' }}>
           {/* Title + Badge */}
-          <div className="flex items-center gap-2.5 mb-1">
-            <h1 className="text-xl font-extrabold text-[#0A1628] leading-tight">Currently Not Collectible</h1>
-            <span className="shrink-0 rounded-full bg-[#00A651] px-2.5 py-[3px] text-[11px] font-bold text-white whitespace-nowrap">Active</span>
+          <div style={{ marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Currently Not Collectible</h1>
+            <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'white', background: '#00A651', padding: '3px 10px', borderRadius: '20px', whiteSpace: 'nowrap' }}>Active</span>
           </div>
 
           {/* Timeline */}
-          <div className="mt-5 mb-5">
+          <div style={{ marginTop: '20px', marginBottom: '20px' }}>
             {timelineItems.map((item, i) => (
-              <div key={i} className="relative flex gap-3.5 pb-5 last:pb-0">
+              <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timelineItems.length - 1 ? '20px' : 0 }}>
+                {/* Connector */}
                 {i < timelineItems.length - 1 && (
-                  <div className={`absolute left-[15px] top-8 bottom-0 w-0.5 ${item.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
+                  <div style={{ position: 'absolute', left: '15px', top: '32px', bottom: 0, width: '2px', background: item.completed ? '#00A651' : '#F1F5F9' }} />
                 )}
-                <div className={`relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[13px] ${
-                  item.completed ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#EFF4FF] text-[#2563EB]'
-                }`}>
-                  <i className={`fa-solid ${item.completed ? 'fa-check' : 'fa-hourglass-half text-[11px]'}`} />
+                {/* Dot */}
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, fontSize: '13px', zIndex: 1,
+                  background: item.completed ? '#E6F9EE' : '#EFF4FF',
+                  color: item.completed ? '#00A651' : '#2563EB',
+                }}>
+                  <i className={`fa-solid ${item.completed ? 'fa-check' : 'fa-hourglass-half'}`} style={{ fontSize: item.completed ? '13px' : '11px' }} />
                 </div>
                 <div>
-                  <p className="text-[13px] font-semibold text-[#0A1628]">{item.label}</p>
-                  <p className={`text-xs ${!item.completed ? 'text-[#2563EB] font-medium' : 'text-[#64748B]'}`}>{item.date}</p>
+                  <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628', margin: 0 }}>{item.label}</p>
+                  <p style={{ fontSize: '0.75rem', color: !item.completed ? '#2563EB' : '#64748B', fontWeight: !item.completed ? 500 : 400, margin: 0, marginTop: '2px' }}>{item.date}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {/* Active Effects Card */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
-            <p className="text-xs font-bold text-[#64748B] uppercase tracking-[0.06em] mb-2.5">Active Effects</p>
-            {effects.map((eff, i) => (
-              <div key={i} className={`flex items-start gap-2.5 py-2.5 text-[13px] ${i < effects.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
-                <i className={`fa-solid ${eff.icon} ${eff.color} text-sm mt-0.5`} />
-                <div>
-                  <p className="font-medium text-[#0A1628]">{eff.label}</p>
-                  {eff.sub && <p className="text-[11px] text-[#64748B]">{eff.sub}</p>}
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px' }}>
+              <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Active Effects</p>
+              {effects.map((eff, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px 0', borderBottom: i < effects.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                  <i className={`fa-solid ${eff.icon}`} style={{ color: eff.color, fontSize: '14px', marginTop: '2px' }} />
+                  <div>
+                    <p style={{ fontSize: '0.8125rem', color: '#0A1628', fontWeight: 500, margin: 0 }}>{eff.label}</p>
+                    {eff.sub && <p style={{ fontSize: '0.6875rem', color: '#64748B', margin: 0, marginTop: '2px' }}>{eff.sub}</p>}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* CSED Countdown */}
-          <div className="rounded-2xl bg-[#F0FDFA] border border-[rgba(13,148,136,0.15)] p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <i className="fa-solid fa-clock text-[#0D9488] text-base" />
-              <p className="text-sm font-bold text-[#0A1628]">CSED Countdown</p>
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ background: '#F0FDFA', border: '1px solid rgba(13,148,136,0.15)', borderRadius: '16px', padding: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <i className="fa-solid fa-clock" style={{ color: '#0D9488', fontSize: '16px' }} />
+                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', margin: 0 }}>CSED Countdown</p>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '8px' }}>
+                <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0D9488' }}>2 yrs, 6 mo</span>
+              </div>
+              <p style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '12px', margin: '0 0 12px 0' }}>Nearest expiration: <span style={{ fontWeight: 600 }}>Sep 2028</span></p>
+              <div style={{ width: '100%', height: '8px', background: '#E2E8F0', borderRadius: '4px', overflow: 'hidden' }}>
+                <div style={{ height: '100%', borderRadius: '4px', background: '#00A651', width: '75%' }} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
+                <span style={{ fontSize: '0.625rem', color: '#94A3B8' }}>Assessment</span>
+                <span style={{ fontSize: '0.625rem', color: '#94A3B8' }}>Expiration</span>
+              </div>
+              <div style={{ marginTop: '14px', padding: '10px 12px', background: 'white', borderRadius: '10px', border: '1px solid #F1F5F9' }}>
+                <p style={{ fontSize: '0.75rem', color: '#065F46', fontWeight: 500, margin: 0 }}>
+                  <i className="fa-solid fa-sparkles" style={{ color: '#0D9488', marginRight: '4px' }} />
+                  When CSED expires: TC 608 posts, debt is legally gone
+                </p>
+              </div>
             </div>
-            <div className="flex items-baseline gap-1.5 mb-2">
-              <span className="text-2xl font-black text-[#0D9488]">2 yrs, 6 mo</span>
-            </div>
-            <p className="text-xs text-[#64748B] mb-3">Nearest expiration: <span className="font-semibold">Sep 2028</span></p>
-            <div className="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
-              <div className="h-full rounded-full bg-[#00A651]" style={{ width: '75%' }} />
-            </div>
-            <div className="flex justify-between mt-1.5">
-              <span className="text-[10px] text-[#94A3B8]">Assessment</span>
-              <span className="text-[10px] text-[#94A3B8]">Expiration</span>
-            </div>
-            <div className="mt-3.5 rounded-[10px] bg-white border border-[#F1F5F9] p-2.5">
-              <p className="text-xs text-[#065F46] font-medium">
-                <i className="fa-solid fa-sparkles text-[#0D9488] mr-1" />
-                When CSED expires: TC 608 posts, debt is legally gone
-              </p>
-            </div>
-          </div>
-
           </div>
 
           {/* Risk Warnings */}
-          <div className="mb-4">
-            <p className="text-xs font-bold text-[#64748B] uppercase tracking-[0.06em] mb-2.5">Important Warnings</p>
-            <div className="flex flex-col gap-2">
+          <div style={{ marginBottom: '16px' }}>
+            <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Important Warnings</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {warnings.map((w, i) => (
-                <div key={i} className="flex items-start gap-2.5 rounded-xl bg-[#FFFBEB] border border-[rgba(245,166,35,0.2)] p-3">
-                  <i className={`fa-solid ${w.icon} text-[#D97706] text-sm mt-0.5`} />
-                  <p className="text-xs text-[#92400E] font-medium">{w.text}</p>
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px', background: '#FFFBEB', border: '1px solid rgba(245, 166, 35, 0.2)', borderRadius: '12px' }}>
+                  <i className={`fa-solid ${w.icon}`} style={{ color: '#D97706', fontSize: '14px', marginTop: '2px' }} />
+                  <p style={{ fontSize: '0.75rem', color: '#92400E', fontWeight: 500, margin: 0 }}>{w.text}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* CTAs */}
-          <div className="mt-2">
-            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
+          <div style={{ marginTop: '8px' }}>
+            <button style={{
+              width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+              padding: '16px', background: '#0A1628', borderRadius: '16px', border: 'none',
+              color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
+            }}>
               <i className="fa-solid fa-pen-to-square" />
               Update Financial Info
             </button>
           </div>
-          <div className="mt-3 text-center">
-            <a href="#" className="text-[13px] font-semibold text-[#0A1628]">
-              <i className="fa-solid fa-clock text-[11px] mr-1" />
+          <div style={{ marginTop: '12px', textAlign: 'center' }}>
+            <a href="#" style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628', textDecoration: 'none' }}>
+              <i className="fa-solid fa-clock" style={{ fontSize: '11px', marginRight: '4px' }} />
               Check CSED Status
             </a>
           </div>

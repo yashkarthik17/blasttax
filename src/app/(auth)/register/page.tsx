@@ -75,19 +75,50 @@ export default function RegisterPage() {
     router.push('/verify-email')
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '14px 16px 14px 44px',
+    background: '#F8FAFC',
+    border: '1.5px solid #E2E8F0',
+    borderRadius: 12,
+    fontFamily: 'inherit',
+    fontSize: '0.9375rem',
+    fontWeight: 500,
+    color: '#0A1628',
+    outline: 'none',
+    transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+  }
+
+  function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+    e.currentTarget.style.borderColor = '#0A1628'
+    e.currentTarget.style.background = '#FFFFFF'
+    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)'
+  }
+  function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
+    e.currentTarget.style.borderColor = '#E2E8F0'
+    e.currentTarget.style.background = '#F8FAFC'
+    e.currentTarget.style.boxShadow = 'none'
+  }
+
+  const iconStyle: React.CSSProperties = {
+    position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+    color: '#CBD5E1', fontSize: 14, pointerEvents: 'none',
+  }
+
   return (
     <AuthLayout>
       <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-8 lg:max-h-[90vh] lg:overflow-y-auto" style={{ background: '#FFFFFF' }}>
-        <div className="flex-1 flex flex-col pt-4 lg:pt-0">
+        <div className="flex-1 flex flex-col" style={{ paddingTop: 8 }}>
           {/* Back button */}
-          <div className="mb-4">
+          <div style={{ marginBottom: 16 }}>
             <Link
               href="/login"
-              className="flex items-center justify-center transition-all"
+              className="flex items-center justify-center"
               style={{
                 width: 40, height: 40, borderRadius: 12,
                 background: '#FFFFFF', border: '1.5px solid #E2E8F0',
                 color: '#0A1628', fontSize: 16, textDecoration: 'none',
+                transition: 'all 0.25s ease',
               }}
             >
               <i className="fas fa-arrow-left" />
@@ -95,86 +126,68 @@ export default function RegisterPage() {
           </div>
 
           {/* Heading */}
-          <h1 className="mb-1" style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
-            Create your account
-          </h1>
-          <p className="mb-6" style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>
-            Start your journey to tax freedom
-          </p>
+          <div style={{ marginBottom: 4 }}>
+            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+              Create your account
+            </h1>
+          </div>
+          <div style={{ marginBottom: 26 }}>
+            <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>
+              Start your journey to tax freedom
+            </p>
+          </div>
 
           {/* Error */}
           {error && (
-            <div className="mb-4 rounded-xl px-4 py-3 text-sm" style={{ background: '#FFF0F1', border: '1px solid #FECDD3', color: '#E63946' }}>
+            <div style={{ marginBottom: 16, borderRadius: 14, padding: '12px 16px', fontSize: '0.875rem', background: '#FFF0F1', border: '1px solid #FECDD3', color: '#E63946' }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <form onSubmit={handleSubmit} className="flex flex-col">
             {/* Full Name */}
-            <div className="relative">
+            <div style={{ position: 'relative', marginBottom: 12 }}>
               <input
-                type="text"
-                placeholder="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full rounded-[14px] border-[1.5px] py-[14px] pr-4 pl-[44px] text-[0.875rem] font-medium outline-none transition-colors"
-                style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                type="text" placeholder="Full name" value={name}
+                onChange={(e) => setName(e.target.value)} required
+                style={inputStyle} onFocus={handleFocus} onBlur={handleBlur}
               />
-              <i className="fas fa-user" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, pointerEvents: 'none' }} />
+              <i className="fas fa-user" style={iconStyle} />
             </div>
 
             {/* Email */}
-            <div className="relative">
+            <div style={{ position: 'relative', marginBottom: 12 }}>
               <input
-                type="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full rounded-[14px] border-[1.5px] py-[14px] pr-4 pl-[44px] text-[0.875rem] font-medium outline-none transition-colors"
-                style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                type="email" placeholder="Email address" value={email}
+                onChange={(e) => setEmail(e.target.value)} required
+                style={inputStyle} onFocus={handleFocus} onBlur={handleBlur}
               />
-              <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, pointerEvents: 'none' }} />
+              <i className="fas fa-envelope" style={iconStyle} />
             </div>
 
             {/* Phone */}
-            <div className="relative">
+            <div style={{ position: 'relative', marginBottom: 12 }}>
               <input
-                type="tel"
-                placeholder="Phone number"
-                value={phone}
+                type="tel" placeholder="Phone number" value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full rounded-[14px] border-[1.5px] py-[14px] pr-4 pl-[44px] text-[0.875rem] font-medium outline-none transition-colors"
-                style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                style={inputStyle} onFocus={handleFocus} onBlur={handleBlur}
               />
-              <i className="fas fa-phone" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, pointerEvents: 'none' }} />
+              <i className="fas fa-phone" style={iconStyle} />
             </div>
 
             {/* Password */}
-            <div>
-              <div className="relative">
+            <div style={{ marginBottom: 2 }}>
+              <div style={{ position: 'relative' }}>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full rounded-[14px] border-[1.5px] py-[14px] pl-[44px] pr-[44px] text-[0.875rem] font-medium outline-none transition-colors"
-                  style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                  onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                  placeholder="Password" value={password}
+                  onChange={(e) => setPassword(e.target.value)} required
+                  style={{ ...inputStyle, paddingRight: 44 }}
+                  onFocus={handleFocus} onBlur={handleBlur}
                 />
-                <i className="fas fa-lock" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, pointerEvents: 'none' }} />
+                <i className="fas fa-lock" style={iconStyle} />
                 <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  type="button" onClick={() => setShowPassword(!showPassword)}
                   style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
                 >
                   <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
@@ -192,22 +205,17 @@ export default function RegisterPage() {
             </div>
 
             {/* Confirm Password */}
-            <div className="relative" style={{ marginTop: 2 }}>
+            <div style={{ position: 'relative', marginTop: 14, marginBottom: 12 }}>
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Confirm password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                className="w-full rounded-[14px] border-[1.5px] py-[14px] pl-[44px] pr-[44px] text-[0.875rem] font-medium outline-none transition-colors"
-                style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                placeholder="Confirm password" value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)} required
+                style={{ ...inputStyle, paddingRight: 44 }}
+                onFocus={handleFocus} onBlur={handleBlur}
               />
-              <i className="fas fa-lock" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, pointerEvents: 'none' }} />
+              <i className="fas fa-lock" style={iconStyle} />
               <button
-                type="button"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
               >
                 <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
@@ -215,41 +223,62 @@ export default function RegisterPage() {
             </div>
 
             {/* Terms checkbox */}
-            <label className="flex items-start gap-[10px] cursor-pointer mb-2" style={{ WebkitTapHighlightColor: 'transparent' }}>
-              <div
-                className="flex items-center justify-center flex-shrink-0 transition-all"
-                style={{
-                  width: 20, height: 20, borderRadius: 6,
-                  border: `2px solid ${termsAccepted ? '#0A1628' : '#E2E8F0'}`,
-                  background: termsAccepted ? '#0A1628' : '#FFFFFF',
-                  marginTop: 1,
-                }}
-                onClick={() => setTermsAccepted(!termsAccepted)}
-              >
-                {termsAccepted && <i className="fas fa-check" style={{ fontSize: 10, color: '#FFFFFF' }} />}
-              </div>
-              <input type="checkbox" className="hidden" checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)} />
-              <span style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.4, fontWeight: 400 }}>
-                I agree to the{' '}
-                <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</a>
-                {' '}and{' '}
-                <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>
-              </span>
-            </label>
+            <div style={{ marginBottom: 22 }}>
+              <label className="flex items-start cursor-pointer" style={{ gap: 10, WebkitTapHighlightColor: 'transparent' }}>
+                <input type="checkbox" className="hidden" checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)} />
+                <div
+                  className="flex items-center justify-center flex-shrink-0"
+                  style={{
+                    width: 20, height: 20, borderRadius: 6,
+                    border: `2px solid ${termsAccepted ? '#0A1628' : '#E2E8F0'}`,
+                    background: termsAccepted ? '#0A1628' : '#FFFFFF',
+                    marginTop: 1,
+                    transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  }}
+                >
+                  {termsAccepted && <i className="fas fa-check" style={{ fontSize: 10, color: '#FFFFFF' }} />}
+                </div>
+                <span style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.4, fontWeight: 400 }}>
+                  I agree to the{' '}
+                  <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</a>
+                  {' '}and{' '}
+                  <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>
+                </span>
+              </label>
+            </div>
 
             {/* Create Account Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full rounded-full py-[15px] px-7 text-center font-bold transition-opacity disabled:opacity-50"
-              style={{ background: '#0A1628', color: '#FFFFFF', fontSize: '0.95rem', border: 'none', cursor: 'pointer' }}
-            >
-              {loading ? 'Creating account...' : 'Create Account'}
-            </button>
+            <div style={{ marginBottom: 20 }}>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  border: 'none',
+                  borderRadius: 9999,
+                  padding: '15px 28px',
+                  fontFamily: 'inherit',
+                  fontSize: '0.95rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  background: '#00A651',
+                  color: '#FFFFFF',
+                  boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
+                  opacity: loading ? 0.5 : 1,
+                  transition: 'opacity 0.15s ease, transform 0.15s ease',
+                }}
+              >
+                {loading ? 'Creating account...' : 'Create Account'}
+              </button>
+            </div>
           </form>
 
           {/* Sign in link */}
-          <div className="text-center my-4">
+          <div style={{ textAlign: 'center', marginBottom: 16 }}>
             <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
               Already have an account?{' '}
               <Link href="/login" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
@@ -262,7 +291,16 @@ export default function RegisterPage() {
           <div className="flex-1 lg:hidden" />
 
           {/* Reassurance */}
-          <div className="flex items-center justify-center gap-[6px] pb-5 lg:pb-0 lg:mt-2" style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>
+          <div
+            className="flex items-center justify-center"
+            style={{
+              gap: 6,
+              paddingBottom: 14,
+              fontSize: '0.72rem',
+              color: '#94A3B8',
+              fontWeight: 500,
+            }}
+          >
             <i className="fas fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
             <span>We never share your information</span>
           </div>
