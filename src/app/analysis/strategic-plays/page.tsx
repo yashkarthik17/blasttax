@@ -1,300 +1,229 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-/* ------------------------------------------------------------------ */
-/*  Strategy definitions                                               */
-/* ------------------------------------------------------------------ */
 
 interface Strategy {
   id: string
+  playLabel: string
+  playColor: string
   title: string
-  tagline: string
-  description: string
-  whenToUse: string[]
-  steps: string[]
-  pros: string[]
-  cons: string[]
-  compatibility: string[]
-  color: string
-  borderColor: string
-  bgColor: string
+  iconBg: string
+  iconContent: string
+  recommended?: boolean
+  tags: { label: string; color: string; bg: string }[]
+  savings: string
+  timeline: string
+  complexity: number
+  qualify: 'yes' | 'maybe'
+  steps: { title: string; description: string }[]
+  example?: { content: string }
+  tip?: { icon: string; color: string; bg: string; text: string }
+  links?: { label: string; href: string; icon: string; color: string; bg: string }[]
 }
 
 const STRATEGIES: Strategy[] = [
   {
-    id: 'penalty-first',
-    title: 'Penalty Abatement FIRST',
-    tagline: 'Reduce the balance, then resolve the remainder',
-    description: 'Request First Time Abatement (FTA) or reasonable cause penalty abatement before pursuing an installment agreement or OIC. By removing penalties first, you reduce the total balance — which lowers IA payments or OIC offer amounts.',
-    whenToUse: [
-      'Significant penalty amounts on your account (often 20-40% of total balance)',
-      'Clean compliance history for the prior 3 tax years (for FTA)',
-      'Documented reasonable cause for late filing/payment',
+    id: 'a', playLabel: 'Play A', playColor: '#00A651', title: 'Balance Reducer', iconBg: 'bg-[#E6F9EE]', iconContent: '\u2460', recommended: true,
+    tags: [
+      { label: 'Penalty Abatement', color: '#0A1628', bg: '#EBF0FF' },
+      { label: 'OIC', color: '#7C3AED', bg: '#F5F0FF' },
     ],
+    savings: '~$25K+', timeline: '4-8 mo', complexity: 3, qualify: 'yes',
     steps: [
-      'Identify penalty amounts on each tax period (FTF, FTP, estimated tax)',
-      'Determine FTA eligibility — check 3-year compliance history',
-      'Request FTA by phone (1-800-829-1040) or letter',
-      'If FTA denied, submit reasonable cause abatement (Form 843)',
-      'After penalties removed, recalculate RCP and pursue IA or OIC on reduced balance',
+      { title: 'Step 1: Request FTA', description: 'Remove penalties via First Time Abate' },
+      { title: 'Step 2: TC 271 Posts', description: 'Balance drops after penalty removal' },
+      { title: 'Step 3: File OIC on Lower Balance', description: 'Offer in Compromise on reduced amount' },
     ],
-    pros: [
-      'Can reduce total balance by 20-40%',
-      'FTA is often granted quickly (single phone call)',
-      'Reduces monthly IA payments or OIC offer amount',
-      'No cost to request',
-    ],
-    cons: [
-      'FTA only applies once — must have clean 3-year history',
-      'Reasonable cause requires strong documentation',
-      'Only removes penalties, not interest on those penalties',
-      'Adds time before starting the main resolution',
-    ],
-    compatibility: ['Installment Agreement', 'Offer in Compromise', 'Currently Not Collectible'],
-    color: 'text-emerald-400',
-    borderColor: 'border-emerald-500/20',
-    bgColor: 'bg-emerald-500/5',
+    example: { content: '$80K -> FTA removes $25K -> OIC on $55K = lower offer' },
   },
   {
-    id: 'cnc-csed',
-    title: 'CNC + Wait for CSED',
-    tagline: 'Let the clock run out on your debt',
-    description: 'If your Collection Statute Expiration Date (CSED) is within approximately 3 years, it may be strategic to request Currently Not Collectible status and simply wait for the debt to expire. No payments, no offer — the debt disappears by law.',
-    whenToUse: [
-      'CSED expires within 3 years or less',
-      'Cannot afford meaningful payments (qualify for CNC)',
-      'Total balance is large relative to income',
-      'No significant assets the IRS could seize',
+    id: 'b', playLabel: 'Play B', playColor: '#7C3AED', title: 'Double Reduction', iconBg: 'bg-white', iconContent: '\u2461',
+    tags: [
+      { label: 'Amended Return', color: '#0D9488', bg: '#F0FDFA' },
+      { label: 'FTA', color: '#0A1628', bg: '#EBF0FF' },
+      { label: 'OIC', color: '#7C3AED', bg: '#F5F0FF' },
     ],
+    savings: '~$50K+', timeline: '6-12 mo', complexity: 4, qualify: 'yes',
     steps: [
-      'Verify exact CSED date for each tax period',
-      'Confirm CNC eligibility (complete Form 433-A financial disclosure)',
-      'Request CNC status to stop all collection activity',
-      'Monitor annually — ensure no events extend the CSED',
-      'After CSED passes, debt is legally uncollectible',
+      { title: 'File 1040-X (Amended Return)', description: 'TC 291 posts, balance decreases' },
+      { title: 'Request FTA', description: 'TC 271 posts, penalties removed' },
+      { title: 'File OIC on Minimal Balance', description: 'Offer based on greatly reduced amount' },
     ],
-    pros: [
-      'Pay nothing — debt expires completely',
-      'No application fee or complex paperwork',
-      'CSED runs whether or not you are in CNC',
-      'Ideal for older debts near the 10-year mark',
-    ],
-    cons: [
-      'Penalties and interest continue accruing (but irrelevant if CSED expires)',
-      'Federal Tax Lien will likely be filed',
-      'IRS reviews CNC annually — could be removed if income increases',
-      'Refunds will be offset during the waiting period',
-    ],
-    compatibility: ['Currently Not Collectible'],
-    color: 'text-blue-400',
-    borderColor: 'border-blue-500/20',
-    bgColor: 'bg-blue-500/5',
+    example: { content: '$100K -> $70K (amended) -> $50K (FTA) -> OIC on $50K' },
   },
   {
-    id: 'file-then-oic',
-    title: 'File Missing Returns + OIC',
-    tagline: 'Fix compliance first, then settle for less',
-    description: 'If you have Substitute for Return (SFR) assessments, filing original returns often reduces your balance significantly (SFRs do not include deductions, credits, or filing status benefits). After filing corrected returns and reducing the assessed balance, submit an OIC on the lower amount.',
-    whenToUse: [
-      'IRS filed SFR returns on your behalf (TC 150 with SFR indicator)',
-      'You had deductions, credits, or a more favorable filing status than Single/0',
-      'Total assessed balance is inflated by SFR assessments',
-      'You want to pursue OIC but need to be in compliance first',
+    id: 'c', playLabel: 'Play C', playColor: '#D97706', title: 'CDP Leverage', iconBg: 'bg-[#FEF3C7]', iconContent: '\u2462',
+    tags: [
+      { label: 'CDP Hearing', color: '#D97706', bg: '#FEF3C7' },
+      { label: 'OIC Proposal', color: '#7C3AED', bg: '#F5F0FF' },
     ],
+    savings: 'Varies', timeline: '3-9 mo', complexity: 4, qualify: 'maybe',
     steps: [
-      'Obtain wage and income transcripts for unfiled years',
-      'Prepare and file original returns (Form 1040) for each SFR year',
-      'Wait for IRS to process returns and adjust balances (4-12 weeks)',
-      'Once balances are adjusted downward, prepare OIC with accurate numbers',
-      'Submit OIC package with updated balance and Form 656',
+      { title: 'Receive Levy Notice', description: 'Letter 1058 or LT11 triggers CDP right' },
+      { title: 'File Form 12153', description: 'Within 30 days of notice' },
+      { title: 'Propose OIC at Hearing', description: 'Present offer during CDP hearing' },
     ],
-    pros: [
-      'Filing original returns can drastically reduce assessed balance',
-      'Brings you into compliance (required for OIC anyway)',
-      'OIC offer amount based on lower, accurate balance',
-      'May reveal refund years that offset balances',
-    ],
-    cons: [
-      'Must gather records for potentially old tax years',
-      'Filing returns restarts assessment statute for those years',
-      'Process adds 2-4 months before OIC can be submitted',
-      'Some taxpayers owe more after filing (rare but possible)',
-    ],
-    compatibility: ['Offer in Compromise'],
-    color: 'text-purple-400',
-    borderColor: 'border-purple-500/20',
-    bgColor: 'bg-purple-500/5',
+    tip: { icon: 'fa-shield-halved', color: '#0A1628', bg: '#EBF0FF', text: 'Benefits: levy protection + OIC consideration in one process' },
   },
   {
-    id: 'ia-then-oic',
-    title: 'IA Now, OIC Later',
-    tagline: 'Stop collection immediately, prepare OIC strategically',
-    description: 'Set up an Installment Agreement quickly to stop collection activity (levies, garnishments), then take your time gathering the documentation needed for a strong OIC submission. The IA buys you breathing room while you build the best possible offer.',
-    whenToUse: [
-      'Facing active collection (levy notice, wage garnishment, bank levy)',
-      'Need immediate relief but OIC preparation takes months',
-      'Want to demonstrate compliance history before submitting OIC',
-      'Financial situation may change in the near term',
+    id: 'e', playLabel: 'Play E', playColor: '#0D9488', title: 'Expiration Play', iconBg: 'bg-[#F0FDFA]', iconContent: '\u2464',
+    tags: [
+      { label: 'CNC', color: '#0D9488', bg: '#F0FDFA' },
+      { label: 'FTA', color: '#0A1628', bg: '#EBF0FF' },
+      { label: 'CSED', color: '#D97706', bg: '#FEF3C7' },
     ],
+    savings: '100%', timeline: 'Until CSED', complexity: 2, qualify: 'yes',
     steps: [
-      'Apply for Streamlined IA immediately (can be done online if < $50K)',
-      'IA stops active collection and levy actions',
-      'While making IA payments, gather OIC documentation',
-      'Complete Form 433-A (OIC), gather bank statements, pay stubs, asset docs',
-      'Submit OIC — IRS will suspend IA while OIC is reviewed',
-      'If OIC accepted, IA is closed. If rejected, IA continues.',
+      { title: 'Get CNC Status', description: 'Demonstrate hardship, TC 530 posts' },
+      { title: 'Request FTA', description: 'Reduce balance while in CNC' },
+      { title: 'Monitor CSED', description: 'Debt expires, TC 608 posts. Pay $0.' },
     ],
-    pros: [
-      'Immediate collection relief within days',
-      'Buys time for thorough OIC preparation',
-      'IA payments demonstrate willingness to pay (good faith)',
-      'Safety net — if OIC fails, IA is already in place',
-    ],
-    cons: [
-      'IA payments may be non-refundable (depends on OIC outcome)',
-      'Must qualify for both IA and OIC',
-      'Running two programs adds complexity',
-      'IA user fee ($31-$225) is an additional cost',
-    ],
-    compatibility: ['Installment Agreement', 'Offer in Compromise'],
-    color: 'text-amber-400',
-    borderColor: 'border-amber-500/20',
-    bgColor: 'bg-amber-500/5',
+    tip: { icon: 'fa-clock', color: '#00A651', bg: '#E6F9EE', text: 'Pay $0, debt legally gone when CSED expires' },
   },
 ]
 
-/* ------------------------------------------------------------------ */
-/*  Page Component                                                     */
-/* ------------------------------------------------------------------ */
-
 export default function StrategicPlaysPage() {
+  const router = useRouter()
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+
+  function toggleCard(id: string) {
+    setExpandedId(expandedId === id ? null : id)
+  }
+
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/analysis/results"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Results
-        </Link>
-
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-white">Strategic Plays</h1>
-          <p className="mt-2 text-zinc-400">
-            Advanced multi-resolution strategies that combine approaches for optimal outcomes. These are not individual resolutions — they are sequences designed to maximize your savings.
-          </p>
+        <div className="flex items-center gap-3 px-5 py-3.5">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
+            <i className="fas fa-arrow-left text-base" />
+          </button>
+          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Resolution Strategies</h1>
+          <button className="flex h-10 w-10 items-center justify-center text-[#94A3B8]">
+            <i className="fas fa-info-circle text-base" />
+          </button>
         </div>
 
-        {/* Strategy Cards */}
-        <div className="space-y-6">
-          {STRATEGIES.map((strategy) => (
-            <div
-              key={strategy.id}
-              className={`rounded-2xl border ${strategy.borderColor} ${strategy.bgColor} p-6`}
-            >
-              {/* Strategy Header */}
-              <div className="mb-4">
-                <h2 className={`text-xl font-bold ${strategy.color}`}>{strategy.title}</h2>
-                <p className="mt-1 text-sm text-zinc-300 italic">&quot;{strategy.tagline}&quot;</p>
-              </div>
+        <div className="px-5 pb-8">
+          <h2 className="mb-1.5 text-[1.25rem] font-extrabold leading-tight text-[#0A1628]">Advanced Resolution Strategies</h2>
+          <p className="mb-5 text-[0.8125rem] text-[#64748B]">Combine multiple approaches for optimal outcomes</p>
 
-              {/* Description */}
-              <p className="text-sm text-zinc-300 leading-relaxed mb-6">{strategy.description}</p>
-
-              {/* When to Use */}
-              <div className="mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">When to Use This Strategy</h3>
-                <div className="space-y-2">
-                  {strategy.whenToUse.map((condition, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={`mt-0.5 flex-shrink-0 ${strategy.color}`}>
-                        <polyline points="9 18 15 12 9 6" />
-                      </svg>
-                      <p className="text-sm text-zinc-300">{condition}</p>
+          <div className="flex flex-col gap-3">
+            {STRATEGIES.map((s) => {
+              const isExpanded = expandedId === s.id
+              return (
+                <div
+                  key={s.id}
+                  onClick={() => toggleCard(s.id)}
+                  className={`cursor-pointer overflow-hidden rounded-2xl border-[1.5px] bg-white transition ${
+                    s.recommended
+                      ? isExpanded ? 'border-[#00A651]' : 'border-[#00A651]'
+                      : isExpanded ? 'border-[#0A1628]' : 'border-[#F1F5F9] hover:border-[rgba(0,61,165,0.2)]'
+                  }`}
+                >
+                  {/* Header */}
+                  <div className="flex items-start gap-3 p-4">
+                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${s.iconBg} text-lg`}>
+                      {s.iconContent}
                     </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Steps */}
-              <div className="mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">Step-by-Step</h3>
-                <div className="space-y-2">
-                  {strategy.steps.map((step, i) => (
-                    <div key={i} className="flex items-start gap-3 rounded-lg bg-[#09090b]/60 p-3">
-                      <span className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-xs font-bold ${strategy.bgColor} ${strategy.color}`}>
-                        {i + 1}
-                      </span>
-                      <p className="text-sm text-zinc-300">{step}</p>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex items-center gap-2">
+                        <span className="text-[0.6875rem] font-bold uppercase tracking-wider" style={{ color: s.playColor }}>{s.playLabel}</span>
+                        {s.recommended && (
+                          <span className="rounded-full bg-[#00A651] px-2 py-0.5 text-[0.625rem] font-semibold text-white">Recommended for you</span>
+                        )}
+                      </div>
+                      <p className="mb-0.5 text-[0.9375rem] font-bold text-[#0A1628]">{s.title}</p>
+                      <div className="flex flex-wrap items-center gap-1">
+                        {s.tags.map((tag, i) => (
+                          <span key={i}>
+                            <span className="rounded-lg px-2 py-0.5 text-[0.6875rem] font-semibold" style={{ color: tag.color, background: tag.bg }}>{tag.label}</span>
+                            {i < s.tags.length - 1 && <i className="fas fa-arrow-right mx-1 text-[10px] text-[#CBD5E1]" />}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                  ))}
+                    <i className={`fas fa-chevron-down mt-1 text-xs text-[#CBD5E1] transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                  </div>
+
+                  {/* Expandable Body */}
+                  {isExpanded && (
+                    <div className="border-t border-[#F1F5F9] px-4 pb-4 pt-3.5">
+                      {/* Meta Row */}
+                      <div className="mb-3.5 flex gap-4">
+                        <div>
+                          <p className="text-[0.625rem] font-semibold uppercase tracking-wider text-[#64748B]">Savings</p>
+                          <p className="text-[0.875rem] font-extrabold text-[#00A651]">{s.savings}</p>
+                        </div>
+                        <div>
+                          <p className="text-[0.625rem] font-semibold uppercase tracking-wider text-[#64748B]">Timeline</p>
+                          <p className="text-[0.875rem] font-bold text-[#0A1628]">{s.timeline}</p>
+                        </div>
+                        <div>
+                          <p className="text-[0.625rem] font-semibold uppercase tracking-wider text-[#64748B]">Complexity</p>
+                          <div className="mt-0.5 flex gap-0.5">
+                            {[1, 2, 3, 4, 5].map((n) => (
+                              <i key={n} className={`${n <= s.complexity ? 'fas' : 'far'} fa-star text-[10px] ${n <= s.complexity ? 'text-[#F5A623]' : 'text-[#E8E8F0]'}`} />
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-[0.625rem] font-semibold uppercase tracking-wider text-[#64748B]">Qualify?</p>
+                          {s.qualify === 'yes' ? (
+                            <span className="text-[0.6875rem] font-bold text-[#00A651]"><i className="fas fa-circle-check" /> Yes</span>
+                          ) : (
+                            <span className="text-[0.6875rem] font-bold text-[#F5A623]"><i className="fas fa-circle-exclamation" /> Maybe</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Steps */}
+                      <div className="relative pl-6">
+                        <div className="absolute bottom-2 left-[7px] top-2 w-0.5 rounded bg-[#0A1628]" />
+                        {s.steps.map((step) => (
+                          <div key={step.title} className="relative py-2">
+                            <div className="absolute -left-[13px] top-3.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#0A1628] shadow-[0_0_0_2px_#0A1628]" />
+                            <p className="text-[0.8125rem] font-semibold text-[#0A1628]">{step.title}</p>
+                            <p className="text-[0.75rem] text-[#64748B]">{step.description}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Example */}
+                      {s.example && (
+                        <div className="mt-3.5 rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] p-3">
+                          <p className="mb-1.5 text-[0.6875rem] font-bold uppercase tracking-wider text-[#64748B]">Example</p>
+                          <p className="text-[0.8125rem] text-[#64748B]">{s.example.content}</p>
+                        </div>
+                      )}
+
+                      {/* Tip */}
+                      {s.tip && (
+                        <div className="mt-3.5 flex items-start gap-2 rounded-[10px] p-2.5 px-3" style={{ background: s.tip.bg }}>
+                          <i className={`fas ${s.tip.icon} mt-0.5 text-[13px]`} style={{ color: s.tip.color }} />
+                          <p className="text-[0.75rem] font-medium" style={{ color: s.tip.color }}>{s.tip.text}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </div>
+              )
+            })}
+          </div>
 
-              {/* Pros & Cons */}
-              <div className="grid gap-4 sm:grid-cols-2 mb-6">
-                <div className="rounded-xl bg-[#09090b] p-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3">Pros</h4>
-                  <ul className="space-y-2">
-                    {strategy.pros.map((pro, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0 text-emerald-500">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                        {pro}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="rounded-xl bg-[#09090b] p-4">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-red-400 mb-3">Cons</h4>
-                  <ul className="space-y-2">
-                    {strategy.cons.map((con, i) => (
-                      <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0 text-red-400">
-                          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
-                        {con}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Compatibility */}
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Compatible with:</span>
-                {strategy.compatibility.map((res) => (
-                  <span key={res} className="rounded-full bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300">
-                    {res}
-                  </span>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Disclaimer */}
-        <div className="rounded-xl border border-[#27272a] bg-[#18181b] p-5">
-          <p className="text-xs text-zinc-500 leading-relaxed">
-            <span className="font-semibold text-zinc-400">Disclaimer:</span> These strategies represent common multi-step approaches used in tax resolution practice. The optimal strategy depends on your specific financial situation, tax debt composition, and CSED timeline. Results may vary based on IRS processing times and examiner discretion. Consider consulting a tax professional for complex situations.
-          </p>
-        </div>
-
-        {/* Back to Results */}
-        <div className="pb-8">
-          <Link
-            href="/analysis/results"
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
-          >
-            Back to Resolution Results
-          </Link>
+          {/* CTA */}
+          <div className="mt-6">
+            <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0A1628] px-7 py-4 text-base font-bold text-white transition hover:opacity-90">
+              <i className="fas fa-comments" /> Discuss with Expert
+            </button>
+          </div>
+          <div className="mt-3 text-center">
+            <Link href="/analysis/results" className="text-[0.8125rem] font-semibold text-[#64748B] no-underline">
+              <i className="fas fa-arrow-left mr-1 text-[10px]" /> Back to Results
+            </Link>
+          </div>
         </div>
       </div>
     </div>

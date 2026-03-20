@@ -1,138 +1,159 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 
-// Placeholder types for when data comes from Supabase
-interface Case {
+type FilterKey = 'all' | 'active' | 'pending' | 'resolved'
+
+const FILTERS: { key: FilterKey; label: string; dotColor?: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'active', label: 'Active', dotColor: '#00A651' },
+  { key: 'pending', label: 'Pending', dotColor: '#F59E0B' },
+  { key: 'resolved', label: 'Resolved', dotColor: '#94A3B8' },
+]
+
+interface CaseItem {
   id: string
   caseNumber: string
-  dateCreated: string
-  taxpayerType: 'individual' | 'business'
-  status: 'draft' | 'in-progress' | 'submitted' | 'resolved'
-  totalDebt: number
+  status: FilterKey
+  statusLabel: string
+  statusBg: string
+  statusColor: string
+  resolutionType: string
+  resolutionIcon: string
+  resolutionIconColor: string
+  debt: string
+  updated: string
+  progressLabel: string
+  progressPercent: number
+  progressColor: string
+  progressDotColor: string
+  isComplete?: boolean
 }
 
-const STATUS_STYLES: Record<Case['status'], string> = {
-  draft: 'bg-[var(--muted-foreground)]/10 text-[var(--muted-foreground)]',
-  'in-progress': 'bg-[var(--primary)]/10 text-[var(--primary)]',
-  submitted: 'bg-[var(--warning)]/10 text-[var(--warning)]',
-  resolved: 'bg-[var(--success)]/10 text-[var(--success)]',
-}
-
-const STATUS_LABELS: Record<Case['status'], string> = {
-  draft: 'Draft',
-  'in-progress': 'In Progress',
-  submitted: 'Submitted',
-  resolved: 'Resolved',
-}
-
-const TAXPAYER_STYLES: Record<Case['taxpayerType'], string> = {
-  individual: 'bg-blue-500/10 text-blue-400',
-  business: 'bg-purple-500/10 text-purple-400',
-}
-
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
-}
-
-function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
+const CASES: CaseItem[] = [
+  {
+    id: '1042', caseNumber: 'Case #1042', status: 'active', statusLabel: 'Active',
+    statusBg: 'bg-[#E6F9EE]', statusColor: 'text-[#00A651]',
+    resolutionType: 'Offer in Compromise', resolutionIcon: 'fa-handshake', resolutionIconColor: 'text-[#0A1628]',
+    debt: '$47,250', updated: 'Updated 2h ago',
+    progressLabel: 'Under IRS Review', progressPercent: 60, progressColor: 'bg-[#0A1628]', progressDotColor: 'bg-[#2563EB]',
+  },
+  {
+    id: '1038', caseNumber: 'Case #1038', status: 'pending', statusLabel: 'Pending Review',
+    statusBg: 'bg-[#FFFBEB]', statusColor: 'text-[#D97706]',
+    resolutionType: 'Installment Agreement', resolutionIcon: 'fa-calendar-check', resolutionIconColor: 'text-[#7C3AED]',
+    debt: '$12,800', updated: 'Updated 1d ago',
+    progressLabel: 'Documents Prepared', progressPercent: 85, progressColor: 'bg-[#7C3AED]', progressDotColor: 'bg-[#A78BFA]',
+  },
+  {
+    id: '985', caseNumber: 'Case #985', status: 'resolved', statusLabel: 'Resolved',
+    statusBg: 'bg-[#F8FAFC]', statusColor: 'text-[#94A3B8]',
+    resolutionType: 'Penalty Abatement', resolutionIcon: 'fa-eraser', resolutionIconColor: 'text-[#0D9488]',
+    debt: '$5,200', updated: 'Resolved Feb 28',
+    progressLabel: 'Complete', progressPercent: 100, progressColor: 'bg-[#00A651]', progressDotColor: '',
+    isComplete: true,
+  },
+]
 
 export default function CasesPage() {
-  // Will be replaced with Supabase query later
-  const cases: Case[] = []
+  const [activeFilter, setActiveFilter] = useState<FilterKey>('all')
+
+  const filteredCases = activeFilter === 'all' ? CASES : CASES.filter((c) => c.status === activeFilter)
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="mx-auto max-w-5xl space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Cases</h1>
-            <p className="mt-1 text-[var(--muted-foreground)]">
-              View and manage all your tax resolution cases.
-            </p>
-          </div>
-          <Link
-            href="/analysis/type"
-            className="rounded-lg bg-[var(--primary)] px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition"
-          >
-            New Analysis
-          </Link>
-        </div>
-
-        {/* Cases List */}
-        {cases.length > 0 ? (
-          <div className="space-y-3">
-            {cases.map((c) => (
-              <Link
-                key={c.id}
-                href={`/cases/${c.id}`}
-                className="block rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 transition hover:border-[var(--muted-foreground)]"
-              >
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold">{c.caseNumber}</span>
-                      <span
-                        className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${TAXPAYER_STYLES[c.taxpayerType]}`}
-                      >
-                        {c.taxpayerType === 'individual' ? 'Individual' : 'Business'}
-                      </span>
-                    </div>
-                    <p className="text-sm text-[var(--muted-foreground)]">
-                      Created {formatDate(c.dateCreated)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <span className="text-lg font-semibold">{formatCurrency(c.totalDebt)}</span>
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${STATUS_STYLES[c.status]}`}
-                    >
-                      {STATUS_LABELS[c.status]}
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          /* Empty State */
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--secondary)]">
-                <svg
-                  className="h-10 w-10 text-[var(--muted-foreground)]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={1.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"
-                  />
-                </svg>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        <div className="flex flex-col gap-4 px-5 pb-8 pt-4">
+          {/* Header */}
+          <div className="flex items-center justify-between pt-1">
+            <h1 className="text-[1.5rem] font-extrabold tracking-tight text-[#0A1628]">My Cases</h1>
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] transition hover:bg-[#EFF4FF]">
+                <i className="fas fa-sliders text-sm text-[#64748B]" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">No cases yet</h3>
-              <p className="mt-2 max-w-sm text-[var(--muted-foreground)]">
-                Start an analysis to create your first case. We&apos;ll guide you through the process step by step.
-              </p>
-              <Link
-                href="/analysis/type"
-                className="mt-6 rounded-lg bg-[var(--primary)] px-6 py-3 font-medium text-white hover:opacity-90 transition"
-              >
-                Start Your First Analysis
+              <Link href="/analysis/type" className="flex h-[38px] w-[38px] items-center justify-center rounded-xl bg-[#0A1628] transition hover:opacity-90">
+                <i className="fas fa-plus text-sm text-white" />
               </Link>
             </div>
           </div>
-        )}
+
+          {/* Filter Chips */}
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {FILTERS.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setActiveFilter(f.key)}
+                className={`shrink-0 whitespace-nowrap rounded-full border-[1.5px] px-[18px] py-2 text-[0.78rem] font-semibold transition ${
+                  activeFilter === f.key
+                    ? 'border-[#0A1628] bg-[#0A1628] text-white'
+                    : 'border-[#E2E8F0] bg-white text-[#64748B] hover:-translate-y-0.5'
+                }`}
+              >
+                {f.dotColor && <i className="fas fa-circle mr-1 text-[6px]" style={{ color: activeFilter === f.key ? 'white' : f.dotColor }} />}
+                {f.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Case Cards */}
+          {filteredCases.map((c) => (
+            <Link
+              key={c.id}
+              href={`/cases/${c.id}`}
+              className="block rounded-[20px] border border-[#F1F5F9] bg-white p-5 no-underline transition hover:-translate-y-0.5 active:scale-[0.98]"
+            >
+              {/* Top row */}
+              <div className="mb-2.5 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-[0.9rem] font-extrabold text-[#0A1628]">{c.caseNumber}</span>
+                  <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[0.68rem] font-semibold ${c.statusBg} ${c.statusColor}`}>
+                    {c.isComplete ? <i className="fas fa-check text-[8px]" /> : <i className="fas fa-circle text-[5px]" />} {c.statusLabel}
+                  </span>
+                </div>
+                <i className="fas fa-chevron-right text-xs text-[#CBD5E1]" />
+              </div>
+              {/* Resolution type */}
+              <div className="mb-1.5 text-[0.82rem] font-semibold text-[#64748B]">
+                <i className={`fas ${c.resolutionIcon} mr-1 text-[11px] ${c.resolutionIconColor}`} />
+                {c.resolutionType}
+              </div>
+              {/* Debt + timestamp */}
+              <div className="mb-3.5 flex items-center justify-between">
+                <div className="text-[1.15rem] font-extrabold tracking-tight text-[#0A1628]">{c.debt}</div>
+                <div className="text-[0.68rem] font-medium text-[#CBD5E1]">{c.updated}</div>
+              </div>
+              {/* Progress bar */}
+              <div>
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className={`text-[0.68rem] font-semibold ${c.isComplete ? 'text-[#00A651]' : 'text-[#94A3B8]'}`}>
+                    {c.isComplete && <i className="fas fa-circle-check mr-0.5 text-[10px]" />} {c.progressLabel}
+                  </span>
+                  <span className={`text-[0.68rem] font-bold ${c.isComplete ? 'text-[#00A651]' : c.status === 'pending' ? 'text-[#7C3AED]' : 'text-[#0A1628]'}`}>{c.progressPercent}%</span>
+                </div>
+                <div className="h-[5px] overflow-hidden rounded-full bg-[#F1F5F9]">
+                  <div className={`relative h-full rounded-full ${c.progressColor}`} style={{ width: `${c.progressPercent}%` }}>
+                    {!c.isComplete && c.progressDotColor && (
+                      <div className={`absolute -top-px right-0 h-[7px] w-[7px] rounded-full ${c.progressDotColor}`} />
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
+
+          {/* Empty State: Start New Analysis */}
+          <Link
+            href="/analysis/type"
+            className="flex cursor-pointer flex-col items-center gap-2.5 rounded-[20px] border-2 border-dashed border-[#D5D5E0] p-7 text-center no-underline transition hover:-translate-y-0.5 hover:border-[#0A1628] hover:bg-[#EFF4FF]"
+          >
+            <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-[#F8FAFC] transition">
+              <i className="fas fa-plus text-lg text-[#CBD5E1]" />
+            </div>
+            <div className="text-[0.88rem] font-bold text-[#64748B]">Start a new analysis</div>
+            <div className="text-[0.75rem] leading-relaxed text-[#CBD5E1]">Get a personalized resolution recommendation</div>
+          </Link>
+        </div>
       </div>
     </div>
   )

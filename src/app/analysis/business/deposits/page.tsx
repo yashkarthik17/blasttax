@@ -1,289 +1,147 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-type DepositStatus = 'timely' | 'late' | 'missing'
-
-interface Deposit {
-  id: string
-  date: string
-  amount: string
-  status: DepositStatus
-}
-
-const STATUS_STYLES: Record<DepositStatus, string> = {
-  timely: 'bg-emerald-500/15 text-emerald-400',
-  late: 'bg-amber-500/15 text-amber-400',
-  missing: 'bg-red-500/15 text-red-400',
-}
-
-let nextId = 1
+const DEPOSIT_DATA = [
+  { date: '01/15/2026', amount: '$4,250', status: 'Timely' },
+  { date: '02/15/2026', amount: '$4,250', status: 'Timely' },
+  { date: '03/15/2026', amount: '$0', status: 'Missing' },
+]
 
 export default function BusinessDepositsPage() {
   const router = useRouter()
-  const [eftpsEnrolled, setEftpsEnrolled] = useState<boolean | null>(null)
-  const [schedule, setSchedule] = useState<'monthly' | 'semi-weekly'>('monthly')
-  const [deposits, setDeposits] = useState<Deposit[]>([])
-  const [totalLiability, setTotalLiability] = useState('')
-
-  function addDeposit() {
-    setDeposits((prev) => [
-      ...prev,
-      { id: String(nextId++), date: '', amount: '', status: 'timely' },
-    ])
-  }
-
-  function updateDeposit(id: string, field: keyof Deposit, value: string) {
-    setDeposits((prev) =>
-      prev.map((d) => (d.id === id ? { ...d, [field]: value } : d))
-    )
-  }
-
-  function removeDeposit(id: string) {
-    setDeposits((prev) => prev.filter((d) => d.id !== id))
-  }
-
-  const totalDeposits = useMemo(
-    () =>
-      deposits.reduce((sum, d) => sum + (parseFloat(d.amount) || 0), 0),
-    [deposits]
-  )
-
-  const liabilityNum = parseFloat(totalLiability) || 0
-  const isCurrent = totalDeposits >= liabilityNum && liabilityNum > 0
+  const [eftpsEnrolled, setEftpsEnrolled] = useState(false)
+  const [schedule, setSchedule] = useState<'monthly' | 'semiweekly'>('monthly')
+  const [nextDayRule, setNextDayRule] = useState(false)
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-lg">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Deposit Compliance
-          </h1>
-          <p className="mt-3 text-base text-zinc-400">
-            For operating businesses, the IRS requires current deposit compliance for any resolution.
-          </p>
-        </div>
-
-        {/* Warning */}
-        <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-5">
-          <div className="flex items-start gap-3">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="mt-0.5 shrink-0 text-red-400"
-            >
-              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-              <line x1="12" y1="9" x2="12" y2="13" />
-              <line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            <p className="text-sm leading-relaxed text-red-200/70">
-              IRS will REJECT resolution if deposits are not current.
-            </p>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Progress */}
+        <div className="px-5 pt-4">
+          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
+            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '22%' }} />
+          </div>
+          <div className="flex justify-between items-center mt-2.5">
+            <span className="text-xs font-semibold text-[#94A3B8]">Step 2 of 8</span>
+            <span className="text-xs font-semibold text-[#2563EB]">Deposit Compliance</span>
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="px-5 py-4 pb-8">
+          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight mb-1">Deposit Compliance</h1>
+          <p className="text-[13px] text-[#94A3B8] leading-relaxed mb-3.5">Operating businesses must be current on federal tax deposits.</p>
+
+          {/* Warning */}
+          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#FEF2F2] border border-[rgba(230,57,70,0.15)] p-3.5 mb-3.5">
+            <i className="fa-solid fa-triangle-exclamation text-[#E63946]" />
+            <span className="text-xs text-[#991B1B]">IRS will REJECT resolution if deposits are not current. This prevents &quot;pyramiding&quot; of new debt.</span>
+          </div>
+
           {/* EFTPS Enrollment */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">EFTPS Enrollment Status</p>
-            <div className="flex gap-3">
-              {[true, false].map((val) => (
-                <button
-                  key={String(val)}
-                  onClick={() => setEftpsEnrolled(val)}
-                  className={`flex-1 rounded-full py-3 text-sm font-semibold transition-colors ${
-                    eftpsEnrolled === val
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
-                  }`}
-                >
-                  {val ? 'Enrolled' : 'Not Enrolled'}
-                </button>
-              ))}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+            <div className="text-sm font-bold text-[#0A1628] mb-3">
+              <i className="fa-solid fa-building-columns text-xs text-[#2563EB] mr-1.5" /> EFTPS Enrollment
             </div>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={eftpsEnrolled}
+                onChange={() => setEftpsEnrolled(!eftpsEnrolled)}
+                className="h-5 w-9 appearance-none rounded-full bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
+                  after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
+                  checked:after:translate-x-4"
+              />
+              <span className="text-xs font-medium text-[#64748B]">Enrolled in EFTPS (Electronic Federal Tax Payment System)?</span>
+            </label>
+            <div className="text-[10.5px] text-[#64748B] mt-2 p-2 bg-[#F8FAFC] rounded-lg">If not enrolled, enroll at EFTPS.gov. PIN arrives by mail in 5-7 business days.</div>
           </div>
 
           {/* Depositor Schedule */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-2 font-medium text-white">Depositor Schedule</p>
-            <p className="mb-4 text-xs text-zinc-500">
-              Based on $50K lookback threshold
-            </p>
-            <div className="flex gap-3">
-              {(['monthly', 'semi-weekly'] as const).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => setSchedule(s)}
-                  className={`flex-1 rounded-full py-3 text-sm font-semibold capitalize transition-colors ${
-                    schedule === s
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
-                  }`}
-                >
-                  {s === 'semi-weekly' ? 'Semi-Weekly' : 'Monthly'}
-                </button>
-              ))}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+            <div className="text-sm font-bold text-[#0A1628] mb-3">
+              <i className="fa-solid fa-calendar-check text-xs text-[#2563EB] mr-1.5" /> Depositor Schedule
             </div>
-          </div>
-
-          {/* Total Liability */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <label className="mb-2 block font-medium text-white">
-              Total Liability (Current Quarter)
-            </label>
-            <div className="relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
-                $
-              </span>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={totalLiability}
-                onChange={(e) => setTotalLiability(e.target.value)}
-                placeholder="0.00"
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-8 pr-4 text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          {/* Deposit Table */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="font-medium text-white">Current Quarter Deposits</p>
+            <div className="flex gap-2">
               <button
-                onClick={addDeposit}
-                className="rounded-lg bg-emerald-600/20 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition-colors hover:bg-emerald-600/30"
-              >
-                + Add Deposit
-              </button>
+                onClick={() => setSchedule('monthly')}
+                className={`flex-1 flex items-center justify-center rounded-lg py-2.5 text-xs font-semibold transition-all ${
+                  schedule === 'monthly' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
+                }`}
+              >Monthly</button>
+              <button
+                onClick={() => setSchedule('semiweekly')}
+                className={`flex-1 flex items-center justify-center rounded-lg py-2.5 text-xs font-semibold transition-all ${
+                  schedule === 'semiweekly' ? 'bg-[#EFF4FF] border-[1.5px] border-[#2563EB] text-[#2563EB]' : 'bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] text-[#64748B]'
+                }`}
+              >Semi-Weekly</button>
             </div>
+            <div className="text-[10.5px] text-[#64748B] mt-2 p-2 bg-[#F8FAFC] rounded-lg">Based on lookback period: If total 941 tax &gt; $50,000 (Jul 1 - Jun 30 two years prior), semi-weekly depositor.</div>
+          </div>
 
-            {deposits.length === 0 ? (
-              <p className="text-center text-sm text-zinc-500">
-                No deposits added yet.
-              </p>
-            ) : (
-              <div className="space-y-3">
-                {deposits.map((dep) => (
-                  <div
-                    key={dep.id}
-                    className="rounded-lg border border-zinc-700 bg-zinc-800/50 p-4"
-                  >
-                    <div className="grid grid-cols-2 gap-3">
-                      <div>
-                        <label className="mb-1 block text-xs text-zinc-500">
-                          Date
-                        </label>
-                        <input
-                          type="date"
-                          value={dep.date}
-                          onChange={(e) =>
-                            updateDeposit(dep.id, 'date', e.target.value)
-                          }
-                          className="w-full rounded border border-zinc-600 bg-zinc-700 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500 [color-scheme:dark]"
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-1 block text-xs text-zinc-500">
-                          Amount
-                        </label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          value={dep.amount}
-                          onChange={(e) =>
-                            updateDeposit(dep.id, 'amount', e.target.value)
-                          }
-                          placeholder="0.00"
-                          className="w-full rounded border border-zinc-600 bg-zinc-700 px-3 py-2 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-                        />
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between">
-                      <div className="flex gap-2">
-                        {(['timely', 'late', 'missing'] as const).map((st) => (
-                          <button
-                            key={st}
-                            onClick={() =>
-                              updateDeposit(dep.id, 'status', st)
-                            }
-                            className={`rounded-full px-3 py-1 text-xs font-medium capitalize transition-colors ${
-                              dep.status === st
-                                ? STATUS_STYLES[st]
-                                : 'bg-zinc-700 text-zinc-400 hover:bg-zinc-600'
-                            }`}
-                          >
-                            {st}
-                          </button>
-                        ))}
-                      </div>
-                      <button
-                        onClick={() => removeDeposit(dep.id)}
-                        className="text-xs text-zinc-500 transition-colors hover:text-red-400"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
+          {/* Current Quarter Deposits */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+            <div className="text-sm font-bold text-[#0A1628] mb-3">
+              <i className="fa-solid fa-table text-xs text-[#2563EB] mr-1.5" /> Current Quarter Deposits
+            </div>
+            <table className="w-full text-xs">
+              <thead>
+                <tr className="bg-[#F8FAFC]">
+                  <th className="py-2 px-2 text-left font-semibold text-[#94A3B8]">Date</th>
+                  <th className="py-2 px-2 text-right font-semibold text-[#94A3B8]">Amount</th>
+                  <th className="py-2 px-2 text-center font-semibold text-[#94A3B8]">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {DEPOSIT_DATA.map((d, i) => (
+                  <tr key={i} className="border-b border-[#F1F5F9] last:border-0">
+                    <td className="py-2 px-2 font-semibold text-[#0A1628]">{d.date}</td>
+                    <td className="py-2 px-2 text-right font-semibold text-[#0A1628]">{d.amount}</td>
+                    <td className="py-2 px-2 text-center">
+                      <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                        d.status === 'Timely' ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#FEF2F2] text-[#E63946]'
+                      }`}>{d.status}</span>
+                    </td>
+                  </tr>
                 ))}
-              </div>
-            )}
-          </div>
-
-          {/* Totals Summary */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-3 font-medium text-white">Summary</p>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Deposits</span>
-                <span className="font-medium text-white">
-                  ${totalDeposits.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Liability</span>
-                <span className="font-medium text-white">
-                  ${liabilityNum.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-              <div className="my-2 border-t border-zinc-700" />
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Compliance Result</span>
-                <span
-                  className={`rounded-full px-3 py-1 text-xs font-semibold ${
-                    liabilityNum > 0
-                      ? isCurrent
-                        ? 'bg-emerald-500/15 text-emerald-400'
-                        : 'bg-red-500/15 text-red-400'
-                      : 'bg-zinc-700 text-zinc-400'
-                  }`}
-                >
-                  {liabilityNum > 0
-                    ? isCurrent
-                      ? 'Current'
-                      : 'Not Current'
-                    : 'N/A'}
-                </span>
-              </div>
+              </tbody>
+            </table>
+            <div className="mt-3 rounded-[10px] bg-[#FEF2F2] p-2.5">
+              <div className="text-xs font-bold text-[#991B1B]">Deposit Shortfall: $4,250</div>
+              <div className="text-[11px] text-[#991B1B] mt-0.5">March deposit missing. Must be made before resolution can proceed.</div>
             </div>
           </div>
-        </div>
 
-        {/* Continue */}
-        <button
-          onClick={() => router.push('/analysis/business/trust-fund')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
-        >
-          Continue
-        </button>
+          {/* $100K Rule */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-4">
+            <div className="flex items-center gap-2">
+              <i className="fa-solid fa-bolt text-sm text-[#F59E0B]" />
+              <div>
+                <span className="text-[13px] font-bold text-[#0A1628]">$100,000 Next-Day Rule</span>
+                <p className="text-[11.5px] text-[#64748B] mt-0.5">If accumulated tax reaches $100,000+ on any day, deposit must be made by the next business day (IRC 6302).</p>
+              </div>
+            </div>
+            <label className="flex items-center gap-2 mt-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={nextDayRule}
+                onChange={() => setNextDayRule(!nextDayRule)}
+                className="h-5 w-9 appearance-none rounded-full bg-[#E2E8F0] relative cursor-pointer transition-colors checked:bg-[#2563EB] shrink-0
+                  after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform
+                  checked:after:translate-x-4"
+              />
+              <span className="text-xs font-medium text-[#64748B]">$100,000 next-day rule applies?</span>
+            </label>
+          </div>
+
+          <button
+            onClick={() => router.push('/analysis/business/trust-fund')}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white"
+          >
+            Continue <i className="fa-solid fa-arrow-right text-[13px]" />
+          </button>
+        </div>
       </div>
     </div>
   )

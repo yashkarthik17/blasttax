@@ -1,23 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-
-interface OnboardingData {
-  firstName: string
-  lastName: string
-}
 
 export default function DashboardPage() {
   const [name, setName] = useState('')
   const [mounted, setMounted] = useState(false)
+  const counterRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setMounted(true)
     try {
       const stored = localStorage.getItem('blasttax_onboarding')
       if (stored) {
-        const data: OnboardingData = JSON.parse(stored)
+        const data = JSON.parse(stored)
         setName(data.firstName || '')
       }
     } catch {
@@ -25,157 +21,347 @@ export default function DashboardPage() {
     }
   }, [])
 
+  // Animated counter
+  useEffect(() => {
+    if (!mounted || !counterRef.current) return
+    const el = counterRef.current
+    const target = 47250
+    const duration = 1800
+    const startTime = performance.now()
+
+    function update(currentTime: number) {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const eased = 1 - Math.pow(1 - progress, 3)
+      const current = Math.floor(target * eased)
+      el.textContent = '$' + current.toLocaleString()
+      if (progress < 1) requestAnimationFrame(update)
+    }
+
+    const timer = setTimeout(() => requestAnimationFrame(update), 600)
+    return () => clearTimeout(timer)
+  }, [mounted])
+
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--background)]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--primary)] border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-t-transparent" style={{ borderColor: '#0A1628', borderTopColor: 'transparent' }} />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="mx-auto max-w-5xl space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">
-              Welcome back{name ? `, ${name}` : ''}
-            </h1>
-            <p className="mt-1 text-[var(--muted-foreground)]">
-              Here&apos;s an overview of your tax resolution progress.
-            </p>
-          </div>
-          <Link
-            href="/account"
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--card)] text-sm font-bold text-[var(--primary)] hover:bg-[var(--secondary)] transition"
-          >
-            {name ? name.charAt(0).toUpperCase() : 'U'}
-          </Link>
-        </div>
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+      <div className="mx-auto max-w-md px-5 pb-6">
+        <div className="flex flex-col gap-5">
 
-        {/* Quick Action Cards */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          {/* Start New Analysis - Primary */}
-          <Link
-            href="/analysis/type"
-            className="group relative overflow-hidden rounded-xl bg-[var(--primary)] p-6 text-white shadow-lg transition hover:opacity-90"
-          >
-            <div className="absolute right-0 top-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full bg-white/10" />
-            <div className="relative space-y-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/20">
-                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">Start New Analysis</h3>
-                <p className="mt-1 text-sm text-white/70">
-                  Analyze your tax situation and get resolution options.
-                </p>
+          {/* Header */}
+          <div className="flex items-center justify-between pt-4">
+            <div>
+              <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500 }}>Good morning</div>
+              <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1F2937', letterSpacing: '-0.01em' }}>
+                {name || 'Jane'} <span style={{ display: 'inline-block' }}>&#128075;</span>
               </div>
             </div>
-          </Link>
-
-          {/* View Cases */}
-          <Link
-            href="/cases"
-            className="group rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 transition hover:border-[var(--muted-foreground)]"
-          >
-            <div className="space-y-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--secondary)]">
-                <svg className="h-6 w-6 text-[var(--foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">View Cases</h3>
-                <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-                  Review and manage your existing cases.
-                </p>
-              </div>
+            <div className="flex items-center gap-[14px]">
+              <Link href="/notifications" style={{ position: 'relative', cursor: 'pointer' }}>
+                <i className="far fa-bell" style={{ fontSize: 20, color: '#64748B' }} />
+                <div
+                  style={{
+                    position: 'absolute', top: -2, right: -2,
+                    width: 9, height: 9, background: '#E63946',
+                    borderRadius: '50%', border: '2px solid #F8FAFC',
+                  }}
+                />
+              </Link>
+              <Link
+                href="/account"
+                className="flex items-center justify-center"
+                style={{
+                  width: 38, height: 38, borderRadius: '50%',
+                  background: '#0A1628', color: '#FFFFFF',
+                  fontSize: '0.82rem', fontWeight: 700, textDecoration: 'none',
+                }}
+              >
+                {name ? name.charAt(0).toUpperCase() : 'J'}D
+              </Link>
             </div>
-          </Link>
-
-          {/* Resolution Center */}
-          <Link
-            href="/resolution"
-            className="group rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 transition hover:border-[var(--muted-foreground)]"
-          >
-            <div className="space-y-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--secondary)]">
-                <svg className="h-6 w-6 text-[var(--foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">Resolution Center</h3>
-                <p className="mt-1 text-sm text-[var(--muted-foreground)]">
-                  Explore resolution strategies and track progress.
-                </p>
-              </div>
-            </div>
-          </Link>
-        </div>
-
-        {/* Status Indicators */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-[var(--muted-foreground)]">Filed Returns</span>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--success)]/10">
-                <svg className="h-4 w-4 text-[var(--success)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-            <p className="mt-2 text-2xl font-bold">0</p>
           </div>
 
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-[var(--muted-foreground)]">Active Resolutions</span>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--primary)]/10">
-                <svg className="h-4 w-4 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+          {/* Next Step Card */}
+          <div
+            className="relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #0A1628 0%, #2563EB 100%)',
+              borderRadius: 20, padding: 20,
+            }}
+          >
+            <div style={{ position: 'absolute', top: -20, right: -20, width: 80, height: 80, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ position: 'absolute', bottom: -15, left: -15, width: 60, height: 60, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center justify-center" style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(255,255,255,0.15)' }}>
+                  <i className="fas fa-route" style={{ fontSize: 12, color: '#FFFFFF' }} />
+                </div>
+                <span style={{ fontSize: '0.72rem', fontWeight: 600, color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Your Next Step
+                </span>
               </div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#FFFFFF', marginBottom: 6 }}>
+                Run Your Tax Analysis
+              </h3>
+              <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.5, marginBottom: 16 }}>
+                Find out which IRS resolution options you qualify for and how much you could save.
+              </p>
+              <Link
+                href="/analysis/type"
+                className="inline-flex items-center gap-2"
+                style={{
+                  background: '#FFFFFF', color: '#0A1628',
+                  fontSize: '0.82rem', fontWeight: 700,
+                  padding: '12px 24px', borderRadius: 9999,
+                  textDecoration: 'none',
+                }}
+              >
+                <i className="fas fa-play" style={{ fontSize: 10 }} />
+                Start Analysis
+              </Link>
             </div>
-            <p className="mt-2 text-2xl font-bold">0</p>
           </div>
 
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-[var(--muted-foreground)]">Pending Submissions</span>
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--warning)]/10">
-                <svg className="h-4 w-4 text-[var(--warning)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-            <p className="mt-2 text-2xl font-bold">0</p>
-          </div>
-        </div>
+          {/* Total Tax Debt Card */}
+          <div
+            className="relative overflow-hidden"
+            style={{
+              background: '#EFF4FF', borderRadius: 20, padding: 24,
+              border: '1px solid rgba(10,22,40,0.08)',
+            }}
+          >
+            <div style={{ position: 'absolute', top: -30, right: -30, width: 100, height: 100, borderRadius: '50%', background: 'rgba(230,57,70,0.06)' }} />
+            <div style={{ position: 'absolute', bottom: -20, left: -20, width: 80, height: 80, borderRadius: '50%', background: 'rgba(10,22,40,0.05)' }} />
 
-        {/* Recent Cases */}
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-          <h2 className="text-xl font-semibold">Recent Cases</h2>
-          <div className="mt-6 flex flex-col items-center justify-center py-12 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--secondary)]">
-              <svg className="h-8 w-8 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-              </svg>
+            <div style={{ fontSize: '0.75rem', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Total Tax Debt
             </div>
-            <p className="mt-4 text-[var(--muted-foreground)]">
-              No analyses yet. Start your first analysis to see resolution options.
-            </p>
-            <Link
-              href="/analysis/type"
-              className="mt-4 rounded-lg bg-[var(--primary)] px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 transition"
+            <div
+              ref={counterRef}
+              style={{
+                fontSize: '2.2rem', fontWeight: 900, color: '#E63946',
+                letterSpacing: '-0.02em', lineHeight: 1, marginTop: 8,
+              }}
             >
-              Start Analysis
-            </Link>
+              $0
+            </div>
+            <div style={{ fontSize: '0.8rem', color: '#64748B', marginTop: 6, fontWeight: 500 }}>
+              across <strong style={{ color: '#1F2937' }}>3 tax years</strong>
+            </div>
+
+            {/* CSED Warning */}
+            <div
+              className="inline-flex items-center gap-[6px] mt-[14px]"
+              style={{
+                padding: '6px 12px', background: 'rgba(245,158,11,0.1)',
+                border: '1px solid rgba(245,158,11,0.2)', borderRadius: 9999,
+                fontSize: '0.7rem', fontWeight: 600, color: '#D97706',
+              }}
+            >
+              <i className="fas fa-clock" style={{ fontSize: 10 }} />
+              Nearest expiration: Aug 2028
+            </div>
+
+            {/* Sparkline */}
+            <div className="relative mt-4" style={{ height: 40 }}>
+              <svg width="100%" height="40" viewBox="0 0 280 40" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="sparkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#E63946" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#E63946" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <path d="M0,30 Q30,28 60,25 T120,20 T180,15 T240,18 T280,12" fill="none" stroke="#E63946" strokeWidth="2" strokeLinecap="round" opacity="0.7" />
+                <path d="M0,30 Q30,28 60,25 T120,20 T180,15 T240,18 T280,12 L280,40 L0,40 Z" fill="url(#sparkGrad)" />
+              </svg>
+              <div
+                className="animate-pulse"
+                style={{
+                  position: 'absolute', right: 0, top: 6,
+                  width: 8, height: 8, background: '#E63946',
+                  borderRadius: '50%', boxShadow: '0 0 8px rgba(230,57,70,0.4)',
+                }}
+              />
+            </div>
           </div>
+
+          {/* Quick Actions */}
+          <div>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>
+              Quick Actions
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {/* New Analysis */}
+              <Link href="/analysis/type" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                  <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#EFF4FF', marginBottom: 12 }}>
+                    <i className="fas fa-chart-line" style={{ fontSize: 16, color: '#0A1628' }} />
+                  </div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', marginBottom: 3 }}>New Analysis</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.4 }}>Start a new resolution analysis</div>
+                </div>
+              </Link>
+              {/* My Cases */}
+              <Link href="/cases" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                  <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#F5F0FF', marginBottom: 12 }}>
+                    <i className="fas fa-folder-open" style={{ fontSize: 16, color: '#7C3AED' }} />
+                  </div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', marginBottom: 3 }}>My Cases</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.4 }}>Track your active cases</div>
+                </div>
+              </Link>
+              {/* Tax Filing */}
+              <Link href="/resolution" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                  <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#F0FDFA', marginBottom: 12 }}>
+                    <i className="fas fa-file-lines" style={{ fontSize: 16, color: '#0D9488' }} />
+                  </div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', marginBottom: 3 }}>Tax Filing</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.4 }}>File or amend returns</div>
+                </div>
+              </Link>
+              {/* AI Assistant */}
+              <Link href="/chat" className="block" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ background: '#FFFFFF', borderRadius: 16, padding: '18px 16px', border: '1px solid #F3F4F6' }}>
+                  <div className="flex items-center justify-center" style={{ width: 42, height: 42, borderRadius: 14, background: '#EEF2FF', marginBottom: 12 }}>
+                    <i className="fas fa-sparkles" style={{ fontSize: 16, color: '#4F46E5' }} />
+                  </div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', marginBottom: 3 }}>AI Assistant</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.4 }}>Get instant help</div>
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          {/* Recent Activity */}
+          <div>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>
+              Recent Activity
+            </div>
+            <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6', overflow: 'hidden' }}>
+              {/* Activity 1 */}
+              <div className="flex items-center gap-3" style={{ padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
+                <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF' }}>
+                  <i className="fas fa-arrow-rotate-right" style={{ fontSize: 13, color: '#0A1628' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    Case #1042 — Status updated
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', marginTop: 1 }}>Moved to &quot;In Review&quot;</div>
+                </div>
+                <div style={{ fontSize: '0.65rem', color: '#CBD5E1', fontWeight: 500, whiteSpace: 'nowrap' }}>2h ago</div>
+              </div>
+              {/* Activity 2 */}
+              <div className="flex items-center gap-3" style={{ padding: '14px 16px', borderBottom: '1px solid #F1F5F9' }}>
+                <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE' }}>
+                  <i className="fas fa-file-circle-check" style={{ fontSize: 13, color: '#00A651' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    OIC Form 656 — Ready
+                  </div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', marginTop: 1 }}>Ready for submission</div>
+                </div>
+                <div style={{ fontSize: '0.65rem', color: '#CBD5E1', fontWeight: 500, whiteSpace: 'nowrap' }}>5h ago</div>
+              </div>
+              {/* Activity 3 */}
+              <div className="flex items-center gap-3" style={{ padding: '14px 16px' }}>
+                <div className="flex-shrink-0 flex items-center justify-center" style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF' }}>
+                  <i className="fas fa-credit-card" style={{ fontSize: 13, color: '#7C3AED' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937' }}>Payment of $250</div>
+                  <div style={{ fontSize: '0.7rem', color: '#94A3B8', marginTop: 1 }}>Processed successfully</div>
+                </div>
+                <div style={{ fontSize: '0.65rem', color: '#CBD5E1', fontWeight: 500, whiteSpace: 'nowrap' }}>1d ago</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Proof */}
+          <div
+            className="flex items-center gap-[10px]"
+            style={{
+              padding: '14px 16px', background: '#ECFDF5',
+              borderRadius: 14, border: '1px solid #D1FAE5',
+            }}
+          >
+            <i className="fas fa-chart-line" style={{ fontSize: 16, color: '#10B981' }} />
+            <div>
+              <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#065F46' }}>$127M+ in tax debt resolved</span>
+              <span style={{ fontSize: '0.68rem', color: '#6B7280', display: 'block' }}>Trusted by 15,000+ taxpayers nationwide</span>
+            </div>
+          </div>
+
+          {/* AI Assistant Preview Card */}
+          <div style={{ background: '#F9FAFB', border: '1px solid #F3F4F6', borderRadius: 20, padding: 20, position: 'relative', overflow: 'hidden' }}>
+            <div className="flex items-center gap-[10px] mb-[14px]">
+              <div className="flex items-center justify-center" style={{ width: 32, height: 32, borderRadius: 10, background: '#2563EB' }}>
+                <i className="fas fa-sparkles" style={{ fontSize: 14, color: '#FFFFFF' }} />
+              </div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1F2937' }}>BlastTax AI</div>
+              <div
+                className="inline-flex items-center gap-1"
+                style={{
+                  padding: '3px 8px', background: 'rgba(99,102,241,0.1)',
+                  borderRadius: 9999, fontSize: '0.6rem', fontWeight: 600, color: '#4F46E5',
+                }}
+              >
+                <i className="fas fa-bolt" style={{ fontSize: 8 }} /> SMART
+              </div>
+            </div>
+
+            <div style={{ fontSize: '0.85rem', color: '#64748B', fontWeight: 500, marginBottom: 14 }}>
+              How can I help you today?
+            </div>
+
+            {/* Quick prompt chips */}
+            <div className="flex flex-wrap gap-2 mb-[14px]">
+              <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                <i className="fas fa-check-circle" style={{ fontSize: 10, color: '#2563EB', marginRight: 2 }} /> Check my eligibility
+              </div>
+              <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                <i className="fas fa-handshake" style={{ fontSize: 10, color: '#7C3AED', marginRight: 2 }} /> Explain OIC
+              </div>
+              <div style={{ padding: '7px 14px', background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, fontSize: '0.72rem', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}>
+                <i className="fas fa-arrow-right" style={{ fontSize: 10, color: '#0D9488', marginRight: 2 }} /> Next steps
+              </div>
+            </div>
+
+            {/* Input bar */}
+            <div className="flex items-center gap-[10px]" style={{ background: '#FFFFFF', border: '1px solid #F3F4F6', borderRadius: 9999, padding: '8px 12px 8px 16px' }}>
+              <input
+                type="text"
+                placeholder="Ask anything..."
+                disabled
+                style={{
+                  flex: 1, border: 'none', outline: 'none',
+                  fontFamily: 'inherit', fontSize: '0.8rem', color: '#1F2937',
+                  background: 'transparent',
+                }}
+              />
+              <Link
+                href="/chat"
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: 32, height: 32, borderRadius: '50%',
+                  background: '#0A1628', textDecoration: 'none',
+                }}
+              >
+                <i className="fas fa-arrow-up" style={{ fontSize: 12, color: '#FFFFFF' }} />
+              </Link>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

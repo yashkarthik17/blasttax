@@ -1,252 +1,173 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 type IAStatus = 'pending' | 'active' | 'default'
 
 const STATUS_CONFIG: Record<IAStatus, { label: string; color: string; bgColor: string }> = {
-  pending: { label: 'Pending', color: 'text-amber-400', bgColor: 'bg-amber-500/15' },
-  active: { label: 'Active', color: 'text-emerald-400', bgColor: 'bg-emerald-500/15' },
-  default: { label: 'Default', color: 'text-red-400', bgColor: 'bg-red-500/15' },
+  pending: { label: 'Pending', color: 'text-amber-600', bgColor: 'bg-amber-50' },
+  active: { label: 'Active', color: 'text-[#00A651]', bgColor: 'bg-[#E6F9EE]' },
+  default: { label: 'Default', color: 'text-[#E63946]', bgColor: 'bg-[#FFF0F1]' },
 }
 
-interface Milestone {
-  id: string
+interface TimelineStep {
   label: string
   description: string
-  code?: string
   completed: boolean
   current: boolean
+  icon: string
 }
 
-const MILESTONES: Milestone[] = [
-  { id: 'submitted', label: 'Submitted', description: 'Form 9465 / 433-D submitted to IRS', completed: true, current: false },
-  { id: 'tc971-043', label: 'TC 971 AC 043', description: 'IRS acknowledges receipt — pending review', code: 'TC 971 AC 043', completed: true, current: false },
-  { id: 'tc971-063', label: 'TC 971 AC 063', description: 'Installment agreement approved', code: 'TC 971 AC 063', completed: false, current: true },
-  { id: 'active', label: 'Active', description: 'Making monthly payments per agreement terms', completed: false, current: false },
-  { id: 'paid-off', label: 'Paid Off', description: 'Balance satisfied in full — agreement complete', completed: false, current: false },
-]
-
-const COMPLIANCE_CHECKLIST = [
-  { id: 'file-returns', label: 'File future returns on time', description: 'All federal tax returns must be filed by their due dates (including extensions).' },
-  { id: 'pay-current', label: 'Pay current year taxes', description: 'Ensure enough withholding or estimated payments to cover current year liability.' },
-  { id: 'make-payments', label: 'Make all IA payments on time', description: 'Payments must arrive by the due date each month. Set up direct debit (DDIA) for reliability.' },
-]
-
-const WARNING_TRIGGERS = [
-  { icon: 'payment', label: 'Missed Payment', description: 'Missing even one payment can trigger default. The IRS will send CP523 notice.' },
-  { icon: 'balance', label: 'New Tax Balance', description: 'Owing additional taxes for a new year while on an IA can cause default.' },
-  { icon: 'unfiled', label: 'Unfiled Return', description: 'Failure to file a required return violates IA compliance terms.' },
-]
-
 export default function IAPostSubmissionPage() {
+  const router = useRouter()
   const [status] = useState<IAStatus>('active')
   const statusConfig = STATUS_CONFIG[status]
 
-  // Sample data — would come from user context / API
   const paymentData = {
-    monthlyAmount: 450,
-    dueDate: '28th of each month',
-    nextPayment: 'April 28, 2026',
-    paymentsMade: 14,
+    monthlyAmount: 657,
+    paymentMethod: 'Direct Debit (DDIA)',
+    paymentDate: '28th of each month',
+    remainingBalance: 46593,
+    paymentsMade: 1,
     totalPayments: 72,
-    remainingBalance: 26100,
-    originalBalance: 32400,
+    ftpRate: '0.25%/mo',
   }
 
+  const timeline: TimelineStep[] = [
+    { label: 'Application Submitted', description: 'Mar 15 — Online via IRS.gov', completed: true, current: false, icon: 'fa-check' },
+    { label: 'TC 971 AC 043 Posted', description: 'Mar 15 — Pending status confirmed', completed: true, current: false, icon: 'fa-check' },
+    { label: 'Levy Protection Active', description: 'IRC \u00A7 6331(k) — Protected from levies', completed: true, current: false, icon: 'fa-check' },
+    { label: 'Approved — TC 971 AC 063', description: 'Mar 16 — Online = immediate approval', completed: true, current: false, icon: 'fa-check' },
+    { label: 'First Payment Due', description: 'Apr 28 — $657 via Direct Debit', completed: false, current: true, icon: 'fa-arrow-right' },
+  ]
+
+  const complianceItems = [
+    'File all future returns on time',
+    'Pay current-year taxes on time',
+    'Make all IA payments on time',
+  ]
+
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Dashboard
-        </Link>
-
-        {/* Status Header */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Installment Agreement</h1>
-              <p className="mt-1 text-sm text-zinc-400">Track your IA status and payment progress</p>
-            </div>
-            <span className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-semibold ${statusConfig.bgColor} ${statusConfig.color}`}>
-              {statusConfig.label}
-            </span>
-          </div>
-        </div>
-
-        {/* Timeline Milestones */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-6">Timeline</h2>
-          <div className="relative">
-            {MILESTONES.map((milestone, index) => (
-              <div key={milestone.id} className="relative flex gap-4 pb-8 last:pb-0">
-                {/* Connector line */}
-                {index < MILESTONES.length - 1 && (
-                  <div className={`absolute left-[15px] top-[32px] h-[calc(100%-16px)] w-0.5 ${milestone.completed ? 'bg-blue-500' : 'bg-zinc-700'}`} />
-                )}
-                {/* Circle indicator */}
-                <div className="relative z-10 flex-shrink-0">
-                  {milestone.completed ? (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    </div>
-                  ) : milestone.current ? (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500/20">
-                      <div className="h-2.5 w-2.5 rounded-full bg-blue-400 animate-pulse" />
-                    </div>
-                  ) : (
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-700 bg-zinc-800">
-                      <div className="h-2 w-2 rounded-full bg-zinc-600" />
-                    </div>
-                  )}
-                </div>
-                {/* Content */}
-                <div className={`flex-1 ${milestone.current ? 'rounded-xl border border-blue-500/30 bg-blue-500/5 p-4 -mt-1' : 'pt-0.5'}`}>
-                  <div className="flex items-center gap-2">
-                    <h3 className={`font-semibold ${milestone.current ? 'text-blue-400' : milestone.completed ? 'text-white' : 'text-zinc-500'}`}>
-                      {milestone.label}
-                    </h3>
-                    {milestone.current && (
-                      <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-400">
-                        Current
-                      </span>
-                    )}
-                  </div>
-                  <p className={`mt-1 text-sm ${milestone.current ? 'text-zinc-300' : 'text-zinc-500'}`}>
-                    {milestone.description}
-                  </p>
-                  {milestone.code && (
-                    <span className="mt-2 inline-block rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-400">
-                      {milestone.code}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Payment Schedule Card */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-6">Payment Schedule</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Monthly Payment</p>
-              <p className="mt-2 text-2xl font-bold text-white">${paymentData.monthlyAmount.toLocaleString()}</p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Due Date</p>
-              <p className="mt-2 text-2xl font-bold text-white">{paymentData.dueDate}</p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Next Payment</p>
-              <p className="mt-2 text-lg font-bold text-blue-400">{paymentData.nextPayment}</p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Payments Made</p>
-              <p className="mt-2 text-lg font-bold text-white">
-                {paymentData.paymentsMade} <span className="text-sm font-normal text-zinc-500">/ {paymentData.totalPayments}</span>
-              </p>
-            </div>
-          </div>
-          {/* Progress bar */}
-          <div className="mt-6">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-zinc-400">Balance Remaining</span>
-              <span className="font-semibold text-white">${paymentData.remainingBalance.toLocaleString()}</span>
-            </div>
-            <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-zinc-800">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all"
-                style={{ width: `${((paymentData.originalBalance - paymentData.remainingBalance) / paymentData.originalBalance) * 100}%` }}
-              />
-            </div>
-            <div className="mt-1 flex justify-between text-xs text-zinc-500">
-              <span>${(paymentData.originalBalance - paymentData.remainingBalance).toLocaleString()} paid</span>
-              <span>${paymentData.originalBalance.toLocaleString()} total</span>
-            </div>
-          </div>
-        </div>
-
-        {/* FTP Penalty Rate Note */}
-        <div className="rounded-xl border border-blue-500/20 bg-blue-500/5 p-4 flex gap-3">
-          <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-              <circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
-            </svg>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-blue-400">Reduced FTP Penalty Rate</p>
-            <p className="mt-1 text-sm text-zinc-400">
-              While your installment agreement is active, the Failure to Pay (FTP) penalty is reduced from 0.5%/month to <span className="font-semibold text-blue-300">0.25%/month</span>. This saves you money over the life of the agreement.
-            </p>
-          </div>
-        </div>
-
-        {/* Compliance Checklist */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-1">Compliance Checklist</h2>
-          <p className="text-sm text-zinc-400 mb-6">Stay in compliance to keep your IA active and avoid default.</p>
-          <div className="space-y-3">
-            {COMPLIANCE_CHECKLIST.map((item) => (
-              <div key={item.id} className="flex gap-3 rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 border-emerald-500 mt-0.5">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-500">
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium text-white">{item.label}</h3>
-                  <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Warning Triggers */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-1">Default Triggers</h2>
-          <p className="text-sm text-zinc-400 mb-6">These events can cause your installment agreement to default.</p>
-          <div className="space-y-3">
-            {WARNING_TRIGGERS.map((trigger) => (
-              <div key={trigger.label} className="flex gap-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                    <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="font-medium text-amber-400">{trigger.label}</h3>
-                  <p className="mt-1 text-sm text-zinc-400">{trigger.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="space-y-3 pb-8">
-          <button className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-blue-500 active:bg-blue-700">
-            Make a Payment
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Header */}
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-arrow-left text-[#64748B]" />
           </button>
-          <div className="grid grid-cols-2 gap-3">
-            <button className="rounded-xl border border-[#27272a] bg-[#18181b] py-3.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-              View Payment History
+          <span className="text-[15px] font-bold text-[#0A1628]">IA Status</span>
+          <div className="w-10" />
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col gap-4 px-5 py-5 pb-8">
+          {/* Title + Status */}
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <h1 className="text-xl font-extrabold text-[#0A1628]">Your Installment Agreement</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${statusConfig.bgColor} ${statusConfig.color}`}>
+                <i className="fa-solid fa-circle text-[6px]" /> {statusConfig.label}
+              </span>
+              <span className="text-xs text-[#64748B]">Streamlined DDIA</span>
+            </div>
+          </div>
+
+          {/* Timeline Card */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3.5">
+              Timeline
+            </div>
+            <div className="flex flex-col">
+              {timeline.map((step, i) => (
+                <div key={i} className="relative flex gap-3.5 pb-4 last:pb-0">
+                  {/* Connector line */}
+                  {i < timeline.length - 1 && (
+                    <div className={`absolute left-[15px] top-[34px] bottom-0 w-0.5 ${step.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
+                  )}
+                  {/* Dot */}
+                  <div className={`relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs text-white ${
+                    step.completed ? 'bg-[#00A651]' : step.current ? 'bg-[#2563EB]' : 'bg-[#F8FAFC] text-[#CBD5E1] border-2 border-[#F1F5F9]'
+                  }`}>
+                    <i className={`fa-solid ${step.icon} text-[11px]`} />
+                  </div>
+                  <div>
+                    <div className={`text-[13px] font-bold ${step.current ? 'text-[#2563EB]' : 'text-[#0A1628]'}`}>
+                      {step.label}
+                    </div>
+                    <div className="text-[11px] text-[#64748B]">{step.description}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Agreement Details */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
+              Agreement Details
+            </div>
+            {[
+              { label: 'Monthly Payment', value: `$${paymentData.monthlyAmount}`, bold: true },
+              { label: 'Payment Method', value: paymentData.paymentMethod },
+              { label: 'Payment Date', value: paymentData.paymentDate },
+              { label: 'Remaining Balance', value: `$${paymentData.remainingBalance.toLocaleString()}`, accent: true },
+              { label: 'Payments Made', value: `${paymentData.paymentsMade} of ${paymentData.totalPayments}` },
+            ].map((row, i) => (
+              <div key={i} className={`flex items-center justify-between py-2 text-xs ${i > 0 ? 'border-t border-[#F1F5F9]' : ''}`}>
+                <span className="text-[#64748B]">{row.label}</span>
+                <span className={`font-semibold ${row.accent ? 'text-[#E63946] font-bold' : row.bold ? 'font-bold text-[#0A1628]' : 'text-[#0A1628]'}`}>
+                  {row.value}
+                </span>
+              </div>
+            ))}
+            <div className="flex items-center justify-between py-2 border-t border-[#F1F5F9] text-xs">
+              <span className="text-[#64748B]">FTP Penalty Rate</span>
+              <div>
+                <span className="font-semibold text-[#00A651]">{paymentData.ftpRate}</span>
+                <span className="text-[10px] text-[#64748B] line-through ml-1">0.5%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* NFTL Status */}
+          <div className="flex items-start gap-3 rounded-[14px] bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] p-3.5">
+            <i className="fa-solid fa-shield-check text-[#00A651] mt-0.5" />
+            <div>
+              <div className="font-bold text-[13px] text-[#065F46] mb-0.5">No Lien Filed</div>
+              <div className="text-xs text-[#065F46] leading-relaxed">Balance under $25K DDIA threshold. NFTL will not be filed.</div>
+            </div>
+          </div>
+
+          {/* Compliance Requirements */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[12px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
+              <i className="fa-solid fa-triangle-exclamation text-[10px] mr-1 text-[#F59E0B]" />
+              Compliance Requirements
+            </div>
+            {complianceItems.map((item, i) => (
+              <div key={i} className="flex items-start gap-2.5 py-2 text-xs">
+                <i className="fa-solid fa-triangle-exclamation text-[#F59E0B] text-sm mt-px shrink-0" />
+                <span className="text-[#0A1628] font-medium">{item}</span>
+              </div>
+            ))}
+            <div className="mt-2 rounded-[10px] bg-[rgba(245,166,35,0.06)] p-2.5 text-[11px] text-[#92400E] leading-relaxed">
+              <i className="fa-solid fa-info-circle text-[10px] mr-1" />
+              Default triggers CP523 notice with a 30-day cure period before termination.
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="mt-1 flex flex-col gap-2.5">
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
+              <i className="fa-solid fa-credit-card text-[13px]" />
+              Make a Payment
             </button>
-            <button className="rounded-xl border border-[#27272a] bg-[#18181b] py-3.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-              Request Modification
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#E2E8F0] bg-white py-4 text-[15px] font-semibold text-[#0A1628]">
+              <i className="fa-solid fa-clock-rotate-left text-[13px]" />
+              View Payment History
             </button>
           </div>
         </div>

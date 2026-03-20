@@ -1,277 +1,144 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-
-type OICStatus = 'submitted' | 'processability' | 'tc480' | 'letter3756' | 'examiner' | 'investigation' | 'decision' | 'accepted' | 'compliance'
+import { useRouter } from 'next/navigation'
 
 interface TimelineStep {
-  id: OICStatus
   label: string
-  timeframe: string
   description: string
-}
-
-const TIMELINE_STEPS: TimelineStep[] = [
-  { id: 'submitted', label: 'Submitted', timeframe: 'Day 0', description: 'OIC package mailed with $205 application fee and initial payment' },
-  { id: 'processability', label: 'Processability Review', timeframe: 'Wk 1-3', description: 'IRS checks that all required forms and documents are included' },
-  { id: 'tc480', label: 'TC 480 Posts', timeframe: 'Wk 1-4', description: 'Transaction code 480 posts to your account — collection activity paused' },
-  { id: 'letter3756', label: 'Letter 3756', timeframe: 'Wk 2-6', description: 'Official acknowledgment letter confirming your offer is being processed' },
-  { id: 'examiner', label: 'Examiner Assigned', timeframe: 'Mo 2-6', description: 'An Offer Examiner is assigned to review your case' },
-  { id: 'investigation', label: 'Investigation', timeframe: 'Mo 3-12', description: 'Examiner verifies financials, may request additional documentation' },
-  { id: 'decision', label: 'Decision', timeframe: 'Mo 6-18', description: 'IRS issues acceptance, rejection, or counter-offer' },
-  { id: 'accepted', label: '24-Month Deemed Acceptance', timeframe: 'Mo 24', description: 'If IRS has not decided, your offer is AUTOMATICALLY accepted' },
-]
-
-function getStepIndex(status: OICStatus): number {
-  return TIMELINE_STEPS.findIndex((s) => s.id === status)
-}
-
-function calculateDaysRemaining(submissionDate: Date): number {
-  const deadline = new Date(submissionDate)
-  deadline.setMonth(deadline.getMonth() + 24)
-  const now = new Date()
-  const diff = deadline.getTime() - now.getTime()
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)))
+  completed: boolean
+  current: boolean
+  pending: boolean
+  icon: string
 }
 
 export default function OICPostSubmissionPage() {
+  const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const timeline: TimelineStep[] = [
+    { label: 'Day 0: OIC Submitted', description: 'Mar 15 — Certified mail', completed: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Wk 1-3: Processability Review', description: 'Passed — Mar 28', completed: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'TC 480 Posted — CSED Tolled', description: 'Mar 28 — Collection statute paused', completed: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Letter 3756 Received', description: 'Apr 5 — 24-month clock started', completed: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Routed to COIC', description: 'Apr 20 — Brookhaven, NY', completed: true, current: false, pending: false, icon: 'fa-check' },
+    { label: 'Mo 2-6: Examiner Assignment', description: 'Letter 4450 expected', completed: false, current: true, pending: false, icon: 'fa-hourglass-half' },
+    { label: 'Mo 3-12: Investigation Phase', description: 'Examiner reviews financials', completed: false, current: false, pending: true, icon: 'fa-magnifying-glass' },
+    { label: 'Mo 6-18: Decision', description: 'Accept, reject, or counteroffer', completed: false, current: false, pending: true, icon: 'fa-gavel' },
+  ]
 
-  // Sample data
-  const currentStatus: OICStatus = 'investigation'
-  const submissionDate = new Date('2025-09-15')
-  const tc480Date = new Date('2025-10-08')
-  const currentStepIndex = getStepIndex(currentStatus)
-  const daysRemaining = calculateDaysRemaining(submissionDate)
-  const totalDays = 730 // 24 months
-  const daysElapsed = totalDays - daysRemaining
-  const progressPercent = Math.min(100, (daysElapsed / totalDays) * 100)
-
-  const deadlineDate = new Date(submissionDate)
-  deadlineDate.setMonth(deadlineDate.getMonth() + 24)
+  const reminders = [
+    { text: 'Stay current on all tax filings', warning: true },
+    { text: 'Continue periodic payments (not refunded if rejected)', warning: true },
+    { text: 'Respond to all IRS requests within deadlines', warning: true },
+    { text: 'Refunds will be offset (TC 826)', muted: true, warning: true },
+    { text: 'No levy while TC 480 active', success: true },
+  ]
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#09090b]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#2563EB] border-t-transparent" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Dashboard
-        </Link>
-
-        {/* Status Header with Countdown */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Offer in Compromise</h1>
-              <p className="mt-1 text-sm text-zinc-400">Lifecycle tracking and 24-month countdown</p>
-            </div>
-            <span className="inline-flex items-center rounded-full bg-blue-500/15 px-4 py-1.5 text-sm font-semibold text-blue-400">
-              In Progress
-            </span>
-          </div>
-
-          {/* 24-Month Countdown */}
-          <div className="mt-6 rounded-xl border border-blue-500/20 bg-blue-500/5 p-5">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">24-Month Countdown</p>
-                <p className="mt-1 text-3xl font-bold text-white">{daysRemaining} <span className="text-base font-normal text-zinc-400">days remaining</span></p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Deadline</p>
-                <p className="mt-1 text-lg font-semibold text-blue-400">{deadlineDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-              </div>
-            </div>
-            <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-zinc-800">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
-            <p className="mt-2 text-xs text-zinc-500">{daysElapsed} days elapsed of {totalDays} days total</p>
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Header */}
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+          </button>
+          <span className="text-[15px] font-bold text-[#0A1628]">OIC Status</span>
+          <div className="w-10" />
         </div>
 
-        {/* Key Dates */}
-        <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-[#27272a] bg-[#18181b] p-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Submission Date</p>
-            <p className="mt-2 text-lg font-bold text-white">{submissionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
+        {/* Content */}
+        <div className="flex flex-col gap-3.5 px-5 py-5 pb-8">
+          {/* Title */}
+          <div>
+            <h1 className="text-xl font-extrabold text-[#0A1628] mb-1.5">Your Offer in Compromise</h1>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[11px] font-bold text-[#2563EB]">
+                <i className="fa-solid fa-clock text-[8px]" /> In Review
+              </span>
+              <span className="text-xs text-[#64748B]">DATC — $8,500</span>
+            </div>
           </div>
-          <div className="rounded-xl border border-[#27272a] bg-[#18181b] p-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">TC 480 Date</p>
-            <p className="mt-2 text-lg font-bold text-white">{tc480Date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-          </div>
-          <div className="rounded-xl border border-[#27272a] bg-[#18181b] p-4">
-            <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">24-Month Deadline</p>
-            <p className="mt-2 text-lg font-bold text-blue-400">{deadlineDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</p>
-          </div>
-        </div>
 
-        {/* Timeline */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-6">OIC Lifecycle Timeline</h2>
-          <div className="relative">
-            {TIMELINE_STEPS.map((step, index) => {
-              const isCompleted = index < currentStepIndex
-              const isCurrent = index === currentStepIndex
-              const isFuture = index > currentStepIndex
-
-              return (
-                <div key={step.id} className="relative flex gap-4 pb-8 last:pb-0">
-                  {/* Connector line */}
-                  {index < TIMELINE_STEPS.length - 1 && (
-                    <div className={`absolute left-[15px] top-[32px] h-[calc(100%-16px)] w-0.5 ${isCompleted ? 'bg-blue-500' : 'bg-zinc-700'}`} />
+          {/* Timeline */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3">
+              Lifecycle Timeline
+            </div>
+            <div className="flex flex-col">
+              {timeline.map((step, i) => (
+                <div key={i} className="relative flex gap-3.5 pb-3.5 last:pb-0">
+                  {i < timeline.length - 1 && (
+                    <div className={`absolute left-[14px] top-[32px] bottom-0 w-0.5 ${step.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
                   )}
-                  {/* Circle indicator */}
-                  <div className="relative z-10 flex-shrink-0">
-                    {isCompleted ? (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-500">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </div>
-                    ) : isCurrent ? (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-blue-500 bg-blue-500/20">
-                        <div className="h-2.5 w-2.5 rounded-full bg-blue-400 animate-pulse" />
-                      </div>
-                    ) : (
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-zinc-700 bg-zinc-800">
-                        <div className="h-2 w-2 rounded-full bg-zinc-600" />
-                      </div>
-                    )}
+                  <div className={`relative z-[1] flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full text-[11px] ${
+                    step.completed ? 'bg-[#00A651] text-white'
+                      : step.current ? 'bg-[#2563EB] text-white'
+                      : 'bg-[#F8FAFC] text-[#CBD5E1] border-2 border-[#F1F5F9]'
+                  }`}>
+                    <i className={`fa-solid ${step.icon} text-[10px]`} />
                   </div>
-                  {/* Content */}
-                  <div className={`flex-1 ${isCurrent ? 'rounded-xl border border-blue-500/30 bg-blue-500/5 p-4 -mt-1' : 'pt-0.5'}`}>
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className={`font-semibold ${isCurrent ? 'text-blue-400' : isCompleted ? 'text-white' : 'text-zinc-500'}`}>
-                        {step.label}
-                      </h3>
-                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${isCurrent ? 'bg-blue-500/20 text-blue-400' : 'bg-zinc-800 text-zinc-500'}`}>
-                        {step.timeframe}
-                      </span>
-                      {isCurrent && (
-                        <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                          You are here
-                        </span>
-                      )}
+                  <div>
+                    <div className={`text-xs font-bold ${step.current ? 'text-[#2563EB]' : step.pending ? 'text-[#94A3B8]' : 'text-[#0A1628]'}`}>
+                      {step.label}
                     </div>
-                    <p className={`mt-1 text-sm ${isCurrent ? 'text-zinc-300' : isFuture ? 'text-zinc-600' : 'text-zinc-400'}`}>
+                    <div className={`text-[10px] ${step.completed && step.description.includes('Passed') ? 'text-[#00A651] font-semibold' : step.pending ? 'text-[#CBD5E1]' : 'text-[#64748B]'}`}>
                       {step.description}
-                    </p>
+                    </div>
                   </div>
                 </div>
-              )
-            })}
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Active Milestone Card */}
-        <div className="rounded-2xl border border-blue-500/30 bg-gradient-to-br from-blue-500/10 to-transparent p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/20">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-              </svg>
+          {/* Current Status Pulse */}
+          <div className="flex items-center gap-3 rounded-[14px] bg-[#EFF4FF] border-[1.5px] border-[rgba(37,99,235,0.15)] p-3.5 w-full">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2563EB]">
+              <i className="fa-solid fa-satellite-dish text-white text-base" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">What&apos;s Happening Now</h2>
-              <p className="text-sm text-blue-400">Investigation Phase</p>
+              <div className="text-[13px] font-bold text-[#0A1628]">Awaiting Examiner Assignment</div>
+              <div className="text-[11px] text-[#64748B] mt-0.5">24-month deadline: <strong>Apr 5, 2028</strong></div>
+              <div className="text-[10px] text-[#2563EB] font-semibold mt-0.5">
+                If no decision by then: Deemed Accepted (IRC &sect; 7122(f))
+              </div>
             </div>
           </div>
-          <p className="text-sm text-zinc-300 leading-relaxed">
-            An Offer Examiner is reviewing your financial documentation. They may contact you to request additional information or clarification. During this phase, collection activity remains suspended due to your TC 480 posting.
-          </p>
-          <div className="mt-4 rounded-lg bg-[#09090b] p-3">
-            <p className="text-xs font-medium text-zinc-500">What to expect:</p>
-            <ul className="mt-2 space-y-1.5 text-sm text-zinc-400">
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-600" />
-                The examiner may call or mail requests for updated bank statements or pay stubs
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-600" />
-                Respond within 14 days to any information requests to avoid delays
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-600" />
-                Continue making any required periodic payments during the review
-              </li>
-            </ul>
-          </div>
-        </div>
 
-        {/* 24-Month Rule Callout */}
-        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5">
-          <div className="flex gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
+          {/* Reminders */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
+              <i className="fa-solid fa-bell text-[10px] mr-1" />
+              During Review Reminders
             </div>
-            <div>
-              <h3 className="font-semibold text-emerald-400">24-Month Rule (IRC 7122(f))</h3>
-              <p className="mt-2 text-sm text-zinc-300 leading-relaxed">
-                If the IRS does not make a decision on your Offer in Compromise within 24 months of the date the IRS received your offer, it is <span className="font-bold text-emerald-300">AUTOMATICALLY accepted</span> by operation of law. This is a powerful taxpayer protection — the clock is ticking in your favor.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* 5-Year Compliance Period */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-2">5-Year Compliance Period</h2>
-          <p className="text-sm text-zinc-400 mb-4">If your OIC is accepted, you must remain in full compliance for 5 years or until the offered amount is paid in full (whichever is longer).</p>
-          <div className="space-y-3">
-            {[
-              'File all required federal tax returns on time',
-              'Pay all federal taxes in full and on time',
-              'Make all scheduled OIC payments',
-              'Do not incur any new tax liabilities',
-              'Cooperate with any IRS requests for information',
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800 text-xs font-bold text-zinc-400">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-zinc-300">{item}</p>
+            {reminders.map((item, i) => (
+              <div key={i} className="flex items-start gap-2.5 py-[7px] text-xs leading-relaxed">
+                <i className={`fa-solid ${item.success ? 'fa-circle-check text-[#00A651]' : 'fa-triangle-exclamation text-[#F59E0B]'} text-[13px] mt-0.5 shrink-0`} />
+                <span className={`font-medium ${item.muted ? 'text-[#64748B]' : 'text-[#0A1628]'}`}>{item.text}</span>
               </div>
             ))}
           </div>
-          <div className="mt-4 rounded-lg bg-amber-500/5 border border-amber-500/20 p-3">
-            <p className="text-xs text-amber-400">
-              <span className="font-semibold">Important:</span> If you violate the compliance terms during this 5-year period, the IRS can default your accepted offer and reinstate the full original tax balance (minus payments made).
-            </p>
-          </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="space-y-3 pb-8">
-          <button className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-blue-500 active:bg-blue-700">
-            Upload Additional Documents
-          </button>
-          <button className="w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-            Check Status
-          </button>
+          {/* CTAs */}
+          <div className="mt-1 flex flex-col gap-2.5">
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#2563EB] py-4 text-[15px] font-bold text-white">
+              <i className="fa-solid fa-folder-open text-[13px]" />
+              View Documents
+            </button>
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#E2E8F0] bg-white py-4 text-[15px] font-semibold text-[#0A1628]">
+              <i className="fa-solid fa-comment-dots text-[13px]" />
+              Message Expert
+            </button>
+          </div>
         </div>
       </div>
     </div>

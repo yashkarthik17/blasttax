@@ -3,347 +3,176 @@
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
 
-/* ------------------------------------------------------------------ */
-/*  Question metadata for summary display                             */
-/* ------------------------------------------------------------------ */
-
 interface QuestionMeta {
   key: string
-  label: string
-  category: 'Compliance' | 'Collection' | 'Programs' | 'Residency' | 'Other'
+  yesLabel: string
+  noLabel: string
+  category: 'compliance' | 'urgency' | 'residency' | 'special'
+  warnIfYes?: boolean
+  warnIfNo?: boolean
 }
 
 const QUESTION_META: QuestionMeta[] = [
-  { key: 'allReturnsFiled', label: 'All returns filed', category: 'Compliance' },
-  { key: 'inBankruptcy', label: 'Active bankruptcy', category: 'Compliance' },
-  { key: 'estimatedPaymentsCurrent', label: 'Estimated payments current', category: 'Compliance' },
-  { key: 'auditOpen', label: 'Open IRS audit', category: 'Compliance' },
-  { key: 'hasActiveIA', label: 'Existing installment agreement', category: 'Programs' },
-  { key: 'oicPending', label: 'Pending Offer in Compromise', category: 'Programs' },
-  { key: 'hasPriorPenalties', label: 'Prior penalties (3 years)', category: 'Programs' },
-  { key: 'cncStatus', label: 'Currently Not Collectible status', category: 'Programs' },
-  { key: 'hasNFTL', label: 'Notice of Federal Tax Lien', category: 'Collection' },
-  { key: 'levyNotice', label: 'Levy notice received', category: 'Collection' },
-  { key: 'activeGarnishment', label: 'Active wage garnishment', category: 'Collection' },
-  { key: 'bankLevy', label: 'Bank levy issued', category: 'Collection' },
-  { key: 'usCitizen', label: 'U.S. citizen / resident alien', category: 'Residency' },
-  { key: 'livingAbroad', label: 'Living outside the U.S.', category: 'Residency' },
-  { key: 'assetTransfers', label: 'Asset transfers (2 years)', category: 'Other' },
-  { key: 'stateReturns', label: 'State tax issues', category: 'Other' },
+  { key: 'allReturnsFiled', yesLabel: 'All federal returns filed', noLabel: 'Unfiled federal returns', category: 'compliance', warnIfNo: true },
+  { key: 'estimatedPaymentsCurrent', yesLabel: 'Current on estimated tax payments', noLabel: 'Behind on estimated payments', category: 'compliance', warnIfNo: true },
+  { key: 'stateReturns', yesLabel: 'State tax return issues', noLabel: 'No state tax issues', category: 'compliance', warnIfYes: true },
+  { key: 'hasNFTL', yesLabel: 'Notice of Federal Tax Lien filed', noLabel: 'No Federal Tax Lien', category: 'urgency', warnIfYes: true },
+  { key: 'levyNotice', yesLabel: 'Levy notice received', noLabel: 'No levy notices', category: 'urgency', warnIfYes: true },
+  { key: 'activeGarnishment', yesLabel: 'Active wage garnishment', noLabel: 'No wage garnishment', category: 'urgency', warnIfYes: true },
+  { key: 'bankLevy', yesLabel: 'Bank levy issued', noLabel: 'No bank levy', category: 'urgency', warnIfYes: true },
+  { key: 'hasActiveIA', yesLabel: 'Prior installment agreement', noLabel: 'No prior IA', category: 'urgency', warnIfYes: true },
+  { key: 'oicPending', yesLabel: 'Prior OIC pending/rejected', noLabel: 'No prior OIC issues', category: 'urgency', warnIfYes: true },
+  { key: 'usCitizen', yesLabel: 'US citizen or resident alien', noLabel: 'Not a US citizen or resident alien', category: 'residency', warnIfNo: true },
+  { key: 'livingAbroad', yesLabel: 'Living outside the US', noLabel: 'Residing in the US', category: 'residency', warnIfYes: true },
+  { key: 'inBankruptcy', yesLabel: 'Active bankruptcy', noLabel: 'Not in active bankruptcy', category: 'residency', warnIfYes: true },
+  { key: 'auditOpen', yesLabel: 'Open audit', noLabel: 'No open audit', category: 'residency', warnIfYes: true },
+  { key: 'hasPriorPenalties', yesLabel: 'IRS penalties charged', noLabel: 'No IRS penalties', category: 'special', warnIfYes: true },
+  { key: 'cncStatus', yesLabel: 'In Currently Not Collectible status', noLabel: 'Not in CNC status', category: 'special' },
+  { key: 'assetTransfers', yesLabel: 'Asset transfers in past 2 years', noLabel: 'No large asset transfers', category: 'special', warnIfYes: true },
 ]
 
-const CATEGORIES = ['Compliance', 'Programs', 'Collection', 'Residency', 'Other'] as const
-
-/* ------------------------------------------------------------------ */
-/*  Blocking condition evaluator                                      */
-/* ------------------------------------------------------------------ */
-
-interface BlockingIssue {
-  title: string
-  description: string
-  remediation: string
-}
-
-function getBlockingIssues(answers: Record<string, any>): BlockingIssue[] {
-  const issues: BlockingIssue[] = []
-
-  if (answers.allReturnsFiled === false) {
-    issues.push({
-      title: 'Unfiled Tax Returns',
-      description:
-        'You must file all required federal tax returns before proceeding with most resolution programs.',
-      remediation:
-        'File all outstanding returns as soon as possible. You can request wage and income transcripts from the IRS to help reconstruct missing returns.',
-    })
-  }
-
-  if (answers.inBankruptcy === true) {
-    issues.push({
-      title: 'Active Bankruptcy',
-      description:
-        'Active bankruptcy proceedings block most IRS resolution programs due to the automatic stay.',
-      remediation:
-        'Consult with your bankruptcy attorney about how your tax debt is being handled within the bankruptcy. Some taxes may be dischargeable.',
-    })
-  }
-
-  if (answers.usCitizen === false) {
-    issues.push({
-      title: 'Citizenship / Residency Requirement',
-      description:
-        'Most IRS resolution programs require U.S. citizenship or resident alien status.',
-      remediation:
-        'If you are a non-resident alien with U.S. tax obligations, consult a tax professional who specializes in international tax matters.',
-    })
-  }
-
-  return issues
-}
-
-/* ------------------------------------------------------------------ */
-/*  Urgency flag evaluator                                            */
-/* ------------------------------------------------------------------ */
-
-interface UrgencyFlag {
-  title: string
-  description: string
-}
-
-function getUrgencyFlags(answers: Record<string, any>): UrgencyFlag[] {
-  const flags: UrgencyFlag[] = []
-
-  if (answers.levyNotice === true) {
-    flags.push({
-      title: 'Levy Notice Received',
-      description:
-        'The IRS intends to seize your assets. You may have limited time to act — typically 30 days from the notice date.',
-    })
-  }
-
-  if (answers.activeGarnishment === true) {
-    flags.push({
-      title: 'Active Wage Garnishment',
-      description:
-        'The IRS is currently taking a portion of your paycheck. This can often be released or reduced once a resolution case is opened.',
-    })
-  }
-
-  if (answers.bankLevy === true) {
-    flags.push({
-      title: 'Bank Levy Issued',
-      description:
-        'Your bank account funds have been frozen. There is a 21-day window before the bank sends the money to the IRS.',
-    })
-  }
-
-  return flags
-}
-
-/* ------------------------------------------------------------------ */
-/*  Component                                                         */
-/* ------------------------------------------------------------------ */
+const CATEGORIES = [
+  { id: 'compliance', label: 'Compliance', icon: 'fa-solid fa-file-lines', color: '#2563EB' },
+  { id: 'urgency', label: 'Urgency / Collection Status', icon: 'fa-solid fa-triangle-exclamation', color: '#E63946' },
+  { id: 'residency', label: 'Residency & Eligibility', icon: 'fa-solid fa-shield-halved', color: '#00A651' },
+  { id: 'special', label: 'Special Circumstances', icon: 'fa-solid fa-star', color: '#F59E0B' },
+] as const
 
 export default function ScreeningResultPage() {
   const router = useRouter()
   const answers = useWizard((s) => s.answers)
 
-  const blockingIssues = getBlockingIssues(answers)
-  const urgencyFlags = getUrgencyFlags(answers)
-  const hasBlockers = blockingIssues.length > 0
+  // Compute warnings & blockers
+  const hasBankruptcy = answers.inBankruptcy === true
+  const hasLevyOrLien = answers.hasNFTL === true || answers.levyNotice === true
+  const hasCollectionActions = answers.activeGarnishment === true || answers.bankLevy === true
+
+  // Count eligible programs (simplified)
+  let eligible = 13
+  if (hasBankruptcy) eligible -= 3
+  if (answers.allReturnsFiled === false) eligible -= 2
+  if (answers.assetTransfers === true) eligible -= 1
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl">
-        {/* ---- Header Banner ---- */}
-        {hasBlockers ? (
-          <div className="mb-8 rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-center">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-red-500/20">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-red-400"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="15" y1="9" x2="9" y2="15" />
-                <line x1="9" y1="9" x2="15" y2="15" />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-red-400">Issues Found</h1>
-            <p className="mt-2 text-sm text-red-300/70">
-              Some items need to be addressed before you can proceed with the
-              full analysis.
-            </p>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Progress */}
+        <div className="px-5">
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
+            <div className="h-full w-[30%] rounded-full bg-[#00A651]" />
           </div>
-        ) : (
-          <div className="mb-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-6 text-center">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/20">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="text-emerald-400"
-              >
-                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                <polyline points="22 4 12 14.01 9 11.01" />
-              </svg>
+        </div>
+
+        <div className="px-5 pb-5 pt-6">
+          {/* Checkmark */}
+          <div className="relative mb-4 text-center">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#00A651] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <i className="fa-solid fa-check text-[28px] text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-emerald-400">
-              You Qualify to Continue
-            </h1>
-            <p className="mt-2 text-sm text-emerald-300/70">
-              No blocking issues were found. You can proceed to the data
-              collection phase.
-            </p>
+            <h1 className="mt-4 text-[1.3rem] font-extrabold text-[#0A1628]">Screening Complete</h1>
+            <p className="mt-1 text-[13px] text-[#94A3B8]">Here&apos;s a summary of your answers</p>
           </div>
-        )}
 
-        {/* ---- Blocking Issues ---- */}
-        {hasBlockers && (
-          <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-white">
-              What You Can Do
-            </h2>
-            <div className="space-y-4">
-              {blockingIssues.map((issue) => (
-                <div
-                  key={issue.title}
-                  className="rounded-xl border border-red-500/20 bg-zinc-900 p-5"
-                >
-                  <h3 className="flex items-center gap-2 font-semibold text-red-400">
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                      <line x1="12" y1="9" x2="12" y2="13" />
-                      <line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
-                    {issue.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                    {issue.description}
-                  </p>
-                  <div className="mt-3 rounded-lg bg-zinc-800/60 px-4 py-3">
-                    <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">
-                      Recommended Action
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-zinc-300">
-                      {issue.remediation}
-                    </p>
-                  </div>
-                </div>
-              ))}
+          {/* Conditional Banners */}
+          {hasBankruptcy && (
+            <div className="mb-3 flex items-start gap-2.5 rounded-xl border-[1.5px] border-[#FECACA] bg-[#FFF0F1] p-3.5 text-[13px] leading-snug text-[#991B1B]">
+              <i className="fa-solid fa-gavel mt-0.5 text-base" />
+              <div>
+                <div className="font-bold">Bankruptcy Detected</div>
+                <div className="mt-0.5 text-xs">Active bankruptcy limits available resolution options. Consult with your tax professional before proceeding.</div>
+              </div>
             </div>
-          </div>
-        )}
-
-        {/* ---- Urgency Flags ---- */}
-        {urgencyFlags.length > 0 && (
-          <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-white">
-              Urgency Alerts
-            </h2>
-            <div className="space-y-4">
-              {urgencyFlags.map((flag) => (
-                <div
-                  key={flag.title}
-                  className="flex gap-4 rounded-xl border border-amber-500/20 bg-amber-500/5 p-5"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="text-amber-400"
-                    >
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="12" y1="8" x2="12" y2="12" />
-                      <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-amber-400">
-                      {flag.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-zinc-400">
-                      {flag.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
+          )}
+          {hasLevyOrLien && (
+            <div className="mb-3 flex items-start gap-2.5 rounded-xl border-[1.5px] border-[#FDE68A] bg-[#FEF3C7] p-3.5 text-[13px] leading-snug text-[#92400E]">
+              <i className="fa-solid fa-clock mt-0.5 text-base" />
+              <div>
+                <div className="font-bold">URGENT: Possible CDP Deadline</div>
+                <div className="mt-0.5 text-xs">You may have a 30-day deadline to request a Collection Due Process (CDP) hearing. Act immediately.</div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {hasCollectionActions && (
+            <div className="mb-3 flex items-start gap-2.5 rounded-xl border-[1.5px] border-[#FDE68A] bg-[#FEF3C7] p-3.5 text-[13px] leading-snug text-[#92400E]">
+              <i className="fa-solid fa-hand mt-0.5 text-base" />
+              <div>
+                <div className="font-bold">Active Collection Actions</div>
+                <div className="mt-0.5 text-xs">You have active garnishment or levy actions. Expedited resolution may be needed.</div>
+              </div>
+            </div>
+          )}
 
-        {/* ---- Answer Summary Grid ---- */}
-        <div className="mb-8">
-          <h2 className="mb-4 text-lg font-semibold text-white">
-            Your Answers
-          </h2>
-
-          {CATEGORIES.map((category) => {
-            const items = QUESTION_META.filter((q) => q.category === category)
+          {/* Result Categories */}
+          {CATEGORIES.map((cat) => {
+            const items = QUESTION_META.filter((q) => q.category === cat.id)
+            const answeredCount = items.filter((q) => answers[q.key] !== undefined).length
             return (
-              <div key={category} className="mb-6">
-                <h3 className="mb-3 text-sm font-medium uppercase tracking-wider text-zinc-500">
-                  {category}
-                </h3>
-                <div className="space-y-2">
-                  {items.map((q) => {
-                    const value = answers[q.key]
-                    const answered = value !== undefined && value !== null
-                    const isYes = value === true
-
-                    return (
-                      <div
-                        key={q.key}
-                        className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3"
-                      >
-                        <span className="text-sm text-zinc-300">
-                          {q.label}
-                        </span>
-                        {answered ? (
-                          <span
-                            className={`rounded-full px-3 py-0.5 text-xs font-semibold ${
-                              isYes
-                                ? 'bg-emerald-500/15 text-emerald-400'
-                                : 'bg-zinc-700 text-zinc-400'
-                            }`}
-                          >
-                            {isYes ? 'Yes' : 'No'}
-                          </span>
-                        ) : (
-                          <span className="rounded-full bg-zinc-800 px-3 py-0.5 text-xs text-zinc-600">
-                            --
-                          </span>
-                        )}
-                      </div>
-                    )
-                  })}
+              <div key={cat.id} className="mb-3 rounded-[16px] border border-[#F1F5F9] bg-white p-4">
+                <div className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.05em] text-[#94A3B8]">
+                  <i className={`${cat.icon} text-xs`} style={{ color: cat.color }} />
+                  {cat.label} ({answeredCount} questions)
                 </div>
+                {items.map((q) => {
+                  const val = answers[q.key]
+                  const isYes = val === true
+                  const isNo = val === false
+                  const isWarning = (isYes && q.warnIfYes) || (isNo && q.warnIfNo)
+                  const label = isYes ? q.yesLabel : q.noLabel
+                  return (
+                    <div
+                      key={q.key}
+                      className="flex items-start gap-2.5 border-b border-[#F1F5F9] py-2.5 last:border-b-0"
+                    >
+                      <div
+                        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] ${
+                          isWarning
+                            ? 'bg-[#FEF3C7] text-[#F59E0B]'
+                            : 'bg-[#E6F9EE] text-[#00A651]'
+                        }`}
+                      >
+                        <i className={isWarning ? 'fa-solid fa-exclamation' : 'fa-solid fa-check'} />
+                      </div>
+                      <span className="text-[13px] font-medium text-[#0A1628]">{label}</span>
+                    </div>
+                  )
+                })}
               </div>
             )
           })}
-        </div>
 
-        {/* ---- Actions ---- */}
-        <div className="space-y-3 pb-8">
-          {!hasBlockers && (
+          {/* Stat Highlight */}
+          <div className="mt-2 rounded-[16px] border border-[rgba(10,22,40,0.1)] bg-white p-5 text-center">
+            <div className="flex items-baseline justify-center gap-1.5">
+              <span className="text-[2rem] font-black tracking-tight text-[#2563EB]">{eligible}</span>
+              <span className="text-sm font-semibold text-[#64748B]">of</span>
+              <span className="text-[2rem] font-black tracking-tight text-[#2563EB]">13</span>
+            </div>
+            <span className="mt-1 block text-[13px] font-semibold text-[#64748B]">resolution types you may qualify for</span>
+            <span className="mt-0.5 block text-[11px] text-[#94A3B8]">Based on your screening answers</span>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-5">
             <button
               onClick={() => router.push('/analysis/personal-info')}
-              className="w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+              className="w-full rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 active:scale-[0.97]"
             >
-              Continue to Data Collection
+              Continue to Personal Info <i className="fa-solid fa-arrow-right ml-1 text-[13px]" />
             </button>
-          )}
-          <button
-            onClick={() => router.push('/analysis/pre-qualifier/1')}
-            className="w-full rounded-xl border border-zinc-700 bg-zinc-900 py-4 text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
-          >
-            Review Answers
-          </button>
+          </div>
+          <div className="mt-2.5">
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="flex w-full items-center justify-center gap-1.5 rounded-full border border-[#E2E8F0] bg-white px-7 py-3.5 text-sm font-medium text-[#0A1628] transition-all hover:-translate-y-0.5"
+            >
+              <i className="fa-solid fa-bookmark mr-1" />
+              Save & Come Back Later
+            </button>
+          </div>
+          <div className="mt-3 flex items-center justify-center gap-1.5 pb-5 text-xs font-medium text-[#94A3B8]">
+            <i className="fa-solid fa-shield-halved text-[12px] text-[#00A651]" />
+            Your screening results have been saved
+          </div>
         </div>
       </div>
     </div>

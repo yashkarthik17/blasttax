@@ -1,297 +1,191 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-/* ------------------------------------------------------------------ */
-/*  Methodology section definitions                                    */
-/* ------------------------------------------------------------------ */
-
-interface FormulaSection {
+interface MethodSection {
   id: string
   title: string
-  irsReference: string
-  description: string
+  subtitle: string
+  icon: string
+  iconBg: string
+  iconColor: string
   formula: string
-  components: { name: string; description: string }[]
-  example: { inputs: { label: string; value: string }[]; calculation: string; result: string }
-  dataSources: string[]
+  content: string
+  bullets?: { icon: string; iconColor: string; text: string }[]
+  standards?: { icon: string; title: string; description: string }[]
+  tolling?: string[]
 }
 
-const FORMULA_SECTIONS: FormulaSection[] = [
+const SECTIONS: MethodSection[] = [
   {
-    id: 'qsv',
-    title: 'Quick Sale Value (QSV)',
-    irsReference: 'IRM 5.8.5.4 — Quick Sale Value',
-    description: 'The QSV represents the estimated amount an asset would sell for in a forced or quick sale scenario. The IRS uses 80% of Fair Market Value (FMV) as the standard QSV for most assets.',
-    formula: 'QSV = FMV x 0.80 - Encumbrances',
-    components: [
-      { name: 'Fair Market Value (FMV)', description: 'The price the asset would sell for on the open market under normal conditions.' },
-      { name: '80% Multiplier', description: 'Standard IRS discount reflecting the reduced price in a quick/forced sale.' },
-      { name: 'Encumbrances', description: 'Outstanding loans, liens, or mortgages secured by the asset.' },
+    id: 'rcp', title: 'RCP Formula', subtitle: 'Reasonable Collection Potential',
+    icon: 'fa-calculator', iconBg: 'bg-[#EEF2FF]', iconColor: 'text-[#4F46E5]',
+    formula: 'NRE + Future Income = RCP',
+    content: 'Your Reasonable Collection Potential (RCP) is the total amount the IRS believes it can collect. It combines:',
+    bullets: [
+      { icon: 'fa-circle', iconColor: 'text-[#4F46E5]', text: 'NRE (Net Realizable Equity) -- what your assets are worth after debts' },
+      { icon: 'fa-circle', iconColor: 'text-[#4F46E5]', text: 'Future Income -- your MDI multiplied by months remaining (12 for lump sum, 24 for periodic)' },
     ],
-    example: {
-      inputs: [
-        { label: 'Home FMV', value: '$350,000' },
-        { label: 'Mortgage Balance', value: '$280,000' },
-      ],
-      calculation: 'QSV = ($350,000 x 0.80) - $280,000 = $280,000 - $280,000',
-      result: '$0 (no equity for IRS)',
-    },
-    dataSources: ['Zillow/Redfin for real estate FMV', 'KBB/NADA for vehicle FMV', 'Recent statements for loan balances'],
   },
   {
-    id: 'nre',
-    title: 'Net Realizable Equity (NRE)',
-    irsReference: 'IRM 5.8.5.4.1 — Net Realizable Equity in Assets',
-    description: 'NRE is the total equity available from all of a taxpayer\'s assets if they were sold at quick sale value. It represents the asset component of the Reasonable Collection Potential.',
-    formula: 'NRE = Sum of (QSV of each asset)',
-    components: [
-      { name: 'Real Property', description: 'Primary residence, rental properties, vacant land — each at QSV.' },
-      { name: 'Vehicles', description: 'Cars, trucks, boats, recreational vehicles — each at QSV.' },
-      { name: 'Financial Assets', description: 'Bank accounts (full value), investments (full value), retirement accounts (QSV minus early withdrawal penalty).' },
-      { name: 'Other Assets', description: 'Art, jewelry, collections, business equipment — each at QSV.' },
+    id: 'qsv', title: 'QSV Explanation', subtitle: 'Quick Sale Value',
+    icon: 'fa-tag', iconBg: 'bg-[#FFFBEB]', iconColor: 'text-[#D97706]',
+    formula: 'QSV = FMV x 80%',
+    content: 'The Quick Sale Value is 80% of Fair Market Value (FMV). This reflects what an asset would realistically sell for in a forced or quick sale.',
+    bullets: [
+      { icon: 'fa-home', iconColor: 'text-[#D97706]', text: 'Real estate and property' },
+      { icon: 'fa-car', iconColor: 'text-[#D97706]', text: 'Vehicles' },
+      { icon: 'fa-building-columns', iconColor: 'text-[#D97706]', text: 'Bank accounts and investments' },
+      { icon: 'fa-piggy-bank', iconColor: 'text-[#D97706]', text: 'Retirement accounts (with penalties)' },
+      { icon: 'fa-gem', iconColor: 'text-[#D97706]', text: 'Personal property and valuables' },
     ],
-    example: {
-      inputs: [
-        { label: 'Home QSV (equity)', value: '$0' },
-        { label: 'Car QSV (equity)', value: '$3,200' },
-        { label: 'Bank Accounts', value: '$2,100' },
-        { label: '401(k) QSV', value: '$8,400' },
-      ],
-      calculation: 'NRE = $0 + $3,200 + $2,100 + $8,400',
-      result: '$13,700',
-    },
-    dataSources: ['Form 433-A (OIC) asset sections', 'Bank/brokerage statements', 'Property appraisals or online estimates'],
   },
   {
-    id: 'mdi',
-    title: 'Monthly Disposable Income (MDI)',
-    irsReference: 'IRM 5.8.5.5 — Future Income',
-    description: 'MDI is the difference between your gross monthly income and your total allowable monthly expenses. This is what the IRS considers available to pay toward your tax debt each month.',
-    formula: 'MDI = Gross Monthly Income - Total Allowable Expenses',
-    components: [
-      { name: 'Gross Monthly Income', description: 'All sources: wages, self-employment, Social Security, pensions, rental income, etc.' },
-      { name: 'National Standards', description: 'IRS allowance for food, clothing, housekeeping, personal care, and miscellaneous.' },
-      { name: 'Local Standards', description: 'IRS allowance for housing/utilities (varies by county) and transportation (varies by region).' },
-      { name: 'Other Necessary Expenses', description: 'Health insurance, court-ordered payments, child care, taxes (current year).' },
-    ],
-    example: {
-      inputs: [
-        { label: 'Gross Monthly Income', value: '$5,800' },
-        { label: 'National Standards (family of 3)', value: '$1,884' },
-        { label: 'Local Standards (housing)', value: '$2,012' },
-        { label: 'Transportation', value: '$588' },
-        { label: 'Health Insurance', value: '$450' },
-        { label: 'Current Taxes (withholding)', value: '$725' },
-      ],
-      calculation: 'MDI = $5,800 - ($1,884 + $2,012 + $588 + $450 + $725)',
-      result: '$141/month disposable income',
-    },
-    dataSources: ['IRS National Standards (updated annually)', 'IRS Local Standards by county', 'IRS Transportation Standards by region', 'Pay stubs, 1099s, Social Security statements'],
+    id: 'mdi', title: 'MDI Calculation', subtitle: 'Monthly Disposable Income',
+    icon: 'fa-money-bill-trend-up', iconBg: 'bg-[#F5F0FF]', iconColor: 'text-[#7C3AED]',
+    formula: 'Income - IRS Allowed Expenses = MDI',
+    content: 'Your Monthly Disposable Income is what the IRS considers your ability to pay each month. It uses your gross income minus only the expenses the IRS allows. If MDI is negative or very low, you may qualify for CNC status or a lower OIC offer amount.',
   },
   {
-    id: 'rcp',
-    title: 'Reasonable Collection Potential (RCP)',
-    irsReference: 'IRM 5.8.5.2 — Calculation of Reasonable Collection Potential',
-    description: 'The RCP is the IRS\'s estimate of the maximum amount they could collect from you. It combines your asset equity with your projected future income. The RCP is the minimum acceptable offer amount for an OIC.',
-    formula: 'RCP = NRE + (MDI x Multiplier)',
-    components: [
-      { name: 'NRE', description: 'Net Realizable Equity from all assets (calculated above).' },
-      { name: 'MDI', description: 'Monthly Disposable Income (calculated above).' },
-      { name: 'Multiplier', description: '12 months for Lump Sum offers (pay within 5 months of acceptance). 24 months for Periodic Payment offers (pay within 24 months).' },
+    id: 'standards', title: 'IRS Standards Used', subtitle: 'Allowable Living Expenses',
+    icon: 'fa-landmark', iconBg: 'bg-[#EFF4FF]', iconColor: 'text-[#0A1628]',
+    formula: '',
+    content: 'The IRS sets maximum allowable amounts for living expenses. We use the most current published standards:',
+    standards: [
+      { icon: 'fa-utensils', title: 'National Standards', description: 'Food, clothing, housekeeping, personal care, misc.' },
+      { icon: 'fa-house', title: 'Local Standards', description: 'Housing/utilities based on county and family size' },
+      { icon: 'fa-heart-pulse', title: 'Healthcare', description: 'Out-of-pocket medical expenses by age' },
+      { icon: 'fa-car', title: 'Transportation', description: 'Vehicle ownership, operating costs by region' },
     ],
-    example: {
-      inputs: [
-        { label: 'NRE', value: '$13,700' },
-        { label: 'MDI', value: '$141/month' },
-        { label: 'Payment Type', value: 'Lump Sum (12x)' },
-      ],
-      calculation: 'RCP = $13,700 + ($141 x 12)',
-      result: '$15,392 (minimum OIC offer amount)',
-    },
-    dataSources: ['Derived from NRE and MDI calculations above', 'IRM 5.8.5 — Offer in Compromise procedures'],
+  },
+  {
+    id: 'csed', title: 'CSED Calculation', subtitle: 'Collection Statute Expiration',
+    icon: 'fa-clock', iconBg: 'bg-[#FFF0F1]', iconColor: 'text-[#E63946]',
+    formula: 'Assessment Date + 10 Years + Tolling = CSED',
+    content: 'The IRS generally has 10 years from the date of assessment to collect a tax debt. However, certain actions "toll" (pause) this clock:',
+    tolling: [
+      'Filing an OIC (during review + 30 days)',
+      'CDP hearing requests',
+      'Bankruptcy proceedings',
+      'Time spent living outside the US',
+    ],
   },
 ]
 
-/* ------------------------------------------------------------------ */
-/*  Page Component                                                     */
-/* ------------------------------------------------------------------ */
-
 export default function MethodologyPage() {
+  const router = useRouter()
+  const [openSection, setOpenSection] = useState<string | null>(null)
+
+  function toggleSection(id: string) {
+    setOpenSection(openSection === id ? null : id)
+  }
+
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/analysis/results"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Results
-        </Link>
-
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold text-white">How We Calculate Your Options</h1>
-          <p className="mt-2 text-zinc-400">
-            Full transparency into the formulas and methodology used to determine your resolution options. All calculations follow official IRS procedures from the Internal Revenue Manual (IRM).
-          </p>
+        <div className="flex items-center gap-3 px-5 py-3.5">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
+            <i className="fas fa-arrow-left text-base" />
+          </button>
+          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">How We Calculate</h1>
+          <div className="w-10" />
         </div>
 
-        {/* Table of Contents */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-zinc-500 mb-4">On This Page</h2>
-          <div className="space-y-2">
-            {FORMULA_SECTIONS.map((section, i) => (
-              <a
+        <div className="flex flex-col gap-3 px-5 pb-8">
+          {/* Heading */}
+          <div className="py-1 pb-2">
+            <div className="mb-1.5 text-[1.15rem] font-extrabold text-[#0A1628]">How Your Results Are Calculated</div>
+            <div className="text-[0.82rem] leading-relaxed text-[#64748B]">We use the same methodology and formulas that the IRS uses to evaluate your case.</div>
+          </div>
+
+          {/* Expandable Sections */}
+          {SECTIONS.map((section) => {
+            const isOpen = openSection === section.id
+            return (
+              <div
                 key={section.id}
-                href={`#${section.id}`}
-                className="flex items-center gap-3 rounded-lg border border-[#27272a] bg-[#09090b] p-3 transition hover:border-zinc-600"
+                className={`overflow-hidden rounded-[14px] border bg-white transition ${isOpen ? 'border-[#E2E8F0]' : 'border-[#F1F5F9] hover:border-[#E2E8F0]'}`}
               >
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-xs font-bold text-blue-400">
-                  {i + 1}
-                </span>
-                <div>
-                  <p className="text-sm font-medium text-white">{section.title}</p>
-                  <p className="text-xs text-zinc-500">{section.irsReference}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Formula Sections */}
-        {FORMULA_SECTIONS.map((section) => (
-          <div key={section.id} id={section.id} className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6 scroll-mt-8">
-            {/* Section Header */}
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-white">{section.title}</h2>
-              <p className="mt-1 text-xs font-medium text-blue-400">{section.irsReference}</p>
-              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">{section.description}</p>
-            </div>
-
-            {/* Formula */}
-            <div className="mb-6 rounded-xl bg-blue-500/5 border border-blue-500/20 p-4">
-              <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Formula</p>
-              <p className="font-mono text-lg font-bold text-blue-400">{section.formula}</p>
-            </div>
-
-            {/* Components */}
-            <div className="mb-6">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">Components</h3>
-              <div className="space-y-2">
-                {section.components.map((comp) => (
-                  <div key={comp.name} className="rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-                    <p className="text-sm font-semibold text-white">{comp.name}</p>
-                    <p className="mt-1 text-sm text-zinc-400">{comp.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Example Calculation */}
-            <div className="mb-6">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">Example Calculation</h3>
-              <div className="rounded-xl bg-[#09090b] border border-[#27272a] p-4">
-                {/* Inputs */}
-                <div className="space-y-1.5 mb-4">
-                  {section.example.inputs.map((input) => (
-                    <div key={input.label} className="flex items-center justify-between text-sm">
-                      <span className="text-zinc-400">{input.label}</span>
-                      <span className="font-mono font-semibold text-white">{input.value}</span>
+                <button
+                  onClick={() => toggleSection(section.id)}
+                  className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] ${section.iconBg}`}>
+                      <i className={`fas ${section.icon} text-sm ${section.iconColor}`} />
                     </div>
-                  ))}
-                </div>
-                {/* Calculation */}
-                <div className="border-t border-[#27272a] pt-3 mb-3">
-                  <p className="font-mono text-sm text-zinc-300">{section.example.calculation}</p>
-                </div>
-                {/* Result */}
-                <div className="rounded-lg bg-blue-500/10 border border-blue-500/20 p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-zinc-500">Result</span>
-                    <span className="font-mono text-lg font-bold text-blue-400">{section.example.result}</span>
+                    <div>
+                      <div className="text-[0.85rem] font-bold text-[#0A1628]">{section.title}</div>
+                      <div className="text-[0.68rem] text-[#94A3B8]">{section.subtitle}</div>
+                    </div>
                   </div>
+                  <i className={`fas fa-chevron-down shrink-0 text-[11px] text-[#CBD5E1] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                </button>
+
+                <div className={`overflow-hidden transition-all duration-400 ${isOpen ? 'max-h-[600px] px-4 pb-4' : 'max-h-0 px-4'}`}>
+                  {section.formula && (
+                    <div className="mb-3 rounded-[10px] border border-[#E2E8F0] bg-[#F8FAFC] px-3.5 py-3 text-center text-[0.82rem] font-bold tracking-wide text-[#0A1628]">
+                      {section.formula}
+                    </div>
+                  )}
+                  <p className="mb-2.5 text-[0.78rem] leading-relaxed text-[#64748B]">{section.content}</p>
+
+                  {section.bullets && (
+                    <div className="flex flex-col gap-2">
+                      {section.bullets.map((b) => (
+                        <div key={b.text} className="flex items-start gap-2">
+                          <i className={`fas ${b.icon} mt-[7px] text-[5px] ${b.iconColor}`} />
+                          <span className="text-[0.78rem] leading-relaxed text-[#1F2937]">{b.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.standards && (
+                    <div className="flex flex-col gap-2">
+                      {section.standards.map((s) => (
+                        <div key={s.title} className="flex items-start gap-2.5 rounded-lg bg-[#F8FAFC] px-3 py-2.5">
+                          <i className={`fas ${s.icon} mt-0.5 text-xs text-[#0A1628]`} />
+                          <div>
+                            <div className="text-[0.78rem] font-semibold text-[#0A1628]">{s.title}</div>
+                            <div className="text-[0.7rem] text-[#94A3B8]">{s.description}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {section.tolling && (
+                    <div className="flex flex-col gap-1.5">
+                      {section.tolling.map((t) => (
+                        <div key={t} className="flex items-start gap-2">
+                          <i className="fas fa-pause mt-[5px] text-[10px] text-[#E63946]" />
+                          <span className="text-[0.78rem] leading-relaxed text-[#1F2937]">{t}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )
+          })}
 
-            {/* Data Sources */}
-            <div>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-3">Data Sources</h3>
-              <div className="space-y-1.5">
-                {section.dataSources.map((source, i) => (
-                  <div key={i} className="flex items-start gap-2">
-                    <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-zinc-600" />
-                    <p className="text-sm text-zinc-400">{source}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* IRS Methodology Reassurance */}
+          <div className="flex items-center gap-2 rounded-xl bg-[#ECFDF5] px-4 py-3">
+            <i className="fas fa-shield-halved text-sm text-[#10B981]" />
+            <span className="text-[0.78rem] font-medium text-[#065F46]">This matches the IRS&apos;s own methodology</span>
           </div>
-        ))}
 
-        {/* IRS Standards Reference */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">IRS Allowable Expense Standards</h2>
-          <p className="text-sm text-zinc-400 mb-6">
-            The IRS publishes standardized expense allowances that determine how much you can claim for living expenses. These standards are updated annually and vary by location and family size.
-          </p>
-          <div className="space-y-3">
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <h3 className="text-sm font-semibold text-white">National Standards</h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Covers food, housekeeping supplies, apparel, personal care, and miscellaneous expenses. Based on Bureau of Labor Statistics Consumer Expenditure Survey data. Amounts vary only by family size (1, 2, 3, 4, or 5+ persons).
-              </p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <h3 className="text-sm font-semibold text-white">Local Standards — Housing &amp; Utilities</h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Covers mortgage/rent, property taxes, insurance, maintenance, utilities, and heating fuel. Varies by county and family size. Based on Census Bureau American Community Survey data.
-              </p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <h3 className="text-sm font-semibold text-white">Local Standards — Transportation</h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Covers vehicle ownership costs (loan/lease, insurance) and operating costs (gas, maintenance, registration). National ownership cost plus regional operating cost. Public transit allowance available if no vehicle.
-              </p>
-            </div>
-            <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-              <h3 className="text-sm font-semibold text-white">Out-of-Pocket Health Care</h3>
-              <p className="mt-1 text-sm text-zinc-400">
-                Allowance for medical expenses not covered by insurance. Amount varies by age bracket (under 65 vs. 65 and older). Based on Bureau of Labor Statistics Medical Expenditure Panel Survey.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Disclaimer */}
-        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
-          <div className="flex gap-3">
-            <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-amber-400">Important Disclaimer</h3>
-              <p className="mt-2 text-sm text-zinc-300 leading-relaxed">
-                These calculations are estimates based on the information you provided and current IRS standards. Actual IRS determinations may vary based on additional factors, examiner discretion, and changes to IRS policy. This tool is for educational and planning purposes — it does not constitute tax advice. For complex situations, consult a qualified tax professional (EA, CPA, or tax attorney).
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Back to Results */}
-        <div className="pb-8">
+          {/* CTA */}
           <Link
-            href="/analysis/results"
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
+            href="/expert"
+            className="flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-7 py-3.5 text-[0.88rem] font-bold text-[#0A1628] no-underline transition hover:-translate-y-0.5"
           >
-            Back to Resolution Results
+            <i className="fas fa-user-tie text-[13px]" />
+            Questions? Talk to an Expert
           </Link>
         </div>
       </div>

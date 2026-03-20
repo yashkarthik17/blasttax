@@ -1,233 +1,238 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
-import FormScreen from '@/components/wizard/FormScreen'
 
-const cardClass = 'rounded-2xl border border-zinc-800 bg-zinc-900 p-6'
-
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
+interface TaxYearEntry {
+  id: string; taxYear: string; balance: string; taxForm: string; filingStatus: string
+  assessmentDate: string; lastPaymentDate: string; isSfr: boolean; assessmentType: string
+  totalPenalty?: string; interest?: string; ftfPenalty?: string; ftpPenalty?: string; accuracyPenalty?: string
 }
 
 function parseMoney(s: string): number {
   const n = parseFloat(String(s).replace(/[^0-9.]/g, ''))
   return isNaN(n) ? 0 : n
 }
+function formatCurrency(v: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(v)
+}
+function formatDate(d: string): string {
+  if (!d) return '--'
+  const date = new Date(d + 'T00:00:00')
+  return date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+}
+function csedDate(assessDate: string): string {
+  if (!assessDate) return '--'
+  const d = new Date(assessDate + 'T00:00:00')
+  d.setFullYear(d.getFullYear() + 10)
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+}
 
-interface TaxYearEntry {
-  id: string
-  taxYear: string
-  taxForm: string
-  balance: string
-  taxPrincipal: string
-  penaltyAmount: string
-  interestAmount: string
-  assessmentDate: string
-  filingStatus: string
-  isSfr: boolean
-  lastPaymentDate: string
+function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit, defaultOpen, children }: {
+  icon: string; iconBg: string; iconColor: string; title: string; subtitle: string
+  editLabel?: string; onEdit?: () => void; defaultOpen?: boolean; children: React.ReactNode
+}) {
+  const [open, setOpen] = useState(defaultOpen ?? false)
+  return (
+    <div className="mb-2.5 overflow-hidden rounded-[16px] border border-[#F1F5F9] bg-white">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors hover:bg-[#F8FAFC]"
+      >
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] text-sm" style={{ background: iconBg, color: iconColor }}>
+          <i className={icon} />
+        </div>
+        <div className="flex-1">
+          <div className="text-sm font-bold text-[#0A1628]">{title}</div>
+          <div className="mt-px text-[11px] text-[#94A3B8]">{subtitle}</div>
+        </div>
+        {editLabel && onEdit && (
+          <span
+            onClick={(e) => { e.stopPropagation(); onEdit() }}
+            className="cursor-pointer text-xs font-semibold text-[#2563EB]"
+          >
+            {editLabel}
+          </span>
+        )}
+        <i className={`fa-solid fa-chevron-down text-xs text-[#CBD5E1] transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+      <div className={`overflow-hidden transition-all duration-300 ${open ? 'max-h-[800px]' : 'max-h-0'}`}>
+        <div className="border-t border-[#F1F5F9] px-4 pb-3.5">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function InfoRow({ label, value, valueColor }: { label: string; value: string; valueColor?: string }) {
+  return (
+    <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2 text-[13px] last:border-b-0">
+      <span className="font-medium text-[#94A3B8]">{label}</span>
+      <span className="font-semibold" style={{ color: valueColor ?? '#0A1628' }}>{value}</span>
+    </div>
+  )
 }
 
 export default function CaseReviewPage() {
   const router = useRouter()
   const { answers } = useWizard()
-
-  const entries: TaxYearEntry[] = (answers.taxDebts as TaxYearEntry[]) ?? []
-  const sortedEntries = [...entries].sort((a, b) => Number(a.taxYear) - Number(b.taxYear))
-
+  const personalInfo = answers.personalInfo as Record<string, string> | undefined
+  const entries = (answers.taxDebts as TaxYearEntry[]) ?? []
+  const sorted = [...entries].sort((a, b) => Number(a.taxYear) - Number(b.taxYear))
   const totalBalance = entries.reduce((sum, e) => sum + parseMoney(e.balance), 0)
-  const totalTax = entries.reduce((sum, e) => sum + parseMoney(e.taxPrincipal), 0)
-  const totalPenalties = entries.reduce((sum, e) => sum + parseMoney(e.penaltyAmount), 0)
-  const totalInterest = entries.reduce((sum, e) => sum + parseMoney(e.interestAmount), 0)
 
-  function handleEdit(entryId: string) {
-    router.push('/analysis/case-info')
-  }
-
-  function handleNext() {
+  function handleRunAnalysis() {
     router.push('/analysis/assets/bank-accounts')
   }
 
-  const isValid = entries.length > 0
-
   return (
-    <FormScreen
-      title="Review Your Tax Debt"
-      description="Please review the tax debt information you entered. Make sure everything is accurate before continuing."
-      onNext={handleNext}
-      onBack={() => router.push('/analysis/case-info')}
-      isValid={isValid}
-    >
-      {/* Debt Table */}
-      <div className={cardClass}>
-        <h3 className="mb-4 text-lg font-semibold text-white">Debt Summary</h3>
-
-        {/* Desktop Table */}
-        <div className="hidden overflow-x-auto sm:block">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-zinc-800 text-left text-xs uppercase tracking-wider text-zinc-500">
-                <th className="pb-3 pr-4">Year</th>
-                <th className="pb-3 pr-4">Form</th>
-                <th className="pb-3 pr-4 text-right">Balance</th>
-                <th className="pb-3 pr-4 text-right">Tax</th>
-                <th className="pb-3 pr-4 text-right">Penalties</th>
-                <th className="pb-3 pr-4 text-right">Interest</th>
-                <th className="pb-3 pr-4">Assessed</th>
-                <th className="pb-3 pr-4 text-center">SFR</th>
-                <th className="pb-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/50">
-              {sortedEntries.map((entry) => (
-                <tr key={entry.id} className="text-zinc-300 transition-colors hover:bg-zinc-800/30">
-                  <td className="py-3 pr-4 font-medium text-white">{entry.taxYear || '--'}</td>
-                  <td className="py-3 pr-4">{entry.taxForm}</td>
-                  <td className="py-3 pr-4 text-right font-medium text-white">
-                    {parseMoney(entry.balance) > 0 ? formatCurrency(parseMoney(entry.balance)) : '--'}
-                  </td>
-                  <td className="py-3 pr-4 text-right">
-                    {parseMoney(entry.taxPrincipal) > 0 ? formatCurrency(parseMoney(entry.taxPrincipal)) : '--'}
-                  </td>
-                  <td className="py-3 pr-4 text-right text-amber-400">
-                    {parseMoney(entry.penaltyAmount) > 0 ? formatCurrency(parseMoney(entry.penaltyAmount)) : '--'}
-                  </td>
-                  <td className="py-3 pr-4 text-right text-red-400">
-                    {parseMoney(entry.interestAmount) > 0 ? formatCurrency(parseMoney(entry.interestAmount)) : '--'}
-                  </td>
-                  <td className="py-3 pr-4 text-zinc-500">
-                    {entry.assessmentDate || '--'}
-                  </td>
-                  <td className="py-3 pr-4 text-center">
-                    {entry.isSfr ? (
-                      <span className="inline-flex rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-400">
-                        SFR
-                      </span>
-                    ) : (
-                      <span className="text-zinc-600">--</span>
-                    )}
-                  </td>
-                  <td className="py-3">
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(entry.id)}
-                      className="text-xs text-emerald-400 transition-colors hover:text-emerald-300"
-                    >
-                      Edit
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            {/* Totals Row */}
-            <tfoot>
-              <tr className="border-t-2 border-zinc-700 font-semibold text-white">
-                <td className="pt-3 pr-4">Total</td>
-                <td className="pt-3 pr-4"></td>
-                <td className="pt-3 pr-4 text-right">{formatCurrency(totalBalance)}</td>
-                <td className="pt-3 pr-4 text-right">{formatCurrency(totalTax)}</td>
-                <td className="pt-3 pr-4 text-right text-amber-400">{formatCurrency(totalPenalties)}</td>
-                <td className="pt-3 pr-4 text-right text-red-400">{formatCurrency(totalInterest)}</td>
-                <td className="pt-3 pr-4"></td>
-                <td className="pt-3 pr-4"></td>
-                <td className="pt-3"></td>
-              </tr>
-            </tfoot>
-          </table>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col">
+        {/* Progress */}
+        <div className="px-5">
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
+            <div className="h-full w-[45%] rounded-full bg-[#00A651]" />
+          </div>
         </div>
 
-        {/* Mobile Card View */}
-        <div className="space-y-3 sm:hidden">
-          {sortedEntries.map((entry) => (
-            <div
-              key={entry.id}
-              className="rounded-xl border border-zinc-700/50 bg-zinc-800/50 p-4"
-            >
-              <div className="mb-3 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold text-white">{entry.taxYear || '--'}</span>
-                  <span className="rounded-md bg-zinc-700 px-2 py-0.5 text-xs text-zinc-300">
-                    {entry.taxForm}
-                  </span>
-                  {entry.isSfr && (
-                    <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-400">
-                      SFR
-                    </span>
+        <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
+          {/* Heading */}
+          <div className="mb-1.5">
+            <h1 className="text-[1.3rem] font-extrabold leading-tight text-[#0A1628]">Review Your Information</h1>
+            <p className="mt-1 text-[13px] leading-relaxed text-[#94A3B8]">Make sure everything is accurate before we run your analysis</p>
+          </div>
+
+          {/* Personal Information */}
+          <Accordion
+            icon="fa-solid fa-user"
+            iconBg="#EFF4FF"
+            iconColor="#2563EB"
+            title="Personal Information"
+            subtitle="Name, SSN, Filing Status"
+            editLabel="Edit"
+            onEdit={() => router.push('/analysis/personal-info')}
+            defaultOpen={true}
+          >
+            <InfoRow label="Name" value={personalInfo ? `${personalInfo.firstName || ''} ${personalInfo.lastName || ''}`.trim() || '--' : '--'} />
+            <InfoRow label="SSN" value={personalInfo?.ssn ? `***-**-${personalInfo.ssn.slice(-4)}` : '--'} />
+            <InfoRow label="Date of Birth" value={personalInfo?.dob ? formatDate(personalInfo.dob) : '--'} />
+            <InfoRow label="Address" value={personalInfo ? `${personalInfo.street || ''}, ${personalInfo.city || ''}, ${personalInfo.state || ''}`.replace(/^, /, '').replace(/, $/, '') || '--' : '--'} />
+          </Accordion>
+
+          {/* Tax Debt Summary */}
+          <Accordion
+            icon="fa-solid fa-file-invoice-dollar"
+            iconBg="#FFF0F1"
+            iconColor="#E63946"
+            title="Tax Debt Summary"
+            subtitle={`${entries.length} year${entries.length !== 1 ? 's' : ''} · ${formatCurrency(totalBalance)} total`}
+            editLabel="Edit"
+            onEdit={() => router.push('/analysis/case-info')}
+          >
+            <div className="pt-2.5">
+              {sorted.map((entry) => (
+                <div key={entry.id} className="mb-2 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5">
+                  <div className="mb-2 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-sm font-extrabold text-[#0A1628]">{entry.taxYear || '--'}</span>
+                      <span className="rounded bg-[#F8FAFC] px-1.5 py-0.5 text-[10px] font-semibold text-[#94A3B8]">
+                        {entry.taxForm} · {entry.filingStatus}
+                      </span>
+                    </div>
+                    <button onClick={() => router.push('/analysis/case-info')} className="text-[11px] font-semibold text-[#2563EB]">
+                      <i className="fa-solid fa-pen mr-1 text-[9px]" />Edit
+                    </button>
+                  </div>
+                  <InfoRow label="Balance" value={parseMoney(entry.balance) > 0 ? formatCurrency(parseMoney(entry.balance)) : '--'} valueColor="#E63946" />
+                  <InfoRow label="Assessment Date" value={formatDate(entry.assessmentDate)} />
+                  <InfoRow
+                    label="CSED Expiration"
+                    value={entry.assessmentDate ? csedDate(entry.assessmentDate) : '--'}
+                  />
+                  <InfoRow label="Assessment" value={entry.assessmentType || 'Self-assessed'} />
+                  {(entry.ftfPenalty || entry.ftpPenalty || entry.accuracyPenalty) && (
+                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                      {entry.ftfPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">FTF: {entry.ftfPenalty}</span>}
+                      {entry.ftpPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">FTP: {entry.ftpPenalty}</span>}
+                      {entry.accuracyPenalty && <span className="rounded-md bg-[#F8FAFC] px-2 py-0.5 text-[10px] font-semibold text-[#64748B]">Accuracy: {entry.accuracyPenalty}</span>}
+                    </div>
                   )}
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleEdit(entry.id)}
-                  className="text-xs text-emerald-400"
-                >
-                  Edit
-                </button>
+              ))}
+              {/* Total */}
+              <div className="mt-1 flex items-center justify-between border-t-2 border-[#F1F5F9] pt-2.5">
+                <span className="text-[13px] font-bold text-[#0A1628]">Total</span>
+                <span className="text-[15px] font-extrabold text-[#E63946]">{formatCurrency(totalBalance)}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <div>
-                  <p className="text-xs text-zinc-500">Balance</p>
-                  <p className="font-medium text-white">{formatCurrency(parseMoney(entry.balance))}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-zinc-500">Tax</p>
-                  <p className="text-zinc-300">{formatCurrency(parseMoney(entry.taxPrincipal))}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-zinc-500">Penalties</p>
-                  <p className="text-amber-400">{formatCurrency(parseMoney(entry.penaltyAmount))}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-zinc-500">Interest</p>
-                  <p className="text-red-400">{formatCurrency(parseMoney(entry.interestAmount))}</p>
-                </div>
-              </div>
-              {entry.assessmentDate && (
-                <p className="mt-2 text-xs text-zinc-500">
-                  Assessed: {entry.assessmentDate}
-                </p>
-              )}
             </div>
-          ))}
-        </div>
+          </Accordion>
 
-        {entries.length === 0 && (
-          <div className="py-8 text-center">
-            <p className="text-sm text-zinc-500">No tax debt entries found.</p>
+          {/* Screening Results */}
+          <Accordion
+            icon="fa-solid fa-clipboard-check"
+            iconBg="#E6F9EE"
+            iconColor="#00A651"
+            title="Screening Results"
+            subtitle="Pre-qualifier summary"
+            editLabel="View"
+            onEdit={() => router.push('/analysis/screening-result')}
+          >
+            {[
+              { label: 'All returns filed', pass: answers.allReturnsFiled === true },
+              { label: 'No active bankruptcy', pass: answers.inBankruptcy !== true },
+              { label: 'No open audit', pass: answers.auditOpen !== true },
+              { label: 'Current estimated payments', pass: answers.estimatedPaymentsCurrent === true },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center gap-2 py-1.5 text-[13px]">
+                <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] ${
+                  item.pass ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#FEF3C7] text-[#F59E0B]'
+                }`}>
+                  <i className={item.pass ? 'fa-solid fa-check' : 'fa-solid fa-exclamation'} />
+                </div>
+                <span className="font-medium text-[#0A1628]">{item.label}</span>
+              </div>
+            ))}
+          </Accordion>
+
+          {/* Household */}
+          <Accordion
+            icon="fa-solid fa-house-user"
+            iconBg="#F5F0FF"
+            iconColor="#7C3AED"
+            title="Household"
+            subtitle={`${(answers.household as any)?.memberCount ?? 1} member${((answers.household as any)?.memberCount ?? 1) !== 1 ? 's' : ''} · ${(answers.household as any)?.vehicleCount ?? 0} vehicle${((answers.household as any)?.vehicleCount ?? 0) !== 1 ? 's' : ''}`}
+            editLabel="Edit"
+            onEdit={() => router.push('/analysis/household')}
+          >
+            <InfoRow label="Members" value={String((answers.household as any)?.memberCount ?? '--')} />
+            <InfoRow label="Vehicles" value={String((answers.household as any)?.vehicleCount ?? '--')} />
+            <InfoRow label="County" value={(answers.household as any)?.county ? `${(answers.household as any).county}, ${(answers.household as any).state}` : '--'} />
+          </Accordion>
+
+          {/* Spacer */}
+          <div className="min-h-4 flex-1" />
+
+          {/* Actions */}
+          <div className="space-y-2.5 pb-5 pt-2">
             <button
-              type="button"
-              onClick={() => router.push('/analysis/case-info')}
-              className="mt-3 text-sm text-emerald-400 transition-colors hover:text-emerald-300"
+              onClick={handleRunAnalysis}
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 active:scale-[0.97]"
             >
-              Go back to enter your debt
+              <i className="fa-solid fa-bolt text-sm" />
+              Run Analysis
+            </button>
+            <button
+              onClick={() => router.push('/analysis/case-info')}
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-[#E2E8F0] bg-white px-7 py-3.5 text-sm font-medium text-[#0A1628] transition-all hover:-translate-y-0.5"
+            >
+              <i className="fa-solid fa-pen text-xs" />
+              Edit Information
             </button>
           </div>
-        )}
-      </div>
-
-      {/* Total Summary Card */}
-      {entries.length > 0 && (
-        <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6">
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Total Debt</p>
-              <p className="mt-1 text-2xl font-bold text-white">{formatCurrency(totalBalance)}</p>
-            </div>
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Tax Years</p>
-              <p className="mt-1 text-2xl font-bold text-white">{entries.length}</p>
-            </div>
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Penalties</p>
-              <p className="mt-1 text-2xl font-bold text-amber-400">{formatCurrency(totalPenalties)}</p>
-            </div>
-            <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Interest</p>
-              <p className="mt-1 text-2xl font-bold text-red-400">{formatCurrency(totalInterest)}</p>
-            </div>
-          </div>
         </div>
-      )}
-    </FormScreen>
+      </div>
+    </div>
   )
 }

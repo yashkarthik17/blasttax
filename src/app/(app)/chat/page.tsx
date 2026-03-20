@@ -1,12 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-
-const SUGGESTED_QUESTIONS = [
-  'What is an Offer in Compromise?',
-  'How does CNC work?',
-  'What is CSED?',
-]
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface Message {
   id: string
@@ -15,12 +11,13 @@ interface Message {
 }
 
 export default function ChatPage() {
+  const router = useRouter()
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'welcome',
       role: 'assistant',
       content:
-        "Hi! I'm your BlastTax AI assistant. I can help you understand IRS resolution options, explain tax terminology, and guide you through the process.",
+        "Hi Jane! I'm your BlastTax AI assistant. I can help you understand your tax situation, explain resolution options, and guide you through next steps. What would you like to know?",
     },
   ])
   const [input, setInput] = useState('')
@@ -29,11 +26,7 @@ export default function ChatPage() {
     const msg = (text ?? input).trim()
     if (!msg) return
 
-    const userMsg: Message = {
-      id: `u-${Date.now()}`,
-      role: 'user',
-      content: msg,
-    }
+    const userMsg: Message = { id: `u-${Date.now()}`, role: 'user', content: msg }
     const botMsg: Message = {
       id: `a-${Date.now()}`,
       role: 'assistant',
@@ -46,103 +39,103 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--background)]">
-      {/* Header */}
-      <div className="border-b border-[var(--border)] bg-[var(--card)] px-4 py-4 sm:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--primary)]/10">
-              <svg
-                className="h-5 w-5 text-[var(--primary)]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456z"
-                />
-              </svg>
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
+        {/* Header */}
+        <div className="flex items-center gap-2.5 px-5 py-3.5">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
+            <i className="fas fa-arrow-left text-base" />
+          </button>
+          <div className="flex flex-1 items-center gap-2.5">
+            <div className="flex h-[30px] w-[30px] items-center justify-center rounded-[9px] bg-[#2563EB]">
+              <i className="fas fa-sparkles text-xs text-white" />
             </div>
-            <div>
-              <h1 className="text-lg font-semibold">BlastTax AI</h1>
-              <p className="text-xs text-[var(--muted-foreground)]">
-                AI Chat Coming Soon - Full AI integration in a future update
-              </p>
-            </div>
+            <div className="text-[0.9rem] font-bold text-[#1F2937]">BlastTax AI</div>
           </div>
+          <span className="inline-flex items-center gap-1 rounded-full border border-[rgba(99,102,241,0.15)] bg-[#EFF4FF] px-2.5 py-1 text-[0.62rem] font-semibold text-[#4F46E5]">
+            <i className="fas fa-bolt text-[8px]" /> AI-Powered
+          </span>
         </div>
-      </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-8">
-        <div className="mx-auto max-w-3xl space-y-4">
-          {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
-                  msg.role === 'user'
-                    ? 'bg-[var(--primary)] text-white'
-                    : 'border border-[var(--border)] bg-[var(--card)] text-[var(--foreground)]'
-                }`}
-              >
-                {msg.content}
+        {/* Human Expert Banner */}
+        <Link href="/expert" className="mx-5 mb-3 flex items-center gap-2.5 rounded-xl border border-[#FEF3C7] bg-[#FFFBEB] p-3 no-underline">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#FEF3C7]">
+            <i className="fas fa-headset text-sm text-[#D97706]" />
+          </div>
+          <div className="flex-1">
+            <span className="text-[0.78rem] font-semibold text-[#92400E]">Need a real person?</span>
+            <span className="block text-[0.68rem] text-[#D97706]">Schedule a call with a licensed tax professional</span>
+          </div>
+          <i className="fas fa-chevron-right text-[10px] text-[#D97706]" />
+        </Link>
+
+        {/* Chat Area */}
+        <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 pb-24">
+          {messages.map((msg) =>
+            msg.role === 'assistant' ? (
+              <div key={msg.id} className="flex items-start gap-2.5">
+                <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#2563EB]">
+                  <i className="fas fa-sparkles text-[10px] text-white" />
+                </div>
+                <div className="max-w-[88%] rounded-[2px_18px_18px_18px] border border-[#F3F4F6] bg-white px-4 py-3.5 text-[0.82rem] leading-relaxed text-[#2D2B3D]">
+                  {msg.content}
+                </div>
               </div>
-            </div>
-          ))}
+            ) : (
+              <div key={msg.id} className="flex justify-end">
+                <div className="ml-auto max-w-[82%] rounded-[18px_2px_18px_18px] bg-[#0A1628] px-4 py-3.5 text-[0.82rem] leading-relaxed text-white">
+                  {msg.content}
+                </div>
+              </div>
+            ),
+          )}
 
-          {/* Suggested Questions */}
+          {/* Suggested Prompts - only show when welcome message */}
           {messages.length === 1 && (
-            <div className="space-y-3 pt-4">
-              <p className="text-sm font-medium text-[var(--muted-foreground)]">
-                Try asking:
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {SUGGESTED_QUESTIONS.map((q) => (
-                  <button
-                    key={q}
-                    onClick={() => handleSend(q)}
-                    className="rounded-full border border-[var(--border)] bg-[var(--card)] px-4 py-2 text-sm text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
+            <div className="flex flex-wrap gap-2 pl-[38px]">
+              {[
+                { icon: 'fa-check-circle', color: 'text-[#2563EB]', text: 'What resolution am I eligible for?' },
+                { icon: 'fa-handshake', color: 'text-[#7C3AED]', text: 'Explain the OIC process' },
+                { icon: 'fa-file-lines', color: 'text-[#0D9488]', text: 'What documents do I need?' },
+              ].map((q) => (
+                <button
+                  key={q.text}
+                  onClick={() => handleSend(q.text)}
+                  className="rounded-xl border border-[#F3F4F6] bg-white px-3.5 py-2.5 text-[0.75rem] font-semibold text-[#64748B] transition hover:-translate-y-0.5 hover:border-[#0A1628] hover:bg-[#EFF4FF] hover:text-[#0A1628]"
+                >
+                  <i className={`fas ${q.icon} ${q.color} mr-1 text-[10px]`} />
+                  {q.text}
+                </button>
+              ))}
             </div>
           )}
         </div>
-      </div>
 
-      {/* Input */}
-      <div className="border-t border-[var(--border)] bg-[var(--card)] px-4 py-4 sm:px-8">
-        <div className="mx-auto max-w-3xl">
+        {/* Message Input Bar */}
+        <div className="sticky bottom-0 border-t border-[#F1F5F9] bg-white px-4 py-2.5">
           <form
             onSubmit={(e) => {
               e.preventDefault()
               handleSend()
             }}
-            className="flex items-center gap-3"
+            className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#F3F4F6] bg-white px-2 py-1.5 pl-4"
           >
+            <button type="button" className="text-[#CBD5E1]">
+              <i className="fas fa-paperclip text-base" />
+            </button>
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about tax resolution options..."
-              className="flex-1 rounded-xl border border-[var(--border)] bg-[var(--background)] px-4 py-3 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)]"
+              placeholder="Type your message..."
+              className="flex-1 border-none bg-transparent text-[0.82rem] text-[#1F2937] outline-none placeholder:text-[#CBD5E1]"
             />
             <button
               type="submit"
               disabled={!input.trim()}
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[var(--primary)] text-white transition hover:opacity-90 disabled:opacity-40"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0A1628] text-white transition hover:scale-105 disabled:opacity-40"
             >
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-              </svg>
+              <i className="fas fa-arrow-up text-[13px]" />
             </button>
           </form>
         </div>

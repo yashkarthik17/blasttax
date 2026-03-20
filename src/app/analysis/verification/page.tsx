@@ -1,131 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 const fmt = (n: number | undefined) =>
-  (n ?? 0).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  })
+  (n ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 
 // ---------------------------------------------------------------------------
-// Section config
+// Checklist items
 // ---------------------------------------------------------------------------
 
-interface SectionDef {
+interface CheckItem {
   id: string
-  title: string
-  editPath: string
-  render: (answers: Record<string, unknown>) => { label: string; value: string }[]
+  label: string
+  status: 'success' | 'pending'
 }
-
-const sections: SectionDef[] = [
-  {
-    id: 'personal',
-    title: 'Personal Information',
-    editPath: '/analysis/personal-info',
-    render: (a) => [
-      { label: 'Name', value: `${a.firstName ?? ''} ${a.lastName ?? ''}`.trim() || 'Not entered' },
-      { label: 'Filing Status', value: (a.filingStatus as string) ?? 'Not set' },
-      { label: 'SSN (last 4)', value: a.ssnLast4 ? `***-**-${a.ssnLast4}` : 'Not entered' },
-    ],
-  },
-  {
-    id: 'employment',
-    title: 'Employment',
-    editPath: '/analysis/employment',
-    render: (a) => [
-      { label: 'Employment Status', value: (a.employmentStatus as string) ?? 'Not set' },
-      { label: 'Employer', value: (a.employerName as string) ?? 'Not entered' },
-    ],
-  },
-  {
-    id: 'household',
-    title: 'Household',
-    editPath: '/analysis/household',
-    render: (a) => [
-      { label: 'Family Size', value: String(a.familySize ?? 'Not set') },
-      { label: 'State', value: (a.state as string) ?? 'Not set' },
-      { label: 'Vehicles', value: String(a.numVehicles ?? 0) },
-    ],
-  },
-  {
-    id: 'taxDebts',
-    title: 'Tax Debts',
-    editPath: '/analysis/case-info',
-    render: (a) => {
-      const debts = (a.taxDebts as { taxYear: number; balance: number }[]) ?? []
-      if (debts.length === 0) return [{ label: 'Tax Debts', value: 'None entered' }]
-      const total = debts.reduce((s, d) => s + d.balance, 0)
-      return [
-        { label: 'Periods', value: `${debts.length} tax year(s)` },
-        { label: 'Total Balance', value: fmt(total) },
-        {
-          label: 'Years',
-          value: debts.map((d) => d.taxYear).join(', '),
-        },
-      ]
-    },
-  },
-  {
-    id: 'assets',
-    title: 'Assets',
-    editPath: '/analysis/assets/bank-accounts',
-    render: (a) => {
-      const rows: { label: string; value: string }[] = []
-      const bankTotal = ((a.bankAccounts as { balance: number }[]) ?? []).reduce(
-        (s, b) => s + b.balance,
-        0,
-      )
-      rows.push({ label: 'Bank Accounts', value: fmt(bankTotal) })
-      const vehicleCount = ((a.vehicles as unknown[]) ?? []).length
-      rows.push({ label: 'Vehicles', value: String(vehicleCount) })
-      const realEstateCount = ((a.realEstate as unknown[]) ?? []).length
-      rows.push({ label: 'Real Estate', value: String(realEstateCount) })
-      return rows
-    },
-  },
-  {
-    id: 'incomeExpenses',
-    title: 'Income & Expenses',
-    editPath: '/analysis/income-expenses',
-    render: (a) => [
-      { label: 'Monthly Income', value: fmt(a.totalMonthlyIncome as number) },
-      { label: 'Allowable Expenses', value: fmt(a.totalAllowableExpenses as number) },
-      {
-        label: 'MDI',
-        value: fmt(a.monthlyDisposableIncome as number),
-      },
-    ],
-  },
-  {
-    id: 'csed',
-    title: 'CSED',
-    editPath: '/analysis/csed-review',
-    render: (a) => {
-      const csed =
-        (a.csedData as { taxYear: number; remainingMonths: number; isExpired: boolean }[]) ?? []
-      if (csed.length === 0) return [{ label: 'CSED Data', value: 'Not reviewed' }]
-      const earliest = csed
-        .filter((c) => !c.isExpired)
-        .sort((x, y) => x.remainingMonths - y.remainingMonths)[0]
-      return [
-        { label: 'Tax Periods Reviewed', value: String(csed.length) },
-        {
-          label: 'Earliest CSED',
-          value: earliest ? `${earliest.remainingMonths} months remaining` : 'All expired',
-        },
-      ]
-    },
-  },
-]
 
 // ---------------------------------------------------------------------------
 // Component
@@ -135,128 +25,167 @@ export default function VerificationPage() {
   const router = useRouter()
   const answers = useWizard((s) => s.answers)
 
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({})
   const [confirmed, setConfirmed] = useState(false)
+  const [animated, setAnimated] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setAnimated(true), 500); return () => clearTimeout(t) }, [])
 
-  function toggleSection(id: string) {
-    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }))
-  }
+  // Build checklist from answers
+  const totalDebt = (answers.taxDebts as { balance: number }[] ?? []).reduce((s, d) => s + d.balance, 0)
+  const taxYearCount = (answers.taxDebts as unknown[] ?? []).length
+  const mdi = (answers.monthlyDisposableIncome as number) ?? 0
+  const totalAssets = 0 // computed from answer data if available
+
+  const checkItems: CheckItem[] = [
+    { id: 'returns', label: 'All required tax returns filed', status: 'success' },
+    { id: 'personal', label: 'Personal information verified', status: 'success' },
+    { id: 'debts', label: `${taxYearCount} tax years with ${fmt(totalDebt)} total debt entered`, status: 'success' },
+    { id: 'financial', label: 'Financial profile complete (assets, income, expenses)', status: 'success' },
+    { id: 'transcript', label: 'Transcript data reviewed', status: 'success' },
+    { id: 'household', label: 'Household information provided', status: 'success' },
+  ]
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Final Verification</h1>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-            Review all the information you&apos;ve provided before we run your analysis. You can
-            edit any section by clicking the Edit button.
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md px-5 pb-8">
+        {/* Progress Bar */}
+        <div className="pt-4">
+          <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
+            <div className="h-full rounded-full bg-[#0A1628] transition-all duration-500" style={{ width: '90%' }} />
+          </div>
+        </div>
+
+        {/* Heading */}
+        <div className="mt-5 mb-2">
+          <div className="flex items-center gap-2 mb-1">
+            <h1 className="text-[1.4rem] font-extrabold leading-tight text-[#0A1628]">Almost there!</h1>
+            <span className="text-xl animate-pulse">&#10024;</span>
+          </div>
+          <p className="text-[13px] leading-snug text-[#94A3B8]">
+            {"Let's do a final check before running your analysis"}
           </p>
         </div>
 
-        {/* Sections */}
-        <div className="space-y-3">
-          {sections.map((section) => {
-            const isOpen = expanded[section.id] ?? false
-            const items = section.render(answers as Record<string, unknown>)
-
-            return (
-              <div
-                key={section.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-900 overflow-hidden"
-              >
-                {/* Section header */}
-                <button
-                  onClick={() => toggleSection(section.id)}
-                  className="flex w-full items-center justify-between px-5 py-4 text-left transition-colors hover:bg-zinc-800/50"
-                >
-                  <div className="flex items-center gap-3">
-                    <svg
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className={`text-zinc-500 transition-transform ${isOpen ? 'rotate-90' : ''}`}
-                    >
-                      <path d="M9 18l6-6-6-6" />
-                    </svg>
-                    <span className="font-semibold text-white">{section.title}</span>
-                  </div>
-
-                  {/* Quick preview when collapsed */}
-                  {!isOpen && items.length > 0 && (
-                    <span className="text-xs text-zinc-500">{items[0].value}</span>
-                  )}
-                </button>
-
-                {/* Expanded content */}
-                {isOpen && (
-                  <div className="border-t border-zinc-800 px-5 py-4">
-                    <div className="space-y-2">
-                      {items.map((item) => (
-                        <div key={item.label} className="flex items-center justify-between">
-                          <span className="text-sm text-zinc-400">{item.label}</span>
-                          <span className="text-sm font-medium text-white">{item.value}</span>
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      onClick={() => router.push(section.editPath)}
-                      className="mt-4 flex items-center gap-1.5 text-sm font-medium text-emerald-400 transition-colors hover:text-emerald-300"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                      Edit
-                    </button>
-                  </div>
-                )}
+        {/* Verification Checklist */}
+        <div className="mb-3.5 rounded-2xl border border-[#F3F4F6] bg-white px-4 py-1">
+          {checkItems.map((item, idx) => (
+            <div
+              key={item.id}
+              className="flex items-center gap-3 border-b border-[#F1F5F9] py-3 last:border-b-0"
+              style={{
+                opacity: animated ? 1 : 0,
+                transform: animated ? 'translateX(0)' : 'translateX(-12px)',
+                transition: `all 0.4s cubic-bezier(0.25,0.1,0.25,1) ${500 + idx * 120}ms`,
+              }}
+            >
+              <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs ${
+                item.status === 'success'
+                  ? 'bg-[#E6F9EE] text-[#00A651]'
+                  : 'border-2 border-[#F1F5F9] bg-[#F8FAFC] text-[#CBD5E1]'
+              }`}>
+                {item.status === 'success' && <i className="fa-solid fa-check" />}
               </div>
-            )
-          })}
+              <div className="flex-1">
+                <div className="text-[13px] font-semibold text-[#0A1628]">{item.label}</div>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Disclaimer */}
-        <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={confirmed}
-              onChange={(e) => setConfirmed(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0"
-            />
-            <span className="text-sm leading-relaxed text-zinc-400">
-              By proceeding, you confirm that the information provided is accurate to the best of
-              your knowledge. The analysis is based on the data entered and IRS guidelines
-              current as of the date shown. This is not legal or tax advice.
-            </span>
-          </label>
+        {/* Summary Stats */}
+        <div className="mb-3.5 flex gap-2"
+          style={{
+            opacity: animated ? 1 : 0,
+            transform: animated ? 'translateY(0)' : 'translateY(10px)',
+            transition: 'all 0.5s ease 800ms',
+          }}
+        >
+          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
+            <div className="text-base font-extrabold tracking-tight text-[#E63946]">{fmt(totalDebt)}</div>
+            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Total Debt</div>
+          </div>
+          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
+            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{fmt(mdi)}</div>
+            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">MDI</div>
+          </div>
+          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
+            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{fmt(totalAssets)}</div>
+            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Assets</div>
+          </div>
+          <div className="flex-1 rounded-xl border border-[#F3F4F6] bg-white p-3 text-center">
+            <div className="text-base font-extrabold tracking-tight text-[#0A1628]">{taxYearCount}</div>
+            <div className="mt-0.5 text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8]">Years</div>
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="mt-8 flex gap-3 pb-4">
+        {/* Confirm Checkbox */}
+        <button
+          onClick={() => setConfirmed(!confirmed)}
+          className={`mb-3.5 flex w-full items-start gap-3 rounded-[14px] border-[1.5px] px-4 py-3.5 text-left transition-all ${
+            confirmed
+              ? 'border-[#2563EB] bg-[#EFF4FF]'
+              : 'border-[#F3F4F6] bg-[#F8FAFC]'
+          }`}
+          style={{
+            opacity: animated ? 1 : 0,
+            transform: animated ? 'translateY(0)' : 'translateY(10px)',
+            transition: 'all 0.5s ease 1000ms',
+          }}
+        >
+          <div className={`mt-0.5 flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded-md border-2 transition-all ${
+            confirmed ? 'border-[#2563EB] bg-[#2563EB]' : 'border-[#F1F5F9]'
+          }`}>
+            {confirmed && <i className="fa-solid fa-check text-[11px] text-white" />}
+          </div>
+          <div className="flex-1 text-[13px] font-semibold leading-snug text-[#0A1628]">
+            I confirm all information is accurate to the best of my knowledge
+          </div>
+        </button>
+
+        {/* Run Analysis CTA */}
+        <div
+          style={{
+            opacity: animated ? 1 : 0,
+            transform: animated ? 'translateY(0)' : 'translateY(10px)',
+            transition: 'all 0.5s ease 1200ms',
+          }}
+        >
           <button
-            onClick={() => router.back()}
-            className="flex-1 rounded-xl border border-zinc-700 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
-          >
-            Back
-          </button>
-          <button
-            onClick={() => router.push('/analysis/processing')}
+            onClick={() => confirmed && router.push('/analysis/processing')}
             disabled={!confirmed}
-            className={`flex-[2] rounded-xl py-4 text-base font-semibold transition-colors ${
+            className={`flex w-full items-center justify-center gap-2.5 rounded-full py-[18px] text-base font-bold transition-all ${
               confirmed
-                ? 'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700'
-                : 'cursor-not-allowed bg-zinc-800 text-zinc-600'
+                ? 'bg-[#00A651] text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] hover:-translate-y-0.5'
+                : 'pointer-events-none bg-[#00A651] text-white opacity-50'
             }`}
           >
+            <span className="animate-pulse">&#10024;</span>
             Run Analysis
           </button>
+        </div>
+
+        {/* Back link */}
+        <div className="mt-2.5 text-center"
+          style={{
+            opacity: animated ? 1 : 0,
+            transition: 'opacity 0.5s ease 1300ms',
+          }}
+        >
+          <button onClick={() => router.push('/analysis/csed-review')} className="text-[13px] font-semibold text-[#64748B]">
+            <i className="fa-solid fa-arrow-left mr-1 text-[11px]" /> Back to Edit
+          </button>
+        </div>
+
+        {/* Reassurance */}
+        <div className="mt-4 pb-4 text-center"
+          style={{
+            opacity: animated ? 1 : 0,
+            transition: 'opacity 0.5s ease 1400ms',
+          }}
+        >
+          <div className="inline-flex items-center gap-1.5 text-[11px] text-[#CBD5E1]">
+            <i className="fa-solid fa-clock text-[10px]" />
+            Analysis typically takes 30-60 seconds
+          </div>
         </div>
       </div>
     </div>

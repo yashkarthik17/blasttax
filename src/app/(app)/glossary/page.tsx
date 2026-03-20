@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface GlossaryTerm {
   abbreviation: string
@@ -41,6 +41,7 @@ const glossaryTerms: GlossaryTerm[] = [
 const letters = ['All', 'A', 'C', 'D', 'E', 'F', 'I', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
 
 export default function GlossaryPage() {
+  const router = useRouter()
   const [search, setSearch] = useState('')
   const [activeLetter, setActiveLetter] = useState('All')
   const [openIndex, setOpenIndex] = useState<number | null>(null)
@@ -56,105 +57,85 @@ export default function GlossaryPage() {
   })
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="mx-auto max-w-2xl space-y-5">
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="flex items-center gap-3">
-          <Link
-            href="/account"
-            className="flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border)] text-[var(--foreground)] transition hover:bg-[var(--secondary)]"
-          >
-            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </Link>
-          <h1 className="text-2xl font-bold">IRS Terms Glossary</h1>
+        <div className="flex items-center gap-3 px-5 py-3.5">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
+            <i className="fas fa-arrow-left text-base" />
+          </button>
+          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">IRS Terms Glossary</h1>
+          <div className="w-10" />
         </div>
 
-        {/* Search */}
-        <div className="flex items-center gap-3 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-2.5">
-          <svg className="h-4 w-4 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            placeholder="Search terms..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 border-none bg-transparent text-sm text-[#0A1628] outline-none placeholder:text-[#CBD5E1]"
-          />
-        </div>
+        <div className="flex flex-col gap-3.5 px-5 pb-8">
+          {/* Search Bar */}
+          <div className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-2.5">
+            <i className="fas fa-magnifying-glass text-sm text-[#CBD5E1]" />
+            <input
+              type="text"
+              placeholder="Search terms..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 border-none bg-transparent text-[0.85rem] text-[#0A1628] outline-none placeholder:text-[#CBD5E1]"
+            />
+          </div>
 
-        {/* Letter Tabs */}
-        <div className="flex gap-1 overflow-x-auto py-1">
-          {letters.map((letter) => (
-            <button
-              key={letter}
-              onClick={() => setActiveLetter(letter)}
-              className={`flex h-8 min-w-[32px] items-center justify-center rounded-lg text-xs font-bold transition ${
-                activeLetter === letter
-                  ? 'bg-[#0A1628] text-white'
-                  : 'text-[#94A3B8] hover:bg-[#F1F5F9] hover:text-[#0A1628]'
-              }`}
-            >
-              {letter}
-            </button>
-          ))}
-        </div>
-
-        {/* Glossary Items */}
-        <div className="space-y-2.5">
-          {filtered.map((term, idx) => (
-            <div
-              key={term.abbreviation}
-              className={`overflow-hidden rounded-[14px] border transition-colors ${
-                openIndex === idx ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'
-              }`}
-            >
+          {/* Letter Tabs */}
+          <div className="flex gap-1 overflow-x-auto py-1">
+            {letters.map((letter) => (
               <button
-                onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span
-                    className="inline-flex min-w-[42px] items-center justify-center rounded-lg px-2 py-1 text-xs font-extrabold"
-                    style={{ backgroundColor: term.bgColor, color: term.color }}
-                  >
-                    {term.abbreviation}
-                  </span>
-                  <span className="text-[0.85rem] font-semibold text-[#0A1628]">{term.name}</span>
-                </div>
-                <svg
-                  className={`h-3 w-3 shrink-0 text-[#CBD5E1] transition-transform duration-300 ${
-                    openIndex === idx ? 'rotate-180' : ''
-                  }`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div
-                className={`overflow-hidden transition-all duration-400 ${
-                  openIndex === idx ? 'max-h-[500px] px-4 pb-3.5' : 'max-h-0 px-4'
+                key={letter}
+                onClick={() => setActiveLetter(letter)}
+                className={`flex h-8 min-w-[32px] shrink-0 items-center justify-center rounded-lg text-[0.72rem] font-bold transition ${
+                  activeLetter === letter
+                    ? 'bg-[#0A1628] text-white'
+                    : 'text-[#94A3B8] hover:bg-[#F1F5F9] hover:text-[#0A1628]'
                 }`}
               >
-                <p className="mb-2 text-[0.82rem] leading-relaxed text-[#64748B]">{term.definition}</p>
-                <div className="flex flex-wrap gap-1">
-                  {term.usedIn.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[0.62rem] font-semibold text-[#2563EB]"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                {letter}
+              </button>
+            ))}
+          </div>
+
+          {/* Glossary Items */}
+          <div className="flex flex-col gap-2.5">
+            {filtered.map((term, idx) => {
+              const isOpen = openIndex === idx
+              return (
+                <div
+                  key={term.abbreviation}
+                  className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'}`}
+                >
+                  <button
+                    onClick={() => setOpenIndex(isOpen ? null : idx)}
+                    className="flex w-full items-center justify-between gap-3 px-4 py-3.5 text-left transition hover:bg-[#F8FAFC]"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className="inline-flex min-w-[42px] items-center justify-center rounded-lg px-2 py-1 text-[0.75rem] font-extrabold"
+                        style={{ backgroundColor: term.bgColor, color: term.color }}
+                      >
+                        {term.abbreviation}
+                      </span>
+                      <span className="text-[0.85rem] font-semibold text-[#0A1628]">{term.name}</span>
+                    </div>
+                    <i className={`fas fa-chevron-down shrink-0 text-[11px] text-[#CBD5E1] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  <div className={`overflow-hidden transition-all duration-400 ${isOpen ? 'max-h-[500px] px-4 pb-3.5' : 'max-h-0 px-4'}`}>
+                    <p className="mb-2 text-[0.82rem] leading-relaxed text-[#64748B]">{term.definition}</p>
+                    <div className="flex flex-wrap gap-1">
+                      {term.usedIn.map((tag) => (
+                        <span key={tag} className="inline-flex items-center rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[0.62rem] font-semibold text-[#2563EB]">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              )
+            })}
+          </div>
         </div>
       </div>
     </div>

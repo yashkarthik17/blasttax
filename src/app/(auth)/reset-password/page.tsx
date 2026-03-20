@@ -33,90 +33,161 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-8 shadow-2xl">
-          {/* Branding */}
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-[var(--foreground)]">
-              Blast<span className="text-[var(--primary)]">Tax</span>
-            </h1>
-            <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-              Reset your password
-            </p>
-          </div>
-
-          {/* Success Message */}
-          {success && (
-            <div className="mb-4 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-400">
-              Password reset link sent. Check your email for instructions.
-            </div>
-          )}
-
-          {/* Error Banner */}
-          {error && (
-            <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400">
-              {error}
-            </div>
-          )}
-
-          {/* Form */}
-          {!success ? (
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
-                >
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@example.com"
-                  className="w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-4 py-2.5 text-sm text-[var(--foreground)] placeholder-[var(--muted-foreground)] outline-none transition-colors focus:border-[var(--primary)] focus:ring-1 focus:ring-[var(--primary)]"
-                />
-              </div>
-
-              <p className="text-xs text-[var(--muted-foreground)]">
-                Enter the email address associated with your account and
-                we&apos;ll send you a link to reset your password.
-              </p>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full rounded-lg bg-[var(--primary)] px-4 py-2.5 text-sm font-semibold text-[var(--primary-foreground)] transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {loading ? 'Sending...' : 'Send Reset Link'}
-              </button>
-            </form>
-          ) : (
-            <div className="text-center">
-              <button
-                onClick={() => { setSuccess(false); setEmail('') }}
-                className="text-sm text-[var(--primary)] hover:underline"
-              >
-                Send another link
-              </button>
-            </div>
-          )}
-
-          {/* Back to login */}
-          <div className="mt-6 text-center text-sm text-[var(--muted-foreground)]">
-            Remember your password?{' '}
+    <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
+      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen" style={{ background: '#FFFFFF' }}>
+        <div className="flex-1 flex flex-col pt-4">
+          {/* Back button */}
+          <div className="mb-10">
             <Link
               href="/login"
-              className="text-[var(--primary)] hover:underline"
+              className="flex items-center justify-center transition-all"
+              style={{
+                width: 40, height: 40, borderRadius: 12,
+                background: '#FFFFFF', border: '1.5px solid #E2E8F0',
+                color: '#0A1628', fontSize: 16, textDecoration: 'none',
+              }}
             >
-              Sign in
+              <i className="fas fa-arrow-left" />
             </Link>
           </div>
+
+          {!success ? (
+            /* Form State */
+            <div>
+              {/* Icon circle */}
+              <div className="flex justify-center mb-6">
+                <div className="relative" style={{ width: 88, height: 88 }}>
+                  <div
+                    className="flex items-center justify-center rounded-full"
+                    style={{ width: 88, height: 88, background: '#EFF4FF', position: 'relative', zIndex: 2 }}
+                  >
+                    <i className="fas fa-lock" style={{ fontSize: 28, color: '#0A1628' }} />
+                    {/* Shield badge */}
+                    <div
+                      className="flex items-center justify-center"
+                      style={{
+                        position: 'absolute', bottom: -2, right: -2,
+                        width: 32, height: 32, borderRadius: '50%',
+                        background: '#00A651', zIndex: 3,
+                      }}
+                    >
+                      <i className="fas fa-shield-halved" style={{ fontSize: 14, color: '#FFFFFF' }} />
+                    </div>
+                  </div>
+                  {/* Breathing ring */}
+                  <div
+                    className="animate-[breatheRing_3s_ease-in-out_infinite]"
+                    style={{
+                      position: 'absolute', inset: -8, borderRadius: '50%',
+                      border: '2px solid rgba(10, 22, 40, 0.08)',
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Heading */}
+              <div className="text-center mb-2">
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+                  Reset your password
+                </h1>
+              </div>
+
+              {/* Subtitle */}
+              <div className="text-center mb-9 mx-auto" style={{ maxWidth: 300 }}>
+                <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6 }}>
+                  Enter your email and we&apos;ll send you a reset link
+                </p>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div className="mb-4 rounded-xl px-4 py-3 text-sm" style={{ background: '#FFF0F1', border: '1px solid #FECDD3', color: '#E63946' }}>
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit}>
+                {/* Email input */}
+                <div className="relative mb-7">
+                  <input
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full rounded-[14px] border-[1.5px] py-[14px] pr-4 pl-[46px] text-[0.875rem] font-medium outline-none transition-colors"
+                    style={{ background: '#F8FAFC', borderColor: '#E2E8F0', color: '#0A1628' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC' }}
+                  />
+                  <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, pointerEvents: 'none' }} />
+                </div>
+
+                {/* Send Reset Link */}
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-full py-[15px] px-7 text-center font-bold transition-opacity disabled:opacity-50 mb-7"
+                  style={{ background: '#0A1628', color: '#FFFFFF', fontSize: '0.95rem', border: 'none', cursor: 'pointer' }}
+                >
+                  {loading ? (
+                    <>
+                      <i className="fas fa-circle-notch fa-spin" style={{ marginRight: 8 }} />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send Reset Link'
+                  )}
+                </button>
+              </form>
+
+              {/* Sign in link */}
+              <div className="text-center">
+                <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
+                  Remember your password?{' '}
+                  <Link href="/login" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
+                    Sign in
+                  </Link>
+                </p>
+              </div>
+            </div>
+          ) : (
+            /* Success State */
+            <div className="text-center pt-10">
+              <div
+                className="flex items-center justify-center mx-auto mb-5"
+                style={{ width: 72, height: 72, borderRadius: '50%', background: '#E6F9EE' }}
+              >
+                <i className="fas fa-check" style={{ fontSize: 28, color: '#00A651' }} />
+              </div>
+              <h2 className="mb-2" style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628' }}>
+                Check your inbox
+              </h2>
+              <p className="mx-auto mb-8" style={{ fontSize: '0.85rem', color: '#94A3B8', lineHeight: 1.6, maxWidth: 260 }}>
+                We&apos;ve sent a password reset link to your email address
+              </p>
+              <Link
+                href="/login"
+                className="inline-flex items-center justify-center rounded-full transition-all"
+                style={{
+                  fontSize: '0.9rem', fontWeight: 700, padding: '14px 28px',
+                  border: '1.5px solid #E2E8F0', color: '#0A1628',
+                  background: '#FFFFFF', textDecoration: 'none', minWidth: 200,
+                }}
+              >
+                Back to Sign In
+              </Link>
+            </div>
+          )}
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes breatheRing {
+          0%, 100% { transform: scale(1); opacity: 0.8; }
+          50% { transform: scale(1.06); opacity: 0.3; }
+        }
+      `}</style>
     </div>
   )
 }

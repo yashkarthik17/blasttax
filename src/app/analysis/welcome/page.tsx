@@ -2,120 +2,100 @@
 
 import { useRouter } from 'next/navigation'
 
-const phases = [
-  {
-    step: 1,
-    title: 'Pre-Qualification',
-    time: '~5 min',
-    description:
-      'Quick yes/no questions to determine which IRS resolution programs you may qualify for.',
-  },
-  {
-    step: 2,
-    title: 'Financial Data Collection',
-    time: '~15-20 min',
-    description:
-      'We gather your income, expenses, assets, and tax debt details to build your case profile.',
-  },
-  {
-    step: 3,
-    title: 'Results & Options',
-    time: 'Instant',
-    description:
-      'View your personalized resolution options with estimated savings and recommended next steps.',
-  },
-]
-
-const checklist = [
-  'Any IRS notices or letters you have received',
-  'Income information (pay stubs, 1099s, or estimates)',
-  'Asset information (bank accounts, property, vehicles)',
-  'Monthly expense estimates (rent, utilities, food, etc.)',
-]
-
 export default function WelcomePage() {
   const router = useRouter()
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-lg">
-        {/* Title */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            What to Expect
-          </h1>
-          <p className="mt-3 text-base text-zinc-400">
-            Your analysis has three phases. Here&apos;s a quick overview of the
-            process.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        <div className="flex min-h-screen flex-col items-center justify-center px-7 py-5 text-center">
+          {/* Illustration */}
+          <div className="relative flex h-[140px] w-[140px] items-center justify-center rounded-full bg-[#F3F4F6]">
+            <i className="fa-solid fa-magnifying-glass text-5xl text-[#0A1628]" />
+            {/* Dashed rings */}
+            <div className="pointer-events-none absolute inset-[-8px] animate-[spin_20s_linear_infinite] rounded-full border-2 border-dashed border-[rgba(10,22,40,0.1)]" />
+            <div className="pointer-events-none absolute inset-[-20px] animate-[spin_30s_linear_infinite_reverse] rounded-full border border-dashed border-[rgba(124,58,237,0.08)]" />
+          </div>
 
-        {/* Phases */}
-        <div className="mb-10 space-y-4">
-          {phases.map((phase) => (
-            <div
-              key={phase.step}
-              className="flex gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-5"
-            >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-sm font-bold text-emerald-400">
-                {phase.step}
+          {/* Heading */}
+          <div className="mt-8">
+            <h1 className="text-[1.6rem] font-extrabold leading-tight tracking-[-0.01em] text-[#0A1628]">
+              Let&apos;s find your best<br />resolution path
+            </h1>
+          </div>
+
+          {/* Steps */}
+          <div className="mt-8 flex w-full flex-col gap-4 text-left">
+            {/* Step 1 */}
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0A1628] text-sm text-white">
+                <i className="fa-solid fa-clipboard-list text-sm" />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3">
-                  <h3 className="font-semibold text-white">{phase.title}</h3>
-                  <span className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs text-zinc-400">
-                    {phase.time}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-zinc-400">
-                  {phase.description}
-                </p>
+              <div>
+                <span className="block text-sm font-bold text-[#0A1628]">Answer a few questions</span>
+                <span className="text-xs text-[#94A3B8]">Simple, guided questions about your situation</span>
               </div>
             </div>
-          ))}
-        </div>
 
-        {/* Checklist */}
-        <div className="mb-10 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-          <h3 className="mb-4 font-semibold text-white">
-            What You&apos;ll Need
-          </h3>
-          <ul className="space-y-3">
-            {checklist.map((item) => (
-              <li key={item} className="flex items-start gap-3">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="mt-0.5 shrink-0 text-emerald-400"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-                <span className="text-sm leading-relaxed text-zinc-300">
-                  {item}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-xs text-zinc-500">
-            Don&apos;t worry if you don&apos;t have everything handy — you can
-            estimate and update later.
-          </p>
-        </div>
+            {/* Step 2 */}
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#7C3AED] text-sm text-white">
+                <i className="fa-solid fa-microchip text-sm" />
+              </div>
+              <div>
+                <span className="block text-sm font-bold text-[#0A1628]">We&apos;ll analyze your eligibility</span>
+                <span className="text-xs text-[#94A3B8]">AI-powered assessment against IRS criteria</span>
+              </div>
+            </div>
 
-        {/* CTA */}
-        <button
-          onClick={() => router.push('/analysis/pre-qualifier/1')}
-          className="w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
-        >
-          Begin Analysis
-        </button>
+            {/* Step 3 */}
+            <div className="flex items-center gap-3.5">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#00A651] text-sm text-white">
+                <i className="fa-solid fa-star text-sm" />
+              </div>
+              <div>
+                <span className="block text-sm font-bold text-[#0A1628]">Get your personalized plan</span>
+                <span className="text-xs text-[#94A3B8]">Ranked options with savings estimates</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Time estimate */}
+          <div className="mt-6">
+            <span className="text-[13px] text-[#94A3B8]">
+              <i className="fa-regular fa-clock mr-1" />
+              This usually takes about 10 minutes
+            </span>
+          </div>
+
+          {/* Reassurance */}
+          <div className="mt-5 w-full">
+            <div className="flex items-center gap-2.5 rounded-xl border border-[#F1F5F9] bg-[#F8FAFC] px-4 py-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#E6F9EE]">
+                <i className="fa-solid fa-lock text-[13px] text-[#00A651]" />
+              </div>
+              <span className="text-left text-[12.5px] leading-snug text-[#64748B]">
+                Everything you share is confidential and encrypted
+              </span>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="mt-7 flex w-full flex-col items-center gap-3">
+            <button
+              onClick={() => router.push('/analysis/pre-qualifier/1')}
+              className="w-full rounded-full bg-[#00A651] px-7 py-4 text-[15px] font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
+            >
+              Let&apos;s Begin <i className="fa-solid fa-arrow-right ml-1 text-[13px]" />
+            </button>
+            <button
+              onClick={() => router.push('/dashboard')}
+              className="text-[13px] font-medium text-[#94A3B8] transition-colors hover:text-[#64748B]"
+            >
+              I&apos;ll do this later
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

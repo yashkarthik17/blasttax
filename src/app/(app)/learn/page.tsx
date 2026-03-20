@@ -3,179 +3,121 @@
 import { useState } from 'react'
 import Link from 'next/link'
 
-type Category = 'all' | 'resolution' | 'notices' | 'basics' | 'forms'
+type Category = 'all' | 'resolution' | 'filing' | 'irs' | 'tips'
+
+const CATEGORIES: { key: Category; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'resolution', label: 'Resolution' },
+  { key: 'filing', label: 'Tax Filing' },
+  { key: 'irs', label: 'IRS Process' },
+  { key: 'tips', label: 'Tips' },
+]
 
 interface Article {
   slug: string
   title: string
-  description: string
   readTime: string
   category: Category
   categoryLabel: string
+  icon: string
+  iconColor: string
+  thumbBg: string
+  tagBg: string
+  tagColor: string
 }
-
-const CATEGORIES: { key: Category; label: string }[] = [
-  { key: 'all', label: 'All' },
-  { key: 'resolution', label: 'Resolution Options' },
-  { key: 'notices', label: 'IRS Notices' },
-  { key: 'basics', label: 'Tax Basics' },
-  { key: 'forms', label: 'Forms Guide' },
-]
 
 const ARTICLES: Article[] = [
-  {
-    slug: 'understanding-installment-agreements',
-    title: 'Understanding Installment Agreements',
-    description:
-      'Learn how IRS installment agreements work, eligibility requirements, and which type of payment plan is right for your situation.',
-    readTime: '8 min read',
-    category: 'resolution',
-    categoryLabel: 'Resolution Options',
-  },
-  {
-    slug: 'oic-explained',
-    title: 'OIC Explained',
-    description:
-      'A complete guide to Offers in Compromise - how the IRS evaluates your ability to pay and when settling for less than you owe is possible.',
-    readTime: '12 min read',
-    category: 'resolution',
-    categoryLabel: 'Resolution Options',
-  },
-  {
-    slug: 'what-happens-when-you-owe-the-irs',
-    title: 'What Happens When You Owe the IRS',
-    description:
-      'Understanding the IRS collection process from initial notice through enforced collection, and what your rights are at each stage.',
-    readTime: '10 min read',
-    category: 'basics',
-    categoryLabel: 'Tax Basics',
-  },
-  {
-    slug: 'how-to-read-your-irs-transcript',
-    title: 'How to Read Your IRS Transcript',
-    description:
-      'Decode transaction codes, understand assessment dates, and learn how to extract the critical information from your account transcript.',
-    readTime: '15 min read',
-    category: 'forms',
-    categoryLabel: 'Forms Guide',
-  },
-  {
-    slug: 'csed-tax-debt-expiration',
-    title: 'CSED: Your Tax Debt Has an Expiration Date',
-    description:
-      'The Collection Statute Expiration Date gives the IRS 10 years to collect. Learn how it works, what extends it, and how it affects your strategy.',
-    readTime: '7 min read',
-    category: 'basics',
-    categoryLabel: 'Tax Basics',
-  },
-  {
-    slug: 'understanding-cp2000-notice',
-    title: 'Understanding the CP2000 Notice',
-    description:
-      'What to do when you receive a CP2000 notice for unreported income, how to respond, and common mistakes to avoid.',
-    readTime: '6 min read',
-    category: 'notices',
-    categoryLabel: 'IRS Notices',
-  },
-  {
-    slug: 'currently-not-collectible',
-    title: 'Currently Not Collectible (CNC) Status',
-    description:
-      'When you can\'t afford to pay the IRS anything, CNC status may pause collection. Learn the qualifications and implications.',
-    readTime: '9 min read',
-    category: 'resolution',
-    categoryLabel: 'Resolution Options',
-  },
-  {
-    slug: 'irs-form-9465-guide',
-    title: 'IRS Form 9465: Payment Plan Request',
-    description:
-      'Step-by-step guide to completing Form 9465 and requesting an installment agreement with the IRS.',
-    readTime: '11 min read',
-    category: 'forms',
-    categoryLabel: 'Forms Guide',
-  },
+  { slug: 'oic-explained', title: 'What is an Offer in Compromise?', readTime: '5 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-handshake', iconColor: 'text-[#0A1628]', thumbBg: 'bg-[#EFF4FF]', tagBg: 'bg-[#EFF4FF]', tagColor: 'text-[#0A1628]' },
+  { slug: 'installment-agreements', title: 'Installment Agreement Types Explained', readTime: '7 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-calendar-check', iconColor: 'text-[#00A651]', thumbBg: 'bg-[#E6F9EE]', tagBg: 'bg-[#E6F9EE]', tagColor: 'text-[#00A651]' },
+  { slug: 'transaction-codes', title: 'Understanding IRS Transaction Codes', readTime: '10 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-code', iconColor: 'text-[#7C3AED]', thumbBg: 'bg-[#F5F0FF]', tagBg: 'bg-[#EEF2FF]', tagColor: 'text-[#4F46E5]' },
+  { slug: 'csed-expiration', title: 'CSED: When Does Your Tax Debt Expire?', readTime: '6 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-hourglass-half', iconColor: 'text-[#D97706]', thumbBg: 'bg-[#FEF3C7]', tagBg: 'bg-[#FEF3C7]', tagColor: 'text-[#D97706]' },
+  { slug: 'penalty-abatement', title: 'Penalty Abatement: FTA vs Reasonable Cause', readTime: '4 min read', category: 'tips', categoryLabel: 'Tips', icon: 'fa-eraser', iconColor: 'text-[#E63946]', thumbBg: 'bg-[#FFF0F1]', tagBg: 'bg-[#FFF0F1]', tagColor: 'text-[#E63946]' },
 ]
-
-const CATEGORY_COLORS: Record<string, string> = {
-  resolution: 'bg-blue-500/10 text-blue-400',
-  notices: 'bg-amber-500/10 text-amber-400',
-  basics: 'bg-emerald-500/10 text-emerald-400',
-  forms: 'bg-purple-500/10 text-purple-400',
-}
 
 export default function LearnPage() {
   const [activeCategory, setActiveCategory] = useState<Category>('all')
 
   const filteredArticles =
-    activeCategory === 'all'
-      ? ARTICLES
-      : ARTICLES.filter((a) => a.category === activeCategory)
+    activeCategory === 'all' ? ARTICLES : ARTICLES.filter((a) => a.category === activeCategory)
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="mx-auto max-w-5xl space-y-8">
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">Learn</h1>
-          <p className="mt-1 text-[var(--muted-foreground)]">
-            Educational resources to help you understand tax resolution.
-          </p>
+        <div className="flex items-center justify-between px-5 py-3.5">
+          <h1 className="text-[1.2rem] font-extrabold text-[#0A1628]">Learn</h1>
+          <button className="flex h-10 w-10 items-center justify-center rounded-xl text-[#0A1628]">
+            <i className="fas fa-magnifying-glass text-base" />
+          </button>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat.key}
-              onClick={() => setActiveCategory(cat.key)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                activeCategory === cat.key
-                  ? 'bg-[var(--primary)] text-white'
-                  : 'border border-[var(--border)] bg-[var(--card)] text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
+        <div className="flex flex-col gap-[18px] px-5 pb-8">
+          {/* Featured Article */}
+          <div className="relative cursor-pointer overflow-hidden rounded-[20px] bg-[#0A1628] p-6 transition hover:-translate-y-0.5">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/[0.08]" />
+            <div className="pointer-events-none absolute -bottom-[30px] -left-[30px] h-[120px] w-[120px] rounded-full bg-white/[0.05]" />
+            <div className="relative z-10">
+              <span className="mb-3.5 inline-flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[0.62rem] font-semibold text-white/90">
+                <i className="fas fa-star text-[8px]" /> FEATURED
+              </span>
+              <div className="mb-2.5 text-[1.1rem] font-extrabold leading-tight text-white">
+                Understanding IRS Tax Debt: Your Complete Guide
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="flex items-center gap-1 text-[0.7rem] font-medium text-white/70">
+                  <i className="far fa-clock text-[10px]" /> 12 min read
+                </span>
+                <span className="rounded-full bg-white/[0.15] px-2 py-0.5 text-[0.62rem] font-semibold text-white/90">
+                  Tax Basics
+                </span>
+              </div>
+            </div>
+          </div>
 
-        {/* Article Grid */}
-        <div className="grid gap-4 sm:grid-cols-2">
-          {filteredArticles.map((article) => (
-            <Link
-              key={article.slug}
-              href={`/learn/${article.slug}`}
-              className="group rounded-xl border border-[var(--border)] bg-[var(--card)] p-6 transition hover:border-[var(--muted-foreground)]"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`rounded-full px-3 py-1 text-xs font-medium ${
-                      CATEGORY_COLORS[article.category] || ''
-                    }`}
-                  >
-                    {article.categoryLabel}
-                  </span>
-                  <span className="text-xs text-[var(--muted-foreground)]">
-                    {article.readTime}
-                  </span>
+          {/* Category Chips */}
+          <div className="flex gap-2 overflow-x-auto pb-1">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.key}
+                onClick={() => setActiveCategory(cat.key)}
+                className={`shrink-0 rounded-full px-4 py-[7px] text-[0.72rem] font-semibold transition ${
+                  activeCategory === cat.key
+                    ? 'border border-[#0A1628] bg-[#0A1628] text-white'
+                    : 'border border-[#F3F4F6] bg-white text-[#64748B] hover:border-[#0A1628] hover:bg-[#EFF4FF] hover:text-[#0A1628]'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Articles List */}
+          <div>
+            {filteredArticles.map((article, i) => (
+              <Link
+                key={article.slug}
+                href={`/learn/${article.slug}`}
+                className={`flex gap-3.5 py-3.5 no-underline transition hover:bg-[#F8FAFC] ${
+                  i < filteredArticles.length - 1 ? 'border-b border-[#F1F5F9]' : ''
+                }`}
+              >
+                <div className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-xl ${article.thumbBg}`}>
+                  <i className={`fas ${article.icon} text-[22px] ${article.iconColor}`} />
                 </div>
-                <h3 className="text-lg font-semibold group-hover:text-[var(--primary)] transition">
-                  {article.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--muted-foreground)]">
-                  {article.description}
-                </p>
-              </div>
-              <div className="mt-4 flex items-center gap-1 text-sm font-medium text-[var(--primary)]">
-                Read article
-                <svg className="h-4 w-4 transition group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </Link>
-          ))}
+                <div className="flex min-w-0 flex-1 flex-col justify-center">
+                  <div className="mb-1.5 text-[0.85rem] font-bold leading-tight text-[#1F2937]">{article.title}</div>
+                  <div className="flex items-center gap-2.5">
+                    <span className="flex items-center gap-1 text-[0.68rem] font-medium text-[#94A3B8]">
+                      <i className="far fa-clock text-[9px]" /> {article.readTime}
+                    </span>
+                    <span className={`rounded-full px-2 py-0.5 text-[0.6rem] font-semibold ${article.tagBg} ${article.tagColor}`}>
+                      {article.categoryLabel}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </div>

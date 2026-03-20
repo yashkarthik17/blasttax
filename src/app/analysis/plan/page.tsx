@@ -1,300 +1,175 @@
 'use client'
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+import { useWizard } from '@/hooks/useWizard'
 
-/* ------------------------------------------------------------------ */
-/*  Types and data                                                     */
-/* ------------------------------------------------------------------ */
+const fmt = (n: number) =>
+  n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 
-type DocStatus = 'pending' | 'complete' | 'generated'
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
 
-interface FormItem {
-  name: string
-  description: string
-  status: DocStatus
+interface ChecklistStep {
+  id: string
+  label: string
+  detail: string
+  completed: boolean
 }
 
-interface SupportingDoc {
-  name: string
-  description: string
-  status: DocStatus
-}
-
-const STATUS_CONFIG: Record<DocStatus, { label: string; color: string; bgColor: string }> = {
-  pending: { label: 'Pending', color: 'text-amber-400', bgColor: 'bg-amber-500/15' },
-  complete: { label: 'Complete', color: 'text-emerald-400', bgColor: 'bg-emerald-500/15' },
-  generated: { label: 'Generated', color: 'text-blue-400', bgColor: 'bg-blue-500/15' },
-}
-
-// Sample data — would come from context/API based on selected resolution
-const RESOLUTION_DATA = {
-  type: 'oic' as const,
-  label: 'Offer in Compromise',
-  rcp: {
-    nre: 13700,
-    mdiMonthly: 141,
-    multiplier: 12,
-    total: 15392,
-    offerAmount: 15392,
-  },
-  forms: [
-    { name: 'Form 656', description: 'Offer in Compromise application', status: 'generated' as DocStatus },
-    { name: 'Form 433-A (OIC)', description: 'Collection Information Statement for Individuals', status: 'generated' as DocStatus },
-    { name: 'Form 656-L', description: 'Offer in Compromise (Lump Sum)', status: 'pending' as DocStatus },
-  ] satisfies FormItem[],
-  supportingDocs: [
-    { name: 'Last 3 months bank statements', description: 'All personal and business bank accounts', status: 'pending' as DocStatus },
-    { name: 'Last 3 months pay stubs', description: 'Most recent pay stubs or proof of income', status: 'complete' as DocStatus },
-    { name: 'Property valuation', description: 'Zillow estimate or recent appraisal for owned property', status: 'pending' as DocStatus },
-    { name: 'Vehicle valuation', description: 'KBB or NADA valuation for each vehicle owned', status: 'complete' as DocStatus },
-    { name: 'Retirement account statements', description: 'Most recent statements for 401(k), IRA, etc.', status: 'pending' as DocStatus },
-    { name: 'Monthly expense documentation', description: 'Utility bills, rent/mortgage statements, insurance', status: 'pending' as DocStatus },
-    { name: '$205 application fee', description: 'Non-refundable OIC application fee (or Form 656-A for Low Income Certification)', status: 'pending' as DocStatus },
-    { name: 'Initial payment', description: '20% of offer amount ($3,078) with submission OR monthly payments while pending', status: 'pending' as DocStatus },
-  ] satisfies SupportingDoc[],
-  timeline: '6-18 months for IRS decision',
-  mailingAddress: {
-    state: 'NY', // Would determine Brookhaven vs Memphis
-    center: 'Brookhaven',
-    address: [
-      'IRS - COIC Unit',
-      'P.O. Box 9007',
-      'Holtsville, NY 11742-9007',
-    ],
-  },
-}
-
-// Mailing addresses based on state
-const OIC_ADDRESSES: Record<string, { center: string; address: string[] }> = {
-  brookhaven: {
-    center: 'Brookhaven',
-    address: ['IRS - COIC Unit', 'P.O. Box 9007', 'Holtsville, NY 11742-9007'],
-  },
-  memphis: {
-    center: 'Memphis',
-    address: ['IRS - COIC Unit', 'P.O. Box 30803, AMC', 'Memphis, TN 38130-0803'],
-  },
-}
-
-/* ------------------------------------------------------------------ */
-/*  Page Component                                                     */
-/* ------------------------------------------------------------------ */
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
 
 export default function PlanPage() {
-  const [data] = useState(RESOLUTION_DATA)
+  const router = useRouter()
+  const answers = useWizard((s) => s.answers)
+  const result = answers.calculationResult as {
+    rcp?: { nre: number; rcpLumpSum: number }
+    mdi?: { mdi: number }
+    totalDebt?: number
+  } | undefined
 
-  const completeForms = data.forms.filter((f) => f.status !== 'pending').length
-  const completeDocs = data.supportingDocs.filter((d) => d.status === 'complete').length
+  const totalDebt = result?.totalDebt ?? 47250
+  const rcp = result?.rcp?.rcpLumpSum ?? 8500
+  const mdi = result?.mdi?.mdi ?? 0
+  const downPayment = Math.round(rcp * 0.2)
+
+  const [steps, setSteps] = useState<ChecklistStep[]>([
+    { id: '1', label: 'Complete Form 656 (OIC Application)', detail: 'Main application form for Offer in Compromise.', completed: true },
+    { id: '2', label: 'Complete Form 433-A(OIC) (Financial Statement)', detail: 'Detailed financial statement required for OIC processing.', completed: true },
+    { id: '3', label: 'Gather supporting documents', detail: 'Bank statements, pay stubs, tax returns, and asset documentation from the last 3 months.', completed: false },
+    { id: '4', label: 'Pay $205 application fee', detail: 'Non-refundable fee paid to the IRS. May be waived for low-income applicants (Form 656-A).', completed: false },
+    { id: '5', label: `Submit 20% initial payment (${fmt(downPayment)})`, detail: 'Required with lump sum offers. This payment is applied to your tax liability if the offer is accepted.', completed: false },
+    { id: '6', label: 'Submit to IRS', detail: "We'll compile everything and submit your complete OIC package to the IRS on your behalf.", completed: false },
+  ])
+
+  const [expandedSteps, setExpandedSteps] = useState<Record<string, boolean>>({})
+
+  const completedCount = steps.filter(s => s.completed).length
+  const totalSteps = steps.length
+  const progressPct = Math.round((completedCount / totalSteps) * 100)
+  const circumference = 2 * Math.PI * 18
+  const strokeDashoffset = circumference - (progressPct / 100) * circumference
+
+  function toggleCheck(id: string) {
+    setSteps(prev => prev.map(s => s.id === id ? { ...s, completed: !s.completed } : s))
+  }
+
+  function toggleExpand(id: string) {
+    setExpandedSteps(prev => ({ ...prev, [id]: !prev[id] }))
+  }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/analysis/results"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Results
-        </Link>
-
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md px-5 pb-8">
         {/* Header */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Resolution Plan</h1>
-              <p className="mt-1 text-sm text-zinc-400">Your personalized action plan for resolving your tax debt</p>
+        <div className="flex items-center gap-3 pt-4 pb-3">
+          <button onClick={() => router.back()} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#F3F4F6] bg-[#F8FAFC] transition-all hover:border-[#2563EB]">
+            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
+          </button>
+          <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Your Action Plan</div>
+          <div className="w-9 shrink-0" />
+        </div>
+
+        {/* Hero Card */}
+        <div className="relative overflow-hidden rounded-[20px] bg-[#0A1628] p-6">
+          <div className="mb-3.5 inline-flex items-center gap-1.5 rounded-full bg-white/[0.15] px-2.5 py-1 text-[0.65rem] font-semibold text-white">
+            <i className="fa-solid fa-star text-[8px]" /> RECOMMENDED
+          </div>
+          <div className="text-[1.1rem] font-extrabold text-white mb-1.5">Offer in Compromise</div>
+          <div className="text-[0.82rem] font-medium text-white/75 mb-4">Lump Sum Payment Option</div>
+          <div className="mb-2 flex items-baseline gap-2">
+            <div className="text-[2rem] font-black leading-none tracking-tight text-white">{fmt(rcp)}</div>
+            <div className="text-[0.75rem] font-medium text-white/60">offer amount</div>
+          </div>
+          <div className="rounded-xl border border-white/[0.12] bg-white/10 px-3.5 py-2.5">
+            <div className="text-[0.78rem] font-medium leading-snug text-white/90">
+              <i className="fa-solid fa-info-circle mr-1 text-[10px]" />
+              20% down ({fmt(downPayment)}) + remaining within 5 months
             </div>
-            <span className="inline-flex items-center rounded-full bg-blue-500/15 px-4 py-1.5 text-sm font-semibold text-blue-400">
-              {data.label}
-            </span>
           </div>
         </div>
 
-        {/* RCP Breakdown */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">RCP Breakdown</h2>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <div>
-                <p className="text-sm text-zinc-400">Net Realizable Equity (NRE)</p>
-                <p className="text-xs text-zinc-500">Total equity in all assets at quick sale value</p>
-              </div>
-              <span className="font-mono font-semibold text-white">${data.rcp.nre.toLocaleString()}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <div>
-                <p className="text-sm text-zinc-400">Monthly Disposable Income (MDI)</p>
-                <p className="text-xs text-zinc-500">Income minus allowable expenses</p>
-              </div>
-              <span className="font-mono font-semibold text-white">${data.rcp.mdiMonthly}/mo</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <div>
-                <p className="text-sm text-zinc-400">Future Income (MDI x {data.rcp.multiplier})</p>
-                <p className="text-xs text-zinc-500">Lump sum = 12 months, Periodic = 24 months</p>
-              </div>
-              <span className="font-mono font-semibold text-white">${(data.rcp.mdiMonthly * data.rcp.multiplier).toLocaleString()}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-blue-500/20 bg-blue-500/5 px-4 py-4">
-              <div>
-                <p className="text-sm font-semibold text-white">Reasonable Collection Potential (RCP)</p>
-                <p className="text-xs text-blue-400">This is your minimum offer amount</p>
-              </div>
-              <span className="font-mono text-xl font-bold text-blue-400">${data.rcp.total.toLocaleString()}</span>
-            </div>
+        {/* Progress Summary */}
+        <div className="mt-4 flex items-center gap-3 rounded-[14px] border border-[#F3F4F6] bg-white p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="flex-1">
+            <div className="text-[0.82rem] font-bold text-[#0A1628]">{completedCount} of {totalSteps} steps complete</div>
+            <div className="mt-0.5 text-[0.72rem] text-[#94A3B8]">{"Keep going, you're making progress!"}</div>
           </div>
-          <Link
-            href="/analysis/methodology"
-            className="mt-4 inline-flex items-center gap-1 text-sm text-blue-400 hover:text-blue-300 transition"
-          >
-            View full calculation methodology
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="9 18 15 12 9 6" />
+          <div className="relative h-11 w-11">
+            <svg width="44" height="44" viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)' }}>
+              <circle cx="22" cy="22" r="18" fill="none" stroke="#F1F5F9" strokeWidth="4" />
+              <circle cx="22" cy="22" r="18" fill="none" stroke="#00A651" strokeWidth="4" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} />
             </svg>
-          </Link>
+            <div className="absolute inset-0 flex items-center justify-center text-[0.7rem] font-extrabold text-[#00A651]">{progressPct}%</div>
+          </div>
         </div>
 
-        {/* Required Forms Checklist */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white">Required Forms</h2>
-            <span className="text-sm text-zinc-400">{completeForms}/{data.forms.length} ready</span>
-          </div>
-          <div className="space-y-3">
-            {data.forms.map((form) => {
-              const config = STATUS_CONFIG[form.status]
+        {/* Checklist */}
+        <div className="mt-4">
+          <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">Required Steps</div>
+          <div className="overflow-hidden rounded-[20px] border border-[#F3F4F6] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            {steps.map((step) => {
+              const isExpanded = expandedSteps[step.id] && !step.completed
               return (
-                <div key={form.name} className="flex items-center justify-between rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                  <div className="flex items-center gap-3">
-                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${form.status === 'pending' ? 'bg-zinc-800' : 'bg-blue-500/15'}`}>
-                      {form.status === 'pending' ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
-                        </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><polyline points="16 13 12 17 8 13" />
-                        </svg>
+                <div key={step.id} className="border-b border-[#F1F5F9] last:border-b-0">
+                  <div className="flex items-start gap-3 px-4 py-4">
+                    {/* Checkbox */}
+                    <button
+                      onClick={() => toggleCheck(step.id)}
+                      className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 transition-all ${
+                        step.completed
+                          ? 'border-[#00A651] bg-[#00A651]'
+                          : 'border-[#D5D5E0] bg-white'
+                      }`}
+                    >
+                      {step.completed && <i className="fa-solid fa-check text-[11px] text-white" />}
+                    </button>
+
+                    {/* Label */}
+                    <div className="flex-1" onClick={() => !step.completed && toggleExpand(step.id)} style={{ cursor: step.completed ? 'default' : 'pointer' }}>
+                      <div className={`text-[0.82rem] font-semibold transition-all ${step.completed ? 'text-[#94A3B8] line-through' : 'text-[#0A1628]'}`}>
+                        {step.label}
+                      </div>
+                      {step.completed && (
+                        <div className="mt-0.5 text-[0.7rem] font-medium text-[#00A651]">
+                          <i className="fa-solid fa-check-circle mr-0.5 text-[9px]" /> Completed
+                        </div>
+                      )}
+                      {isExpanded && (
+                        <div className="mt-2 text-[0.72rem] leading-snug text-[#94A3B8]">{step.detail}</div>
                       )}
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold text-white">{form.name}</p>
-                      <p className="text-xs text-zinc-500">{form.description}</p>
-                    </div>
-                  </div>
-                  <span className={`rounded-full px-3 py-0.5 text-xs font-semibold ${config.bgColor} ${config.color}`}>
-                    {config.label}
-                  </span>
-                </div>
-              )
-            })}
-          </div>
-        </div>
 
-        {/* Supporting Documents Checklist */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-white">Supporting Documents</h2>
-            <span className="text-sm text-zinc-400">{completeDocs}/{data.supportingDocs.length} collected</span>
-          </div>
-          {/* Progress bar */}
-          <div className="mb-4 h-2 w-full overflow-hidden rounded-full bg-zinc-800">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all"
-              style={{ width: `${(completeDocs / data.supportingDocs.length) * 100}%` }}
-            />
-          </div>
-          <div className="space-y-2">
-            {data.supportingDocs.map((doc) => {
-              const config = STATUS_CONFIG[doc.status]
-              return (
-                <div key={doc.name} className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-                  <div className="flex items-center gap-3">
-                    {doc.status === 'complete' ? (
-                      <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
-                      </div>
-                    ) : (
-                      <div className="h-5 w-5 rounded-full border-2 border-zinc-600" />
+                    {/* Chevron */}
+                    {!step.completed && (
+                      <button onClick={() => toggleExpand(step.id)} className="mt-1">
+                        <i className={`fa-solid fa-chevron-down text-[10px] text-[#CBD5E1] transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
+                      </button>
                     )}
-                    <div>
-                      <p className="text-sm text-white">{doc.name}</p>
-                      <p className="text-xs text-zinc-500">{doc.description}</p>
-                    </div>
                   </div>
-                  <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-semibold ${config.bgColor} ${config.color}`}>
-                    {config.label}
-                  </span>
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* Timeline Estimate */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-2">Timeline Estimate</h2>
-          <div className="flex items-center gap-3 rounded-xl bg-[#09090b] border border-[#27272a] p-4">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-                <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-white">Expected Processing Time</p>
-              <p className="text-sm text-zinc-400">{data.timeline}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Mailing Instructions */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-2">Mailing Instructions</h2>
-          <p className="text-sm text-zinc-400 mb-4">
-            Based on your state of residence ({data.mailingAddress.state}), mail your OIC package to the <span className="font-semibold text-white">{data.mailingAddress.center}</span> COIC Unit:
-          </p>
-          <div className="rounded-xl bg-[#09090b] border border-[#27272a] p-5">
-            {data.mailingAddress.address.map((line, i) => (
-              <p key={i} className="font-mono text-sm text-zinc-300">{line}</p>
-            ))}
-          </div>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-              <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1">East of Mississippi</p>
-              <p className="text-xs text-zinc-400">Brookhaven, NY</p>
-            </div>
-            <div className="rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-              <p className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-1">West of Mississippi</p>
-              <p className="text-xs text-zinc-400">Memphis, TN</p>
-            </div>
-          </div>
-          <div className="mt-4 rounded-lg bg-amber-500/5 border border-amber-500/20 p-3">
-            <p className="text-xs text-amber-400">
-              <span className="font-semibold">Tip:</span> Send via USPS Certified Mail with Return Receipt Requested. Keep a complete copy of everything you submit.
-            </p>
-          </div>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="space-y-3 pb-8">
-          <Link
-            href="/forms/oic"
-            className="block w-full rounded-xl bg-blue-600 py-4 text-center text-lg font-semibold text-white transition-colors hover:bg-blue-500 active:bg-blue-700"
+        {/* CTA Buttons */}
+        <div className="mt-5 flex flex-col gap-3">
+          <button
+            onClick={() => router.push('/forms/form-656')}
+            className="rounded-full bg-[#00A651] px-6 py-4 text-center text-[0.88rem] font-bold text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5"
           >
-            Proceed to Forms
-          </Link>
-          <Link
-            href="/analysis/results"
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
+            <i className="fa-solid fa-file-pen mr-2" /> Begin Form 656
+          </button>
+          <button
+            onClick={() => router.push('/expert')}
+            className="rounded-full border-[1.5px] border-[#F3F4F6] bg-white px-6 py-3.5 text-center text-[0.85rem] font-semibold text-[#64748B]"
           >
-            Change Resolution
-          </Link>
+            <i className="fa-solid fa-headset mr-1.5 text-[#0A1628]" /> Talk to an expert first
+          </button>
         </div>
       </div>
     </div>

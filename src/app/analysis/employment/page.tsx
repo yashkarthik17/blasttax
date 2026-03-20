@@ -3,306 +3,48 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
-import FormScreen from '@/components/wizard/FormScreen'
 
-type EmploymentStatus = 'Employed' | 'Self-Employed' | 'Unemployed' | 'Retired'
-type PayFrequency = 'Weekly' | 'Biweekly' | 'SemiMonthly' | 'Monthly'
+const US_STATES = [
+  'AL','AK','AZ','AR','CA','CO','CT','DE','DC','FL','GA','HI','ID','IL','IN',
+  'IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH',
+  'NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT',
+  'VT','VA','WA','WV','WI','WY',
+]
 
-interface Employer {
-  id: string
-  employerName: string
-  street: string
-  city: string
-  state: string
-  zip: string
-  occupation: string
-  howLong: string
-  payFrequency: PayFrequency
-}
-
-interface SelfEmployment {
-  businessName: string
-  businessType: string
-  ein: string
-}
+type PayFrequency = 'Weekly' | 'Bi-weekly' | 'Semi-monthly' | 'Monthly'
 
 interface EmploymentData {
-  status: EmploymentStatus | ''
-  employers: Employer[]
-  selfEmployment: SelfEmployment
-  spouseStatus: EmploymentStatus | ''
-  spouseEmployers: Employer[]
-  spouseSelfEmployment: SelfEmployment
+  employerName: string; employerStreet: string; employerCity: string; employerState: string; employerZip: string
+  employerPhone: string; yearsEmployed: string; monthsEmployed: string; payFrequency: PayFrequency; occupation: string
+  spouseEmployed: boolean; spouseEmployerName: string; spouseEmployerAddress: string; spouseEmployerPhone: string
+  spouseHowLong: string; spousePayFrequency: string; spouseOccupation: string
+  selfEmployed: boolean; businessName: string; businessType: string; ein: string; numEmployees: string; howLongInBusiness: string
 }
 
-const emptyEmployer = (): Employer => ({
-  id: crypto.randomUUID(),
-  employerName: '',
-  street: '',
-  city: '',
-  state: '',
-  zip: '',
-  occupation: '',
-  howLong: '',
-  payFrequency: 'Biweekly',
-})
-
-const emptySelfEmployment: SelfEmployment = {
-  businessName: '',
-  businessType: '',
-  ein: '',
+const initial: EmploymentData = {
+  employerName: '', employerStreet: '', employerCity: '', employerState: '', employerZip: '',
+  employerPhone: '', yearsEmployed: '', monthsEmployed: '', payFrequency: 'Bi-weekly', occupation: '',
+  spouseEmployed: false, spouseEmployerName: '', spouseEmployerAddress: '', spouseEmployerPhone: '',
+  spouseHowLong: '', spousePayFrequency: '', spouseOccupation: '',
+  selfEmployed: false, businessName: '', businessType: '', ein: '', numEmployees: '', howLongInBusiness: '',
 }
 
-const initialData: EmploymentData = {
-  status: '',
-  employers: [emptyEmployer()],
-  selfEmployment: { ...emptySelfEmployment },
-  spouseStatus: '',
-  spouseEmployers: [emptyEmployer()],
-  spouseSelfEmployment: { ...emptySelfEmployment },
-}
-
-const inputClass =
-  'w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-3 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500'
-const labelClass = 'mb-1.5 block text-sm font-medium text-zinc-300'
-const cardClass = 'rounded-2xl border border-zinc-800 bg-zinc-900 p-6'
-const pillClass = (active: boolean) =>
-  `flex-1 rounded-xl border px-4 py-3 text-center text-sm font-medium transition-all cursor-pointer ${
-    active
-      ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
-      : 'border-zinc-700 bg-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-300'
-  }`
-
-const PAY_FREQUENCIES: PayFrequency[] = ['Weekly', 'Biweekly', 'SemiMonthly', 'Monthly']
-const STATUSES: EmploymentStatus[] = ['Employed', 'Self-Employed', 'Unemployed', 'Retired']
-
-function EmployerForm({
-  employer,
-  index,
-  onChange,
-  onRemove,
-  canRemove,
-  idPrefix,
-}: {
-  employer: Employer
-  index: number
-  onChange: (updated: Employer) => void
-  onRemove: () => void
-  canRemove: boolean
-  idPrefix: string
-}) {
-  function update(field: keyof Employer, value: string) {
-    onChange({ ...employer, [field]: value })
-  }
-
-  return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-800/50 p-5">
-      <div className="mb-4 flex items-center justify-between">
-        <h4 className="text-sm font-semibold text-zinc-300">
-          {index === 0 ? 'Primary Employer' : `Employer ${index + 1}`}
-        </h4>
-        {canRemove && (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="text-xs text-red-400 transition-colors hover:text-red-300"
-          >
-            Remove
-          </button>
-        )}
-      </div>
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <div>
-            <label htmlFor={`${idPrefix}-name-${index}`} className={labelClass}>Employer Name *</label>
-            <input
-              id={`${idPrefix}-name-${index}`}
-              type="text"
-              value={employer.employerName}
-              onChange={(e) => update('employerName', e.target.value)}
-              placeholder="Acme Corporation"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`${idPrefix}-occ-${index}`} className={labelClass}>Occupation *</label>
-            <input
-              id={`${idPrefix}-occ-${index}`}
-              type="text"
-              value={employer.occupation}
-              onChange={(e) => update('occupation', e.target.value)}
-              placeholder="Software Engineer"
-              className={inputClass}
-            />
-          </div>
-        </div>
-        <div>
-          <label htmlFor={`${idPrefix}-street-${index}`} className={labelClass}>Employer Address</label>
-          <input
-            id={`${idPrefix}-street-${index}`}
-            type="text"
-            value={employer.street}
-            onChange={(e) => update('street', e.target.value)}
-            placeholder="100 Corporate Blvd, Suite 200"
-            className={inputClass}
-          />
-        </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div>
-            <label htmlFor={`${idPrefix}-city-${index}`} className={labelClass}>City</label>
-            <input
-              id={`${idPrefix}-city-${index}`}
-              type="text"
-              value={employer.city}
-              onChange={(e) => update('city', e.target.value)}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`${idPrefix}-state-${index}`} className={labelClass}>State</label>
-            <input
-              id={`${idPrefix}-state-${index}`}
-              type="text"
-              maxLength={2}
-              value={employer.state}
-              onChange={(e) => update('state', e.target.value.toUpperCase())}
-              placeholder="TX"
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`${idPrefix}-zip-${index}`} className={labelClass}>ZIP</label>
-            <input
-              id={`${idPrefix}-zip-${index}`}
-              type="text"
-              inputMode="numeric"
-              maxLength={5}
-              value={employer.zip}
-              onChange={(e) => update('zip', e.target.value.replace(/\D/g, '').slice(0, 5))}
-              className={inputClass}
-            />
-          </div>
-          <div>
-            <label htmlFor={`${idPrefix}-long-${index}`} className={labelClass}>How Long</label>
-            <input
-              id={`${idPrefix}-long-${index}`}
-              type="text"
-              value={employer.howLong}
-              onChange={(e) => update('howLong', e.target.value)}
-              placeholder="3 years"
-              className={inputClass}
-            />
-          </div>
-        </div>
-        <div>
-          <label className={labelClass}>Pay Frequency *</label>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {PAY_FREQUENCIES.map((freq) => (
-              <button
-                key={freq}
-                type="button"
-                onClick={() => update('payFrequency', freq)}
-                className={pillClass(employer.payFrequency === freq)}
-              >
-                {freq === 'SemiMonthly' ? 'Semi-Monthly' : freq}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function SelfEmploymentForm({
-  data,
-  onChange,
-  idPrefix,
-}: {
-  data: SelfEmployment
-  onChange: (updated: SelfEmployment) => void
-  idPrefix: string
-}) {
-  return (
-    <div className="rounded-xl border border-zinc-700/50 bg-zinc-800/50 p-5">
-      <h4 className="mb-4 text-sm font-semibold text-zinc-300">Self-Employment Details</h4>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <div>
-          <label htmlFor={`${idPrefix}-bizname`} className={labelClass}>Business Name *</label>
-          <input
-            id={`${idPrefix}-bizname`}
-            type="text"
-            value={data.businessName}
-            onChange={(e) => onChange({ ...data, businessName: e.target.value })}
-            placeholder="Doe Consulting LLC"
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`${idPrefix}-biztype`} className={labelClass}>Business Type *</label>
-          <input
-            id={`${idPrefix}-biztype`}
-            type="text"
-            value={data.businessType}
-            onChange={(e) => onChange({ ...data, businessType: e.target.value })}
-            placeholder="LLC, Sole Prop, etc."
-            className={inputClass}
-          />
-        </div>
-        <div>
-          <label htmlFor={`${idPrefix}-ein`} className={labelClass}>EIN</label>
-          <input
-            id={`${idPrefix}-ein`}
-            type="text"
-            value={data.ein}
-            onChange={(e) => onChange({ ...data, ein: e.target.value })}
-            placeholder="XX-XXXXXXX"
-            className={inputClass}
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
+const inputClass = 'w-full rounded-xl border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-3.5 py-3 text-[0.85rem] font-semibold text-[#0A1628] outline-none transition-all placeholder:font-normal placeholder:text-[#CBD5E1] focus:border-[#0A1628] focus:bg-white focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
+const labelClass = 'mb-1.5 block text-[0.72rem] font-semibold text-[#64748B]'
+const selectClass = inputClass + ' appearance-none bg-[url("data:image/svg+xml,%3Csvg%20width%3D%2712%27%20height%3D%278%27%20fill%3D%27none%27%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%3E%3Cpath%20d%3D%27M1%201.5L6%206.5L11%201.5%27%20stroke%3D%27%238585A0%27%20stroke-width%3D%271.5%27%20stroke-linecap%3D%27round%27%20stroke-linejoin%3D%27round%27%2F%3E%3C%2Fsvg%3E")] bg-[right_12px_center] bg-no-repeat pr-8'
+const PAY_FREQS: PayFrequency[] = ['Weekly', 'Bi-weekly', 'Semi-monthly', 'Monthly']
 
 export default function EmploymentPage() {
   const router = useRouter()
   const { answers, setAnswers } = useWizard()
-  const isMarried = answers.filingStatus === 'MFJ' || answers.filingStatus === 'MFS'
-
   const [form, setForm] = useState<EmploymentData>(() => ({
-    ...initialData,
+    ...initial,
     ...(answers.employment ?? {}),
   }))
 
-  function updateEmployer(list: 'employers' | 'spouseEmployers', index: number, updated: Employer) {
-    setForm((prev) => {
-      const arr = [...prev[list]]
-      arr[index] = updated
-      return { ...prev, [list]: arr }
-    })
+  function update<K extends keyof EmploymentData>(field: K, value: EmploymentData[K]) {
+    setForm((prev) => ({ ...prev, [field]: value }))
   }
-
-  function removeEmployer(list: 'employers' | 'spouseEmployers', index: number) {
-    setForm((prev) => ({
-      ...prev,
-      [list]: prev[list].filter((_, i) => i !== index),
-    }))
-  }
-
-  function addEmployer(list: 'employers' | 'spouseEmployers') {
-    setForm((prev) => ({
-      ...prev,
-      [list]: [...prev[list], emptyEmployer()],
-    }))
-  }
-
-  const isValid =
-    form.status !== '' &&
-    (form.status === 'Unemployed' ||
-      form.status === 'Retired' ||
-      (form.status === 'Employed' && form.employers[0]?.employerName.trim() !== '') ||
-      (form.status === 'Self-Employed' && form.selfEmployment.businessName.trim() !== ''))
 
   function handleNext() {
     setAnswers({ employment: form })
@@ -310,132 +52,249 @@ export default function EmploymentPage() {
   }
 
   return (
-    <FormScreen
-      title="Employment Information"
-      description="Tell us about your current employment. This information is required for IRS Form 433-A, Section 2."
-      onNext={handleNext}
-      onBack={() => router.push('/analysis/personal-info')}
-      isValid={isValid}
-    >
-      {/* Taxpayer Employment Status */}
-      <div className={cardClass}>
-        <h3 className="mb-4 text-lg font-semibold text-white">Your Employment Status</h3>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {STATUSES.map((status) => (
-            <button
-              key={status}
-              type="button"
-              onClick={() => setForm((prev) => ({ ...prev, status }))}
-              className={pillClass(form.status === status)}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Employed - Employer Details */}
-      {form.status === 'Employed' && (
-        <div className={cardClass}>
-          <h3 className="mb-4 text-lg font-semibold text-white">Employer Details</h3>
-          <div className="space-y-4">
-            {form.employers.map((employer, i) => (
-              <EmployerForm
-                key={employer.id}
-                employer={employer}
-                index={i}
-                onChange={(updated) => updateEmployer('employers', i, updated)}
-                onRemove={() => removeEmployer('employers', i)}
-                canRemove={form.employers.length > 1}
-                idPrefix="tp"
-              />
-            ))}
-            <button
-              type="button"
-              onClick={() => addEmployer('employers')}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-700 py-3 text-sm font-medium text-zinc-400 transition-colors hover:border-emerald-500/50 hover:text-emerald-400"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 5v14" /><path d="M5 12h14" />
-              </svg>
-              Add Another Employer
-            </button>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Progress */}
+        <div className="px-5">
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
+            <div className="h-full w-[40%] rounded-full bg-[#00A651]" />
+          </div>
+          <div className="mt-2.5 flex items-center justify-between">
+            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 6</span>
+            <span className="text-xs font-semibold text-[#2563EB]">Employment Info</span>
           </div>
         </div>
-      )}
 
-      {/* Self-Employed Details */}
-      {form.status === 'Self-Employed' && (
-        <div className={cardClass}>
-          <h3 className="mb-4 text-lg font-semibold text-white">Self-Employment Details</h3>
-          <SelfEmploymentForm
-            data={form.selfEmployment}
-            onChange={(updated) => setForm((prev) => ({ ...prev, selfEmployment: updated }))}
-            idPrefix="tp-se"
-          />
-        </div>
-      )}
+        <div className="flex flex-col gap-3.5 px-5 pb-5 pt-3.5">
+          {/* Heading */}
+          <div>
+            <h1 className="text-[1.3rem] font-extrabold leading-tight tracking-[-0.01em] text-[#0A1628]">
+              Employment details
+            </h1>
+            <p className="mt-1 text-[0.78rem] leading-relaxed text-[#94A3B8]">
+              Required for Form 9465, Form 433-A, and other IRS forms
+            </p>
+          </div>
 
-      {/* Spouse Employment (conditional) */}
-      {isMarried && (
-        <>
-          <div className={cardClass}>
-            <h3 className="mb-4 text-lg font-semibold text-white">Spouse Employment Status</h3>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {STATUSES.map((status) => (
-                <button
-                  key={status}
-                  type="button"
-                  onClick={() => setForm((prev) => ({ ...prev, spouseStatus: status }))}
-                  className={pillClass(form.spouseStatus === status)}
-                >
-                  {status}
-                </button>
-              ))}
+          {/* Your Employment */}
+          <div>
+            <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
+              <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#EFF4FF]">
+                <i className="fa-solid fa-user text-[9px] text-[#2563EB]" />
+              </div>
+              Your Employment
             </div>
-          </div>
 
-          {form.spouseStatus === 'Employed' && (
-            <div className={cardClass}>
-              <h3 className="mb-4 text-lg font-semibold text-white">Spouse Employer Details</h3>
-              <div className="space-y-4">
-                {form.spouseEmployers.map((employer, i) => (
-                  <EmployerForm
-                    key={employer.id}
-                    employer={employer}
-                    index={i}
-                    onChange={(updated) => updateEmployer('spouseEmployers', i, updated)}
-                    onRemove={() => removeEmployer('spouseEmployers', i)}
-                    canRemove={form.spouseEmployers.length > 1}
-                    idPrefix="sp"
-                  />
-                ))}
-                <button
-                  type="button"
-                  onClick={() => addEmployer('spouseEmployers')}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-700 py-3 text-sm font-medium text-zinc-400 transition-colors hover:border-emerald-500/50 hover:text-emerald-400"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 5v14" /><path d="M5 12h14" />
-                  </svg>
-                  Add Another Employer
-                </button>
+            <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <div className="mb-3">
+                <div className={labelClass}>Current Employer Name</div>
+                <input type="text" className={inputClass} value={form.employerName} onChange={(e) => update('employerName', e.target.value)} placeholder="Employer name" />
+              </div>
+              <div className="mb-3">
+                <div className={labelClass}>Employer Address</div>
+                <input type="text" className={inputClass} value={form.employerStreet} onChange={(e) => update('employerStreet', e.target.value)} placeholder="Street address" />
+              </div>
+              <div className="mb-3 flex gap-2.5">
+                <div className="flex-[2]">
+                  <div className={labelClass}>City</div>
+                  <input type="text" className={inputClass} value={form.employerCity} onChange={(e) => update('employerCity', e.target.value)} placeholder="City" />
+                </div>
+                <div className="w-[70px]">
+                  <div className={labelClass}>State</div>
+                  <select className={selectClass} value={form.employerState} onChange={(e) => update('employerState', e.target.value)}>
+                    <option value="">--</option>
+                    {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
+                  </select>
+                </div>
+                <div className="w-[90px]">
+                  <div className={labelClass}>ZIP</div>
+                  <input type="text" className={inputClass} value={form.employerZip} onChange={(e) => update('employerZip', e.target.value)} maxLength={10} placeholder="ZIP" />
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className={labelClass}>Employer Phone Number</div>
+                <input type="tel" className={inputClass} value={form.employerPhone} onChange={(e) => update('employerPhone', e.target.value)} placeholder="(000) 000-0000" />
+              </div>
+              <div className="mb-3">
+                <div className={labelClass}>How Long Employed</div>
+                <div className="flex items-center gap-1.5">
+                  <input type="number" className={inputClass + ' w-[60px] text-center'} value={form.yearsEmployed} onChange={(e) => update('yearsEmployed', e.target.value)} placeholder="0" />
+                  <span className="text-[0.72rem] text-[#94A3B8]">yrs</span>
+                  <input type="number" className={inputClass + ' w-[60px] text-center'} value={form.monthsEmployed} onChange={(e) => update('monthsEmployed', e.target.value)} placeholder="0" />
+                  <span className="text-[0.72rem] text-[#94A3B8]">mos</span>
+                </div>
+              </div>
+              <div className="mb-3">
+                <div className={labelClass}>Pay Frequency</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {PAY_FREQS.map((freq) => (
+                    <button
+                      key={freq}
+                      onClick={() => update('payFrequency', freq)}
+                      className={`rounded-[10px] border-[1.5px] px-3.5 py-2 text-[0.78rem] font-semibold transition-all ${
+                        form.payFrequency === freq
+                          ? 'border-[#0A1628] bg-[#EBF0FF] text-[#0A1628]'
+                          : 'border-[#F1F5F9] bg-[#F8FAFC] text-[#64748B] hover:border-[#0A1628] hover:text-[#0A1628]'
+                      }`}
+                    >
+                      {freq}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <div className={labelClass}>Occupation</div>
+                <input type="text" className={inputClass} value={form.occupation} onChange={(e) => update('occupation', e.target.value)} placeholder="Your occupation / job title" />
               </div>
             </div>
-          )}
+          </div>
 
-          {form.spouseStatus === 'Self-Employed' && (
-            <div className={cardClass}>
-              <h3 className="mb-4 text-lg font-semibold text-white">Spouse Self-Employment Details</h3>
-              <SelfEmploymentForm
-                data={form.spouseSelfEmployment}
-                onChange={(updated) => setForm((prev) => ({ ...prev, spouseSelfEmployment: updated }))}
-                idPrefix="sp-se"
-              />
+          {/* Spouse Employment Toggle */}
+          <div className="rounded-[14px] border border-[#F3F4F6] bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-[0.82rem] font-semibold text-[#0A1628]">Spouse is employed?</div>
+                <div className="text-[0.68rem] text-[#94A3B8]">If filing jointly (MFJ)</div>
+              </div>
+              <button
+                onClick={() => update('spouseEmployed', !form.spouseEmployed)}
+                className={`relative h-[22px] w-[40px] rounded-full transition-colors ${form.spouseEmployed ? 'bg-[#0A1628]' : 'bg-[#E2E8F0]'}`}
+              >
+                <div className={`absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform ${form.spouseEmployed ? 'left-[20px]' : 'left-[2px]'}`} />
+              </button>
             </div>
-          )}
-        </>
-      )}
-    </FormScreen>
+            {form.spouseEmployed && (
+              <div className="mt-3.5">
+                <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#7C3AED]">
+                  <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#F5F0FF]">
+                    <i className="fa-solid fa-user-group text-[9px] text-[#7C3AED]" />
+                  </div>
+                  Spouse Employment
+                </div>
+                <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+                  <div className="mb-3">
+                    <div className={labelClass}>Spouse&apos;s Employer Name</div>
+                    <input type="text" className={inputClass} value={form.spouseEmployerName} onChange={(e) => update('spouseEmployerName', e.target.value)} placeholder="Employer name" />
+                  </div>
+                  <div className="mb-3">
+                    <div className={labelClass}>Employer Address</div>
+                    <input type="text" className={inputClass} value={form.spouseEmployerAddress} onChange={(e) => update('spouseEmployerAddress', e.target.value)} placeholder="Street, City, State, ZIP" />
+                  </div>
+                  <div className="mb-3 flex gap-2.5">
+                    <div className="flex-1">
+                      <div className={labelClass}>Employer Phone</div>
+                      <input type="tel" className={inputClass} value={form.spouseEmployerPhone} onChange={(e) => update('spouseEmployerPhone', e.target.value)} placeholder="(000) 000-0000" />
+                    </div>
+                    <div className="flex-1">
+                      <div className={labelClass}>How Long Employed</div>
+                      <input type="text" className={inputClass} value={form.spouseHowLong} onChange={(e) => update('spouseHowLong', e.target.value)} placeholder="e.g., 2 years" />
+                    </div>
+                  </div>
+                  <div className="flex gap-2.5">
+                    <div className="flex-1">
+                      <div className={labelClass}>Pay Frequency</div>
+                      <select className={selectClass} value={form.spousePayFrequency} onChange={(e) => update('spousePayFrequency', e.target.value)}>
+                        <option value="">Select...</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="biweekly">Bi-weekly</option>
+                        <option value="semimonthly">Semi-monthly</option>
+                        <option value="monthly">Monthly</option>
+                      </select>
+                    </div>
+                    <div className="flex-1">
+                      <div className={labelClass}>Occupation</div>
+                      <input type="text" className={inputClass} value={form.spouseOccupation} onChange={(e) => update('spouseOccupation', e.target.value)} placeholder="Job title" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Self-Employment Toggle */}
+          <div className="rounded-[14px] border border-[#F3F4F6] bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-[0.82rem] font-semibold text-[#0A1628]">Self-employed?</div>
+                <div className="text-[0.68rem] text-[#94A3B8]">Business or freelance income</div>
+              </div>
+              <button
+                onClick={() => update('selfEmployed', !form.selfEmployed)}
+                className={`relative h-[22px] w-[40px] rounded-full transition-colors ${form.selfEmployed ? 'bg-[#0A1628]' : 'bg-[#E2E8F0]'}`}
+              >
+                <div className={`absolute top-[2px] h-[18px] w-[18px] rounded-full bg-white transition-transform ${form.selfEmployed ? 'left-[20px]' : 'left-[2px]'}`} />
+              </button>
+            </div>
+            {form.selfEmployed && (
+              <div className="mt-3.5">
+                <div className="mb-3 flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#D97706]">
+                  <div className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-[#FEF3C7]">
+                    <i className="fa-solid fa-store text-[9px] text-[#D97706]" />
+                  </div>
+                  Self-Employment
+                </div>
+                <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+                  <div className="mb-3">
+                    <div className={labelClass}>Business Name</div>
+                    <input type="text" className={inputClass} value={form.businessName} onChange={(e) => update('businessName', e.target.value)} placeholder="Your business name" />
+                  </div>
+                  <div className="mb-3 flex gap-2.5">
+                    <div className="flex-1">
+                      <div className={labelClass}>Business Type</div>
+                      <select className={selectClass} value={form.businessType} onChange={(e) => update('businessType', e.target.value)}>
+                        <option value="">Select...</option>
+                        <option value="sole">Sole Proprietorship</option>
+                        <option value="llc-single">LLC (Single Member)</option>
+                        <option value="llc-multi">LLC (Multi Member)</option>
+                        <option value="scorp">S-Corporation</option>
+                        <option value="partnership">Partnership</option>
+                      </select>
+                    </div>
+                    <div className="flex-1">
+                      <div className={labelClass}>EIN</div>
+                      <input type="text" className={inputClass} value={form.ein} onChange={(e) => update('ein', e.target.value)} placeholder="XX-XXXXXXX" maxLength={10} />
+                    </div>
+                  </div>
+                  <div className="flex gap-2.5">
+                    <div className="flex-1">
+                      <div className={labelClass}>Number of Employees</div>
+                      <input type="number" className={inputClass} value={form.numEmployees} onChange={(e) => update('numEmployees', e.target.value)} placeholder="0" min={0} />
+                    </div>
+                    <div className="flex-1">
+                      <div className={labelClass}>How Long in Business</div>
+                      <input type="text" className={inputClass} value={form.howLongInBusiness} onChange={(e) => update('howLongInBusiness', e.target.value)} placeholder="e.g., 5 years" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Info note */}
+          <div className="flex items-start gap-2.5 rounded-[14px] border border-[rgba(245,166,35,0.15)] bg-[#FFFBEB] px-3.5 py-3">
+            <i className="fa-solid fa-info-circle mt-0.5 shrink-0 text-xs text-[#D97706]" />
+            <div className="text-[0.72rem] leading-relaxed text-[#92400E]">
+              <strong>Required for Form 9465, Form 433-A, and Form 433-F.</strong> The IRS will return forms without employment information. Self-employment details are also needed for Form 433-B if applicable.
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex flex-col gap-3 pt-1">
+            <button
+              onClick={handleNext}
+              className="w-full rounded-full bg-[#00A651] py-4 text-[0.88rem] font-bold text-white shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+            >
+              Continue <i className="fa-solid fa-arrow-right ml-1.5 text-xs" />
+            </button>
+            <button
+              onClick={() => router.push('/analysis/personal-info')}
+              className="py-3 text-center text-[0.82rem] font-semibold text-[#94A3B8] transition-colors hover:text-[#64748B]"
+            >
+              <i className="fa-solid fa-arrow-left mr-1.5 text-[11px]" /> Back
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

@@ -1,193 +1,159 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface Program {
-  name: string
+interface ResultCard {
+  rank: number
+  recommended: boolean
+  title: string
+  amount: string
+  amountSub: string
+  amountColor: string
   description: string
-  eligible: boolean
-  tag?: string
+  confidence: number
+  confidenceLabel: string
+  confidenceColor: string
+  barColor: string
 }
 
-const PROGRAMS: Program[] = [
+const RESULTS: ResultCard[] = [
   {
-    name: 'In-Business Trust Fund Express IA',
-    description:
-      'For businesses with trust fund liability up to $25,000. Streamlined approval without full financial disclosure.',
-    eligible: true,
-    tag: 'Up to $25K',
+    rank: 1, recommended: true,
+    title: 'In-Business Trust Fund Express IA',
+    amount: '$607', amountSub: '/month for 72 months', amountColor: '#2563EB',
+    description: 'No 433-B required for trust fund balance under $25,000. Streamlined approval.',
+    confidence: 92, confidenceLabel: 'Very high', confidenceColor: '#00A651', barColor: '#00A651',
   },
   {
-    name: 'Out-of-Business Streamlined IA',
-    description:
-      'For closed businesses with total liability up to $25,000. No financial statement required.',
-    eligible: true,
-    tag: 'Up to $25K',
+    rank: 2, recommended: false,
+    title: 'Business OIC',
+    amount: '$43,700', amountSub: 'minimum offer (RCP-based)', amountColor: '#00A651',
+    description: 'Requires Form 433-B(OIC). 6-12 month process. $205 application fee.',
+    confidence: 55, confidenceLabel: 'Medium', confidenceColor: '#F59E0B', barColor: '#F59E0B',
   },
   {
-    name: 'Non-Streamlined Installment Agreement',
-    description:
-      'For larger balances requiring full financial disclosure via Form 433-B. Subject to RO review.',
-    eligible: true,
+    rank: 3, recommended: false,
+    title: 'Non-Streamlined Business IA',
+    amount: '$729', amountSub: '/month (433-B required)', amountColor: '#2563EB',
+    description: 'Full financial disclosure. Higher payment but guaranteed acceptance if compliant.',
+    confidence: 80, confidenceLabel: 'High', confidenceColor: '#00A651', barColor: '#00A651',
   },
   {
-    name: 'Business Offer in Compromise',
-    description:
-      'Settle business tax debt for less than the full amount owed based on RCP calculation.',
-    eligible: true,
-  },
-  {
-    name: 'Penalty Abatement',
-    description:
-      'Request removal of penalties based on reasonable cause or first-time abatement criteria.',
-    eligible: true,
-  },
-  {
-    name: 'Collection Due Process (CDP)',
-    description:
-      'Request a hearing if you received a Notice of Intent to Levy or Notice of Federal Tax Lien.',
-    eligible: true,
+    rank: 4, recommended: false,
+    title: 'Business Penalty Abatement',
+    amount: '$6,400', amountSub: 'in penalties', amountColor: '#00A651',
+    description: 'FTA + reasonable cause for FTF, FTP, and FTD penalties.',
+    confidence: 75, confidenceLabel: 'High', confidenceColor: '#00A651', barColor: '#00A651',
   },
 ]
 
 export default function BusinessResultsPage() {
   const router = useRouter()
+  const [animated, setAnimated] = useState(false)
 
-  // In production, trustFundExists would come from the store
-  const trustFundExists = true
+  useEffect(() => {
+    const t = setTimeout(() => setAnimated(true), 400)
+    return () => clearTimeout(t)
+  }, [])
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-lg">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Business Resolution Options
-          </h1>
-          <p className="mt-3 text-base text-zinc-400">
-            Based on your business profile, the following programs may be available.
-          </p>
-        </div>
-
-        {/* CNC Note */}
-        <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
-          <div className="flex items-start gap-3">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="mt-0.5 shrink-0 text-amber-400"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-            <div>
-              <p className="font-semibold text-amber-300">Note</p>
-              <p className="mt-1 text-sm leading-relaxed text-amber-200/70">
-                Currently Not Collectible (CNC) is NOT available for businesses.
-                CNC status applies only to individual taxpayers.
-              </p>
-            </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Progress */}
+        <div className="px-5 pt-4">
+          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
+            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '85%' }} />
+          </div>
+          <div className="flex justify-between items-center mt-2.5">
+            <span className="text-xs font-semibold text-[#94A3B8]">Step 7 of 8</span>
+            <span className="text-xs font-semibold text-[#2563EB]">Results</span>
           </div>
         </div>
 
-        {/* TFRP Warning */}
-        {trustFundExists && (
-          <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-5">
-            <div className="flex items-start gap-3">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="mt-0.5 shrink-0 text-red-400"
-              >
-                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                <line x1="12" y1="9" x2="12" y2="13" />
-                <line x1="12" y1="17" x2="12.01" y2="17" />
-              </svg>
-              <div>
-                <p className="font-semibold text-red-300">
-                  Trust Fund Liability Detected
-                </p>
-                <p className="mt-1 text-sm leading-relaxed text-red-200/70">
-                  Trust fund liability may create personal liability for
-                  responsible persons through the Trust Fund Recovery Penalty
-                  (TFRP).
-                </p>
-                <button
-                  onClick={() => router.push('/analysis/tfrp/detail')}
-                  className="mt-3 text-sm font-semibold text-red-400 transition-colors hover:text-red-300"
-                >
-                  View TFRP Details &rarr;
-                </button>
-              </div>
+        <div className="px-5 py-4 pb-8">
+          {/* Header */}
+          <div className="text-center pt-5 pb-4">
+            <div className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[11px] font-bold text-[#2563EB] mb-3">
+              <i className="fa-solid fa-wand-magic-sparkles text-[10px]" /> Business Analysis Complete
             </div>
+            <h1 className="text-[1.45rem] font-extrabold text-[#0A1628] leading-tight">Business Resolution Options</h1>
+            <p className="text-[12.5px] text-[#94A3B8] mt-1.5 leading-relaxed">Based on entity type, debt composition, and financial profile</p>
           </div>
-        )}
 
-        {/* Programs */}
-        <div className="space-y-4">
-          {PROGRAMS.map((program) => (
-            <div
-              key={program.name}
-              className={`rounded-xl border p-5 transition-colors ${
-                program.eligible
-                  ? 'border-emerald-500/30 bg-emerald-500/5'
-                  : 'border-zinc-800 bg-zinc-900 opacity-60'
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1">
+          {/* Result Cards */}
+          {RESULTS.map((r) => (
+            <div key={r.rank} className={`rounded-[18px] bg-white border mb-3.5 overflow-hidden ${
+              r.recommended ? 'border-2 border-[#2563EB] relative' : 'border border-[#F1F5F9]'
+            }`}>
+              {r.recommended && <div className="absolute top-0 left-0 right-0 h-1 bg-[#0A1628]" />}
+              <div className="p-[18px] relative">
+                <div className="flex items-center justify-between mb-3.5">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-semibold text-white">{program.name}</h3>
-                    {program.tag && (
-                      <span className="rounded-full bg-zinc-800 px-2.5 py-0.5 text-xs text-zinc-400">
-                        {program.tag}
-                      </span>
+                    <div className={`flex h-7 w-7 items-center justify-center rounded-lg text-[13px] font-extrabold ${
+                      r.recommended ? 'bg-[#2563EB] text-white' : 'bg-[#F8FAFC] text-[#64748B]'
+                    }`}>{r.rank}</div>
+                    {r.recommended && (
+                      <span className="rounded-md bg-[#0A1628] px-2.5 py-[3px] text-[9.5px] font-extrabold text-white uppercase tracking-[0.06em]">Recommended</span>
                     )}
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-                    {program.description}
-                  </p>
                 </div>
-                <div
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
-                    program.eligible ? 'bg-emerald-500/20' : 'bg-zinc-700'
-                  }`}
-                >
-                  {program.eligible && (
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      className="text-emerald-400"
-                    >
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
+                <h3 className="text-base font-extrabold text-[#0A1628] mb-2.5">{r.title}</h3>
+                <div className="flex items-baseline gap-1.5 mb-1.5">
+                  {r.rank === 4 ? (
+                    <>
+                      <span className="text-xs text-[#64748B]">Remove</span>
+                      <span className="text-xl font-black" style={{ color: r.amountColor }}>{r.amount}</span>
+                      <span className="text-xs text-[#64748B]">{r.amountSub}</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="text-[22px] font-black" style={{ color: r.amountColor }}>{r.amount}</span>
+                      <span className="text-[13px] text-[#64748B] font-medium">{r.amountSub}</span>
+                    </>
                   )}
+                </div>
+                <p className="text-xs text-[#94A3B8] mb-3 leading-relaxed">{r.description}</p>
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[11px] font-semibold" style={{ color: r.confidenceColor }}>{r.confidenceLabel}</span>
+                  <div className="flex-1 h-1.5 bg-[#F1F5F9] rounded-full overflow-hidden">
+                    <div
+                      className="h-full rounded-full transition-all duration-[1500ms]"
+                      style={{ background: r.barColor, width: animated ? `${r.confidence}%` : '0%' }}
+                    />
+                  </div>
+                  <span className="text-[11px] font-bold" style={{ color: r.confidenceColor }}>{r.confidence}%</span>
                 </div>
               </div>
             </div>
           ))}
-        </div>
 
-        {/* Continue */}
-        <button
-          onClick={() => router.push('/analysis/business/plan')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
-        >
-          Build Resolution Plan
-        </button>
+          {/* CNC Not Available */}
+          <div className="rounded-[14px] bg-[#FEF2F2] border border-[#FEE2E2] p-4 mb-3.5">
+            <div className="flex items-center gap-2 mb-1.5">
+              <i className="fa-solid fa-ban text-sm text-[#E63946]" />
+              <span className="text-[13px] font-bold text-[#991B1B]">CNC Not Available for Businesses</span>
+            </div>
+            <div className="text-xs text-[#991B1B] leading-relaxed">
+              Businesses CANNOT be placed in Currently Not Collectible (CNC) status. If the business cannot pay, the IRS expects it to close/dissolve. Remaining trust fund liability is pursued against responsible persons via TFRP.
+            </div>
+          </div>
+
+          {/* TFRP Warning */}
+          <div className="rounded-xl bg-[#FEF3C7] border border-[#FDE68A] p-3 mb-4">
+            <div className="text-xs font-bold text-[#92400E]">
+              <i className="fa-solid fa-user-shield text-[11px] mr-1" /> TFRP Personal Liability Warning
+            </div>
+            <div className="text-[11.5px] text-[#92400E] mt-1">Responsible persons may be personally assessed $29,260 (trust fund portion) regardless of business resolution outcome. See TFRP screens for defense strategies.</div>
+          </div>
+
+          <button
+            onClick={() => router.push('/analysis/business/plan')}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white"
+          >
+            <i className="fa-solid fa-check-circle mr-1.5" /> Choose Resolution
+          </button>
+        </div>
       </div>
     </div>
   )

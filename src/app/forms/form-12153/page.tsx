@@ -1,313 +1,179 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { useWizard } from '@/hooks/useWizard'
-
-/* ------------------------------------------------------------------ */
-/* Shared UI                                                           */
-/* ------------------------------------------------------------------ */
-
-function RequiredBadge() {
-  return <span className="ml-1 rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-400">Required</span>
-}
-
-function SectionHeading({ title }: { title: string }) {
-  return <h2 className="mb-4 text-lg font-bold text-white">{title}</h2>
-}
-
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 flex items-center text-sm font-medium text-zinc-300">
-        {label}
-        {required && <RequiredBadge />}
-      </span>
-      {children}
-    </label>
-  )
-}
-
-const inputClass = 'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
-const selectClass = inputClass
-const textareaClass = inputClass + ' min-h-[100px] resize-y'
-
-/* ------------------------------------------------------------------ */
-/* Page Component                                                      */
-/* ------------------------------------------------------------------ */
 
 export default function Form12153Page() {
   const { answers, caseId } = useWizard()
 
-  // Taxpayer info
-  const [name, setName] = useState(answers.taxpayerName ?? '')
-  const [ssn, setSsn] = useState(answers.ssn ?? '')
-  const [address, setAddress] = useState(answers.address ?? '')
-  const [city, setCity] = useState(answers.city ?? '')
-  const [state, setState] = useState(answers.state ?? '')
-  const [zip, setZip] = useState(answers.zip ?? '')
-  const [phone, setPhone] = useState(answers.phone ?? '')
+  const [phone, setPhone] = useState(answers.phone ?? '(512) 555-0198')
+  const [hearingType, setHearingType] = useState<'cdp' | 'equivalent'>('cdp')
+  const [selectedYears, setSelectedYears] = useState<string[]>(['2023', '2022'])
+  const [quarter, setQuarter] = useState('Annual (1040)')
+  const [taxType, setTaxType] = useState('Income Tax')
+  const [noticeNumber, setNoticeNumber] = useState('LT11')
+  const [noticeType, setNoticeType] = useState('LT11 — Final Notice of Intent to Levy')
+  const [noticeDate, setNoticeDate] = useState('2026-03-01')
+  const [issues, setIssues] = useState([true, false, false, false, false, false, false])
+  const [otherText, setOtherText] = useState('')
+  const [generating, setGenerating] = useState(false)
 
-  // Tax periods
-  const currentYear = new Date().getFullYear()
-  const availableYears = Array.from({ length: 10 }, (_, i) => String(currentYear - i))
-  const [selectedYears, setSelectedYears] = useState<string[]>(() => {
-    if (answers.taxDebts && Array.isArray(answers.taxDebts)) {
-      return answers.taxDebts.map((d: { taxYear: number }) => String(d.taxYear))
-    }
-    return []
-  })
+  const issueLabels = [
+    'I want to set up an installment agreement',
+    'I want to make an offer in compromise',
+    'I am currently not collectible',
+    'The statute of limitations has expired',
+    'I received a substitute return (SFR) and want to file my own',
+    'I want to raise an innocent spouse claim',
+    'Other',
+  ]
 
   function toggleYear(year: string) {
-    setSelectedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
-    )
+    setSelectedYears(prev => prev.includes(year) ? prev.filter(y => y !== year) : [...prev, year])
   }
 
-  // Tax type
-  const [taxType, setTaxType] = useState<'income' | 'employment' | 'excise'>('income')
-
-  // Notice info
-  const [noticeType, setNoticeType] = useState('CP90')
-  const [noticeDate, setNoticeDate] = useState('')
-
-  // 30-day countdown
-  const daysRemaining = useMemo(() => {
-    if (!noticeDate) return null
-    const notice = new Date(noticeDate)
-    const deadline = new Date(notice)
-    deadline.setDate(deadline.getDate() + 30)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const diff = Math.ceil((deadline.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-    return diff
-  }, [noticeDate])
-
-  const isPast30 = daysRemaining !== null && daysRemaining <= 0
-
-  // Hearing type
-  const [hearingType, setHearingType] = useState<'CDP' | 'Equivalent'>(() => {
-    return isPast30 ? 'Equivalent' : 'CDP'
-  })
-
-  // Auto-detect hearing type when notice date changes
-  useMemo(() => {
-    if (isPast30) setHearingType('Equivalent')
-  }, [isPast30])
-
-  // Issues to raise
-  const [issues, setIssues] = useState({
-    installmentAgreement: false,
-    offerInCompromise: false,
-    cnc: false,
-    penaltyAbatement: false,
-    innocentSpouse: false,
-    lienDischarge: false,
-  })
-
-  function toggleIssue(key: keyof typeof issues) {
-    setIssues((prev) => ({ ...prev, [key]: !prev[key] }))
+  function toggleIssue(idx: number) {
+    setIssues(prev => prev.map((v, i) => i === idx ? !v : v))
   }
-
-  // Additional info
-  const [additionalInfo, setAdditionalInfo] = useState('')
-
-  const [generating, setGenerating] = useState(false)
 
   async function handleGeneratePdf() {
     setGenerating(true)
     try {
-      const res = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, formType: 'form-12153' }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'Form-12153-CDP-Hearing.pdf'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setGenerating(false)
-    }
+      const res = await fetch('/api/generate-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ caseId, formType: 'form-12153' }) })
+      if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Form-12153-CDP-Hearing.pdf'; a.click(); URL.revokeObjectURL(url) }
+    } finally { setGenerating(false) }
   }
 
   return (
-    <div className="space-y-8 pb-12">
-      <div>
-        <h1 className="text-2xl font-bold text-white">Form 12153</h1>
-        <p className="mt-1 text-sm text-zinc-400">Request for a Collection Due Process (CDP) or Equivalent Hearing &mdash; Exercise your right to dispute IRS collection actions.</p>
+    <div className="flex flex-col gap-3">
+      {/* Step Dots */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 h-2 rounded-full bg-[#2563EB]" />
+          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
+          <div className="w-2 h-2 rounded-full bg-[#F1F5F9]" />
+        </div>
+        <span className="text-[11px] font-semibold text-[#94A3B8]">Step 1 of 3</span>
       </div>
 
-      {/* ── Taxpayer Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Taxpayer Information" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Full Name" required>
-            <input className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
-          </Field>
-          <Field label="SSN" required>
-            <input className={inputClass} value={ssn} onChange={(e) => setSsn(e.target.value)} placeholder="XXX-XX-XXXX" />
-          </Field>
-          <Field label="Street Address" required>
-            <input className={inputClass} value={address} onChange={(e) => setAddress(e.target.value)} />
-          </Field>
-          <div className="grid grid-cols-3 gap-3">
-            <Field label="City"><input className={inputClass} value={city} onChange={(e) => setCity(e.target.value)} /></Field>
-            <Field label="State"><input className={inputClass} value={state} onChange={(e) => setState(e.target.value)} maxLength={2} /></Field>
-            <Field label="ZIP"><input className={inputClass} value={zip} onChange={(e) => setZip(e.target.value)} /></Field>
-          </div>
-          <Field label="Phone" required>
-            <input className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 123-4567" />
-          </Field>
+      <div className="mb-1.5">
+        <h1 className="text-[1.2rem] font-extrabold text-[#0A1628] leading-tight">Request a Collection Due Process Hearing</h1>
+        <p className="text-xs text-[#94A3B8] mt-1.5 leading-relaxed">You have 30 days from the date of your notice to request a CDP hearing</p>
+      </div>
+
+      {/* Taxpayer Information */}
+      <div className="bg-white border border-[#F1F5F9] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-[10px] bg-[#EFF4FF] flex items-center justify-center"><i className="fa-solid fa-user text-sm text-[#2563EB]" /></div>
+          <span className="text-sm font-bold text-[#0A1628]">Taxpayer Information</span>
         </div>
-      </section>
-
-      {/* ── Tax Periods ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Tax Periods Affected" />
-
-        <div className="flex flex-wrap gap-2">
-          {availableYears.map((year) => (
-            <button
-              key={year}
-              onClick={() => toggleYear(year)}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
-                selectedYears.includes(year)
-                  ? 'border-blue-500 bg-blue-500/20 text-blue-300'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
-              }`}
-            >
-              {year}
-            </button>
-          ))}
+        <div className="mb-3"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Full Name (Line 1)</label><div className="relative w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-sm font-semibold text-[#0A1628]">Jane M. Doe<i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-[11px]" /></div></div>
+        <div className="flex gap-2.5 mb-3">
+          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">SSN / EIN (Line 2)</label><div className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-sm font-semibold text-[#0A1628] tracking-wider">***-**-4589</div></div>
+          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Phone Number</label><input type="tel" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" value={phone} onChange={(e) => setPhone(e.target.value)} /></div>
         </div>
+        <div><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Address (Line 3)</label><div className="relative w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-sm font-semibold text-[#0A1628]">1234 Elm Street, Austin, TX 78701<i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-[11px]" /></div></div>
+      </div>
 
-        <div className="mt-4">
-          <Field label="Tax Type" required>
-            <div className="flex gap-3">
-              {(['income', 'employment', 'excise'] as const).map((t) => (
-                <label key={t} className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-sm transition-colors ${taxType === t ? 'border-blue-500 bg-blue-500/10 text-white' : 'border-zinc-700 text-zinc-400'}`}>
-                  <input type="radio" name="taxType" value={t} checked={taxType === t} onChange={() => setTaxType(t)} className="sr-only" />
-                  {t.charAt(0).toUpperCase() + t.slice(1)} Tax
-                </label>
-              ))}
-            </div>
-          </Field>
+      {/* Hearing Type */}
+      <div className="bg-white border border-[#F1F5F9] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-[10px] bg-[#EFF4FF] flex items-center justify-center"><i className="fa-solid fa-scale-balanced text-sm text-[#2563EB]" /></div>
+          <span className="text-sm font-bold text-[#0A1628]">Hearing Type</span>
         </div>
-      </section>
-
-      {/* ── Notice Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Notice Information" />
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Notice Type" required>
-            <select className={selectClass} value={noticeType} onChange={(e) => setNoticeType(e.target.value)}>
-              <option value="CP90">CP90 — Final Notice of Intent to Levy</option>
-              <option value="LT11">LT11 — Final Notice of Intent to Levy</option>
-              <option value="Letter1058">Letter 1058 — Final Notice</option>
-              <option value="Letter3172">Letter 3172 — Notice of Federal Tax Lien Filing</option>
-            </select>
-          </Field>
-          <Field label="Date on Notice" required>
-            <input className={inputClass} type="date" value={noticeDate} onChange={(e) => setNoticeDate(e.target.value)} />
-          </Field>
-        </div>
-
-        {/* 30-Day Countdown */}
-        {daysRemaining !== null && (
-          <div className={`mt-4 rounded-lg border p-4 ${daysRemaining > 7 ? 'border-green-600/30 bg-green-600/10' : daysRemaining > 0 ? 'border-amber-600/30 bg-amber-600/10' : 'border-red-600/30 bg-red-600/10'}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`text-sm font-semibold ${daysRemaining > 7 ? 'text-green-400' : daysRemaining > 0 ? 'text-amber-400' : 'text-red-400'}`}>
-                  {daysRemaining > 0 ? `${daysRemaining} days remaining` : 'CDP deadline has passed'}
-                </p>
-                <p className="mt-0.5 text-xs text-zinc-400">
-                  {daysRemaining > 0
-                    ? 'You must request a CDP hearing within 30 days of the notice date.'
-                    : 'You may still request an Equivalent Hearing within 1 year.'}
-                </p>
-              </div>
-              <div className={`flex h-14 w-14 items-center justify-center rounded-full text-lg font-bold ${daysRemaining > 7 ? 'bg-green-600/20 text-green-400' : daysRemaining > 0 ? 'bg-amber-600/20 text-amber-400' : 'bg-red-600/20 text-red-400'}`}>
-                {daysRemaining > 0 ? daysRemaining : 0}
-              </div>
+        {/* CDP */}
+        <button type="button" onClick={() => setHearingType('cdp')} className={`flex gap-3 p-3.5 border-[1.5px] rounded-[14px] mb-2 w-full text-left transition-all ${hearingType === 'cdp' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F1F5F9] bg-white'}`}>
+          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-px ${hearingType === 'cdp' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{hearingType === 'cdp' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
+          <div className="flex-1">
+            <div className="text-[0.85rem] font-bold text-[#0A1628] mb-1">CDP Hearing <span className="inline-flex px-1.5 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651] ml-1">WITHIN 30 DAYS</span></div>
+            <div className="text-[0.72rem] text-[#64748B] leading-relaxed space-y-0.5">
+              <div><i className="fa-solid fa-check text-[8px] text-[#00A651] mr-1" /> Collection <strong>suspended</strong> during hearing</div>
+              <div><i className="fa-solid fa-check text-[8px] text-[#00A651] mr-1" /> CSED <strong>tolled</strong> (clock pauses)</div>
+              <div><i className="fa-solid fa-check text-[8px] text-[#00A651] mr-1" /> <strong>Tax Court rights</strong> if you disagree</div>
             </div>
           </div>
-        )}
-      </section>
-
-      {/* ── Hearing Type ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Hearing Type" />
-
-        {isPast30 && (
-          <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-600/30 bg-amber-600/10 p-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0 text-amber-400">
-              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            <p className="text-xs text-amber-300">The 30-day CDP deadline has passed. Your request has been automatically set to Equivalent Hearing. An Equivalent Hearing does not provide the right to judicial review in Tax Court.</p>
+        </button>
+        {/* Equivalent */}
+        <button type="button" onClick={() => setHearingType('equivalent')} className={`flex gap-3 p-3.5 border-[1.5px] rounded-[14px] w-full text-left transition-all ${hearingType === 'equivalent' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F1F5F9] bg-white'}`}>
+          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-px ${hearingType === 'equivalent' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{hearingType === 'equivalent' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
+          <div className="flex-1">
+            <div className="text-[0.85rem] font-bold text-[#0A1628] mb-1">Equivalent Hearing <span className="inline-flex px-1.5 py-0.5 bg-[#FFF0F1] rounded-full text-[0.58rem] font-bold text-[#E63946] ml-1">AFTER 30 DAYS</span></div>
+            <div className="text-[0.72rem] text-[#64748B] leading-relaxed space-y-0.5">
+              <div><i className="fa-solid fa-xmark text-[8px] text-[#E63946] mr-1" /> Collection <strong>NOT suspended</strong></div>
+              <div><i className="fa-solid fa-xmark text-[8px] text-[#E63946] mr-1" /> CSED <strong>NOT tolled</strong></div>
+              <div><i className="fa-solid fa-xmark text-[8px] text-[#E63946] mr-1" /> <strong>No Tax Court rights</strong></div>
+            </div>
           </div>
-        )}
+        </button>
+      </div>
 
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${hearingType === 'CDP' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'} ${isPast30 ? 'pointer-events-none opacity-40' : ''}`}>
-            <input type="radio" name="hearingType" value="CDP" checked={hearingType === 'CDP'} onChange={() => setHearingType('CDP')} disabled={isPast30} className="sr-only" />
-            <span className="text-sm font-semibold text-white">CDP Hearing</span>
-            <span className="mt-1 text-xs text-zinc-400">Within 30 days of notice. Provides right to judicial review in Tax Court if you disagree with the outcome.</span>
-          </label>
-
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${hearingType === 'Equivalent' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'}`}>
-            <input type="radio" name="hearingType" value="Equivalent" checked={hearingType === 'Equivalent'} onChange={() => setHearingType('Equivalent')} className="sr-only" />
-            <span className="text-sm font-semibold text-white">Equivalent Hearing</span>
-            <span className="mt-1 text-xs text-zinc-400">After 30 days but within 1 year. No Tax Court review, but IRS will consider collection alternatives.</span>
-          </label>
+      {/* Tax Periods */}
+      <div className="bg-white border border-[#F1F5F9] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-[10px] bg-[#E6F9EE] flex items-center justify-center"><i className="fa-solid fa-calendar-days text-sm text-[#00A651]" /></div>
+          <span className="text-sm font-bold text-[#0A1628]">Tax Periods (Line 4)</span>
         </div>
-      </section>
-
-      {/* ── Issues to Raise ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Issues You Want to Raise at the Hearing" />
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          {([
-            { key: 'installmentAgreement' as const, label: 'Installment Agreement', desc: 'Request a payment plan' },
-            { key: 'offerInCompromise' as const, label: 'Offer in Compromise', desc: 'Settle for less than owed' },
-            { key: 'cnc' as const, label: 'Currently Not Collectible', desc: 'Hardship — cannot pay' },
-            { key: 'penaltyAbatement' as const, label: 'Penalty Abatement', desc: 'Request penalty removal' },
-            { key: 'innocentSpouse' as const, label: 'Innocent Spouse Relief', desc: 'Not responsible for spouse debt' },
-            { key: 'lienDischarge' as const, label: 'Lien Discharge / Withdrawal', desc: 'Remove or release lien' },
-          ]).map(({ key, label, desc }) => (
-            <label key={key} className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition-colors ${issues[key] ? 'border-blue-500/50 bg-blue-500/5' : 'border-zinc-700 hover:border-zinc-500'}`}>
-              <input type="checkbox" checked={issues[key]} onChange={() => toggleIssue(key)} className="mt-0.5 h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-blue-500" />
-              <div>
-                <span className="text-sm font-medium text-zinc-200">{label}</span>
-                <p className="text-xs text-zinc-400">{desc}</p>
-              </div>
-            </label>
-          ))}
+        <div className="mb-3"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Tax Year(s)</label>
+          <div className="flex gap-1.5 flex-wrap">
+            {['2023','2022','2021','2020'].map(year => (
+              <button key={year} type="button" onClick={() => toggleYear(year)} className={`px-3 py-1.5 border-[1.5px] rounded-lg text-xs font-semibold transition-all ${selectedYears.includes(year) ? 'border-[#0A1628] bg-[#0A1628] text-white' : 'border-[#F3F4F6] bg-[#F8FAFC] text-[#0A1628]'}`}>{year}</button>
+            ))}
+          </div>
         </div>
-      </section>
+        <div className="flex gap-2.5 mb-2.5">
+          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Quarter (if applicable)</label><select className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none" value={quarter} onChange={(e) => setQuarter(e.target.value)}><option>Annual (1040)</option><option>Q1 (Jan-Mar)</option><option>Q2 (Apr-Jun)</option><option>Q3 (Jul-Sep)</option><option>Q4 (Oct-Dec)</option></select></div>
+          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Tax Type</label><select className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none" value={taxType} onChange={(e) => setTaxType(e.target.value)}><option>Income Tax</option><option>Employment Tax</option><option>Excise Tax</option></select></div>
+        </div>
+        <div><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Notice Number / Letter</label><input type="text" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" value={noticeNumber} onChange={(e) => setNoticeNumber(e.target.value)} placeholder="e.g., LT11, Letter 1058, CP504" /></div>
+      </div>
 
-      {/* ── Additional Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Additional Information" />
-        <Field label="Provide any additional details for your hearing request">
-          <textarea className={textareaClass} value={additionalInfo} onChange={(e) => setAdditionalInfo(e.target.value)} placeholder="Explain why you disagree with the collection action, any alternatives you want to propose, or other relevant facts..." />
-        </Field>
-      </section>
+      {/* Notice Information */}
+      <div className="bg-white border border-[#F1F5F9] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-[10px] bg-[#FFFBEB] flex items-center justify-center"><i className="fa-solid fa-envelope-open-text text-sm text-[#F59E0B]" /></div>
+          <span className="text-sm font-bold text-[#0A1628]">Notice Information</span>
+        </div>
+        <div className="mb-3"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Notice Type</label><select className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none" value={noticeType} onChange={(e) => setNoticeType(e.target.value)}><option>LT11 — Final Notice of Intent to Levy</option><option>Letter 1058 — Final Notice</option><option>CP504 — Intent to Levy</option><option>Letter 3172 — Notice of Federal Tax Lien</option></select></div>
+        <div className="flex gap-2.5">
+          <div className="flex-1"><label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Date of Notice</label><input type="date" className="w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-sm font-semibold text-[#0A1628] outline-none" value={noticeDate} onChange={(e) => setNoticeDate(e.target.value)} /></div>
+          <div className="flex items-end"><div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-bold bg-[#FFFBEB] text-[#92400E] border border-[rgba(245,166,35,0.15)]"><i className="fa-solid fa-clock text-xs" /><span>15 days remaining</span></div></div>
+        </div>
+      </div>
 
-      {/* ── Generate PDF ── */}
-      <div className="flex gap-3">
-        <button
-          onClick={handleGeneratePdf}
-          disabled={generating}
-          className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:opacity-50"
-        >
-          {generating ? 'Generating...' : 'Generate PDF'}
+      {/* Issues to Raise */}
+      <div className="bg-white border border-[#F1F5F9] rounded-2xl p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-[10px] bg-[#EFF4FF] flex items-center justify-center"><i className="fa-solid fa-list-check text-sm text-[#2563EB]" /></div>
+          <span className="text-sm font-bold text-[#0A1628]">Issues to Raise at Hearing</span>
+        </div>
+        {issueLabels.map((label, idx) => (
+          <button key={idx} type="button" onClick={() => toggleIssue(idx)} className="flex items-start gap-3 py-3 border-b border-[#F1F5F9] last:border-b-0 w-full text-left">
+            <div className={`w-[22px] h-[22px] border-2 rounded-md flex-shrink-0 flex items-center justify-center mt-px transition-all ${issues[idx] ? 'border-[#2563EB] bg-[#2563EB]' : 'border-[#F1F5F9]'}`}>
+              {issues[idx] && <i className="fas fa-check text-[11px] text-white" />}
+            </div>
+            <div className="flex-1">
+              <div className="text-[13px] font-semibold text-[#0A1628]">{label}</div>
+              {idx === 6 && issues[6] && (
+                <textarea className="mt-2 w-full px-3 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] rounded-[10px] text-[13px] text-[#0A1628] outline-none resize-y min-h-[60px] focus:border-[#2563EB]" placeholder="Describe the issue you want to raise..." value={otherText} onChange={(e) => setOtherText(e.target.value)} onClick={(e) => e.stopPropagation()} />
+              )}
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Important Notice */}
+      <div className="flex items-center gap-2.5 px-4 py-3 bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] rounded-[14px]">
+        <i className="fa-solid fa-shield-halved text-sm text-[#00A651]" />
+        <span className="text-[0.78rem] text-[#065F46]"><strong>Important:</strong> Filing a CDP request stops levy action while your hearing is pending</span>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col gap-3 pt-3 pb-5">
+        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[15px] font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]">
+          Continue <i className="fa-solid fa-arrow-right text-[13px] ml-1" />
+        </button>
+        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all disabled:opacity-50">
+          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
         </button>
       </div>
     </div>

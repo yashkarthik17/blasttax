@@ -4,15 +4,15 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 const FORM_LABELS: Record<string, string> = {
-  'form-656': 'Form 656 — Offer in Compromise',
-  'form-9465': 'Form 9465 — Installment Agreement Request',
-  'form-843': 'Form 843 — Claim for Refund / Abatement',
-  'form-433a-oic': 'Form 433-A(OIC) — Collection Information Statement',
-  'form-656a': 'Form 656-A — Income Certification',
-  'form-433f': 'Form 433-F — Collection Information Statement',
-  'form-12153': 'Form 12153 — CDP / Equivalent Hearing',
-  'form-8857': 'Form 8857 — Innocent Spouse Relief',
-  'form-433b': 'Form 433-B — Business Collection Information',
+  'form-656': 'Form 656 — OIC',
+  'form-9465': 'Form 9465 — IA',
+  'form-843': 'Form 843 — Abatement',
+  'form-433a-oic': 'Form 433-A(OIC)',
+  'form-656a': 'Form 656-A',
+  'form-433f': 'Form 433-F',
+  'form-12153': 'Form 12153 — CDP Hearing',
+  'form-8857': 'Form 8857 — Innocent Spouse',
+  'form-433b': 'Form 433-B — Business Financials',
   submission: 'Submission Review',
 }
 
@@ -25,6 +25,7 @@ const FORM_ORDER = [
   'form-843',
   'form-12153',
   'form-8857',
+  'form-433b',
   'submission',
 ]
 
@@ -38,63 +39,56 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
 
   const currentIndex = FORM_ORDER.indexOf(segment)
   const progress = currentIndex >= 0 ? ((currentIndex + 1) / FORM_ORDER.length) * 100 : 0
+  const stepLabel = currentIndex >= 0 ? `Step ${currentIndex + 1} of ${FORM_ORDER.length}` : ''
 
   async function handleSaveDraft() {
     setSaving(true)
-    // Persist current form state to Supabase draft
     await new Promise((r) => setTimeout(r, 600))
     setSaving(false)
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[var(--background)] text-[var(--foreground)]">
-      {/* Top Bar */}
-      <header className="sticky top-0 z-50 border-b border-[var(--border)] bg-zinc-950/95 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          {/* Back */}
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white border-b border-[#F1F5F9]">
+        <div className="mx-auto flex max-w-md items-center justify-between px-5 py-3.5">
+          {/* Back button */}
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-sm text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F3F4F6] transition-all hover:bg-[#F1F5F9] flex-shrink-0"
             aria-label="Go back"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5" />
-              <path d="M12 19l-7-7 7-7" />
-            </svg>
-            Back
+            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
           </button>
 
           {/* Form Name */}
-          <h1 className="text-sm font-semibold text-zinc-100 sm:text-base">{formLabel}</h1>
+          <h1 className="text-[0.95rem] font-extrabold text-[#0A1628] text-center flex-1 px-3">{formLabel}</h1>
 
-          {/* Save Draft */}
-          <button
-            onClick={handleSaveDraft}
-            disabled={saving}
-            className="rounded-lg bg-zinc-800 px-3 py-1.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-700 hover:text-white disabled:opacity-50"
-          >
-            {saving ? 'Saving...' : 'Save Draft'}
-          </button>
+          {/* Save Draft / spacer */}
+          <div className="w-9 flex-shrink-0" />
         </div>
 
         {/* Progress Bar */}
         {currentIndex >= 0 && (
-          <div className="mx-auto max-w-4xl px-4 pb-2">
-            <div className="h-1 w-full overflow-hidden rounded-full bg-zinc-800">
-              <div
-                className="h-full rounded-full bg-blue-500 transition-all duration-500 ease-out"
-                style={{ width: `${progress}%` }}
-              />
+          <div className="mx-auto max-w-md px-5 pb-3">
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[0.7rem] font-semibold text-[#94A3B8]">{stepLabel}</span>
+              <span className="text-[0.7rem] font-bold text-[#0A1628]">{Math.round(progress)}%</span>
             </div>
-            <p className="mt-1 text-right text-[11px] text-zinc-500">
-              Step {currentIndex + 1} of {FORM_ORDER.length}
-            </p>
+            <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+              <div
+                className="relative h-full rounded-full bg-[#0A1628] transition-all duration-500 ease-out"
+                style={{ width: `${progress}%` }}
+              >
+                <div className="absolute -top-[1px] right-0 h-[7px] w-[7px] rounded-full bg-[#2563EB]" />
+              </div>
+            </div>
           </div>
         )}
       </header>
 
       {/* Page Content */}
-      <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-6">
+      <main className="mx-auto w-full max-w-md flex-1 px-5 py-4 pb-24">
         {children}
       </main>
     </div>

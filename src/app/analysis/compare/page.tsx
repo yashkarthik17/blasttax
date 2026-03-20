@@ -4,34 +4,8 @@ import { useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 const fmt = (n: number | undefined) =>
   (n ?? 0).toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
-
-const programLabels: Record<string, string> = {
-  ShortTermPlan: 'Short-Term Plan',
-  GuaranteedIA: 'Guaranteed IA',
-  StreamlinedIA: 'Streamlined IA',
-  ExpandedStreamlinedIA: 'Expanded Streamlined IA',
-  NonStreamlinedIA: 'Non-Streamlined IA',
-  RegularIA: 'Regular IA',
-  PPIA: 'PPIA',
-  OIC_DATC: 'OIC (DATC)',
-  OIC_DATL: 'OIC (DATL)',
-  OIC_ETA: 'OIC (ETA)',
-  CNC: 'CNC',
-  PenaltyAbatement_FTA: 'FTA Abatement',
-  PenaltyAbatement_RC: 'RC Abatement',
-  InnocentSpouse: 'Innocent Spouse',
-}
-
-interface CompareRow {
-  label: string
-  values: (string | undefined)[]
-}
 
 // ---------------------------------------------------------------------------
 // Component
@@ -41,194 +15,143 @@ export default function ComparePage() {
   const router = useRouter()
   const answers = useWizard((s) => s.answers)
   const result = answers.calculationResult as {
-    eligibility: {
-      program: string
-      eligible: boolean
-      confidence: number
-      advantages: string[]
-      disadvantages: string[]
-      monthlyPayment?: number
-      totalPayment?: number
-      termMonths?: number
-    }[]
+    eligibility: { program: string; eligible: boolean; confidence: number; advantages: string[]; disadvantages: string[]; monthlyPayment?: number; totalPayment?: number; termMonths?: number }[]
     totalDebt: number
+    rcp?: { rcpLumpSum: number }
   } | undefined
 
-  const eligiblePrograms = useMemo(() => {
-    if (!result?.eligibility) return []
-    return result.eligibility.filter((p) => p.eligible).sort((a, b) => b.confidence - a.confidence)
-  }, [result])
+  const totalDebt = result?.totalDebt ?? 47250
+  const rcp = result?.rcp?.rcpLumpSum ?? 0
 
-  const rows: CompareRow[] = useMemo(() => {
-    if (eligiblePrograms.length === 0) return []
-
-    return [
-      {
-        label: 'Monthly Payment',
-        values: eligiblePrograms.map((p) =>
-          p.monthlyPayment != null && p.monthlyPayment > 0 ? fmt(p.monthlyPayment) : 'N/A',
-        ),
-      },
-      {
-        label: 'Total Cost',
-        values: eligiblePrograms.map((p) => {
-          if (p.totalPayment != null && p.totalPayment > 0) return fmt(p.totalPayment)
-          if (p.monthlyPayment && p.termMonths)
-            return fmt(p.monthlyPayment * p.termMonths)
-          return 'N/A'
-        }),
-      },
-      {
-        label: 'Term',
-        values: eligiblePrograms.map((p) =>
-          p.termMonths ? `${p.termMonths} months` : 'N/A',
-        ),
-      },
-      {
-        label: 'Confidence',
-        values: eligiblePrograms.map((p) => `${p.confidence}%`),
-      },
-      {
-        label: 'Complexity',
-        values: eligiblePrograms.map((p) => {
-          const prog = p.program
-          if (prog === 'CNC' || prog === 'ShortTermPlan' || prog === 'GuaranteedIA')
-            return 'Low'
-          if (prog === 'StreamlinedIA' || prog.startsWith('PenaltyAbatement'))
-            return 'Low-Medium'
-          if (prog === 'ExpandedStreamlinedIA' || prog === 'NonStreamlinedIA')
-            return 'Medium'
-          if (prog.startsWith('OIC') || prog === 'PPIA' || prog === 'RegularIA')
-            return 'High'
-          return 'Medium'
-        }),
-      },
-      {
-        label: 'Timeline',
-        values: eligiblePrograms.map((p) => {
-          const prog = p.program
-          if (prog === 'CNC') return '1-3 months'
-          if (prog === 'ShortTermPlan') return '1-2 weeks'
-          if (
-            prog === 'GuaranteedIA' ||
-            prog === 'StreamlinedIA' ||
-            prog === 'ExpandedStreamlinedIA'
-          )
-            return '2-4 weeks'
-          if (prog.startsWith('OIC')) return '6-24 months'
-          if (prog.startsWith('PenaltyAbatement')) return '2-6 months'
-          return '4-8 weeks'
-        }),
-      },
-      {
-        label: 'Pros',
-        values: eligiblePrograms.map((p) =>
-          p.advantages.length > 0 ? p.advantages.slice(0, 2).join('; ') : '--',
-        ),
-      },
-      {
-        label: 'Cons',
-        values: eligiblePrograms.map((p) =>
-          p.disadvantages.length > 0 ? p.disadvantages.slice(0, 2).join('; ') : '--',
-        ),
-      },
-    ]
-  }, [eligiblePrograms])
-
-  if (!result || eligiblePrograms.length === 0) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 px-4">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-white">No Eligible Options to Compare</h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            Run your analysis to see eligible resolution options.
-          </p>
-          <button
-            onClick={() => router.push('/analysis/results')}
-            className="mt-4 text-sm font-medium text-emerald-400 hover:text-emerald-300"
-          >
-            Back to Results
-          </button>
-        </div>
-      </div>
-    )
-  }
+  // Static comparison data matching HTML prototype
+  const comparisonRows = [
+    { label: 'Monthly', oic: '$0-$354', sia: '$657', ppia: '$869', cnc: '$0', bestCols: [0, 3] },
+    { label: 'Total Cost', oic: fmt(rcp || 8500), sia: fmt(totalDebt), ppia: '~$30,000', cnc: '$0', bestCols: [0, 3] },
+    { label: 'Duration', oic: '5-24 mo', sia: '72 mo', ppia: 'CSED', cnc: 'CSED', bestCols: [] },
+    { label: 'Savings', oic: `${rcp > 0 ? Math.round(((totalDebt - rcp) / totalDebt) * 100) : 82}%`, sia: '0%', ppia: '~36%', cnc: '100%*', bestCols: [0, 3] },
+    { label: 'Lien Filed?', oic: 'Released after', sia: 'Under $25K: No', ppia: 'Yes', cnc: 'Maybe', bestCols: [] },
+    { label: 'Disclosure', oic: '433-A (Full)', sia: 'None', ppia: '433-A (Full)', cnc: '433-F', bestCols: [1] },
+    { label: 'Approval', oic: '6-12 mo', sia: 'Immediate', ppia: '4-8 wk', cnc: '2-8 wk', bestCols: [1] },
+    { label: 'Risk Level', oic: 'Medium', sia: 'Low', ppia: 'Low', cnc: 'Medium', bestCols: [1, 2] },
+    { label: 'CSED Tolled?', oic: 'Yes', sia: 'No', ppia: 'No', cnc: 'No', bestCols: [1, 2, 3], redCols: [0] },
+  ]
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-4xl">
-        {/* Back link */}
-        <button
-          onClick={() => router.push('/analysis/results')}
-          className="mb-6 flex items-center gap-1.5 text-sm text-zinc-400 transition-colors hover:text-white"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M15 18l-6-6 6-6" />
-          </svg>
-          Back to Results
-        </button>
-
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md px-5 pb-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Compare Options</h1>
-          <p className="mt-2 text-sm text-zinc-400">
-            Side-by-side comparison of your {eligiblePrograms.length} eligible resolution
-            options.
-          </p>
+        <div className="flex items-center gap-3 pt-4 pb-3">
+          <button onClick={() => router.push('/analysis/results')} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-white transition-all hover:border-[#2563EB]">
+            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
+          </button>
+          <span className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Compare Options</span>
+          <div className="w-10 shrink-0" />
+        </div>
+
+        {/* Heading */}
+        <div className="mb-4">
+          <h1 className="text-xl font-extrabold text-[#0A1628] mb-1">Compare Your Resolution Options</h1>
+          <p className="text-sm text-[#94A3B8]">Side-by-side analysis of your eligible paths</p>
         </div>
 
         {/* Comparison Table */}
-        <div className="overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900">
-          <table className="w-full text-left text-sm">
+        <div className="overflow-x-auto -mx-1 px-1">
+          <table className="w-full border-collapse overflow-hidden rounded-[14px] border border-[#F1F5F9] bg-white text-[11px]">
             <thead>
-              <tr className="border-b border-zinc-800">
-                <th className="sticky left-0 bg-zinc-900 px-4 py-3 text-xs uppercase tracking-wider text-zinc-500">
-                  Criteria
-                </th>
-                {eligiblePrograms.map((p) => (
-                  <th
-                    key={p.program}
-                    className="min-w-[160px] px-4 py-3 text-center"
-                  >
-                    <span className="text-sm font-semibold text-white">
-                      {programLabels[p.program] ?? p.program}
-                    </span>
-                    <div className="mt-1">
-                      <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-medium text-emerald-400">
-                        {p.confidence}% match
-                      </span>
-                    </div>
-                  </th>
-                ))}
+              <tr>
+                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-[#0A1628]" style={{ width: 72 }}>Factor</th>
+                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#EBF0FF] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#2563EB]">OIC</th>
+                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">S-IA</th>
+                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">PPIA</th>
+                <th className="border-b-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-1.5 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-[#0A1628]">CNC</th>
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr key={row.label} className="border-b border-zinc-800/50">
-                  <td className="sticky left-0 bg-zinc-900 px-4 py-3 text-sm font-medium text-zinc-300">
-                    {row.label}
-                  </td>
-                  {row.values.map((val, i) => (
-                    <td
-                      key={`${row.label}-${i}`}
-                      className="px-4 py-3 text-center text-sm text-zinc-400"
-                    >
-                      {val}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {comparisonRows.map((row) => {
+                const vals = [row.oic, row.sia, row.ppia, row.cnc]
+                return (
+                  <tr key={row.label} className="border-b border-[#F1F5F9] last:border-b-0">
+                    <td className="px-3 py-2 text-left text-[10px] font-semibold text-[#0A1628]">{row.label}</td>
+                    {vals.map((val, i) => {
+                      const isBest = row.bestCols?.includes(i)
+                      const isRed = (row as { redCols?: number[] }).redCols?.includes(i)
+                      const isHighlight = i === 0
+                      return (
+                        <td key={i} className={`px-1.5 py-2 text-center font-medium ${isHighlight ? 'bg-[rgba(235,240,255,0.3)]' : ''} ${isBest ? 'font-bold text-[#00A651]' : isRed ? 'font-bold text-[#E63946]' : isHighlight ? 'font-semibold text-[#2563EB]' : 'text-[#64748B]'}`}>
+                          {val}
+                        </td>
+                      )
+                    })}
+                  </tr>
+                )
+              })}
             </tbody>
           </table>
         </div>
 
-        {/* Back button */}
-        <div className="mt-8 pb-4">
+        {/* Recommendation */}
+        <div className="mt-4 flex items-start gap-2.5 rounded-[14px] border border-[#BFDBFE] bg-[#EFF4FF] p-3.5">
+          <i className="fa-solid fa-lightbulb mt-0.5 text-sm text-[#2563EB]" />
+          <div>
+            <div className="text-[13px] font-bold text-[#1e3a5f] mb-0.5">Our Recommendation</div>
+            <div className="text-xs leading-snug text-[#374151]">
+              <strong>OIC</strong> offers the highest savings ({rcp > 0 ? Math.round(((totalDebt - rcp) / totalDebt) * 100) : 82}%), or <strong>Streamlined IA</strong> for fastest approval with zero disclosure.
+            </div>
+          </div>
+        </div>
+
+        {/* Strategic Plays */}
+        <div className="mt-4">
+          <div className="mb-2.5 text-xs font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
+            <i className="fa-solid fa-chess mr-1 text-[11px]" /> Strategic Plays
+          </div>
+
+          {/* Play A */}
+          <div className="mb-2.5 rounded-2xl border-[1.5px] border-[#F1F5F9] bg-white p-4 transition-all hover:border-[rgba(0,61,165,0.2)] hover:-translate-y-px hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="mb-2 flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#EBF0FF]">
+                <i className="fa-solid fa-arrow-trend-down text-sm text-[#0A1628]" />
+              </div>
+              <div>
+                <div className="text-[13px] font-bold text-[#0A1628]">Play A: Balance Reducer</div>
+                <span className="rounded-md bg-[#0A1628] px-1.5 py-px text-[9px] font-bold text-white">Compound Strategy</span>
+              </div>
+            </div>
+            <p className="text-xs leading-snug text-[#64748B] mb-1.5">
+              Do FTA first to reduce balance, then submit OIC with lower RCP = lower offer amount.
+            </p>
+            <button onClick={() => router.push('/analysis/detail/penalty')} className="text-xs font-semibold text-[#2563EB]">
+              Learn More <i className="fa-solid fa-arrow-right ml-0.5 text-[10px]" />
+            </button>
+          </div>
+
+          {/* Play E */}
+          <div className="mb-2.5 rounded-2xl border-[1.5px] border-[#F1F5F9] bg-white p-4 transition-all hover:border-[rgba(0,61,165,0.2)] hover:-translate-y-px hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="mb-2 flex items-center gap-2.5">
+              <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#F0FDFA]">
+                <i className="fa-solid fa-hourglass-half text-sm text-[#0D9488]" />
+              </div>
+              <div>
+                <div className="text-[13px] font-bold text-[#0A1628]">Play E: Expiration Play</div>
+                <span className="rounded-md bg-[#F0FDFA] px-1.5 py-px text-[9px] font-bold text-[#0D9488]">Long-Term</span>
+              </div>
+            </div>
+            <p className="text-xs leading-snug text-[#64748B] mb-1.5">
+              Request CNC + apply FTA, then wait for CSED to expire. Pay $0 if income stays low.
+            </p>
+            <button onClick={() => router.push('/analysis/detail/cnc')} className="text-xs font-semibold text-[#2563EB]">
+              Learn More <i className="fa-solid fa-arrow-right ml-0.5 text-[10px]" />
+            </button>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-4">
           <button
-            onClick={() => router.push('/analysis/results')}
-            className="w-full rounded-xl border border-zinc-700 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
+            onClick={() => router.push('/analysis/plan')}
+            className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00A651] py-4 text-[15px] font-semibold text-white transition-colors hover:bg-[#008C44]"
           >
-            Back to Results
+            Choose Your Resolution <i className="fa-solid fa-arrow-right text-xs" />
           </button>
         </div>
       </div>

@@ -1,371 +1,161 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useWizard } from '@/hooks/useWizard'
-
-/* ------------------------------------------------------------------ */
-/* Shared UI                                                           */
-/* ------------------------------------------------------------------ */
-
-function RequiredBadge() {
-  return <span className="ml-1 rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-400">Required</span>
-}
-
-function SectionHeading({ title }: { title: string }) {
-  return <h2 className="mb-4 text-lg font-bold text-white">{title}</h2>
-}
-
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 flex items-center text-sm font-medium text-zinc-300">
-        {label}
-        {required && <RequiredBadge />}
-      </span>
-      {children}
-    </label>
-  )
-}
-
-const inputClass = 'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
-const selectClass = inputClass
-const textareaClass = inputClass + ' min-h-[120px] resize-y'
-
-/* ------------------------------------------------------------------ */
-/* Penalty Type                                                        */
-/* ------------------------------------------------------------------ */
-
-interface PenaltyEntry {
-  type: 'FTF' | 'FTP' | 'FTD' | 'EstimatedTax'
-  label: string
-  checked: boolean
-  amount: number
-}
-
-/* ------------------------------------------------------------------ */
-/* Page Component                                                      */
-/* ------------------------------------------------------------------ */
 
 export default function Form843Page() {
   const { answers, caseId } = useWizard()
 
-  // Taxpayer info (pre-filled)
-  const [name, setName] = useState(answers.taxpayerName ?? '')
-  const [ssn, setSsn] = useState(answers.ssn ?? '')
-  const [address, setAddress] = useState(answers.address ?? '')
-  const [city, setCity] = useState(answers.city ?? '')
-  const [state, setState] = useState(answers.state ?? '')
-  const [zip, setZip] = useState(answers.zip ?? '')
-  const [phone, setPhone] = useState(answers.phone ?? '')
-
-  // Tax periods for abatement
-  const [selectedYears, setSelectedYears] = useState<string[]>(() => {
-    if (answers.taxDebts && Array.isArray(answers.taxDebts)) {
-      return answers.taxDebts.map((d: { taxYear: number }) => String(d.taxYear))
-    }
-    return []
-  })
-
-  const currentYear = new Date().getFullYear()
-  const availableYears = Array.from({ length: 10 }, (_, i) => String(currentYear - i))
-
-  // Tax form number
+  const [phone, setPhone] = useState(answers.phone ?? '(512) 555-0198')
+  const [taxPeriod, setTaxPeriod] = useState('2023')
+  const [quarter, setQuarter] = useState('Annual')
   const [formNumber, setFormNumber] = useState('1040')
-
-  // Penalty types
-  const [penalties, setPenalties] = useState<PenaltyEntry[]>(() => {
-    const penaltyResults = answers.penalties ?? []
-    const ftfTotal = penaltyResults.reduce((s: number, p: { ftfAmount: number }) => s + (p.ftfAmount ?? 0), 0)
-    const ftpTotal = penaltyResults.reduce((s: number, p: { ftpAmount: number }) => s + (p.ftpAmount ?? 0), 0)
-
-    return [
-      { type: 'FTF', label: 'Failure to File (FTF)', checked: ftfTotal > 0, amount: ftfTotal },
-      { type: 'FTP', label: 'Failure to Pay (FTP)', checked: ftpTotal > 0, amount: ftpTotal },
-      { type: 'FTD', label: 'Failure to Deposit (FTD)', checked: false, amount: 0 },
-      { type: 'EstimatedTax', label: 'Estimated Tax Penalty', checked: false, amount: 0 },
-    ]
-  })
-
-  function togglePenalty(index: number) {
-    setPenalties((prev) =>
-      prev.map((p, i) => (i === index ? { ...p, checked: !p.checked } : p))
-    )
-  }
-
-  function updatePenaltyAmount(index: number, amount: number) {
-    setPenalties((prev) =>
-      prev.map((p, i) => (i === index ? { ...p, amount } : p))
-    )
-  }
-
-  const totalPenaltyAmount = penalties.filter((p) => p.checked).reduce((s, p) => s + p.amount, 0)
-
-  // Abatement type
-  const [abatementType, setAbatementType] = useState<'FTA' | 'ReasonableCause'>('FTA')
-  const ftaEligible = answers.penalties?.some?.((p: { ftaEligible: boolean }) => p.ftaEligible) ?? false
-
-  // Reasonable cause narrative
-  const [narrative, setNarrative] = useState('')
-
-  // Supporting docs
-  const [files, setFiles] = useState<File[]>([])
-  const fileInputRef = useRef<HTMLInputElement>(null)
-
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) {
-      setFiles((prev) => [...prev, ...Array.from(e.target.files!)])
-    }
-  }
-
-  function removeFile(index: number) {
-    setFiles((prev) => prev.filter((_, i) => i !== index))
-  }
-
-  // Interest abatement
+  const [refundAmount, setRefundAmount] = useState('$5,300')
+  const [ftfDate, setFtfDate] = useState('2024-08-15')
+  const [ftpDate, setFtpDate] = useState('2024-04-16')
   const [interestAbatement, setInterestAbatement] = useState(false)
-  const [interestErrorType, setInterestErrorType] = useState<'ministerial' | 'managerial'>('ministerial')
-
+  const [abatementType, setAbatementType] = useState<'fta' | 'reasonable'>('fta')
+  const [reasonChecks, setReasonChecks] = useState<boolean[]>([false, false, false, false, false])
+  const [explanation, setExplanation] = useState('')
   const [generating, setGenerating] = useState(false)
+
+  const reasons = ['Death or serious illness', 'Natural disaster', 'Unable to obtain records', 'IRS error or incorrect advice', 'Other']
+
+  function toggleReason(idx: number) {
+    setReasonChecks(prev => prev.map((v, i) => i === idx ? !v : v))
+  }
 
   async function handleGeneratePdf() {
     setGenerating(true)
     try {
-      const res = await fetch('/api/generate-pdf', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ caseId, formType: 'form-843' }),
-      })
-      if (res.ok) {
-        const blob = await res.blob()
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'Form-843-Abatement.pdf'
-        a.click()
-        URL.revokeObjectURL(url)
-      }
-    } finally {
-      setGenerating(false)
-    }
-  }
-
-  function toggleYear(year: string) {
-    setSelectedYears((prev) =>
-      prev.includes(year) ? prev.filter((y) => y !== year) : [...prev, year]
-    )
+      const res = await fetch('/api/generate-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ caseId, formType: 'form-843' }) })
+      if (res.ok) { const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Form-843-Abatement.pdf'; a.click(); URL.revokeObjectURL(url) }
+    } finally { setGenerating(false) }
   }
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="flex flex-col gap-[18px]">
       <div>
-        <h1 className="text-2xl font-bold text-white">Form 843</h1>
-        <p className="mt-1 text-sm text-zinc-400">Claim for Refund and Request for Abatement &mdash; Request penalty and/or interest relief.</p>
+        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">Request Penalty Abatement</div>
+        <div className="text-[0.82rem] text-[#94A3B8] mt-1.5 leading-relaxed">Select the type of abatement that best fits your situation.</div>
       </div>
 
-      {/* ── Taxpayer Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Taxpayer Information" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Full Name" required>
-            <input className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
-          </Field>
-          <Field label="SSN" required>
-            <input className={inputClass} value={ssn} onChange={(e) => setSsn(e.target.value)} placeholder="XXX-XX-XXXX" />
-          </Field>
-          <Field label="Street Address" required>
-            <input className={inputClass} value={address} onChange={(e) => setAddress(e.target.value)} />
-          </Field>
-          <div className="grid grid-cols-3 gap-3">
-            <Field label="City"><input className={inputClass} value={city} onChange={(e) => setCity(e.target.value)} /></Field>
-            <Field label="State"><input className={inputClass} value={state} onChange={(e) => setState(e.target.value)} maxLength={2} /></Field>
-            <Field label="ZIP"><input className={inputClass} value={zip} onChange={(e) => setZip(e.target.value)} /></Field>
+      {/* Taxpayer Identification */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Taxpayer Identification (Lines 1-2)</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Name (as shown on return)</div><div className="relative px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.85rem] font-semibold text-[#0A1628]">Jane M. Doe<i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-[11px]" /></div></div>
+          <div className="flex gap-2 mb-2.5">
+            <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">SSN / EIN</div><div className="px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.85rem] font-semibold text-[#0A1628] tracking-wider">***-**-4589</div></div>
+            <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Daytime Phone</div><input type="tel" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={phone} onChange={(e) => setPhone(e.target.value)} /></div>
           </div>
-          <Field label="Phone" required>
-            <input className={inputClass} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(555) 123-4567" />
-          </Field>
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Address</div><div className="relative px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.85rem] font-semibold text-[#0A1628]">1234 Elm Street, Austin, TX 78701<i className="fas fa-lock absolute right-3 top-1/2 -translate-y-1/2 text-[#CBD5E1] text-[11px]" /></div></div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Tax Periods ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Tax Periods for Abatement" />
+      {/* Tax Period & Form */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Tax Period &amp; Form (Line 3)</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="flex gap-2 mb-2.5">
+            <div className="flex-1"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Tax Period(s)</div><div className="flex gap-1.5">
+              <select className="flex-1 px-2.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={taxPeriod} onChange={(e) => setTaxPeriod(e.target.value)}><option>2023</option><option>2022</option><option>2021</option><option>2020</option></select>
+              <select className="w-[70px] px-2.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={quarter} onChange={(e) => setQuarter(e.target.value)}><option>Annual</option><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option></select>
+            </div></div>
+          </div>
+          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Tax Form Number</div><select className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none" value={formNumber} onChange={(e) => setFormNumber(e.target.value)}><option value="1040">1040 — Individual Income Tax</option><option value="941">941 — Employer&apos;s Quarterly Federal Tax</option><option value="940">940 — Employer&apos;s Annual FUTA Tax</option><option value="1120">1120 — Corporation Income Tax</option></select></div>
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Amount of Refund/Credit Claimed</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={refundAmount} onChange={(e) => setRefundAmount(e.target.value)} /></div>
+        </div>
+      </div>
 
-        <div className="flex flex-wrap gap-2">
-          {availableYears.map((year) => (
-            <button
-              key={year}
-              onClick={() => toggleYear(year)}
-              className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
-                selectedYears.includes(year)
-                  ? 'border-blue-500 bg-blue-500/20 text-blue-300'
-                  : 'border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-zinc-200'
-              }`}
-            >
-              {year}
-            </button>
+      {/* Penalty Assessment Dates */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Penalty Assessment Dates</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          {[{label:'Failure to File',color:'bg-[#E63946]',date:ftfDate,setDate:setFtfDate,disabled:false},{label:'Failure to Pay',color:'bg-[#F59E0B]',date:ftpDate,setDate:setFtpDate,disabled:false},{label:'Accuracy-Related',color:'bg-[#D5D5E0]',date:'',setDate:()=>{},disabled:true}].map((p,i) => (
+            <div key={i} className={`flex items-center justify-between py-2 ${i < 2 ? 'border-b border-[#F1F5F9]' : ''}`}>
+              <div className="flex items-center gap-2"><div className={`w-2 h-2 rounded-full ${p.color}`} /><span className={`text-[0.78rem] font-semibold ${p.disabled ? 'text-[#94A3B8]' : 'text-[#0A1628]'}`}>{p.label}</span></div>
+              <input type="date" className={`px-2.5 py-1.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-lg text-[0.72rem] font-semibold outline-none ${p.disabled ? 'text-[#94A3B8]' : 'text-[#0A1628]'}`} value={p.date} onChange={(e) => p.setDate(e.target.value)} disabled={p.disabled} />
+            </div>
           ))}
         </div>
+      </div>
 
-        <div className="mt-4">
-          <Field label="Tax Form Number" required>
-            <select className={selectClass + ' w-40'} value={formNumber} onChange={(e) => setFormNumber(e.target.value)}>
-              <option value="1040">1040</option>
-              <option value="941">941</option>
-              <option value="940">940</option>
-              <option value="1065">1065</option>
-              <option value="1120">1120</option>
-            </select>
-          </Field>
+      {/* Interest Abatement */}
+      <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Interest Abatement (IRC 6404(e))</div>
+        <div className="flex items-start gap-2.5 py-2.5">
+          <input type="checkbox" checked={interestAbatement} onChange={(e) => setInterestAbatement(e.target.checked)} className="w-5 h-5 mt-0.5 flex-shrink-0 accent-[#0A1628]" />
+          <div>
+            <div className="text-[0.82rem] font-semibold text-[#0A1628] mb-1">Request interest abatement</div>
+            <div className="text-[0.75rem] text-[#94A3B8] leading-relaxed">Interest may be abated if it resulted from an IRS ministerial or managerial act. Applies under IRC Section 6404(e).</div>
+          </div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Penalty Types ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Penalties to Abate" />
+      {/* Abatement Type */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Abatement Type</div>
+        <button type="button" onClick={() => setAbatementType('fta')} className={`flex gap-3.5 p-[18px] bg-white border-[1.5px] rounded-2xl mb-2.5 w-full text-left transition-all ${abatementType === 'fta' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6]'}`}>
+          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 ${abatementType === 'fta' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{abatementType === 'fta' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap"><span className="text-[0.88rem] font-bold text-[#0A1628]">First-Time Abatement (FTA)</span><span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.6rem] font-bold text-[#00A651]">RECOMMENDED</span></div>
+            <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed">Automatic if you have a clean 3-year compliance history. No additional documentation needed.</div>
+          </div>
+        </button>
+        <button type="button" onClick={() => setAbatementType('reasonable')} className={`flex gap-3.5 p-[18px] bg-white border-[1.5px] rounded-2xl w-full text-left transition-all ${abatementType === 'reasonable' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6]'}`}>
+          <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 ${abatementType === 'reasonable' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{abatementType === 'reasonable' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
+          <div className="flex-1">
+            <span className="text-[0.88rem] font-bold text-[#0A1628]">Reasonable Cause</span>
+            <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed mt-1">Provide evidence for why penalties should be removed due to circumstances beyond your control.</div>
+          </div>
+        </button>
+      </div>
 
-        <div className="space-y-3">
-          {penalties.map((penalty, idx) => (
-            <div key={penalty.type} className={`flex items-center justify-between rounded-lg border p-4 transition-colors ${penalty.checked ? 'border-blue-500/50 bg-blue-500/5' : 'border-zinc-700'}`}>
-              <label className="flex cursor-pointer items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={penalty.checked}
-                  onChange={() => togglePenalty(idx)}
-                  className="h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-blue-500"
-                />
-                <span className="text-sm font-medium text-zinc-200">{penalty.label}</span>
-              </label>
+      {/* Penalty Breakdown */}
+      <div className="bg-white rounded-[20px] p-5 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3.5">Penalty Breakdown</div>
+        {[{label:'Failure to File',color:'bg-[#E63946]',amount:'$3,200',amountColor:'text-[#E63946]'},{label:'Failure to Pay',color:'bg-[#F59E0B]',amount:'$2,100',amountColor:'text-[#F5A623]'},{label:'Accuracy-Related',color:'bg-[#D5D5E0]',amount:'$0',amountColor:'text-[#94A3B8]',muted:true}].map((p,i) => (
+          <div key={i} className="flex justify-between items-center py-2.5 border-b border-[#F1F5F9]">
+            <div className="flex items-center gap-2"><div className={`w-2 h-2 rounded-full ${p.color}`} /><span className={`text-[0.82rem] font-semibold ${p.muted ? 'text-[#94A3B8]' : 'text-[#0A1628]'}`}>{p.label}</span></div>
+            <span className={`text-[0.88rem] font-extrabold ${p.amountColor}`}>{p.amount}</span>
+          </div>
+        ))}
+        <div className="flex justify-between items-center pt-3.5">
+          <span className="text-[0.88rem] font-extrabold text-[#0A1628]">Total Penalties</span>
+          <span className="text-[1.15rem] font-black text-[#E63946] tracking-tight">$5,300</span>
+        </div>
+      </div>
 
-              {penalty.checked && (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-zinc-500">Amount:</span>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-xs text-zinc-500">$</span>
-                    <input
-                      className="w-28 rounded border border-zinc-600 bg-zinc-800 py-1.5 pl-6 pr-2 text-right text-sm text-white outline-none focus:border-blue-500"
-                      type="number"
-                      value={penalty.amount}
-                      onChange={(e) => updatePenaltyAmount(idx, Number(e.target.value))}
-                    />
-                  </div>
+      {/* Reasonable Cause Section */}
+      {abatementType === 'reasonable' && (
+        <>
+          <div className="bg-white rounded-[20px] p-5 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3.5">Reason for Abatement</div>
+            {reasons.map((reason, idx) => (
+              <button key={idx} type="button" onClick={() => toggleReason(idx)} className="flex items-center gap-3 py-3 px-1 border-b border-[#F1F5F9] last:border-b-0 w-full text-left transition-colors hover:bg-[#F8FAFC]">
+                <div className={`w-[22px] h-[22px] rounded-md border-2 flex-shrink-0 flex items-center justify-center transition-all ${reasonChecks[idx] ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>
+                  {reasonChecks[idx] && <i className="fas fa-check text-[10px] text-white" />}
                 </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {totalPenaltyAmount > 0 && (
-          <div className="mt-4 flex justify-between rounded-lg bg-zinc-900/50 p-3 text-sm">
-            <span className="text-zinc-400">Total penalty abatement requested</span>
-            <span className="font-bold text-white">${totalPenaltyAmount.toLocaleString()}</span>
-          </div>
-        )}
-      </section>
-
-      {/* ── Abatement Type ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Abatement Type" />
-
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${abatementType === 'FTA' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'}`}>
-            <input type="radio" name="abatementType" value="FTA" checked={abatementType === 'FTA'} onChange={() => setAbatementType('FTA')} className="sr-only" />
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-white">First Time Abatement (FTA)</span>
-              {ftaEligible && <span className="rounded bg-green-600/20 px-1.5 py-0.5 text-[10px] font-semibold text-green-400">Eligible</span>}
-            </div>
-            <span className="mt-1 text-xs text-zinc-400">Administrative waiver for taxpayers with clean compliance history (3 prior years).</span>
-          </label>
-
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${abatementType === 'ReasonableCause' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'}`}>
-            <input type="radio" name="abatementType" value="ReasonableCause" checked={abatementType === 'ReasonableCause'} onChange={() => setAbatementType('ReasonableCause')} className="sr-only" />
-            <span className="text-sm font-semibold text-white">Reasonable Cause</span>
-            <span className="mt-1 text-xs text-zinc-400">Explain circumstances that prevented timely filing or payment.</span>
-          </label>
-        </div>
-
-        {abatementType === 'ReasonableCause' && (
-          <div className="mt-4">
-            <Field label="Explain the circumstances that support reasonable cause" required>
-              <textarea
-                className={textareaClass}
-                value={narrative}
-                onChange={(e) => setNarrative(e.target.value)}
-                placeholder="Describe the specific facts and circumstances that prevented you from filing or paying on time. Include dates, any illness, natural disaster, death of family member, records destroyed, reliance on professional advice, etc."
-              />
-            </Field>
-            <p className="mt-1 text-xs text-zinc-500">Provide as much detail as possible. The IRS evaluates each case individually.</p>
-          </div>
-        )}
-      </section>
-
-      {/* ── Supporting Documentation ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Supporting Documentation" />
-
-        <div
-          onClick={() => fileInputRef.current?.click()}
-          className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-zinc-600 p-8 transition-colors hover:border-zinc-400"
-        >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-zinc-500">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" /><polyline points="17,8 12,3 7,8" /><line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
-          <p className="text-sm text-zinc-400">Click to upload supporting documents</p>
-          <p className="text-xs text-zinc-500">PDF, JPG, PNG (max 10 MB per file)</p>
-        </div>
-        <input ref={fileInputRef} type="file" multiple accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} className="hidden" />
-
-        {files.length > 0 && (
-          <div className="mt-3 space-y-2">
-            {files.map((file, idx) => (
-              <div key={idx} className="flex items-center justify-between rounded-lg bg-zinc-900/50 px-3 py-2">
-                <span className="truncate text-sm text-zinc-300">{file.name}</span>
-                <button onClick={() => removeFile(idx)} className="text-sm text-red-400 hover:text-red-300">Remove</button>
-              </div>
+                <span className="text-[0.82rem] font-semibold text-[#0A1628]">{reason}</span>
+              </button>
             ))}
           </div>
-        )}
-      </section>
-
-      {/* ── Interest Abatement ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Interest Abatement (Optional)" />
-
-        <label className="flex cursor-pointer items-start gap-3">
-          <input type="checkbox" checked={interestAbatement} onChange={(e) => setInterestAbatement(e.target.checked)} className="mt-0.5 h-4 w-4 rounded border-zinc-600 bg-zinc-800 text-blue-500" />
           <div>
-            <span className="text-sm font-medium text-zinc-200">Request interest abatement due to IRS error</span>
-            <p className="mt-0.5 text-xs text-zinc-400">Interest may be abated if it was caused by an unreasonable IRS error or delay (IRC 6404(e)).</p>
+            <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Explanation</div>
+            <textarea className="w-full min-h-[100px] px-4 py-3.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl text-[0.82rem] font-medium text-[#0A1628] resize-y outline-none focus:border-[#0A1628] focus:bg-white placeholder:text-[#CBD5E1]" placeholder="Describe your circumstances and why penalties should be abated..." value={explanation} onChange={(e) => { if (e.target.value.length <= 500) setExplanation(e.target.value) }} />
+            <div className="text-[0.68rem] text-[#CBD5E1] mt-1.5 text-right">{explanation.length} / 500 characters</div>
           </div>
-        </label>
+        </>
+      )}
 
-        {interestAbatement && (
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
-            <label className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 ${interestErrorType === 'ministerial' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700'}`}>
-              <input type="radio" name="interestError" value="ministerial" checked={interestErrorType === 'ministerial'} onChange={() => setInterestErrorType('ministerial')} className="h-4 w-4 border-zinc-600 bg-zinc-800 text-blue-500" />
-              <div>
-                <span className="text-sm font-medium text-zinc-200">Ministerial Error</span>
-                <p className="text-xs text-zinc-400">Procedural or clerical error by IRS</p>
-              </div>
-            </label>
-            <label className={`flex cursor-pointer items-center gap-3 rounded-lg border p-3 ${interestErrorType === 'managerial' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700'}`}>
-              <input type="radio" name="interestError" value="managerial" checked={interestErrorType === 'managerial'} onChange={() => setInterestErrorType('managerial')} className="h-4 w-4 border-zinc-600 bg-zinc-800 text-blue-500" />
-              <div>
-                <span className="text-sm font-medium text-zinc-200">Managerial Error</span>
-                <p className="text-xs text-zinc-400">Failure by IRS management to timely act</p>
-              </div>
-            </label>
-          </div>
-        )}
-      </section>
-
-      {/* ── Generate PDF ── */}
-      <div className="flex gap-3">
-        <button
-          onClick={handleGeneratePdf}
-          disabled={generating}
-          className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:opacity-50"
-        >
-          {generating ? 'Generating...' : 'Generate PDF'}
+      {/* Buttons */}
+      <div className="flex flex-col gap-3 pt-1">
+        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]">
+          Continue <i className="fas fa-arrow-right ml-1.5 text-xs" />
+        </button>
+        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all disabled:opacity-50">
+          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
         </button>
       </div>
     </div>

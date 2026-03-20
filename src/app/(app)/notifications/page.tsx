@@ -1,165 +1,224 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-interface Notification {
+interface NotifItem {
   id: string
-  icon: 'analysis' | 'form' | 'payment' | 'info'
+  iconBg: string
+  iconColor: string
+  icon: string
   title: string
   description: string
-  timestamp: string
-  read: boolean
+  time: string
+  unread: boolean
 }
 
-const SAMPLE_NOTIFICATIONS: Notification[] = [
+const INITIAL_NOTIFICATIONS: NotifItem[] = [
   {
     id: '1',
-    icon: 'analysis',
-    title: 'Analysis complete',
-    description: 'Your tax resolution analysis has been completed. Review your personalized options now.',
-    timestamp: '2 hours ago',
-    read: false,
+    iconBg: '#FEF2F2',
+    iconColor: '#EF4444',
+    icon: 'fas fa-clock',
+    title: 'IRS Deadline Approaching',
+    description: 'Your Form 656 submission deadline is in 5 days. Don\'t miss this critical date.',
+    time: '2 hours ago',
+    unread: true,
   },
   {
     id: '2',
-    icon: 'form',
-    title: 'Form 9465 ready for review',
-    description: 'Your Installment Agreement Request form has been generated and is ready for your review.',
-    timestamp: '1 day ago',
-    read: false,
+    iconBg: '#FFFBEB',
+    iconColor: '#F59E0B',
+    icon: 'fas fa-credit-card',
+    title: 'Payment Plan Due',
+    description: 'Your monthly installment of $350 is due on March 25. Ensure funds are available.',
+    time: '5 hours ago',
+    unread: true,
   },
   {
     id: '3',
-    icon: 'payment',
-    title: 'Payment reminder',
-    description: 'Your next installment payment of $425.00 is due in 5 days.',
-    timestamp: '3 days ago',
-    read: true,
+    iconBg: '#EFF4FF',
+    iconColor: '#2563EB',
+    icon: 'fas fa-arrow-rotate-right',
+    title: 'Case Status Update',
+    description: 'Case #1042 has been moved to "Under Review" by the IRS. We\'ll keep you posted.',
+    time: '1 day ago',
+    unread: true,
+  },
+  {
+    id: '4',
+    iconBg: '#ECFDF5',
+    iconColor: '#10B981',
+    icon: 'fas fa-message',
+    title: 'New Message from Expert',
+    description: 'Sarah M. responded to your question about the Offer in Compromise process.',
+    time: '2 days ago',
+    unread: false,
+  },
+  {
+    id: '5',
+    iconBg: '#EEF2FF',
+    iconColor: '#6366F1',
+    icon: 'fas fa-file-lines',
+    title: 'Document Uploaded',
+    description: 'Your 2023 W-2 has been successfully uploaded and verified.',
+    time: '3 days ago',
+    unread: false,
+  },
+  {
+    id: '6',
+    iconBg: '#E6F9EE',
+    iconColor: '#00A651',
+    icon: 'fas fa-check-circle',
+    title: 'Payment Confirmed',
+    description: 'Your payment of $250 has been successfully processed and applied to your account.',
+    time: '5 days ago',
+    unread: false,
   },
 ]
 
-const ICON_MAP: Record<string, { bg: string; color: string; path: string }> = {
-  analysis: {
-    bg: 'bg-emerald-500/10',
-    color: 'text-emerald-400',
-    path: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
-  },
-  form: {
-    bg: 'bg-blue-500/10',
-    color: 'text-blue-400',
-    path: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
-  },
-  payment: {
-    bg: 'bg-amber-500/10',
-    color: 'text-amber-400',
-    path: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-  },
-  info: {
-    bg: 'bg-[var(--primary)]/10',
-    color: 'text-[var(--primary)]',
-    path: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
-  },
-}
-
 export default function NotificationsPage() {
-  const [notifications, setNotifications] = useState<Notification[]>(SAMPLE_NOTIFICATIONS)
+  const router = useRouter()
+  const [notifications, setNotifications] = useState(INITIAL_NOTIFICATIONS)
+  const [activeTab, setActiveTab] = useState<'all' | 'unread'>('all')
 
-  const unreadCount = notifications.filter((n) => !n.read).length
+  const unreadCount = notifications.filter((n) => n.unread).length
 
   function markAllRead() {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))
+    setNotifications((prev) => prev.map((n) => ({ ...n, unread: false })))
   }
 
-  function toggleRead(id: string) {
-    setNotifications((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, read: !n.read } : n)),
-    )
-  }
+  const filtered = activeTab === 'unread' ? notifications.filter((n) => n.unread) : notifications
 
   return (
-    <div className="min-h-screen bg-[var(--background)] p-4 sm:p-8">
-      <div className="mx-auto max-w-3xl space-y-6">
+    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">Notifications</h1>
-            <p className="mt-1 text-[var(--muted-foreground)]">
-              {unreadCount > 0
-                ? `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}`
-                : 'You\'re all caught up'}
-            </p>
-          </div>
-          {unreadCount > 0 && (
+        <div className="flex items-center justify-between px-5 pt-4 pb-3">
+          <div className="flex items-center gap-3">
             <button
-              onClick={markAllRead}
-              className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition hover:text-[var(--foreground)] hover:border-[var(--muted-foreground)]"
+              onClick={() => router.back()}
+              style={{ color: '#0A1628', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
             >
-              Mark all as read
+              <i className="fas fa-arrow-left" style={{ fontSize: 18 }} />
             </button>
-          )}
+            <span style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0A1628' }}>Notifications</span>
+          </div>
+          <button
+            onClick={markAllRead}
+            style={{
+              fontSize: '0.75rem', fontWeight: 600, color: '#2563EB',
+              background: 'none', border: 'none', cursor: 'pointer',
+              padding: '8px 12px', borderRadius: 9999,
+            }}
+          >
+            Mark all read
+          </button>
         </div>
 
-        {/* Notification List */}
-        {notifications.length === 0 ? (
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-            <div className="flex flex-col items-center justify-center py-16 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--secondary)]">
-                <svg className="h-8 w-8 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                </svg>
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">No notifications</h3>
-              <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-                You&apos;re all caught up. We&apos;ll notify you when something important happens.
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-xl border border-[var(--border)] bg-[var(--card)] divide-y divide-[var(--border)]">
-            {notifications.map((notif) => {
-              const icon = ICON_MAP[notif.icon] || ICON_MAP.info
-              return (
-                <button
-                  key={notif.id}
-                  onClick={() => toggleRead(notif.id)}
-                  className={`flex w-full items-start gap-4 p-4 text-left transition hover:bg-[var(--secondary)]/50 ${
-                    !notif.read ? 'bg-[var(--primary)]/5' : ''
-                  }`}
-                >
-                  <div
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${icon.bg}`}
+        <div className="px-5 pb-6">
+          <div className="flex flex-col gap-4">
+            {/* Tabs */}
+            <div className="flex gap-2 px-1">
+              <button
+                onClick={() => setActiveTab('all')}
+                style={{
+                  padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
+                  borderRadius: 9999, border: 'none', cursor: 'pointer',
+                  background: activeTab === 'all' ? '#0A1628' : 'transparent',
+                  color: activeTab === 'all' ? '#FFFFFF' : '#94A3B8',
+                }}
+              >
+                All
+              </button>
+              <button
+                onClick={() => setActiveTab('unread')}
+                className="flex items-center gap-1"
+                style={{
+                  padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
+                  borderRadius: 9999, border: 'none', cursor: 'pointer',
+                  background: activeTab === 'unread' ? '#0A1628' : 'transparent',
+                  color: activeTab === 'unread' ? '#FFFFFF' : '#94A3B8',
+                }}
+              >
+                Unread
+                {unreadCount > 0 && (
+                  <span
+                    className="inline-flex items-center justify-center"
+                    style={{
+                      width: 18, height: 18, borderRadius: '50%',
+                      background: '#E63946', color: '#FFFFFF',
+                      fontSize: '0.6rem', fontWeight: 700, marginLeft: 4,
+                    }}
                   >
-                    <svg
-                      className={`h-5 w-5 ${icon.color}`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={1.5}
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Swipe hint */}
+            <div className="flex items-center justify-center gap-[6px] py-1">
+              <i className="fas fa-arrow-left" style={{ fontSize: 10, color: '#CBD5E1' }} />
+              <span style={{ fontSize: '0.7rem', color: '#CBD5E1', fontWeight: 500 }}>Swipe to dismiss</span>
+            </div>
+
+            {/* Notification List */}
+            {filtered.length > 0 ? (
+              <div style={{ background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6', overflow: 'hidden', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)' }}>
+                {filtered.map((notif, i) => (
+                  <div
+                    key={notif.id}
+                    className="flex items-start gap-3 cursor-pointer transition-colors"
+                    style={{
+                      padding: 16,
+                      borderBottom: i < filtered.length - 1 ? '1px solid #F1F5F9' : 'none',
+                      background: notif.unread ? '#FAFBFF' : 'transparent',
+                    }}
+                  >
+                    <div
+                      className="flex-shrink-0 flex items-center justify-center"
+                      style={{ width: 40, height: 40, borderRadius: 12, background: notif.iconBg }}
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" d={icon.path} />
-                    </svg>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className={`font-medium ${!notif.read ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>
-                        {notif.title}
-                      </p>
-                      {!notif.read && (
-                        <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--primary)]" />
-                      )}
+                      <i className={notif.icon} style={{ fontSize: 16, color: notif.iconColor }} />
                     </div>
-                    <p className="mt-0.5 text-sm text-[var(--muted-foreground)]">
-                      {notif.description}
-                    </p>
-                    <p className="mt-1 text-xs text-[var(--muted-foreground)]">
-                      {notif.timestamp}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <div style={{ fontSize: '0.85rem', fontWeight: notif.unread ? 700 : 600, color: '#0A1628' }}>
+                          {notif.title}
+                        </div>
+                        {notif.unread && (
+                          <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#2563EB', flexShrink: 0, marginTop: 6 }} />
+                        )}
+                      </div>
+                      <div style={{ fontSize: '0.78rem', color: '#64748B', marginTop: 3, lineHeight: 1.45 }}>
+                        {notif.description}
+                      </div>
+                      <div style={{ fontSize: '0.68rem', color: '#CBD5E1', fontWeight: 500, marginTop: 6 }}>
+                        {notif.time}
+                      </div>
+                    </div>
                   </div>
-                </button>
-              )
-            })}
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16 px-5">
+                <div
+                  className="flex items-center justify-center mx-auto mb-5"
+                  style={{ width: 80, height: 80, borderRadius: 20, background: '#F8FAFC' }}
+                >
+                  <i className="fas fa-bell-slash" style={{ fontSize: 32, color: '#CBD5E1' }} />
+                </div>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0A1628', marginBottom: 8 }}>
+                  No notifications yet
+                </div>
+                <div style={{ fontSize: '0.82rem', color: '#94A3B8', lineHeight: 1.5, maxWidth: 240, margin: '0 auto' }}>
+                  We&apos;ll notify you about important updates to your cases, deadlines, and messages.
+                </div>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )

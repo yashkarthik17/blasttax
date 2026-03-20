@@ -1,251 +1,189 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-/* ------------------------------------------------------------------ */
-/*  Resolution option definitions                                      */
-/* ------------------------------------------------------------------ */
-
-interface ResolutionOption {
+interface SwitchCard {
   id: string
-  title: string
-  shortDescription: string
-  pros: string[]
-  cons: string[]
-  eligibility: string
-  timeframe: string
-  href: string
-  recommended?: boolean
+  fromLabel: string
+  fromBg: string
+  fromColor: string
+  toLabel: string
+  toBg: string
+  toColor: string
+  iconBg: string
+  iconColor: string
+  subtitle: string
+  detail: string
+  steps?: { num: number; text: string }[]
+  tip?: { icon: string; color: string; bg: string; text: string }
 }
 
-const RESOLUTION_OPTIONS: ResolutionOption[] = [
+const SWITCH_CARDS: SwitchCard[] = [
   {
-    id: 'ia',
-    title: 'Installment Agreement',
-    shortDescription: 'Pay your tax debt in fixed monthly payments over time (up to 72 months).',
-    pros: [
-      'Stops aggressive collection activity',
-      'Reduced FTP penalty rate (0.25%/month)',
-      'Predictable monthly payment schedule',
-      'Multiple IA types available (Guaranteed, Streamlined, Non-Streamlined)',
+    id: 'ia-to-oic',
+    fromLabel: 'IA', fromBg: '#EBF0FF', fromColor: '#0A1628',
+    toLabel: 'OIC', toBg: '#F5F0FF', toColor: '#7C3AED',
+    iconBg: '#EBF0FF', iconColor: '#0A1628',
+    subtitle: 'Must terminate IA first',
+    detail: 'TC 971 AC 043/063 must close before TC 480 posts',
+    steps: [
+      { num: 1, text: 'Call IRS to terminate current IA' },
+      { num: 2, text: 'Wait for IA closure to process' },
+      { num: 3, text: 'File Form 656 (OIC application)' },
     ],
-    cons: [
-      'Interest and penalties continue to accrue',
-      'Federal Tax Lien may still be filed',
-      'Must stay in compliance for the life of the agreement',
-      'Full balance must be paid within the CSED',
-    ],
-    eligibility: 'Available to most taxpayers who owe $50,000 or less (Streamlined) or any amount (Non-Streamlined with full financial disclosure).',
-    timeframe: '2-6 weeks for approval (Streamlined), 2-6 months (Non-Streamlined)',
-    href: '/analysis/results',
-    recommended: true,
   },
   {
-    id: 'oic',
-    title: 'Offer in Compromise',
-    shortDescription: 'Settle your tax debt for less than the full amount owed.',
-    pros: [
-      'Potentially settle for pennies on the dollar',
-      'Collection activity paused during review',
-      'Fresh start after acceptance',
-      '24-month deemed acceptance rule protects you',
+    id: 'ia-to-cnc',
+    fromLabel: 'IA', fromBg: '#EBF0FF', fromColor: '#0A1628',
+    toLabel: 'CNC', toBg: '#F0FDFA', toColor: '#0D9488',
+    iconBg: '#EBF0FF', iconColor: '#0D9488',
+    subtitle: 'If you can no longer afford payments',
+    detail: 'Demonstrate $0 monthly disposable income (MDI)',
+    steps: [
+      { num: 1, text: 'Call IRS, explain financial hardship' },
+      { num: 2, text: 'Submit Form 433-F with financials' },
+      { num: 3, text: 'Request CNC status' },
     ],
-    cons: [
-      'Lengthy process (6-24 months)',
-      '$205 application fee (non-refundable)',
-      'Requires extensive financial documentation',
-      '5-year compliance period after acceptance',
-    ],
-    eligibility: 'Must demonstrate inability to pay full amount within CSED. All tax returns must be filed and current estimated payments made.',
-    timeframe: '6-18 months for decision, up to 24 months',
-    href: '/analysis/results',
   },
   {
-    id: 'cnc',
-    title: 'Currently Not Collectible',
-    shortDescription: 'Temporarily halt all IRS collection activity due to financial hardship.',
-    pros: [
-      'No payments required',
-      'CSED continues running (debt eventually expires)',
-      'Immediate relief from collection pressure',
-      'No application fee',
-    ],
-    cons: [
-      'Penalties and interest continue accruing',
-      'Federal Tax Lien typically filed',
-      'IRS reviews status annually',
-      'Tax refunds will be offset',
-    ],
-    eligibility: 'Must demonstrate that paying would cause economic hardship — monthly income does not cover allowable living expenses.',
-    timeframe: '2-8 weeks for determination',
-    href: '/analysis/results',
+    id: 'cnc-to-ia',
+    fromLabel: 'CNC', fromBg: '#F0FDFA', fromColor: '#0D9488',
+    toLabel: 'IA', toBg: '#EBF0FF', toColor: '#0A1628',
+    iconBg: '#F0FDFA', iconColor: '#0A1628',
+    subtitle: 'If your financial situation improves',
+    detail: 'Better to self-initiate than wait for IRS to revoke',
+    tip: { icon: 'fa-lightbulb', color: '#065F46', bg: '#E6F9EE', text: 'Proactively setting up an IA shows good faith and avoids enforcement' },
   },
   {
-    id: 'penalty',
-    title: 'Penalty Abatement',
-    shortDescription: 'Request removal of assessed penalties (FTP, FTF, estimated tax).',
-    pros: [
-      'Can significantly reduce total balance',
-      'First Time Abatement is straightforward',
-      'Can be combined with other resolutions',
-      'No fee to request',
+    id: 'oic-to-ia',
+    fromLabel: 'OIC Rejected', fromBg: '#FFF0F1', fromColor: '#E63946',
+    toLabel: 'IA', toBg: '#EBF0FF', toColor: '#0A1628',
+    iconBg: '#FFF0F1', iconColor: '#E63946',
+    subtitle: 'IA is always available, no waiting period',
+    detail: 'If offer denied, you can immediately set up an installment agreement',
+    tip: { icon: 'fa-circle-check', color: '#065F46', bg: '#E6F9EE', text: 'No waiting period required between OIC rejection and IA setup' },
+  },
+  {
+    id: 'any-to-cdp',
+    fromLabel: 'Any', fromBg: '#F8FAFC', fromColor: '#64748B',
+    toLabel: 'CDP', toBg: '#FEF3C7', toColor: '#D97706',
+    iconBg: '#FEF3C7', iconColor: '#D97706',
+    subtitle: 'If you receive a collection notice',
+    detail: '30-day window to file Form 12153',
+    steps: [
+      { num: 1, text: 'Receive collection notice (levy/lien)' },
+      { num: 2, text: 'File Form 12153 within 30 days' },
+      { num: 3, text: 'Propose alternative resolution at hearing' },
     ],
-    cons: [
-      'Only removes penalties, not interest or tax',
-      'FTA requires clean 3-year compliance history',
-      'Reasonable cause requires strong documentation',
-      'Not guaranteed — IRS has discretion',
-    ],
-    eligibility: 'First Time Abatement: no penalties in prior 3 years. Reasonable Cause: must document circumstances beyond your control.',
-    timeframe: '1-4 weeks (FTA), 2-6 months (Reasonable Cause)',
-    href: '/analysis/results',
+    tip: { icon: 'fa-clock', color: '#92400E', bg: '#FFFBEB', text: '30-day deadline is strict — do not miss it' },
   },
 ]
 
-/* ------------------------------------------------------------------ */
-/*  Page Component                                                     */
-/* ------------------------------------------------------------------ */
-
 export default function SwitchingPage() {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const router = useRouter()
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+
+  function toggleCard(id: string) {
+    setExpandedId((prev) => (prev === id ? null : id))
+  }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back
-        </Link>
-
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
         {/* Header */}
-        <div className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-500/15">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-              <polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-            </svg>
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+          </button>
+          <span className="text-[15px] font-bold text-[#0A1628]">Change Resolution</span>
+          <div className="w-10" />
+        </div>
+
+        <div className="px-5 py-5 pb-8">
+          {/* Title */}
+          <div className="mb-1">
+            <h1 className="text-xl font-extrabold text-[#0A1628] leading-tight">Switching Your Resolution Path</h1>
           </div>
-          <h1 className="text-3xl font-bold text-white">Let&apos;s Find a Better Path</h1>
-          <p className="mt-2 text-zinc-400 max-w-md mx-auto">
-            Your previous resolution didn&apos;t work out. Review the options below and choose the best path forward for your situation.
-          </p>
-        </div>
+          <p className="text-[13px] text-[#64748B] mb-5">Sometimes circumstances change and a different resolution makes sense</p>
 
-        {/* Resolution Option Cards */}
-        <div className="space-y-4">
-          {RESOLUTION_OPTIONS.map((option) => (
-            <div
-              key={option.id}
-              className={`rounded-2xl border p-6 transition-all cursor-pointer ${
-                selectedOption === option.id
-                  ? 'border-blue-500 bg-blue-500/5'
-                  : 'border-[#27272a] bg-[#18181b] hover:border-zinc-600'
-              }`}
-              onClick={() => setSelectedOption(selectedOption === option.id ? null : option.id)}
-            >
-              {/* Card Header */}
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h3 className="text-lg font-semibold text-white">{option.title}</h3>
-                    {option.recommended && (
-                      <span className="rounded-full bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
-                        Recommended
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-1 text-sm text-zinc-400">{option.shortDescription}</p>
-                </div>
-                <div className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full border-2 transition ${
-                  selectedOption === option.id ? 'border-blue-500 bg-blue-500' : 'border-zinc-600'
-                }`}>
-                  {selectedOption === option.id && (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  )}
-                </div>
-              </div>
-
-              {/* Expanded Details */}
-              {selectedOption === option.id && (
-                <div className="mt-6 space-y-4">
-                  {/* Pros & Cons Grid */}
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl bg-[#09090b] p-4">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-3">Advantages</h4>
-                      <ul className="space-y-2">
-                        {option.pros.map((pro, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0 text-emerald-500">
-                              <polyline points="20 6 9 17 4 12" />
-                            </svg>
-                            {pro}
-                          </li>
-                        ))}
-                      </ul>
+          {/* Switch Cards */}
+          <div className="flex flex-col gap-3">
+            {SWITCH_CARDS.map((card) => {
+              const isExpanded = expandedId === card.id
+              return (
+                <div
+                  key={card.id}
+                  className={`rounded-2xl bg-white border-[1.5px] overflow-hidden cursor-pointer transition-all duration-500 ${
+                    isExpanded ? 'border-[#0A1628] shadow-[0_1px_2px_rgba(0,0,0,0.03)]' : 'border-[#F1F5F9] hover:border-[rgba(0,61,165,0.2)]'
+                  }`}
+                  onClick={() => toggleCard(card.id)}
+                >
+                  {/* Header */}
+                  <div className="flex items-center gap-3 p-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: card.iconBg }}>
+                      <i className="fa-solid fa-arrows-rotate text-base" style={{ color: card.iconColor }} />
                     </div>
-                    <div className="rounded-xl bg-[#09090b] p-4">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-red-400 mb-3">Drawbacks</h4>
-                      <ul className="space-y-2">
-                        {option.cons.map((con, i) => (
-                          <li key={i} className="flex items-start gap-2 text-sm text-zinc-300">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 flex-shrink-0 text-red-400">
-                              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-                            </svg>
-                            {con}
-                          </li>
-                        ))}
-                      </ul>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-bold" style={{ background: card.fromBg, color: card.fromColor }}>
+                          {card.fromLabel}
+                        </span>
+                        <i className="fa-solid fa-arrow-right text-[10px] text-[#CBD5E1]" />
+                        <span className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-bold" style={{ background: card.toBg, color: card.toColor }}>
+                          {card.toLabel}
+                        </span>
+                      </div>
+                      <p className="text-xs text-[#64748B]">{card.subtitle}</p>
                     </div>
+                    <i className={`fa-solid fa-chevron-down text-xs text-[#CBD5E1] transition-transform duration-500 ${isExpanded ? 'rotate-180' : ''}`} />
                   </div>
 
-                  {/* Eligibility & Timeframe */}
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Eligibility</h4>
-                      <p className="text-sm text-zinc-300">{option.eligibility}</p>
-                    </div>
-                    <div className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                      <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Typical Timeframe</h4>
-                      <p className="text-sm text-zinc-300">{option.timeframe}</p>
+                  {/* Body */}
+                  <div className={`transition-all duration-500 overflow-hidden ${isExpanded ? 'max-h-[400px]' : 'max-h-0'}`}>
+                    <div className="border-t border-[#F1F5F9] px-4 pb-4 pt-3.5">
+                      <p className="text-xs text-[#64748B] mb-3">{card.detail}</p>
+                      {card.steps && card.steps.map((step) => (
+                        <div key={step.num} className="flex items-center gap-2.5 py-2">
+                          <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#EBF0FF] text-[11px] font-bold text-[#0A1628]">
+                            {step.num}
+                          </div>
+                          <p className="text-[13px] font-semibold text-[#0A1628]">{step.text}</p>
+                        </div>
+                      ))}
+                      {card.tip && (
+                        <div className="flex items-start gap-2 rounded-[10px] p-2.5 mt-2.5" style={{ background: card.tip.bg, border: card.tip.bg === '#FFFBEB' ? '1px solid rgba(245,166,35,0.2)' : 'none' }}>
+                          <i className={`fa-solid ${card.tip.icon} text-[13px] mt-0.5`} style={{ color: card.tip.color === '#065F46' ? '#00A651' : '#D97706' }} />
+                          <p className="text-xs font-medium" style={{ color: card.tip.color }}>{card.tip.text}</p>
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {/* Select Button */}
-                  <Link
-                    href={option.href}
-                    className="block w-full rounded-xl bg-blue-600 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-500"
-                  >
-                    Proceed with {option.title}
-                  </Link>
                 </div>
-              )}
+              )
+            })}
+          </div>
+
+          {/* Warning Card */}
+          <div className="mt-[18px] mb-5 rounded-[14px] bg-[#FFF0F1] border border-[rgba(230,57,70,0.15)] p-3.5 flex items-start gap-2.5">
+            <i className="fa-solid fa-exclamation-triangle text-[#E63946] text-sm mt-0.5" />
+            <div>
+              <p className="text-[13px] font-bold text-[#991B1B] mb-0.5">Prior Defaults Matter</p>
+              <p className="text-xs text-[#B91C1C]">Prior defaults (TC 971 AC 073) = extra scrutiny on new applications</p>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Re-run / Fresh Start Buttons */}
-        <div className="space-y-3 pb-8">
-          <Link
-            href="/analysis/income-expenses"
-            className="block w-full rounded-xl border border-blue-500/20 bg-blue-500/5 py-4 text-center text-base font-medium text-blue-400 transition-colors hover:bg-blue-500/10"
-          >
-            Re-run Analysis (with Updated Financial Data)
-          </Link>
-          <Link
-            href="/analysis/type"
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
-          >
-            Start Fresh Analysis
-          </Link>
+          {/* CTAs */}
+          <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
+            <i className="fa-solid fa-comments" />
+            Talk to Expert About Options
+          </button>
+          <div className="mt-3 text-center">
+            <a href="#" className="text-[13px] font-semibold text-[#64748B]">
+              <i className="fa-solid fa-arrow-left text-[10px] mr-1" />
+              Back to Results
+            </a>
+          </div>
         </div>
       </div>
     </div>

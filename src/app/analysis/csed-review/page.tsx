@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useWizard } from '@/hooks/useWizard'
 
@@ -13,6 +13,7 @@ interface TollingEventEntry {
   eventType: string
   startDate: string
   endDate: string
+  extraDays: number
 }
 
 interface TaxYearCSED {
@@ -26,13 +27,14 @@ interface TaxYearCSED {
 // ---------------------------------------------------------------------------
 
 const TOLLING_EVENT_TYPES = [
-  { value: 'OIC_Pending', label: 'OIC Pending' },
+  { value: 'OIC_Pending', label: 'OIC pending' },
+  { value: 'IA_Request', label: 'IA request' },
+  { value: 'CDP_Hearing', label: 'CDP hearing' },
   { value: 'Bankruptcy_Active', label: 'Bankruptcy' },
-  { value: 'CDP_Hearing', label: 'CDP Hearing' },
-  { value: 'Innocent_Spouse', label: 'Innocent Spouse' },
-  { value: 'Litigation', label: 'Litigation' },
-  { value: 'Military_Deferment', label: 'Military Deferment' },
-  { value: 'Outside_US', label: 'Outside US (6+ months)' },
+  { value: 'Outside_US', label: 'Abroad (6+ mo)' },
+  { value: 'Military_Combat', label: 'Military combat' },
+  { value: 'Innocent_Spouse', label: 'Innocent spouse' },
+  { value: 'Other', label: 'Other' },
 ]
 
 const EXTRA_TOLLING: Record<string, number> = {
@@ -40,7 +42,7 @@ const EXTRA_TOLLING: Record<string, number> = {
   Bankruptcy_Active: 180,
 }
 
-const CSED_DAYS = 3650 // 10 years
+const CSED_DAYS = 3650
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -64,19 +66,16 @@ function computeTollingDays(events: TollingEventEntry[]): number {
   if (events.length === 0) return 0
   const today = new Date()
   today.setHours(0, 0, 0, 0)
-
-  // Convert to intervals with extra grace days, merge overlaps
   const intervals = events.map((e) => {
     const start = new Date(e.startDate).getTime()
     const endBase = e.endDate ? new Date(e.endDate) : today
-    const extra = EXTRA_TOLLING[e.eventType] ?? 0
+    const extra = e.extraDays || EXTRA_TOLLING[e.eventType] || 0
     const end = new Date(endBase)
     end.setDate(end.getDate() + extra)
     return { start, end: end.getTime() }
-  })
-
+  }).filter(iv => !isNaN(iv.start) && !isNaN(iv.end))
+  if (intervals.length === 0) return 0
   intervals.sort((a, b) => a.start - b.start)
-
   const merged: { start: number; end: number }[] = [intervals[0]]
   for (let i = 1; i < intervals.length; i++) {
     const last = merged[merged.length - 1]
@@ -86,15 +85,16 @@ function computeTollingDays(events: TollingEventEntry[]): number {
       merged.push(intervals[i])
     }
   }
-
   let total = 0
-  for (const iv of merged) {
-    total += Math.round((iv.end - iv.start) / (1000 * 60 * 60 * 24))
-  }
+  for (const iv of merged) { total += Math.round((iv.end - iv.start) / (1000 * 60 * 60 * 24)) }
   return total
 }
 
 function fmtDate(d: Date): string {
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+}
+
+function fmtDateShort(d: Date): string {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
@@ -107,7 +107,6 @@ export default function CSEDReviewPage() {
   const answers = useWizard((s) => s.answers)
   const setAnswers = useWizard((s) => s.setAnswers)
 
-  // Hydrate from existing tax debt entries
   const taxDebts: { taxYear: number; assessmentDate: string }[] = answers.taxDebts ?? []
 
   const [csedData, setCSEDData] = useState<TaxYearCSED[]>(() =>
@@ -118,20 +117,14 @@ export default function CSEDReviewPage() {
     })),
   )
 
-  // ---- Add / remove tolling events ----
+  const [animated, setAnimated] = useState(false)
+  useEffect(() => { const t = setTimeout(() => setAnimated(true), 600); return () => clearTimeout(t) }, [])
+
   function addTollingEvent(yearIndex: number) {
     setCSEDData((prev) => {
       const next = [...prev]
       const entry = { ...next[yearIndex] }
-      entry.tollingEvents = [
-        ...entry.tollingEvents,
-        {
-          id: crypto.randomUUID(),
-          eventType: 'OIC_Pending',
-          startDate: '',
-          endDate: '',
-        },
-      ]
+      entry.tollingEvents = [...entry.tollingEvents, { id: crypto.randomUUID(), eventType: 'OIC_Pending', startDate: '', endDate: '', extraDays: 30 }]
       next[yearIndex] = entry
       return next
     })
@@ -147,272 +140,192 @@ export default function CSEDReviewPage() {
     })
   }
 
-  function updateTollingEvent(
-    yearIndex: number,
-    eventId: string,
-    field: keyof TollingEventEntry,
-    value: string,
-  ) {
+  function updateTollingEvent(yearIndex: number, eventId: string, field: keyof TollingEventEntry, value: string | number) {
     setCSEDData((prev) => {
       const next = [...prev]
       const entry = { ...next[yearIndex] }
-      entry.tollingEvents = entry.tollingEvents.map((e) =>
-        e.id === eventId ? { ...e, [field]: value } : e,
-      )
+      entry.tollingEvents = entry.tollingEvents.map((e) => e.id === eventId ? { ...e, [field]: value } : e)
       next[yearIndex] = entry
       return next
     })
   }
 
-  // ---- Computed CSED info ----
-  const today = useMemo(() => {
-    const d = new Date()
-    d.setHours(0, 0, 0, 0)
-    return d
-  }, [])
+  const today = useMemo(() => { const d = new Date(); d.setHours(0, 0, 0, 0); return d }, [])
 
-  const computedRows = useMemo(
-    () =>
-      csedData.map((entry) => {
-        const baseCSED = addDaysToDate(entry.assessmentDate, CSED_DAYS)
-        const tollingDays = computeTollingDays(entry.tollingEvents)
-        const adjustedCSED = addDaysToDate(entry.assessmentDate, CSED_DAYS + tollingDays)
-        const remaining = monthsBetween(today, adjustedCSED)
-        const isExpired = adjustedCSED <= today
-
-        let status: 'expired' | 'expiring' | 'active' = 'active'
-        if (isExpired) status = 'expired'
-        else if (remaining < 24) status = 'expiring'
-
-        return {
-          taxYear: entry.taxYear,
-          assessmentDate: entry.assessmentDate,
-          baseCSED,
-          adjustedCSED,
-          tollingDays,
-          remaining: Math.max(0, remaining),
-          status,
-        }
-      }),
-    [csedData, today],
-  )
+  const computedRows = useMemo(() =>
+    csedData.map((entry) => {
+      const baseCSED = addDaysToDate(entry.assessmentDate, CSED_DAYS)
+      const tollingDays = computeTollingDays(entry.tollingEvents)
+      const adjustedCSED = addDaysToDate(entry.assessmentDate, CSED_DAYS + tollingDays)
+      const remaining = monthsBetween(today, adjustedCSED)
+      const remainingDays = daysBetween(today, adjustedCSED)
+      const isExpired = adjustedCSED <= today
+      const elapsed = daysBetween(new Date(entry.assessmentDate), today)
+      const totalSpan = CSED_DAYS + tollingDays
+      const pct = Math.min(100, Math.max(0, (elapsed / totalSpan) * 100))
+      return { taxYear: entry.taxYear, assessmentDate: entry.assessmentDate, baseCSED, adjustedCSED, tollingDays, remaining: Math.max(0, remaining), remainingDays: Math.max(0, remainingDays), isExpired, pct, status: isExpired ? 'expired' as const : remaining < 24 ? 'expiring' as const : 'active' as const }
+    }),
+  [csedData, today])
 
   const earliest = useMemo(() => {
-    const active = computedRows.filter((r) => r.status !== 'expired')
+    const active = computedRows.filter((r) => !r.isExpired)
     if (active.length === 0) return null
     return active.reduce((min, r) => (r.adjustedCSED < min.adjustedCSED ? r : min))
   }, [computedRows])
 
-  // ---- Timeline bounds ----
-  const timelineBounds = useMemo(() => {
-    if (computedRows.length === 0) return { start: today, end: today }
-    const start = today
-    const end = computedRows.reduce(
-      (latest, r) => (r.adjustedCSED > latest ? r.adjustedCSED : latest),
-      today,
-    )
-    return { start, end }
-  }, [computedRows, today])
+  const latest = useMemo(() => {
+    const active = computedRows.filter((r) => !r.isExpired)
+    if (active.length === 0) return null
+    return active.reduce((max, r) => (r.adjustedCSED > max.adjustedCSED ? r : max))
+  }, [computedRows])
 
-  const totalSpan = daysBetween(timelineBounds.start, timelineBounds.end) || 1
-
-  // ---- Persist & navigate ----
   function handleContinue() {
     try {
       const tollingByYear: Record<string, TollingEventEntry[]> = {}
-      csedData.forEach((entry) => {
-        tollingByYear[entry.taxYear] = entry.tollingEvents
-      })
+      csedData.forEach((entry) => { tollingByYear[entry.taxYear] = entry.tollingEvents })
       const safeCSEDData = computedRows
         .filter((r) => r.baseCSED instanceof Date && !isNaN(r.baseCSED.getTime()))
         .map((r) => ({
-          taxYear: r.taxYear,
-          baseCSED: r.baseCSED.toISOString().split('T')[0],
+          taxYear: r.taxYear, baseCSED: r.baseCSED.toISOString().split('T')[0],
           adjustedCSED: r.adjustedCSED.toISOString().split('T')[0],
-          tollingDays: r.tollingDays,
-          remainingMonths: r.remaining,
-          isExpired: r.status === 'expired',
+          tollingDays: r.tollingDays, remainingMonths: r.remaining, isExpired: r.isExpired,
         }))
-      setAnswers({
-        tollingEvents: tollingByYear,
-        csedData: safeCSEDData,
-      })
-    } catch (e) {
-      // If CSED computation fails (e.g. no debts entered), still proceed
-      console.warn('CSED data save error:', e)
-    }
-
+      setAnswers({ tollingEvents: tollingByYear, csedData: safeCSEDData })
+    } catch (e) { console.warn('CSED data save error:', e) }
     const hasPenalties = answers.hasPriorPenalties === true
     router.push(hasPenalties ? '/analysis/penalty-screening' : '/analysis/verification')
   }
 
-  // ---- Status badge ----
-  function statusBadge(status: 'expired' | 'expiring' | 'active') {
-    const styles = {
-      active: 'bg-emerald-500/15 text-emerald-400',
-      expiring: 'bg-amber-500/15 text-amber-400',
-      expired: 'bg-red-500/15 text-red-400',
-    }
-    const labels = { active: 'Active', expiring: 'Expiring Soon', expired: 'Expired' }
-    return (
-      <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status]}`}>
-        {labels[status]}
-      </span>
-    )
-  }
+  // Color logic per card
+  const cardColors = ['#0A1628', '#2563EB', '#00A651', '#7C3AED', '#0D9488']
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-2xl">
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md px-5 pb-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white">CSED Review</h1>
-          <p className="mt-2 text-sm leading-relaxed text-zinc-400">
-            Review each tax year&apos;s Collection Statute Expiration Date. Add any tolling events
-            that may have paused the 10-year collection period.
-          </p>
+        <div className="flex items-center gap-3 pt-4 pb-3">
+          <button onClick={() => router.back()} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition-all hover:border-[#2563EB]">
+            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
+          </button>
+          <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">CSED Review</div>
+          <div className="w-9 shrink-0" />
         </div>
 
-        {/* Per-Year Cards */}
-        {csedData.length === 0 && (
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-8 text-center">
-            <p className="text-zinc-400">No tax debts have been entered yet.</p>
-            <button
-              onClick={() => router.push('/analysis/case-info')}
-              className="mt-4 text-sm font-medium text-emerald-400 hover:text-emerald-300"
-            >
-              Go to Tax Debt Entry
-            </button>
+        {/* Heading */}
+        <div className="text-center py-1">
+          <div className="mb-2.5 inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[0.65rem] font-bold text-[#0A1628]">
+            <i className="fa-solid fa-clock text-[9px]" /> COLLECTION TIMELINE
           </div>
-        )}
+          <h1 className="text-[1.35rem] font-extrabold leading-tight tracking-tight text-[#0A1628]">
+            When does your tax debt expire?
+          </h1>
+        </div>
 
-        <div className="space-y-4">
+        {/* Info Card */}
+        <div className="mt-3.5 flex gap-3 rounded-2xl border border-[rgba(10,22,40,0.1)] bg-white p-4">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+            <i className="fa-solid fa-info-circle text-base text-[#0A1628]" />
+          </div>
+          <div>
+            <div className="text-[0.82rem] font-bold text-[#0A1628] mb-1">What is CSED?</div>
+            <div className="text-[0.72rem] leading-relaxed text-[#64748B]">
+              The IRS has <strong className="text-[#0A1628]">10 years</strong> from the date of assessment to collect a tax debt. After the Collection Statute Expiration Date (CSED), the debt is legally uncollectible.
+            </div>
+          </div>
+        </div>
+
+        {/* Section Label */}
+        <div className="mt-4 px-1 text-[0.7rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
+          Your Tax Year Timeline
+        </div>
+
+        {/* Timeline Cards */}
+        <div className="mt-3 space-y-3">
           {csedData.map((entry, yi) => {
             const row = computedRows[yi]
+            const isNearest = earliest?.taxYear === entry.taxYear
+            const color = cardColors[yi % cardColors.length]
             return (
-              <div
-                key={entry.taxYear}
-                className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
-              >
+              <div key={entry.taxYear} className={`rounded-2xl bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ${isNearest ? 'border-2 border-[#2563EB]' : 'border border-[#E2E8F0]'}`} style={{ position: 'relative' }}>
                 {/* Year header */}
-                <div className="mb-4 flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-white">Tax Year {entry.taxYear}</h3>
-                  {row && statusBadge(row.status)}
+                <div className="mb-2.5 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-[10px]" style={{ background: isNearest ? '#EFF4FF' : yi === computedRows.length - 1 ? '#E6F9EE' : '#EFF4FF' }}>
+                      <i className="fa-solid fa-calendar-check text-[13px]" style={{ color }} />
+                    </div>
+                    <div>
+                      <div className="text-[0.85rem] font-bold text-[#0A1628]">Tax Year {entry.taxYear}</div>
+                      <div className="text-[0.68rem] text-[#94A3B8] mt-px">Assessed: {entry.assessmentDate ? fmtDate(new Date(entry.assessmentDate)) : 'Not set'}</div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    {isNearest && (
+                      <div className="inline-flex items-center gap-1 rounded-full bg-[#0A1628] px-2 py-0.5 text-[0.58rem] font-extrabold uppercase tracking-wider text-white">
+                        <i className="fa-solid fa-bolt text-[7px]" /> Nearest Expiration
+                      </div>
+                    )}
+                    <span className="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] font-bold" style={{ background: isNearest ? '#EFF4FF' : yi === computedRows.length - 1 ? '#E6F9EE' : '#EFF4FF', color }}>
+                      <i className="fa-solid fa-hourglass-half text-[8px]" /> {row?.remaining ?? 0} mo / {row?.remainingDays?.toLocaleString() ?? 0} days
+                    </span>
+                  </div>
                 </div>
 
-                {/* Key dates */}
-                <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <span className="text-zinc-500">Assessment Date</span>
-                    <p className="font-medium text-zinc-300">
-                      {entry.assessmentDate
-                        ? fmtDate(new Date(entry.assessmentDate))
-                        : 'Not set'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-zinc-500">Base CSED (10 yr)</span>
-                    <p className="font-medium text-zinc-300">
-                      {row ? fmtDate(row.baseCSED) : '--'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-zinc-500">Adjusted CSED</span>
-                    <p className="font-medium text-white">
-                      {row ? fmtDate(row.adjustedCSED) : '--'}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-zinc-500">Remaining</span>
-                    <p
-                      className={`font-medium ${
-                        row?.status === 'expired'
-                          ? 'text-red-400'
-                          : row?.status === 'expiring'
-                            ? 'text-amber-400'
-                            : 'text-emerald-400'
-                      }`}
-                    >
-                      {row
-                        ? row.status === 'expired'
-                          ? 'Expired'
-                          : `${row.remaining} months`
-                        : '--'}
-                    </p>
-                  </div>
+                {/* Progress bar */}
+                <div className="h-2 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+                  <div className="h-full rounded-full transition-all duration-[1200ms]" style={{ background: color, width: animated ? `${row?.pct ?? 0}%` : '0%' }} />
+                </div>
+                <div className="mt-1.5 flex justify-between">
+                  <span className="text-[0.62rem] font-medium text-[#CBD5E1]">Assessed {entry.assessmentDate ? fmtDateShort(new Date(entry.assessmentDate)) : ''}</span>
+                  <span className="text-[0.62rem] font-semibold" style={{ color }}>Expires {row ? fmtDateShort(row.adjustedCSED) : ''}</span>
                 </div>
 
                 {/* Tolling Events */}
-                <div className="border-t border-zinc-800 pt-4">
-                  <div className="mb-3 flex items-center justify-between">
-                    <h4 className="text-sm font-medium text-zinc-300">Tolling Events</h4>
-                    <button
-                      onClick={() => addTollingEvent(yi)}
-                      className="flex items-center gap-1.5 rounded-lg bg-zinc-800 px-3 py-1.5 text-xs font-medium text-emerald-400 transition-colors hover:bg-zinc-700"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19" />
-                        <line x1="5" y1="12" x2="19" y2="12" />
-                      </svg>
-                      Add Tolling Event
-                    </button>
+                <div className="mt-2.5 rounded-xl border border-[#F1F5F9] bg-white p-2.5">
+                  <div className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-[#64748B]">
+                    <i className="fa-solid fa-pause-circle mr-1 text-[9px]" /> Tolling Events
                   </div>
-
                   {entry.tollingEvents.length === 0 && (
-                    <p className="text-xs text-zinc-500">
-                      No tolling events. The standard 10-year statute applies.
-                    </p>
+                    <div className="text-[0.68rem] text-[#94A3B8] mb-1.5">No tolling events recorded</div>
                   )}
-
-                  <div className="space-y-2">
-                    {entry.tollingEvents.map((evt) => (
-                      <div
-                        key={evt.id}
-                        className="flex flex-wrap items-center gap-2 rounded-lg bg-zinc-800/50 p-3"
-                      >
-                        <select
-                          value={evt.eventType}
-                          onChange={(e) =>
-                            updateTollingEvent(yi, evt.id, 'eventType', e.target.value)
-                          }
-                          className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
-                        >
-                          {TOLLING_EVENT_TYPES.map((t) => (
-                            <option key={t.value} value={t.value}>
-                              {t.label}
-                            </option>
-                          ))}
+                  {entry.tollingEvents.map((evt) => (
+                    <div key={evt.id} className="mb-2 rounded-lg bg-[#F8FAFC] p-2">
+                      <div className="flex gap-1.5 mb-1.5">
+                        <select value={evt.eventType} onChange={(e) => updateTollingEvent(yi, evt.id, 'eventType', e.target.value)} className="flex-1 rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]">
+                          {TOLLING_EVENT_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                         </select>
-                        <input
-                          type="date"
-                          value={evt.startDate}
-                          onChange={(e) =>
-                            updateTollingEvent(yi, evt.id, 'startDate', e.target.value)
-                          }
-                          className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
-                          placeholder="Start"
-                        />
-                        <span className="text-xs text-zinc-500">to</span>
-                        <input
-                          type="date"
-                          value={evt.endDate}
-                          onChange={(e) =>
-                            updateTollingEvent(yi, evt.id, 'endDate', e.target.value)
-                          }
-                          className="rounded border border-zinc-700 bg-zinc-800 px-2 py-1.5 text-xs text-white focus:border-emerald-500 focus:outline-none"
-                          placeholder="End (blank = ongoing)"
-                        />
-                        <button
-                          onClick={() => removeTollingEvent(yi, evt.id)}
-                          className="ml-auto rounded p-1 text-zinc-500 hover:bg-zinc-700 hover:text-red-400"
-                        >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                          </svg>
-                        </button>
                       </div>
-                    ))}
+                      <div className="flex items-center gap-1.5">
+                        <div className="flex-1">
+                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">Start</div>
+                          <input type="date" value={evt.startDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'startDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                        </div>
+                        <div className="flex-1">
+                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">End</div>
+                          <input type="date" value={evt.endDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'endDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                        </div>
+                        <div className="w-[60px] shrink-0">
+                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">+Days</div>
+                          <input type="number" value={evt.extraDays} onChange={(e) => updateTollingEvent(yi, evt.id, 'extraDays', Number(e.target.value) || 0)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-center text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                        </div>
+                      </div>
+                      <div className="mt-1.5 flex items-center justify-between">
+                        <span className="text-[10px] font-semibold text-[#7C3AED]">Total tolling: {computeTollingDays([evt])} days</span>
+                        <button onClick={() => removeTollingEvent(yi, evt.id)} className="text-[10px] font-semibold text-[#E63946] hover:underline">Remove</button>
+                      </div>
+                    </div>
+                  ))}
+                  <button onClick={() => addTollingEvent(yi)} className="mt-1 flex items-center gap-1 rounded-md bg-[#EFF4FF] px-2.5 py-1.5 text-[10px] font-semibold text-[#2563EB] transition-all hover:bg-[#dbe4ff]">
+                    <i className="fa-solid fa-plus text-[8px]" /> Add Tolling Event
+                  </button>
+                </div>
+
+                {/* Adjusted CSED */}
+                <div className="mt-2 flex items-center gap-1.5 rounded-lg bg-[#F5F3FF] px-2.5 py-2">
+                  <i className="fa-solid fa-calendar-day text-[10px] text-[#7C3AED]" />
+                  <div>
+                    <span className="text-[0.68rem] font-bold text-[#7C3AED]">Adjusted CSED:</span>
+                    <span className="text-[0.68rem] font-bold text-[#0A1628]"> {row ? fmtDate(row.adjustedCSED) : ''}</span>
+                    <span className="text-[0.62rem] text-[#94A3B8]"> ({row && row.tollingDays > 0 ? `+${row.tollingDays} days tolling` : 'no tolling'})</span>
                   </div>
                 </div>
               </div>
@@ -420,94 +333,57 @@ export default function CSEDReviewPage() {
           })}
         </div>
 
-        {/* ── Timeline Visualization ── */}
-        {computedRows.length > 0 && (
-          <div className="mt-8 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <h3 className="mb-4 text-sm font-medium text-zinc-300">CSED Timeline</h3>
-            <div className="space-y-3">
-              {computedRows.map((row) => {
-                const offset = 0
-                const width = Math.max(
-                  2,
-                  (daysBetween(today, row.adjustedCSED) / totalSpan) * 100,
-                )
-                const barColor =
-                  row.status === 'expired'
-                    ? 'bg-red-500/60'
-                    : row.status === 'expiring'
-                      ? 'bg-amber-500/60'
-                      : 'bg-emerald-500/60'
-
-                return (
-                  <div key={row.taxYear}>
-                    <div className="mb-1 flex items-center justify-between text-xs">
-                      <span className="text-zinc-400">TY {row.taxYear}</span>
-                      <span className="text-zinc-500">{fmtDate(row.adjustedCSED)}</span>
-                    </div>
-                    <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-800">
-                      <div
-                        className={`h-full rounded-full ${barColor} transition-all`}
-                        style={{
-                          marginLeft: `${offset}%`,
-                          width: `${Math.min(width, 100)}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Today marker label */}
-            <div className="mt-3 flex items-center justify-between text-xs text-zinc-500">
-              <span>Today</span>
-              <span>
-                {computedRows.length > 0
-                  ? fmtDate(
-                      computedRows.reduce((latest, r) =>
-                        r.adjustedCSED > latest ? r.adjustedCSED : latest,
-                        today,
-                      ),
-                    )
-                  : ''}
-              </span>
+        {/* Tolling Warning */}
+        <div className="mt-3 flex gap-2.5 rounded-[14px] border border-[#FDE68A] bg-[#FFFBEB] px-4 py-3.5">
+          <i className="fa-solid fa-triangle-exclamation mt-0.5 shrink-0 text-sm text-[#D97706]" />
+          <div>
+            <div className="text-[0.78rem] font-bold text-[#92400E] mb-0.5">Tolling Events Extend Your CSED</div>
+            <div className="text-[0.72rem] leading-relaxed text-[#92400E]">
+              Filing an OIC <strong>pauses the CSED clock + adds 30 days</strong> after rejection. CDP hearing requests, bankruptcy filings, time abroad (6+ months), and military combat zone service also toll the statute.
             </div>
           </div>
-        )}
+        </div>
 
-        {/* ── Summary ── */}
-        {earliest && (
-          <div className="mt-4 rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
-            <div className="flex items-center gap-3">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-amber-400">
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              <div>
-                <p className="text-sm font-medium text-amber-300">
-                  Earliest CSED: {fmtDate(earliest.adjustedCSED)}
-                </p>
-                <p className="text-xs text-amber-400/70">
-                  {earliest.remaining} months remaining (Tax Year {earliest.taxYear})
-                </p>
+        {/* Summary Card */}
+        {earliest && latest && (
+          <div className="mt-3 relative overflow-hidden rounded-[18px] bg-[#0A1628] p-5">
+            <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/[0.06]" />
+            <div className="absolute -bottom-5 -left-2.5 h-[60px] w-[60px] rounded-full bg-white/[0.04]" />
+            <div className="flex items-center gap-2.5 mb-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-white/[0.15]">
+                <i className="fa-solid fa-chart-line text-sm text-white" />
+              </div>
+              <div className="text-[0.82rem] font-bold text-white">Summary</div>
+            </div>
+            <div className="text-[1.1rem] font-extrabold leading-tight text-white mb-1.5">
+              Your debts expire between {fmtDateShort(earliest.adjustedCSED)} &ndash; {fmtDateShort(latest.adjustedCSED)}
+            </div>
+            <div className="text-[0.72rem] leading-snug text-white/75 mb-2.5">
+              The nearest CSED is {fmtDate(earliest.adjustedCSED)} (Tax Year {earliest.taxYear}, {earliest.remaining} months remaining). Strategic planning around these dates can maximize your resolution options.
+            </div>
+            <div className="flex gap-2">
+              <div className="flex-1 rounded-[10px] bg-white/10 px-2.5 py-2">
+                <div className="text-[0.62rem] uppercase tracking-wider text-white/50">Earliest</div>
+                <div className="text-[0.82rem] font-extrabold text-white">{fmtDateShort(earliest.adjustedCSED)}</div>
+                <div className="text-[0.62rem] text-white/60">{earliest.remaining} months</div>
+              </div>
+              <div className="flex-1 rounded-[10px] bg-white/10 px-2.5 py-2">
+                <div className="text-[0.62rem] uppercase tracking-wider text-white/50">Latest</div>
+                <div className="text-[0.82rem] font-extrabold text-white">{fmtDateShort(latest.adjustedCSED)}</div>
+                <div className="text-[0.62rem] text-white/60">{latest.remaining} months</div>
               </div>
             </div>
           </div>
         )}
 
-        {/* ── Action Buttons ── */}
-        <div className="mt-8 flex gap-3 pb-4">
-          <button
-            onClick={() => router.back()}
-            className="flex-1 rounded-xl border border-zinc-700 py-4 text-base font-semibold text-zinc-300 transition-colors hover:border-zinc-600 hover:text-white"
-          >
-            Back
-          </button>
+        {/* Continue Button */}
+        <div className="mt-4">
           <button
             onClick={handleContinue}
-            className="flex-1 rounded-xl bg-emerald-600 py-4 text-base font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+            className="flex w-full items-center justify-center gap-2 rounded-[14px] bg-[#00A651] py-4 text-[0.9rem] font-semibold text-white transition-colors hover:bg-[#008C44]"
           >
             Continue
+            <i className="fa-solid fa-arrow-right text-[13px]" />
           </button>
         </div>
       </div>

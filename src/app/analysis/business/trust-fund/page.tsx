@@ -3,307 +3,133 @@
 import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 
-interface QuarterEntry {
-  id: string
-  quarter: string
-  year: string
-  incomeTaxWithheld: string
-  socialSecurityTax: string
-  medicareTax: string
-  additionalMedicareTax: string
-}
-
-const QUARTERS = ['Q1', 'Q2', 'Q3', 'Q4'] as const
-const YEARS = ['2024', '2023', '2022', '2021', '2020'] as const
-
-let nextId = 1
-
-function calcTrustFund(entry: QuarterEntry) {
-  const itw = parseFloat(entry.incomeTaxWithheld) || 0
-  const ss = parseFloat(entry.socialSecurityTax) || 0
-  const med = parseFloat(entry.medicareTax) || 0
-  const addMed = parseFloat(entry.additionalMedicareTax) || 0
-  return itw + ss / 2 + med / 2 + addMed
-}
-
-function calcNonTrustFund(entry: QuarterEntry) {
-  const ss = parseFloat(entry.socialSecurityTax) || 0
-  const med = parseFloat(entry.medicareTax) || 0
-  return ss / 2 + med / 2
+interface QuarterData {
+  label: string
+  incomeTax: string
+  ssTax: string
+  medTax: string
+  addMed: string
 }
 
 export default function TrustFundPage() {
   const router = useRouter()
-  const [entries, setEntries] = useState<QuarterEntry[]>([])
+  const [quarters, setQuarters] = useState<QuarterData[]>([
+    { label: 'Q3 2025 (941)', incomeTax: '12400', ssTax: '8200', medTax: '1920', addMed: '0' },
+    { label: 'Q4 2025 (941)', incomeTax: '11800', ssTax: '7600', medTax: '1780', addMed: '0' },
+  ])
 
-  function addEntry() {
-    setEntries((prev) => [
-      ...prev,
-      {
-        id: String(nextId++),
-        quarter: 'Q1',
-        year: '2024',
-        incomeTaxWithheld: '',
-        socialSecurityTax: '',
-        medicareTax: '',
-        additionalMedicareTax: '',
-      },
-    ])
-  }
-
-  function updateEntry(id: string, field: keyof QuarterEntry, value: string) {
-    setEntries((prev) =>
-      prev.map((e) => (e.id === id ? { ...e, [field]: value } : e))
-    )
-  }
-
-  function removeEntry(id: string) {
-    setEntries((prev) => prev.filter((e) => e.id !== id))
+  function updateField(qi: number, field: keyof QuarterData, value: string) {
+    setQuarters((prev) => prev.map((q, i) => i === qi ? { ...q, [field]: value } : q))
   }
 
   const totals = useMemo(() => {
-    let tf = 0
-    let ntf = 0
-    entries.forEach((e) => {
-      tf += calcTrustFund(e)
-      ntf += calcNonTrustFund(e)
+    let tf = 0, ntf = 0
+    quarters.forEach((q) => {
+      const it = parseFloat(q.incomeTax) || 0
+      const ss = parseFloat(q.ssTax) || 0
+      const med = parseFloat(q.medTax) || 0
+      const am = parseFloat(q.addMed) || 0
+      tf += it + ss / 2 + med / 2 + am
+      ntf += ss / 2 + med / 2
     })
     const total = tf + ntf
-    return {
-      trustFund: tf,
-      nonTrustFund: ntf,
-      total,
-      percentage: total > 0 ? ((tf / total) * 100).toFixed(1) : '0',
-    }
-  }, [entries])
+    return { tf, ntf, pct: total > 0 ? Math.round((tf / total) * 100) : 0 }
+  }, [quarters])
 
-  const fmt = (n: number) =>
-    n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  const fmt = (n: number) => '$' + n.toLocaleString()
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
-      <div className="mx-auto w-full max-w-lg">
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Trust Fund Allocation
-          </h1>
-          <p className="mt-3 text-base text-zinc-400">
-            Break down each 941 quarter into trust fund and non-trust fund portions.
-          </p>
-        </div>
-
-        {/* Designation Reminder */}
-        <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
-          <div className="flex items-start gap-3">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="mt-0.5 shrink-0 text-amber-400"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 16v-4" />
-              <path d="M12 8h.01" />
-            </svg>
-            <p className="text-sm leading-relaxed text-amber-200/80">
-              Always designate payments to trust fund first. Trust fund taxes
-              carry personal liability through TFRP.
-            </p>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Progress */}
+        <div className="px-5 pt-4">
+          <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
+            <div className="h-full rounded-full bg-[#0A1628] transition-all" style={{ width: '30%' }} />
+          </div>
+          <div className="flex justify-between items-center mt-2.5">
+            <span className="text-xs font-semibold text-[#94A3B8]">Step 3 of 8</span>
+            <span className="text-xs font-semibold text-[#2563EB]">Trust Fund Split</span>
           </div>
         </div>
 
-        {/* Quarter Entries */}
-        <div className="space-y-4">
-          {entries.map((entry) => {
-            const tf = calcTrustFund(entry)
-            const ntf = calcNonTrustFund(entry)
-            return (
-              <div
-                key={entry.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
-              >
-                {/* Quarter / Year selector */}
-                <div className="mb-4 flex items-center justify-between">
-                  <div className="flex gap-2">
-                    <select
-                      value={entry.quarter}
-                      onChange={(e) =>
-                        updateEntry(entry.id, 'quarter', e.target.value)
-                      }
-                      className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500"
-                    >
-                      {QUARTERS.map((q) => (
-                        <option key={q} value={q}>
-                          {q}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      value={entry.year}
-                      onChange={(e) =>
-                        updateEntry(entry.id, 'year', e.target.value)
-                      }
-                      className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500"
-                    >
-                      {YEARS.map((y) => (
-                        <option key={y} value={y}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <button
-                    onClick={() => removeEntry(entry.id)}
-                    className="text-xs text-zinc-500 transition-colors hover:text-red-400"
-                  >
-                    Remove
-                  </button>
-                </div>
+        <div className="px-5 py-4 pb-8">
+          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight mb-1">Trust Fund vs Non-Trust Fund</h1>
+          <p className="text-[13px] text-[#94A3B8] leading-relaxed mb-3.5">This is the most critical classification in business tax resolution. Trust fund = personal liability via TFRP.</p>
 
-                {/* Line Items */}
-                <div className="space-y-3">
+          {/* Warning */}
+          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#FFFBEB] border border-[rgba(245,166,35,0.2)] p-3.5 mb-3.5">
+            <i className="fa-solid fa-piggy-bank text-[#D97706]" />
+            <span className="text-xs text-[#92400E]">Always designate payments to trust fund first. Undesignated payments go to non-trust fund (benefits IRS, not you).</span>
+          </div>
+
+          {/* Quarter Cards */}
+          {quarters.map((q, qi) => (
+            <div key={qi} className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+              <div className="text-sm font-bold text-[#0A1628] mb-2">
+                <i className="fa-solid fa-calculator text-xs text-[#2563EB] mr-1.5" /> {q.label}
+              </div>
+              <div className="space-y-2.5">
+                <div>
+                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 3: Income Tax Withheld</label>
+                  <input type="text" value={q.incomeTax} onChange={(e) => updateField(qi, 'incomeTax', e.target.value)}
+                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                  <div className="text-[9px] text-[#00A651] font-semibold mt-0.5">100% Trust Fund</div>
+                </div>
+                <div className="grid grid-cols-2 gap-2.5">
                   <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
-                      Line 3: Income Tax Withheld (100% trust fund)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={entry.incomeTaxWithheld}
-                      onChange={(e) =>
-                        updateEntry(entry.id, 'incomeTaxWithheld', e.target.value)
-                      }
-                      placeholder="0.00"
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-                    />
+                    <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5a: Social Security Tax</label>
+                    <input type="text" value={q.ssTax} onChange={(e) => updateField(qi, 'ssTax', e.target.value)}
+                      className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                    <div className="text-[9px] text-[#F59E0B] font-semibold mt-0.5">50/50 Split</div>
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
-                      Line 5a: Social Security Tax (half trust / half non-trust)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={entry.socialSecurityTax}
-                      onChange={(e) =>
-                        updateEntry(entry.id, 'socialSecurityTax', e.target.value)
-                      }
-                      placeholder="0.00"
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
-                      Line 5c: Medicare Tax (half trust / half non-trust)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={entry.medicareTax}
-                      onChange={(e) =>
-                        updateEntry(entry.id, 'medicareTax', e.target.value)
-                      }
-                      placeholder="0.00"
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
-                      Line 5d: Additional Medicare Tax (100% trust fund)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={entry.additionalMedicareTax}
-                      onChange={(e) =>
-                        updateEntry(
-                          entry.id,
-                          'additionalMedicareTax',
-                          e.target.value
-                        )
-                      }
-                      placeholder="0.00"
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-                    />
+                    <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5c: Medicare Tax</label>
+                    <input type="text" value={q.medTax} onChange={(e) => updateField(qi, 'medTax', e.target.value)}
+                      className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                    <div className="text-[9px] text-[#F59E0B] font-semibold mt-0.5">50/50 Split</div>
                   </div>
                 </div>
-
-                {/* Per-Quarter Totals */}
-                <div className="mt-4 flex gap-3">
-                  <div className="flex-1 rounded-lg bg-emerald-500/10 p-3 text-center">
-                    <p className="text-xs text-zinc-400">Trust Fund</p>
-                    <p className="text-sm font-semibold text-emerald-400">
-                      ${fmt(tf)}
-                    </p>
-                  </div>
-                  <div className="flex-1 rounded-lg bg-blue-500/10 p-3 text-center">
-                    <p className="text-xs text-zinc-400">Non-Trust Fund</p>
-                    <p className="text-sm font-semibold text-blue-400">
-                      ${fmt(ntf)}
-                    </p>
-                  </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-[#94A3B8] uppercase tracking-[0.04em] mb-1">Line 5d: Additional Medicare</label>
+                  <input type="text" value={q.addMed} onChange={(e) => updateField(qi, 'addMed', e.target.value)}
+                    className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-sm font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                  <div className="text-[9px] text-[#00A651] font-semibold mt-0.5">100% Trust Fund</div>
                 </div>
-              </div>
-            )
-          })}
-
-          <button
-            onClick={addEntry}
-            className="w-full rounded-xl border-2 border-dashed border-zinc-700 py-4 text-sm font-semibold text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-300"
-          >
-            + Add Quarter
-          </button>
-        </div>
-
-        {/* Summary Card */}
-        {entries.length > 0 && (
-          <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">Summary</p>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Trust Fund</span>
-                <span className="font-semibold text-emerald-400">
-                  ${fmt(totals.trustFund)}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Non-Trust Fund</span>
-                <span className="font-semibold text-blue-400">
-                  ${fmt(totals.nonTrustFund)}
-                </span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Trust Fund %</span>
-                <span className="font-medium text-white">
-                  {totals.percentage}%
-                </span>
-              </div>
-              <div className="my-2 border-t border-zinc-700" />
-              <div className="rounded-lg bg-red-500/10 p-3">
-                <p className="text-xs text-zinc-400">TFRP Exposure</p>
-                <p className="text-lg font-bold text-red-400">
-                  Maximum personal liability = ${fmt(totals.trustFund)}
-                </p>
               </div>
             </div>
-          </div>
-        )}
+          ))}
 
-        {/* Continue */}
-        <button
-          onClick={() => router.push('/analysis/business/debt')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
-        >
-          Continue
-        </button>
+          {/* Summary Bar */}
+          <div className="rounded-[14px] bg-[#0A1628] p-4 flex items-center justify-between mt-4">
+            <div>
+              <span className="text-[11px] font-semibold text-white/50 uppercase tracking-[0.06em]">Total Trust Fund</span>
+              <div className="text-[1.3rem] font-black text-[#10B981] tracking-tight mt-0.5">{fmt(totals.tf)}</div>
+            </div>
+            <div className="text-center">
+              <span className="text-[11px] font-semibold text-white/50 uppercase">Non-Trust Fund</span>
+              <div className="text-[1.1rem] font-extrabold text-white">{fmt(totals.ntf)}</div>
+            </div>
+            <div className="text-right">
+              <span className="text-[11px] font-semibold text-white/50">TF %</span>
+              <div className="text-[1.1rem] font-extrabold text-white">{totals.pct}%</div>
+            </div>
+          </div>
+
+          {/* TFRP Exposure */}
+          <div className="mt-3 rounded-xl bg-[#FEF2F2] border border-[#FEE2E2] p-3">
+            <div className="text-xs font-bold text-[#991B1B]">
+              <i className="fa-solid fa-user-shield text-[11px] mr-1" /> TFRP Exposure
+            </div>
+            <div className="text-[11.5px] text-[#991B1B] mt-1">Each responsible person is personally liable for the full {fmt(totals.tf)} trust fund amount. This is separate from the business debt.</div>
+          </div>
+
+          <button
+            onClick={() => router.push('/analysis/business/results')}
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white mt-5"
+          >
+            Continue <i className="fa-solid fa-arrow-right text-[13px]" />
+          </button>
+        </div>
       </div>
     </div>
   )

@@ -1,206 +1,175 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 /* ------------------------------------------------------------------ */
-/*  Failure type content definitions                                   */
+/*  Failure type definitions                                           */
 /* ------------------------------------------------------------------ */
 
-interface RecoveryOption {
+interface CureAction {
+  icon: string
+  iconBg: string
+  iconColor: string
   title: string
   description: string
-  href?: string
-  buttonLabel?: string
+}
+
+interface TerminatedOption {
+  title: string
+  description: string
+  badge?: string
 }
 
 interface FailureContent {
-  title: string
+  headerTitle: string
+  heading: string
+  headingColor: string
   subtitle: string
-  description: string
-  causes: string[]
-  noticeInfo?: { code: string; description: string }
-  cureInfo?: { days: number; description: string }
-  appealInfo?: { days: number; form: string; description: string }
-  counterOffer?: boolean
-  recoveryOptions: RecoveryOption[]
-  primaryAction: { label: string; href: string }
-  secondaryAction: { label: string; href: string }
+  // Default trigger
+  triggerTitle: string
+  triggerDetail: string
+  triggerNotice: string
+  daysLeft: number
+  // Timeline
+  timelineSteps: { label: string; description: string; color: string; bgColor: string; icon: string; lineClass?: string }[]
+  // Cure actions
+  cureActions: CureAction[]
+  // Protection notice
+  protectionText: string
+  // Terminated options
+  terminatedOptions: TerminatedOption[]
+  terminatedWarning: string
+  // CTAs
+  primaryCta: { icon: string; label: string }
+  secondaryCta: { icon: string; label: string }
 }
 
 const FAILURE_CONTENT: Record<string, FailureContent> = {
   'ia-default': {
-    title: 'Your Installment Agreement Has Defaulted',
-    subtitle: 'IA Default — CP523 Notice',
-    description: 'The IRS has determined that your installment agreement is in default. This means the IRS may resume full collection activity, including liens, levies, and wage garnishment.',
-    causes: [
-      'Missed one or more monthly payments',
-      'Failed to file a required tax return on time',
-      'Incurred a new tax balance for a subsequent year',
-      'Provided inaccurate financial information on the application',
+    headerTitle: 'IA Default',
+    heading: 'Your Installment Agreement is at Risk',
+    headingColor: 'text-[#F59E0B]',
+    subtitle: 'Action required within 30 days to prevent termination',
+    triggerTitle: 'Missed Payment',
+    triggerDetail: 'April 28, 2026 — $657 not received',
+    triggerNotice: 'CP523 Notice received',
+    daysLeft: 18,
+    timelineSteps: [
+      { label: 'Default Trigger', description: 'Missed payment — Apr 28', color: '#92400E', bgColor: '#F59E0B', icon: 'fa-triangle-exclamation', lineClass: 'bg-[#F59E0B]' },
+      { label: 'CP523 Notice Sent', description: '"Intent to Terminate IA"', color: '#991B1B', bgColor: '#E63946', icon: 'fa-envelope', lineClass: 'bg-[#E63946]' },
+      { label: '30-Day Cure Period', description: 'You have until May 28 to fix this', color: '#2563EB', bgColor: '#2563EB', icon: 'fa-clock' },
+      { label: 'Outcome', description: 'IA continues OR terminated (TC 971 AC 073)', color: '#94A3B8', bgColor: 'transparent', icon: 'fa-question' },
     ],
-    noticeInfo: {
-      code: 'CP523',
-      description: 'This notice informs you that the IRS intends to terminate your installment agreement. It explains the reason for default and outlines your options.',
-    },
-    cureInfo: {
-      days: 30,
-      description: 'You have 30 days from the date of the CP523 notice to cure the default. During this period, you can reinstate the agreement or propose alternative arrangements.',
-    },
-    recoveryOptions: [
-      {
-        title: 'Reinstate Agreement',
-        description: 'Request reinstatement of your existing IA. Fee: $89 online (OPA) / $130 by phone. Must cure the cause of default first.',
-      },
-      {
-        title: 'Resolution Switching',
-        description: 'If the IA is no longer feasible, explore other resolution options like OIC or CNC.',
-        href: '/post-submission/switching',
-      },
-      {
-        title: 'Contact IRS',
-        description: 'Call the IRS at 1-800-829-1040 to discuss your situation and negotiate reinstatement terms.',
-      },
+    cureActions: [
+      { icon: 'fa-credit-card', iconBg: '#E6F9EE', iconColor: '#00A651', title: 'Make Missed Payment', description: 'Pay $657 to restore agreement' },
+      { icon: 'fa-phone', iconBg: '#EFF4FF', iconColor: '#0A1628', title: 'Call IRS to Explain', description: '800-829-1040 — Hardship exception' },
+      { icon: 'fa-file-signature', iconBg: '#F5F0FF', iconColor: '#7C3AED', title: 'File Form 9423 (CAP Appeal)', description: 'Formal Collection Appeals Program' },
     ],
-    primaryAction: { label: 'Reinstate Agreement', href: '#' },
-    secondaryAction: { label: 'Explore Other Options', href: '/post-submission/switching' },
+    protectionText: 'No levy for 90 days after CP523 notice. You have time to act.',
+    terminatedOptions: [
+      { title: 'Reinstate Same IA', description: '$89 online / $130 phone reinstatement fee', badge: 'Fastest' },
+      { title: 'Negotiate New IA', description: 'New Form 9465 — may get different terms' },
+      { title: 'Switch to OIC or CNC', description: 'If hardship justifies a different resolution path' },
+    ],
+    terminatedWarning: 'TC 971 AC 073 = extra scrutiny on next attempt',
+    primaryCta: { icon: 'fa-credit-card', label: 'Make Payment Now' },
+    secondaryCta: { icon: 'fa-phone', label: 'Call IRS (800-829-1040)' },
+  },
+
+  'ia-modification': {
+    headerTitle: 'IA Modification',
+    heading: 'Your IA Modification Was Denied',
+    headingColor: 'text-[#E63946]',
+    subtitle: 'The IRS did not approve your request to change IA terms',
+    triggerTitle: 'Modification Denied',
+    triggerDetail: 'Your request to lower payment was rejected',
+    triggerNotice: 'Letter 3127C received',
+    daysLeft: 30,
+    timelineSteps: [
+      { label: 'Modification Requested', description: 'Submitted request to lower payment', color: '#0A1628', bgColor: '#2563EB', icon: 'fa-file-lines' },
+      { label: 'IRS Review', description: 'Financial disclosure reviewed', color: '#0A1628', bgColor: '#F59E0B', icon: 'fa-magnifying-glass', lineClass: 'bg-[#F59E0B]' },
+      { label: 'Denied', description: 'IRS determined current terms are appropriate', color: '#991B1B', bgColor: '#E63946', icon: 'fa-xmark', lineClass: 'bg-[#E63946]' },
+      { label: 'Appeal Window', description: '30 days to appeal or accept current terms', color: '#2563EB', bgColor: '#2563EB', icon: 'fa-clock' },
+    ],
+    cureActions: [
+      { icon: 'fa-file-signature', iconBg: '#F5F0FF', iconColor: '#7C3AED', title: 'File CAP Appeal', description: 'Collection Appeals Program within 30 days' },
+      { icon: 'fa-phone', iconBg: '#EFF4FF', iconColor: '#0A1628', title: 'Call IRS to Negotiate', description: '800-829-1040 — Discuss alternatives' },
+      { icon: 'fa-calculator', iconBg: '#E6F9EE', iconColor: '#00A651', title: 'Re-run Financial Analysis', description: 'Update income/expenses and resubmit' },
+    ],
+    protectionText: 'Your current IA remains active while you appeal or negotiate.',
+    terminatedOptions: [
+      { title: 'Accept Current Terms', description: 'Continue with existing payment amount' },
+      { title: 'Submit New Modification', description: 'Resubmit with updated financial data' },
+      { title: 'Switch Resolution', description: 'Consider OIC or CNC if hardship exists' },
+    ],
+    terminatedWarning: 'Continuing non-payment of the current terms may trigger default',
+    primaryCta: { icon: 'fa-file-signature', label: 'File Appeal' },
+    secondaryCta: { icon: 'fa-phone', label: 'Call IRS (800-829-1040)' },
   },
 
   'oic-rejection': {
-    title: 'Your Offer in Compromise Was Rejected',
-    subtitle: 'OIC Rejection',
-    description: 'The IRS has determined that your Offer in Compromise does not meet the acceptance criteria. This is not the end of the road — you have multiple paths forward.',
-    causes: [
-      'Offer amount did not meet the Reasonable Collection Potential (RCP)',
-      'Compliance issues — unfiled returns or unpaid current taxes',
-      'Did not respond to information requests within the required timeframe',
-      'Financial information could not be verified',
-      'IRS determined you could pay through other means (IA, full pay)',
+    headerTitle: 'OIC Rejection',
+    heading: 'Your Offer in Compromise Was Rejected',
+    headingColor: 'text-[#E63946]',
+    subtitle: 'You have 30 days to appeal using Form 13711',
+    triggerTitle: 'Offer Rejected',
+    triggerDetail: 'IRS determined RCP exceeds offer amount',
+    triggerNotice: 'Rejection letter received',
+    daysLeft: 25,
+    timelineSteps: [
+      { label: 'OIC Submitted', description: 'Form 656 with $205 fee', color: '#0A1628', bgColor: '#00A651', icon: 'fa-check', lineClass: 'bg-[#00A651]' },
+      { label: 'Investigation Complete', description: 'Examiner reviewed financials', color: '#0A1628', bgColor: '#00A651', icon: 'fa-check', lineClass: 'bg-[#00A651]' },
+      { label: 'Offer Rejected', description: 'RCP higher than offer amount', color: '#991B1B', bgColor: '#E63946', icon: 'fa-xmark', lineClass: 'bg-[#E63946]' },
+      { label: '30-Day Appeal Window', description: 'File Form 13711 to appeal', color: '#2563EB', bgColor: '#2563EB', icon: 'fa-clock' },
     ],
-    appealInfo: {
-      days: 30,
-      form: 'Form 13711',
-      description: 'You have 30 days from the date of the rejection letter to file an appeal using Form 13711 (Request for Appeal of Offer in Compromise). The Appeals Office provides an independent review.',
-    },
-    counterOffer: true,
-    recoveryOptions: [
-      {
-        title: 'Appeal the Rejection',
-        description: 'File Form 13711 within 30 days. The IRS Independent Office of Appeals will review your case with a fresh set of eyes.',
-      },
-      {
-        title: 'Resubmit with Changes',
-        description: 'Address the reasons for rejection and submit a new OIC with updated financials or a higher offer amount.',
-      },
-      {
-        title: 'Switch to Installment Agreement',
-        description: 'If OIC is not viable, an installment agreement may be a practical alternative to resolve your debt.',
-        href: '/post-submission/switching',
-      },
-      {
-        title: 'Request CNC Status',
-        description: 'If you truly cannot afford to pay, request Currently Not Collectible status to halt collection activity.',
-        href: '/post-submission/switching',
-      },
+    cureActions: [
+      { icon: 'fa-file-signature', iconBg: '#F5F0FF', iconColor: '#7C3AED', title: 'File Form 13711 Appeal', description: 'Appeal to IRS Independent Office of Appeals' },
+      { icon: 'fa-calculator', iconBg: '#EFF4FF', iconColor: '#2563EB', title: 'Resubmit New OIC', description: 'Address rejection reasons with updated data' },
+      { icon: 'fa-handshake', iconBg: '#E6F9EE', iconColor: '#00A651', title: 'Accept Counter-Offer', description: 'If IRS proposed a higher amount' },
     ],
-    primaryAction: { label: 'File Appeal (Form 13711)', href: '#' },
-    secondaryAction: { label: 'Explore Other Options', href: '/post-submission/switching' },
+    protectionText: 'Collection remains suspended during appeal period.',
+    terminatedOptions: [
+      { title: 'Appeal the Rejection', description: 'Form 13711 within 30 days', badge: 'Best Option' },
+      { title: 'Switch to Installment Agreement', description: 'IA is always available, no waiting period' },
+      { title: 'Request CNC Status', description: 'If hardship prevents any payment' },
+    ],
+    terminatedWarning: 'Periodic payments during OIC are not refunded after rejection',
+    primaryCta: { icon: 'fa-file-signature', label: 'File Appeal (Form 13711)' },
+    secondaryCta: { icon: 'fa-arrows-rotate', label: 'Switch Resolution' },
   },
 
-  'cnc-removal': {
-    title: 'Your CNC Status Was Removed',
-    subtitle: 'Currently Not Collectible — Removed',
-    description: 'The IRS has determined that your financial condition has improved and removed your Currently Not Collectible status. Collection activity may resume.',
-    causes: [
-      'IRS determined your income has increased significantly',
-      'Annual review showed improved ability to pay',
-      'Significant asset acquisition detected',
-      'Filed return showing higher income than when CNC was granted',
+  'cnc-review': {
+    headerTitle: 'CNC Review',
+    heading: 'Your CNC Status is Under Review',
+    headingColor: 'text-[#F59E0B]',
+    subtitle: 'IRS annual review detected potential income increase',
+    triggerTitle: 'Annual Review Triggered',
+    triggerDetail: 'W-2/1099 data shows income increase',
+    triggerNotice: 'Letter 4223 follow-up received',
+    daysLeft: 30,
+    timelineSteps: [
+      { label: 'CNC Granted (TC 530)', description: 'Original hardship determination', color: '#0A1628', bgColor: '#00A651', icon: 'fa-check', lineClass: 'bg-[#00A651]' },
+      { label: 'Annual Review Triggered', description: 'IRS detected income change', color: '#92400E', bgColor: '#F59E0B', icon: 'fa-eye', lineClass: 'bg-[#F59E0B]' },
+      { label: 'Response Required', description: 'Submit updated 433-F financials', color: '#2563EB', bgColor: '#2563EB', icon: 'fa-clock' },
+      { label: 'Outcome', description: 'CNC continues or revoked (TC 531)', color: '#94A3B8', bgColor: 'transparent', icon: 'fa-question' },
     ],
-    recoveryOptions: [
-      {
-        title: 'Re-request CNC',
-        description: 'If your financial situation has not materially improved, submit updated Form 433-A/F with current financials to re-request CNC status.',
-      },
-      {
-        title: 'Apply for Installment Agreement',
-        description: 'If you can afford modest monthly payments, an IA may be the best path to resolve your balance while avoiding aggressive collection.',
-        href: '/post-submission/switching',
-      },
-      {
-        title: 'Submit Offer in Compromise',
-        description: 'If your total debt significantly exceeds your ability to pay over the CSED period, an OIC may settle the debt for less.',
-        href: '/post-submission/switching',
-      },
+    cureActions: [
+      { icon: 'fa-file-lines', iconBg: '#EFF4FF', iconColor: '#2563EB', title: 'Submit Updated 433-F', description: 'Prove continued financial hardship' },
+      { icon: 'fa-phone', iconBg: '#E6F9EE', iconColor: '#00A651', title: 'Call IRS to Discuss', description: '800-829-1040 — Explain circumstances' },
+      { icon: 'fa-calculator', iconBg: '#F5F0FF', iconColor: '#7C3AED', title: 'Re-run Analysis', description: 'Update financials in the app' },
     ],
-    primaryAction: { label: 'Re-request CNC', href: '#' },
-    secondaryAction: { label: 'Explore Other Options', href: '/post-submission/switching' },
+    protectionText: 'No immediate levy action during the review period.',
+    terminatedOptions: [
+      { title: 'Re-prove Hardship', description: 'Submit updated financial documentation', badge: 'Best Option' },
+      { title: 'Set Up Installment Agreement', description: 'Proactively establish IA before revocation' },
+      { title: 'Submit Offer in Compromise', description: 'If debt significantly exceeds ability to pay' },
+    ],
+    terminatedWarning: 'If CNC is revoked, active collection resumes immediately',
+    primaryCta: { icon: 'fa-file-lines', label: 'Submit Updated Financials' },
+    secondaryCta: { icon: 'fa-phone', label: 'Call IRS (800-829-1040)' },
   },
-
-  'penalty-denial': {
-    title: 'Your Penalty Abatement Request Was Denied',
-    subtitle: 'Penalty Abatement — Denied',
-    description: 'The IRS has denied your request for penalty abatement. This means the assessed penalties remain on your account. You still have options to challenge this decision.',
-    causes: [
-      'First Time Abatement (FTA) criteria not met — prior penalties within 3 years',
-      'Insufficient reasonable cause documentation',
-      'Penalty type not eligible for abatement',
-      'Did not demonstrate how the circumstances prevented compliance',
-    ],
-    recoveryOptions: [
-      {
-        title: 'CDP Hearing',
-        description: 'File Form 12153 (Request for a Collection Due Process Hearing) within 30 days of the notice. This gives you the right to a hearing with the IRS Independent Office of Appeals.',
-      },
-      {
-        title: 'Resubmit with Stronger Evidence',
-        description: 'Gather more compelling documentation of reasonable cause (medical records, disaster declarations, professional advice letters) and resubmit.',
-      },
-      {
-        title: 'Pay and File Refund Claim',
-        description: 'Pay the penalty, then file Form 843 (Claim for Refund and Request for Abatement) to formally claim a refund. This preserves your right to take the case to court.',
-      },
-    ],
-    primaryAction: { label: 'File CDP Hearing (Form 12153)', href: '#' },
-    secondaryAction: { label: 'Explore Other Options', href: '/post-submission/switching' },
-  },
-}
-
-/* ------------------------------------------------------------------ */
-/*  Cure Period Countdown Component                                    */
-/* ------------------------------------------------------------------ */
-
-function CurePeriodCountdown({ days }: { days: number }) {
-  const [remaining, setRemaining] = useState(days)
-
-  useEffect(() => {
-    // In production, this would calculate from the actual notice date
-    setRemaining(days)
-  }, [days])
-
-  return (
-    <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-5">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Cure Period Remaining</p>
-          <p className="mt-1 text-3xl font-bold text-red-400">{remaining} <span className="text-base font-normal text-zinc-400">days</span></p>
-        </div>
-        <div className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-red-500/30 bg-red-500/10">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
-            <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-          </svg>
-        </div>
-      </div>
-      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-zinc-800">
-        <div
-          className="h-full rounded-full bg-red-500 transition-all"
-          style={{ width: `${((days - remaining) / days) * 100}%` }}
-        />
-      </div>
-      <p className="mt-2 text-xs text-zinc-500">Act before the cure period expires to preserve your options.</p>
-    </div>
-  )
 }
 
 /* ------------------------------------------------------------------ */
@@ -209,21 +178,20 @@ function CurePeriodCountdown({ days }: { days: number }) {
 
 export default function FailurePage() {
   const params = useParams()
+  const router = useRouter()
   const failureType = params.type as string
   const content = FAILURE_CONTENT[failureType]
 
   if (!content) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#09090b] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4">
         <div className="text-center space-y-4">
-          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-zinc-800">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
-              <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
-            </svg>
+          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-[#F1F5F9]">
+            <i className="fa-solid fa-circle-xmark text-2xl text-[#94A3B8]" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Unknown Failure Type</h1>
-          <p className="text-zinc-400">The failure type &quot;{failureType}&quot; is not recognized.</p>
-          <Link href="/dashboard" className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white hover:bg-blue-500 transition">
+          <h1 className="text-2xl font-bold text-[#0A1628]">Unknown Failure Type</h1>
+          <p className="text-[#64748B]">The failure type &quot;{failureType}&quot; is not recognized.</p>
+          <Link href="/dashboard" className="inline-block rounded-xl bg-[#0A1628] px-6 py-3 text-sm font-medium text-white">
             Return to Dashboard
           </Link>
         </div>
@@ -232,146 +200,131 @@ export default function FailurePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Dashboard
-        </Link>
-
-        {/* Failure Banner */}
-        <div className="rounded-2xl border border-red-500/30 bg-red-500/10 p-6 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/20">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
-              <circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" />
-            </svg>
-          </div>
-          <p className="text-xs font-medium uppercase tracking-wider text-red-400/60 mb-2">{content.subtitle}</p>
-          <h1 className="text-2xl font-bold text-red-400">{content.title}</h1>
-          <p className="mt-3 text-sm text-zinc-400 max-w-lg mx-auto">{content.description}</p>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Header */}
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+          </button>
+          <span className="text-[15px] font-bold text-[#0A1628]">{content.headerTitle}</span>
+          <div className="w-10" />
         </div>
 
-        {/* Cure Period Countdown (IA Default only) */}
-        {content.cureInfo && (
-          <CurePeriodCountdown days={content.cureInfo.days} />
-        )}
+        <div className="flex flex-col gap-3.5 px-5 py-5 pb-8">
+          {/* Heading */}
+          <div>
+            <h1 className={`text-xl font-extrabold mb-1 ${content.headingColor}`}>{content.heading}</h1>
+            <p className="text-[13px] text-[#94A3B8]">{content.subtitle}</p>
+          </div>
 
-        {/* Appeal Window (OIC Rejection) */}
-        {content.appealInfo && (
-          <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
-            <div className="flex gap-3">
-              <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-                  <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-                </svg>
+          {/* Default Trigger Card */}
+          <div className="rounded-2xl border-[1.5px] border-[rgba(245,166,35,0.4)] bg-[#FFFBEB] p-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full" style={{ background: 'conic-gradient(#F59E0B 216deg, #E2E8F0 216deg)' }}>
+                <div className="flex h-[52px] w-[52px] flex-col items-center justify-center rounded-full bg-white">
+                  <div className="text-lg font-black text-[#F59E0B]">{content.daysLeft}</div>
+                  <div className="text-[8px] font-bold text-[#92400E] uppercase">days left</div>
+                </div>
               </div>
               <div>
-                <h3 className="font-semibold text-amber-400">Appeal Window: {content.appealInfo.days} Days</h3>
-                <p className="mt-2 text-sm text-zinc-300 leading-relaxed">
-                  {content.appealInfo.description}
-                </p>
-                <span className="mt-2 inline-block rounded bg-zinc-800 px-2 py-0.5 font-mono text-xs text-zinc-400">
-                  {content.appealInfo.form}
-                </span>
+                <div className="text-sm font-bold text-[#92400E]">{content.triggerTitle}</div>
+                <div className="text-xs text-[#78350F] mt-0.5">{content.triggerDetail}</div>
+                <div className="text-[11px] text-[#92400E] mt-1 font-semibold">
+                  <i className="fa-solid fa-envelope text-[10px] mr-1" />
+                  {content.triggerNotice}
+                </div>
               </div>
             </div>
           </div>
-        )}
 
-        {/* Notice Information */}
-        {content.noticeInfo && (
-          <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-            <h2 className="text-lg font-semibold text-white mb-2">Notice: {content.noticeInfo.code}</h2>
-            <p className="text-sm text-zinc-400">{content.noticeInfo.description}</p>
-          </div>
-        )}
-
-        {/* Counter-Offer Section (OIC only) */}
-        {content.counterOffer && (
-          <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6">
-            <h2 className="text-lg font-semibold text-white mb-2">Counter-Offer</h2>
-            <p className="text-sm text-zinc-400 mb-4">
-              In some cases, the IRS may reject your original offer amount but propose a higher amount they would accept. If a counter-offer was included in your rejection letter, you can accept it without starting over.
-            </p>
-            <div className="rounded-lg bg-[#09090b] p-4 border border-[#27272a]">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Your Offer</p>
-                  <p className="mt-1 text-lg font-bold text-zinc-400">$--,---</p>
-                </div>
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">IRS Counter</p>
-                  <p className="mt-1 text-lg font-bold text-blue-400">$--,---</p>
-                </div>
-              </div>
-              <p className="mt-3 text-xs text-zinc-500">Check your rejection letter for counter-offer details.</p>
+          {/* Timeline */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3">
+              Default Timeline
             </div>
-          </div>
-        )}
-
-        {/* Common Causes */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Common Causes</h2>
-          <div className="space-y-2">
-            {content.causes.map((cause, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-red-500/15 text-[10px] font-bold text-red-400">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-zinc-300">{cause}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recovery Options */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-1">Recovery Options</h2>
-          <p className="text-sm text-zinc-400 mb-6">Here are your available paths forward.</p>
-          <div className="space-y-4">
-            {content.recoveryOptions.map((option) => (
-              <div key={option.title} className="rounded-xl border border-[#27272a] bg-[#09090b] p-5">
-                <h3 className="font-semibold text-white">{option.title}</h3>
-                <p className="mt-2 text-sm text-zinc-400">{option.description}</p>
-                {option.href && (
-                  <Link href={option.href} className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-blue-400 hover:text-blue-300 transition">
-                    Learn more
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </Link>
+            {content.timelineSteps.map((step, i) => (
+              <div key={i} className="relative flex gap-3.5 pb-3.5 last:pb-0">
+                {i < content.timelineSteps.length - 1 && (
+                  <div className={`absolute left-[14px] top-[32px] bottom-0 w-0.5 ${step.lineClass || 'bg-[#F1F5F9]'}`} />
                 )}
+                <div className="relative z-[1] flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-full text-[10px]" style={{
+                  background: step.bgColor === 'transparent' ? '#F8FAFC' : step.bgColor,
+                  color: step.bgColor === 'transparent' ? '#CBD5E1' : 'white',
+                  border: step.bgColor === 'transparent' ? '2px solid #F1F5F9' : 'none',
+                }}>
+                  <i className={`fa-solid ${step.icon}`} />
+                </div>
+                <div>
+                  <div className="text-xs font-bold" style={{ color: step.color }}>{step.label}</div>
+                  <div className="text-[10px] text-[#64748B]" dangerouslySetInnerHTML={{ __html: step.description }} />
+                </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="space-y-3 pb-8">
-          <Link
-            href={content.primaryAction.href}
-            className="block w-full rounded-xl bg-blue-600 py-4 text-center text-lg font-semibold text-white transition-colors hover:bg-blue-500 active:bg-blue-700"
-          >
-            {content.primaryAction.label}
-          </Link>
-          <Link
-            href={content.secondaryAction.href}
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
-          >
-            {content.secondaryAction.label}
-          </Link>
-          <Link
-            href="/post-submission/switching"
-            className="block w-full rounded-xl border border-blue-500/20 bg-blue-500/5 py-4 text-center text-base font-medium text-blue-400 transition-colors hover:bg-blue-500/10"
-          >
-            Switch Resolution
-          </Link>
+          {/* How to Cure */}
+          <div>
+            <div className="text-xs font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
+              How to Cure (Within 30 Days)
+            </div>
+            {content.cureActions.map((action, i) => (
+              <div key={i} className="flex items-center gap-3 rounded-[14px] bg-white border-[1.5px] border-[#F1F5F9] p-3 mb-2 cursor-pointer transition-all hover:border-[#2563EB]/20">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: action.iconBg }}>
+                  <i className={`fa-solid ${action.icon} text-base`} style={{ color: action.iconColor }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-[13px] font-bold text-[#0A1628]">{action.title}</div>
+                  <div className="text-[11px] text-[#64748B]">{action.description}</div>
+                </div>
+                <i className="fa-solid fa-chevron-right text-[#CBD5E1] text-xs" />
+              </div>
+            ))}
+          </div>
+
+          {/* Protection Notice */}
+          <div className="flex items-start gap-2.5 rounded-[14px] bg-[#EFF4FF] border border-[rgba(37,99,235,0.15)] p-3.5">
+            <i className="fa-solid fa-shield-halved text-[#2563EB]" />
+            <div className="text-xs text-[#1E40AF] leading-relaxed">
+              <strong>Protection:</strong> {content.protectionText}
+            </div>
+          </div>
+
+          {/* If Terminated Options */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
+            <div className="text-xs font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
+              If Agreement is Terminated
+            </div>
+            {content.terminatedOptions.map((opt, i) => (
+              <div key={i} className="rounded-[14px] bg-white border-[1.5px] border-[#F1F5F9] p-3.5 mb-2 last:mb-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="text-[13px] font-bold text-[#0A1628]">{opt.title}</span>
+                  {opt.badge && (
+                    <span className="rounded-full bg-[#EFF4FF] px-2 py-0.5 text-[9px] font-bold text-[#2563EB]">{opt.badge}</span>
+                  )}
+                </div>
+                <div className="text-[11px] text-[#64748B] leading-relaxed">{opt.description}</div>
+              </div>
+            ))}
+            <div className="mt-2 rounded-[10px] bg-[rgba(230,57,70,0.05)] p-2">
+              <div className="text-[10px] text-[#991B1B] leading-relaxed">
+                <i className="fa-solid fa-triangle-exclamation text-[9px] mr-1" />
+                {content.terminatedWarning}
+              </div>
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="mt-1 flex flex-col gap-2.5">
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
+              <i className={`fa-solid ${content.primaryCta.icon} text-[13px]`} />
+              {content.primaryCta.label}
+            </button>
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl border-[1.5px] border-[#E2E8F0] bg-white py-4 text-[15px] font-semibold text-[#0A1628]">
+              <i className={`fa-solid ${content.secondaryCta.icon} text-[13px]`} />
+              {content.secondaryCta.label}
+            </button>
+          </div>
         </div>
       </div>
     </div>

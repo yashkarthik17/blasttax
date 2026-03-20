@@ -3,163 +3,39 @@
 import { useState } from 'react'
 import { useWizard } from '@/hooks/useWizard'
 
-/* ------------------------------------------------------------------ */
-/* Shared UI                                                           */
-/* ------------------------------------------------------------------ */
-
-function RequiredBadge() {
-  return <span className="ml-1 rounded bg-red-500/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-red-400">Required</span>
-}
-
-function SectionHeading({ title }: { title: string }) {
-  return <h2 className="mb-4 text-lg font-bold text-white">{title}</h2>
-}
-
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 flex items-center text-sm font-medium text-zinc-300">
-        {label}
-        {required && <RequiredBadge />}
-      </span>
-      {children}
-    </label>
-  )
-}
-
-const inputClass = 'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
-const selectClass = inputClass
-
-/* ------------------------------------------------------------------ */
-/* IA Type badge color                                                 */
-/* ------------------------------------------------------------------ */
-
-function iaTypeBadge(type: string) {
-  const colors: Record<string, string> = {
-    GuaranteedIA: 'bg-green-600/20 text-green-400',
-    StreamlinedIA: 'bg-blue-600/20 text-blue-400',
-    ExpandedStreamlinedIA: 'bg-blue-600/20 text-blue-400',
-    NonStreamlinedIA: 'bg-amber-600/20 text-amber-400',
-    RegularIA: 'bg-amber-600/20 text-amber-400',
-    ShortTermPlan: 'bg-emerald-600/20 text-emerald-400',
-    PPIA: 'bg-purple-600/20 text-purple-400',
-  }
-  const labels: Record<string, string> = {
-    GuaranteedIA: 'Guaranteed IA',
-    StreamlinedIA: 'Streamlined IA',
-    ExpandedStreamlinedIA: 'Expanded Streamlined IA',
-    NonStreamlinedIA: 'Non-Streamlined IA',
-    RegularIA: 'Regular IA',
-    ShortTermPlan: 'Short-Term Plan',
-    PPIA: 'Partial Pay IA',
-  }
-  return (
-    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${colors[type] ?? 'bg-zinc-700 text-zinc-300'}`}>
-      {labels[type] ?? type}
-    </span>
-  )
-}
-
-/* ------------------------------------------------------------------ */
-/* Setup Fee Calculation                                               */
-/* ------------------------------------------------------------------ */
-
-function getSetupFee(method: string, ddiaRequired: boolean, isLowIncome: boolean): number {
-  if (isLowIncome) return 22
-  if (method === 'ddia') return 22
-  if (method === 'check') return 178
-  if (method === 'payroll') return 69
-  return 69
-}
-
-/* ------------------------------------------------------------------ */
-/* Debt Row                                                            */
-/* ------------------------------------------------------------------ */
-
-interface DebtRow {
-  taxYear: string
-  formType: string
-  amount: string
-}
-
-/* ------------------------------------------------------------------ */
-/* Page Component                                                      */
-/* ------------------------------------------------------------------ */
-
 export default function Form9465Page() {
   const { answers, caseId } = useWizard()
 
-  // Taxpayer info (pre-filled)
-  const [name, setName] = useState(answers.taxpayerName ?? '')
-  const [ssn, setSsn] = useState(answers.ssn ?? '')
-  const [address, setAddress] = useState(answers.address ?? '')
-  const [city, setCity] = useState(answers.city ?? '')
-  const [state, setState] = useState(answers.state ?? '')
-  const [zip, setZip] = useState(answers.zip ?? '')
+  const totalOwed = 47250
+  const [monthlyPayment, setMonthlyPayment] = useState(657)
+  const minPayment = 657
+  const maxPayment = 2000
 
-  // Spouse
-  const isMfj = answers.filingStatus === 'MFJ'
-  const [spouseName, setSpouseName] = useState(answers.spouseName ?? '')
-  const [spouseSsn, setSpouseSsn] = useState(answers.spouseSsn ?? '')
-
-  // Employer info
-  const [employerName, setEmployerName] = useState(answers.employerName ?? '')
-  const [employerAddress, setEmployerAddress] = useState(answers.employerAddress ?? '')
-  const [spouseEmployerName, setSpouseEmployerName] = useState(answers.spouseEmployerName ?? '')
-  const [spouseEmployerAddress, setSpouseEmployerAddress] = useState(answers.spouseEmployerAddress ?? '')
-
-  // Tax debts table
-  const [debts, setDebts] = useState<DebtRow[]>(() => {
-    if (answers.taxDebts && Array.isArray(answers.taxDebts)) {
-      return answers.taxDebts.map((d: { taxYear: number; taxForm: string; balance: number }) => ({
-        taxYear: String(d.taxYear),
-        formType: d.taxForm,
-        amount: String(d.balance),
-      }))
-    }
-    return [{ taxYear: '', formType: '1040', amount: '' }]
-  })
-
-  const totalOwed = debts.reduce((sum, d) => sum + (Number(d.amount) || 0), 0)
-
-  // IA Calculation results (pre-filled)
-  const iaType = answers.iaRecommendedType ?? 'StreamlinedIA'
-  const iaTermMonths = answers.iaTermMonths ?? 72
-  const prefilledPayment = answers.iaMonthlyPayment ?? Math.ceil(totalOwed / iaTermMonths)
-  const ddiaRequired = answers.iaDdiaRequired ?? totalOwed > 25000
-  const isLowIncome = answers.isLowIncome ?? false
-
-  // Monthly payment slider
-  const [monthlyPayment, setMonthlyPayment] = useState(prefilledPayment)
-  const minPayment = Math.max(25, Math.ceil(totalOwed / 120))
-  const maxPayment = Math.ceil(totalOwed / 6)
-
-  // Payment method
-  const [paymentMethod, setPaymentMethod] = useState<'ddia' | 'check' | 'payroll'>(ddiaRequired ? 'ddia' : 'ddia')
-
-  // DDIA bank info
+  const [paymentMethod, setPaymentMethod] = useState<'ddia' | 'check' | 'payroll'>('ddia')
   const [routingNumber, setRoutingNumber] = useState('')
   const [accountNumber, setAccountNumber] = useState('')
   const [accountType, setAccountType] = useState<'checking' | 'savings'>('checking')
 
-  // Payment day
-  const [paymentDay, setPaymentDay] = useState('15')
+  // Spouse fields
+  const [spouseName, setSpouseName] = useState('')
+  const [spouseSsn, setSpouseSsn] = useState('')
+  const [spouseEmployerName, setSpouseEmployerName] = useState('')
+  const [spouseEmployerAddress, setSpouseEmployerAddress] = useState('')
 
-  const setupFee = getSetupFee(paymentMethod, ddiaRequired, isLowIncome)
+  // Employer fields
+  const [employerName, setEmployerName] = useState(answers.employerName ?? 'Acme Corp')
+  const [employerAddress, setEmployerAddress] = useState(answers.employerAddress ?? '500 Tech Blvd, Austin, TX 78702')
 
   const [generating, setGenerating] = useState(false)
 
-  function addDebt() {
-    setDebts((prev) => [...prev, { taxYear: '', formType: '1040', amount: '' }])
-  }
+  const payoffMonths = monthlyPayment > 0 ? Math.ceil(totalOwed / monthlyPayment) : 0
+  const sliderPct = ((monthlyPayment - minPayment) / (maxPayment - minPayment)) * 100
 
-  function updateDebt(index: number, field: keyof DebtRow, value: string) {
-    setDebts((prev) => prev.map((row, i) => (i === index ? { ...row, [field]: value } : row)))
-  }
-
-  function removeDebt(index: number) {
-    setDebts((prev) => prev.filter((_, i) => i !== index))
-  }
+  const payoffDate = (() => {
+    const d = new Date(2026, 2)
+    d.setMonth(d.getMonth() + payoffMonths)
+    return `~${['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]} ${d.getFullYear()}`
+  })()
 
   async function handleGeneratePdf() {
     setGenerating(true)
@@ -183,261 +59,217 @@ export default function Form9465Page() {
     }
   }
 
+  const methods = [
+    { key: 'ddia' as const, label: 'Direct Debit', badge: 'RECOMMENDED', desc: 'Automatic withdrawal, lower setup fee' },
+    { key: 'check' as const, label: 'Check / Money Order', desc: 'Mail monthly payment to IRS' },
+    { key: 'payroll' as const, label: 'Payroll Deduction', desc: 'Deducted from your paycheck' },
+  ]
+
   return (
-    <div className="space-y-8 pb-12">
-      <div className="flex items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-white">Form 9465</h1>
-          <p className="mt-1 text-sm text-zinc-400">Installment Agreement Request &mdash; Set up a monthly payment plan with the IRS.</p>
+    <div className="flex flex-col gap-[18px]">
+      {/* Heading */}
+      <div>
+        <div className="text-[1.25rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">Set up your Installment Agreement</div>
+        <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-[#EBF0FF] rounded-full text-[0.72rem] font-semibold text-[#0A1628]">
+          <i className="fas fa-shield-check text-[10px]" /> Streamlined IA (under $50,000)
         </div>
-        {iaTypeBadge(iaType)}
       </div>
 
-      {/* ── Taxpayer Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Taxpayer Information" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Full Name" required>
-            <input className={inputClass} value={name} onChange={(e) => setName(e.target.value)} placeholder="John A. Doe" />
-          </Field>
-          <Field label="Social Security Number" required>
-            <input className={inputClass} value={ssn} onChange={(e) => setSsn(e.target.value)} placeholder="XXX-XX-XXXX" />
-          </Field>
-          <Field label="Street Address" required>
-            <input className={inputClass} value={address} onChange={(e) => setAddress(e.target.value)} />
-          </Field>
-          <div className="grid grid-cols-3 gap-3">
-            <Field label="City">
-              <input className={inputClass} value={city} onChange={(e) => setCity(e.target.value)} />
-            </Field>
-            <Field label="State">
-              <input className={inputClass} value={state} onChange={(e) => setState(e.target.value)} maxLength={2} />
-            </Field>
-            <Field label="ZIP">
-              <input className={inputClass} value={zip} onChange={(e) => setZip(e.target.value)} />
-            </Field>
-          </div>
+      {/* Taxpayer Info */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Taxpayer Info (Lines 1a-4)</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="flex justify-between mb-2"><span className="text-[0.78rem] text-[#94A3B8]">Name</span><span className="text-[0.78rem] font-semibold text-[#0A1628]">Jane M. Doe</span></div>
+          <div className="flex justify-between mb-2"><span className="text-[0.78rem] text-[#94A3B8]">SSN</span><span className="text-[0.78rem] font-semibold text-[#0A1628] tracking-wider">***-**-4589</span></div>
+          <div className="flex justify-between"><span className="text-[0.78rem] text-[#94A3B8]">Address</span><span className="text-[0.78rem] font-semibold text-[#0A1628] text-right max-w-[55%]">1234 Elm St, Austin, TX</span></div>
         </div>
+      </div>
 
-        {isMfj && (
-          <div className="mt-4 grid gap-4 rounded-lg border border-zinc-700 bg-zinc-900/50 p-4 sm:grid-cols-2">
-            <Field label="Spouse Full Name" required>
-              <input className={inputClass} value={spouseName} onChange={(e) => setSpouseName(e.target.value)} />
-            </Field>
-            <Field label="Spouse SSN" required>
-              <input className={inputClass} value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} placeholder="XXX-XX-XXXX" />
-            </Field>
-          </div>
-        )}
-      </section>
-
-      {/* ── Employer Information ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Employer Information" />
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field label="Your Employer Name">
-            <input className={inputClass} value={employerName} onChange={(e) => setEmployerName(e.target.value)} />
-          </Field>
-          <Field label="Employer Address">
-            <input className={inputClass} value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} />
-          </Field>
+      {/* Spouse Info */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Spouse Info (Lines 1b-2b) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse Name (Line 1b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse full legal name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} /></div>
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse SSN (Line 2b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} /></div>
         </div>
-        {isMfj && (
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <Field label="Spouse Employer Name">
-              <input className={inputClass} value={spouseEmployerName} onChange={(e) => setSpouseEmployerName(e.target.value)} />
-            </Field>
-            <Field label="Spouse Employer Address">
-              <input className={inputClass} value={spouseEmployerAddress} onChange={(e) => setSpouseEmployerAddress(e.target.value)} />
-            </Field>
-          </div>
-        )}
-      </section>
+      </div>
 
-      {/* ── Tax Years / Amounts ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Tax Periods and Amounts Owed" />
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-zinc-700 text-left text-xs text-zinc-400">
-                <th className="pb-2 pr-4">Tax Year</th>
-                <th className="pb-2 pr-4">Form</th>
-                <th className="pb-2 pr-4 text-right">Amount Owed</th>
-                <th className="pb-2 w-10"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800">
-              {debts.map((row, idx) => (
-                <tr key={idx}>
-                  <td className="py-2 pr-4">
-                    <input className={inputClass + ' w-24'} value={row.taxYear} onChange={(e) => updateDebt(idx, 'taxYear', e.target.value)} placeholder="2024" />
-                  </td>
-                  <td className="py-2 pr-4">
-                    <select className={selectClass + ' w-28'} value={row.formType} onChange={(e) => updateDebt(idx, 'formType', e.target.value)}>
-                      <option value="1040">1040</option>
-                      <option value="941">941</option>
-                      <option value="940">940</option>
-                      <option value="1065">1065</option>
-                      <option value="1120">1120</option>
-                    </select>
-                  </td>
-                  <td className="py-2 pr-4">
-                    <input className={inputClass + ' w-32 text-right'} type="number" value={row.amount} onChange={(e) => updateDebt(idx, 'amount', e.target.value)} placeholder="0" />
-                  </td>
-                  <td className="py-2">
-                    {debts.length > 1 && (
-                      <button onClick={() => removeDebt(idx)} className="text-red-400 hover:text-red-300" aria-label="Remove row">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr className="border-t border-zinc-600">
-                <td colSpan={2} className="pt-3 text-right font-semibold text-zinc-300">Total Amount Owed</td>
-                <td className="pt-3 text-right font-bold text-white">${totalOwed.toLocaleString()}</td>
-                <td></td>
-              </tr>
-            </tfoot>
-          </table>
+      {/* Employer — Taxpayer */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Taxpayer (Line 5)</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerName} onChange={(e) => setEmployerName(e.target.value)} /></div>
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} /></div>
         </div>
+      </div>
 
-        <button onClick={addDebt} className="mt-3 rounded-lg border border-dashed border-zinc-600 px-4 py-2 text-sm text-zinc-400 transition-colors hover:border-zinc-400 hover:text-zinc-200">
-          + Add Tax Period
-        </button>
-      </section>
-
-      {/* ── Monthly Payment ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Monthly Payment Amount" />
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="text-3xl font-bold text-white">${monthlyPayment.toLocaleString()}</span>
-            <span className="text-sm text-zinc-400">/month</span>
-          </div>
-
-          <input
-            type="range"
-            min={minPayment}
-            max={maxPayment}
-            value={monthlyPayment}
-            onChange={(e) => setMonthlyPayment(Number(e.target.value))}
-            className="w-full accent-blue-500"
-          />
-
-          <div className="flex justify-between text-xs text-zinc-500">
-            <span>${minPayment.toLocaleString()}/mo</span>
-            <span>${maxPayment.toLocaleString()}/mo</span>
-          </div>
-
-          <div className="rounded-lg bg-zinc-900/50 p-3 text-sm text-zinc-400">
-            <div className="flex justify-between">
-              <span>Estimated term</span>
-              <span className="text-white">{monthlyPayment > 0 ? Math.ceil(totalOwed / monthlyPayment) : 0} months</span>
-            </div>
-            <div className="mt-1 flex justify-between">
-              <span>Total paid</span>
-              <span className="text-white">${(monthlyPayment * Math.ceil(totalOwed / monthlyPayment)).toLocaleString()}</span>
-            </div>
-          </div>
+      {/* Employer — Spouse */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Spouse (Line 6) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse employer name" value={spouseEmployerName} onChange={(e) => setSpouseEmployerName(e.target.value)} /></div>
+          <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Street, City, State, ZIP" value={spouseEmployerAddress} onChange={(e) => setSpouseEmployerAddress(e.target.value)} /></div>
         </div>
-      </section>
+      </div>
 
-      {/* ── Payment Method ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Payment Method" />
+      {/* Total Amount Owed */}
+      <div className="bg-[#FFF0F1] rounded-2xl p-[18px] border border-[rgba(230,57,70,0.1)]">
+        <div className="text-[0.72rem] font-semibold text-[#94A3B8] uppercase tracking-wider mb-1.5">Total Amount Owed</div>
+        <div className="text-[1.8rem] font-black text-[#E63946] tracking-tight leading-none">${totalOwed.toLocaleString()}</div>
+      </div>
 
-        {ddiaRequired && totalOwed > 25000 && (
-          <div className="mb-4 flex items-start gap-2 rounded-lg border border-amber-600/30 bg-amber-600/10 p-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="mt-0.5 shrink-0 text-amber-400">
-              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-            </svg>
-            <p className="text-xs text-amber-300">Direct Debit Installment Agreement (DDIA) is <span className="font-semibold">required</span> for balances between $25,000 and $50,000.</p>
+      {/* Tax Owed by Period */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Tax Owed by Period (Lines 7-9)</div>
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="flex pb-1.5 border-b border-[#E2E8F0] mb-1">
+            <span className="flex-1 text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Year</span>
+            <span className="w-[70px] text-center text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Form</span>
+            <span className="w-[80px] text-right text-[0.65rem] font-bold text-[#94A3B8] uppercase tracking-wider">Amount</span>
           </div>
-        )}
-
-        <div className="grid gap-3 sm:grid-cols-3">
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${paymentMethod === 'ddia' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'}`}>
-            <input type="radio" name="paymentMethod" value="ddia" checked={paymentMethod === 'ddia'} onChange={() => setPaymentMethod('ddia')} className="sr-only" />
-            <span className="text-sm font-semibold text-white">Direct Debit (DDIA)</span>
-            <span className="mt-1 text-xs text-zinc-400">Auto-debit from bank account</span>
-          </label>
-
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${paymentMethod === 'check' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'} ${ddiaRequired ? 'pointer-events-none opacity-40' : ''}`}>
-            <input type="radio" name="paymentMethod" value="check" checked={paymentMethod === 'check'} onChange={() => setPaymentMethod('check')} disabled={ddiaRequired} className="sr-only" />
-            <span className="text-sm font-semibold text-white">Check / Money Order</span>
-            <span className="mt-1 text-xs text-zinc-400">Mail monthly payments</span>
-          </label>
-
-          <label className={`flex cursor-pointer flex-col rounded-lg border p-4 transition-colors ${paymentMethod === 'payroll' ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-700 hover:border-zinc-500'} ${ddiaRequired ? 'pointer-events-none opacity-40' : ''}`}>
-            <input type="radio" name="paymentMethod" value="payroll" checked={paymentMethod === 'payroll'} onChange={() => setPaymentMethod('payroll')} disabled={ddiaRequired} className="sr-only" />
-            <span className="text-sm font-semibold text-white">Payroll Deduction</span>
-            <span className="mt-1 text-xs text-zinc-400">Deducted from paycheck</span>
-          </label>
-        </div>
-
-        {paymentMethod === 'ddia' && (
-          <div className="mt-4 grid gap-4 rounded-lg border border-zinc-700 bg-zinc-900/50 p-4 sm:grid-cols-2">
-            <Field label="Bank Routing Number" required>
-              <input className={inputClass} value={routingNumber} onChange={(e) => setRoutingNumber(e.target.value)} placeholder="9-digit routing number" maxLength={9} />
-            </Field>
-            <Field label="Account Number" required>
-              <input className={inputClass} value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} placeholder="Account number" />
-            </Field>
-            <Field label="Account Type" required>
-              <select className={selectClass} value={accountType} onChange={(e) => setAccountType(e.target.value as 'checking' | 'savings')}>
-                <option value="checking">Checking</option>
-                <option value="savings">Savings</option>
+          {[{year:'2023',amount:'$18,500'},{year:'2022',amount:'$16,200'},{year:'2021',amount:'$12,550'}].map((row, idx) => (
+            <div key={idx} className={`flex items-center py-2 ${idx < 2 ? 'border-b border-[#F1F5F9]' : ''}`}>
+              <span className="flex-1 text-[0.82rem] font-semibold text-[#0A1628]">{row.year}</span>
+              <select className="w-[70px] px-1.5 py-1 bg-[#F8FAFC] border border-[#F3F4F6] rounded-md text-[0.7rem] font-semibold text-[#0A1628] outline-none text-center">
+                <option>1040</option><option>1120</option><option>941</option>
               </select>
-            </Field>
+              <span className="w-[80px] text-right text-[0.82rem] font-bold text-[#E63946]">{row.amount}</span>
+            </div>
+          ))}
+          <div className="flex justify-between pt-3 border-t-2 border-[#E2E8F0] mt-1">
+            <span className="text-[0.85rem] font-extrabold text-[#0A1628]">Total</span>
+            <span className="text-base font-black text-[#E63946]">$47,250</span>
           </div>
-        )}
-
-        {/* Payment day */}
-        <div className="mt-4">
-          <Field label="Preferred Payment Day of Month">
-            <select className={selectClass + ' w-32'} value={paymentDay} onChange={(e) => setPaymentDay(e.target.value)}>
-              {Array.from({ length: 28 }, (_, i) => i + 1).map((d) => (
-                <option key={d} value={String(d)}>{d}</option>
-              ))}
-            </select>
-          </Field>
         </div>
-      </section>
+      </div>
 
-      {/* ── Fee Summary ── */}
-      <section className="rounded-xl border border-[var(--border)] bg-[var(--card)] p-6">
-        <SectionHeading title="Setup Fee" />
-
-        <div className="flex items-center justify-between rounded-lg bg-zinc-900/50 p-4">
-          <div>
-            <p className="text-sm font-medium text-zinc-300">One-time setup fee</p>
-            <p className="text-xs text-zinc-500">{paymentMethod === 'ddia' ? 'Online DDIA' : paymentMethod === 'check' ? 'Phone/Mail' : 'Online'} application</p>
+      {/* Monthly Payment Slider */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Proposed Monthly Payment</div>
+        <div className="bg-white rounded-[20px] px-5 py-6 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="text-center mb-5">
+            <div className="text-[2.2rem] font-black text-[#0A1628] tracking-tight leading-none">${monthlyPayment.toLocaleString()}</div>
+            <div className="text-[0.72rem] text-[#94A3B8] mt-1.5">per month</div>
           </div>
-          <span className="text-2xl font-bold text-white">${setupFee}</span>
+          <div className="px-1">
+            <input
+              type="range"
+              min={minPayment}
+              max={maxPayment}
+              value={monthlyPayment}
+              onChange={(e) => setMonthlyPayment(Number(e.target.value))}
+              className="w-full h-1.5 rounded-full outline-none appearance-none cursor-pointer accent-[#0A1628]"
+              style={{
+                background: `linear-gradient(to right, #0A1628 0%, #0A1628 ${sliderPct}%, #F1F5F9 ${sliderPct}%, #F1F5F9 100%)`,
+              }}
+            />
+            <div className="flex justify-between mt-2">
+              <span className="text-[0.65rem] font-semibold text-[#CBD5E1]">${minPayment}/mo</span>
+              <span className="text-[0.65rem] font-semibold text-[#CBD5E1]">${maxPayment.toLocaleString()}/mo</span>
+            </div>
+          </div>
+          <div className="mt-4 px-3.5 py-3 bg-[#EBF0FF] rounded-xl text-center">
+            <div className="flex items-center justify-center gap-1.5">
+              <i className="fas fa-calendar text-[11px] text-[#0A1628]" />
+              <span className="text-[0.82rem] font-bold text-[#0A1628]">Payoff in {payoffMonths} months</span>
+            </div>
+            <div className="text-[0.7rem] text-[#64748B] mt-1">{payoffDate}</div>
+          </div>
+          <div className="mt-3 flex items-center gap-1.5 text-[0.72rem] text-[#94A3B8]">
+            <i className="fas fa-lightbulb text-[10px] text-[#F5A623]" />
+            Minimum suggested: $657/mo (72-month term)
+          </div>
         </div>
+      </div>
 
-        {isLowIncome && (
-          <div className="mt-3 flex items-center gap-2 rounded-lg border border-green-600/30 bg-green-600/10 p-3">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-green-400"><path d="M20 6L9 17l-5-5" /></svg>
-            <p className="text-xs text-green-400">Low-income fee waiver applied. Setup fee may be reduced or waived.</p>
+      {/* Payment Method */}
+      <div>
+        <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Payment Method</div>
+        {methods.map((m) => (
+          <button
+            key={m.key}
+            type="button"
+            onClick={() => setPaymentMethod(m.key)}
+            className={`flex gap-3.5 p-4 bg-white border-[1.5px] rounded-[14px] mb-2 w-full text-left transition-all ${
+              paymentMethod === m.key ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6] hover:border-[#0A1628]'
+            }`}
+          >
+            <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-px transition-all ${
+              paymentMethod === m.key ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
+            }`}>
+              {paymentMethod === m.key && <div className="w-2 h-2 rounded-full bg-white" />}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-1.5 mb-0.5">
+                <span className="text-[0.85rem] font-bold text-[#0A1628]">{m.label}</span>
+                {m.badge && <span className="inline-flex px-2 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651]">{m.badge}</span>}
+              </div>
+              <div className="text-[0.75rem] text-[#94A3B8] leading-snug">{m.desc}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* DDIA Bank Details */}
+      {paymentMethod === 'ddia' && (
+        <div className="bg-white rounded-2xl p-4 border-[1.5px] border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Direct Debit Details (Lines 13a-c)</div>
+          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Bank Routing Number (Line 13a)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none tracking-wider focus:border-[#0A1628]" placeholder="9-digit routing number" maxLength={9} value={routingNumber} onChange={(e) => setRoutingNumber(e.target.value)} /></div>
+          <div className="mb-2.5"><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Bank Account Number (Line 13b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none tracking-wider focus:border-[#0A1628]" placeholder="Account number" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} /></div>
+          <div className="mb-2.5">
+            <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Account Type (Line 13c)</div>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setAccountType('checking')} className={`flex-1 py-2.5 text-center border-[1.5px] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] transition-all ${accountType === 'checking' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'}`}>Checking</button>
+              <button type="button" onClick={() => setAccountType('savings')} className={`flex-1 py-2.5 text-center border-[1.5px] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] transition-all ${accountType === 'savings' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F3F4F6] bg-white'}`}>Savings</button>
+            </div>
           </div>
-        )}
-      </section>
+          <div className="text-[0.68rem] text-[#94A3B8] leading-relaxed px-2 py-1.5 bg-[#F8FAFC] rounded-md">
+            <i className="fas fa-lock text-[8px] mr-1" />
+            Your bank information is encrypted and only used for IRS direct debit authorization.
+          </div>
+        </div>
+      )}
 
-      {/* ── Generate PDF ── */}
-      <div className="flex gap-3">
-        <button
-          onClick={handleGeneratePdf}
-          disabled={generating}
-          className="rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:opacity-50"
-        >
-          {generating ? 'Generating...' : 'Generate PDF'}
+      {/* DDIA Requirement Note */}
+      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#FFF0F1] border-[1.5px] border-[rgba(230,57,70,0.15)] rounded-[14px]">
+        <i className="fas fa-exclamation-triangle text-sm text-[#E63946] flex-shrink-0 mt-0.5" />
+        <div>
+          <div className="text-[0.82rem] font-bold text-[#991B1B] mb-1">DDIA Required for Your Balance</div>
+          <div className="text-[0.75rem] text-[#991B1B] leading-relaxed">
+            For Streamlined IA balances between $25,001 and $50,000, <strong>Direct Debit (DDIA) is mandatory</strong> per IRM 5.14.5.3. The IRS will not approve a Streamlined IA without DDIA for this balance range.
+          </div>
+        </div>
+      </div>
+
+      {/* Setup Fee Info */}
+      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#FFFBEB] border border-[rgba(245,166,35,0.15)] rounded-[14px]">
+        <i className="fas fa-info-circle text-sm text-[#D97706] flex-shrink-0 mt-0.5" />
+        <div>
+          <div className="text-[0.82rem] font-bold text-[#92400E] mb-1">Setup Fee</div>
+          <div className="text-[0.75rem] text-[#92400E] leading-relaxed">
+            <strong>$22</strong> online DDIA &middot; <strong>$69</strong> online non-DDIA &middot; <strong>$107</strong> phone/mail DDIA &middot; <strong>$178</strong> phone/mail non-DDIA
+          </div>
+        </div>
+      </div>
+
+      {/* Low-Income Fee Reduction */}
+      <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#E6F9EE] border border-[rgba(0,166,81,0.15)] rounded-[14px]">
+        <i className="fas fa-hand-holding-dollar text-sm text-[#00A651] flex-shrink-0 mt-0.5" />
+        <div>
+          <div className="text-[0.82rem] font-bold text-[#065F46] mb-1">Low-Income Fee Reduction</div>
+          <div className="text-[0.75rem] text-[#065F46] leading-relaxed">
+            If your income is at or below 250% of the Federal Poverty Level, the setup fee is reduced to <strong>$43</strong> (or waived for online DDIA). You may also be eligible for <strong>reimbursement</strong> of the user fee upon completion.
+          </div>
+        </div>
+      </div>
+
+      {/* Buttons */}
+      <div className="flex flex-col gap-3 pt-1">
+        <button className="py-4 bg-[#00A651] rounded-full text-center text-white text-[0.88rem] font-bold shadow-[0_1px_2px_rgba(0,0,0,0.03)] transition-all hover:-translate-y-0.5 active:scale-[0.97]">
+          Continue <i className="fas fa-arrow-right ml-1.5 text-xs" />
+        </button>
+        <button onClick={handleGeneratePdf} disabled={generating} className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold transition-all hover:-translate-y-0.5 active:scale-[0.97] disabled:opacity-50">
+          <i className="fas fa-file-pdf mr-1.5 text-[11px]" /> {generating ? 'Generating...' : 'Generate PDF'}
         </button>
       </div>
     </div>

@@ -1,248 +1,149 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-
-function calculateMonthsRemaining(csedDate: Date): number {
-  const now = new Date()
-  const diff = csedDate.getTime() - now.getTime()
-  return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24 * 30.44)))
-}
+import { useRouter } from 'next/navigation'
 
 export default function CNCPostSubmissionPage() {
+  const router = useRouter()
   const [mounted, setMounted] = useState(false)
+  useEffect(() => { setMounted(true) }, [])
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Sample data
-  const csedDate = new Date('2031-04-15')
-  const monthsRemaining = calculateMonthsRemaining(csedDate)
-  const totalMonths = 120 // 10-year CSED
-  const monthsElapsed = totalMonths - monthsRemaining
-  const progressPercent = Math.min(100, (monthsElapsed / totalMonths) * 100)
-  const totalDebt = 47850
-  const accruedInterest = 6230
-  const accruedPenalties = 3410
-
-  const KEY_FACTS = [
-    {
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-emerald-400">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
-        </svg>
-      ),
-      title: 'No Payments Required',
-      description: 'The IRS has determined you cannot afford to make payments at this time.',
-    },
-    {
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
-          <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
-        </svg>
-      ),
-      title: 'CSED Continues Running',
-      description: 'The 10-year Collection Statute Expiration Date (CSED) keeps ticking while you are in CNC status.',
-    },
-    {
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-          <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-        </svg>
-      ),
-      title: 'IRS Reviews Annually',
-      description: 'The IRS may review your financial situation periodically. If your income increases, CNC status may be removed.',
-    },
-    {
-      icon: (
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
-          <line x1="12" y1="1" x2="12" y2="23" /><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-        </svg>
-      ),
-      title: 'Penalties & Interest Accrue',
-      description: 'While no payments are due, penalties and interest continue to accumulate on the outstanding balance.',
-    },
+  const timelineItems = [
+    { label: 'CNC Request Made', date: 'Mar 15', completed: true },
+    { label: 'IRS Reviewed Financials (Form 433-F)', date: 'Mar 22', completed: true },
+    { label: 'TC 530 Posted (Closing Code 03: Hardship)', date: 'Mar 25', completed: true },
+    { label: 'Letter 4223 Mailed (Confirmation)', date: 'Mar 28', completed: true },
+    { label: 'Next Annual Review', date: 'Mar 2027', completed: false },
   ]
 
-  const REMOVAL_TRIGGERS = [
-    {
-      title: 'Significant Income Increase',
-      description: 'If the IRS determines your income has increased substantially above the CNC threshold, they may remove CNC status and resume collection.',
-    },
-    {
-      title: 'Asset Acquisition',
-      description: 'Acquiring significant assets (real estate, inheritance, large deposits) may trigger a reassessment of your ability to pay.',
-    },
-    {
-      title: 'Refund Offset',
-      description: 'While in CNC, the IRS will still offset any tax refunds you are owed and apply them to your outstanding balance. This is not removal, but it does reduce your balance.',
-    },
+  const effects = [
+    { icon: 'fa-circle-check', color: 'text-[#00A651]', label: 'Collection activity stopped', sub: null },
+    { icon: 'fa-circle-check', color: 'text-[#00A651]', label: 'CSED running', sub: 'Debt expires 2028-2031' },
+    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'Interest accruing', sub: '~$150/month still adding up' },
+    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'Tax refunds will be offset', sub: null },
+    { icon: 'fa-triangle-exclamation', color: 'text-[#F59E0B]', label: 'NFTL may be on file', sub: null },
+  ]
+
+  const warnings = [
+    { icon: 'fa-exclamation-circle', text: 'If your income increases significantly, IRS may revoke CNC' },
+    { icon: 'fa-eye', text: 'Annual review via W-2/1099 data matching' },
+    { icon: 'fa-rotate-left', text: 'If revoked (TC 531): back to active collection' },
   ]
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#09090b]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center bg-[#F8FAFC]">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#2563EB] border-t-transparent" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
-      <div className="mx-auto w-full max-w-3xl space-y-8">
-        {/* Back Navigation */}
-        <Link
-          href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
-          </svg>
-          Back to Dashboard
-        </Link>
-
-        {/* Status Header */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-white">Currently Not Collectible</h1>
-              <p className="mt-1 text-sm text-zinc-400">Your account is in CNC status — no payments required</p>
-            </div>
-            <span className="inline-flex items-center rounded-full bg-emerald-500/15 px-4 py-1.5 text-sm font-semibold text-emerald-400">
-              Active
-            </span>
-          </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="mx-auto max-w-md">
+        {/* Header */}
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
+          <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-arrow-left text-[#64748B]" />
+          </button>
+          <span className="text-[15px] font-bold text-[#0A1628]">CNC Status</span>
+          <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
+            <i className="fa-solid fa-ellipsis-vertical text-[#94A3B8]" />
+          </button>
         </div>
 
-        {/* CSED Countdown */}
-        <div className="rounded-2xl border border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-transparent p-6">
-          <h2 className="text-lg font-semibold text-white mb-1">CSED Countdown</h2>
-          <p className="text-sm text-zinc-400 mb-4">Collection Statute Expiration Date — when your debt legally expires</p>
-
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <p className="text-4xl font-bold text-white">{monthsRemaining}</p>
-              <p className="text-sm text-zinc-400">months remaining</p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">Expires On</p>
-              <p className="mt-1 text-xl font-bold text-blue-400">
-                {csedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-              </p>
-            </div>
+        <div className="px-5 py-5 pb-8">
+          {/* Title + Badge */}
+          <div className="flex items-center gap-2.5 mb-1">
+            <h1 className="text-xl font-extrabold text-[#0A1628] leading-tight">Currently Not Collectible</h1>
+            <span className="shrink-0 rounded-full bg-[#00A651] px-2.5 py-[3px] text-[11px] font-bold text-white whitespace-nowrap">Active</span>
           </div>
 
-          <div className="h-4 w-full overflow-hidden rounded-full bg-zinc-800">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-blue-600 via-blue-500 to-emerald-400 transition-all"
-              style={{ width: `${progressPercent}%` }}
-            />
-          </div>
-          <div className="mt-2 flex justify-between text-xs text-zinc-500">
-            <span>{monthsElapsed} months elapsed</span>
-            <span>{totalMonths} months total (10-year CSED)</span>
-          </div>
-
-          <div className="mt-4 rounded-lg bg-[#09090b] p-3">
-            <p className="text-sm text-zinc-300">
-              Your debt of <span className="font-bold text-white">${totalDebt.toLocaleString()}</span> expires on{' '}
-              <span className="font-bold text-blue-400">{csedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>{' '}
-              ({monthsRemaining} months remaining). After the CSED, the IRS can no longer legally collect this debt.
-            </p>
-          </div>
-        </div>
-
-        {/* Key Facts */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-6">Key Facts About CNC</h2>
-          <div className="space-y-4">
-            {KEY_FACTS.map((fact) => (
-              <div key={fact.title} className="flex gap-4 rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-zinc-800">
-                  {fact.icon}
+          {/* Timeline */}
+          <div className="mt-5 mb-5">
+            {timelineItems.map((item, i) => (
+              <div key={i} className="relative flex gap-3.5 pb-5 last:pb-0">
+                {i < timelineItems.length - 1 && (
+                  <div className={`absolute left-[15px] top-8 bottom-0 w-0.5 ${item.completed ? 'bg-[#00A651]' : 'bg-[#F1F5F9]'}`} />
+                )}
+                <div className={`relative z-[1] flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[13px] ${
+                  item.completed ? 'bg-[#E6F9EE] text-[#00A651]' : 'bg-[#EFF4FF] text-[#2563EB]'
+                }`}>
+                  <i className={`fa-solid ${item.completed ? 'fa-check' : 'fa-hourglass-half text-[11px]'}`} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">{fact.title}</h3>
-                  <p className="mt-1 text-sm text-zinc-400">{fact.description}</p>
+                  <p className="text-[13px] font-semibold text-[#0A1628]">{item.label}</p>
+                  <p className={`text-xs ${!item.completed ? 'text-[#2563EB] font-medium' : 'text-[#64748B]'}`}>{item.date}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Balance Breakdown */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Balance Breakdown</h2>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <span className="text-sm text-zinc-400">Original Tax Debt</span>
-              <span className="font-semibold text-white">${totalDebt.toLocaleString()}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <span className="text-sm text-zinc-400">Accrued Interest</span>
-              <span className="font-semibold text-red-400">+${accruedInterest.toLocaleString()}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-[#27272a] bg-[#09090b] px-4 py-3">
-              <span className="text-sm text-zinc-400">Accrued Penalties</span>
-              <span className="font-semibold text-red-400">+${accruedPenalties.toLocaleString()}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border border-blue-500/20 bg-blue-500/5 px-4 py-3">
-              <span className="text-sm font-semibold text-white">Current Total Balance</span>
-              <span className="text-lg font-bold text-white">${(totalDebt + accruedInterest + accruedPenalties).toLocaleString()}</span>
-            </div>
-          </div>
-          <p className="mt-3 text-xs text-zinc-500">
-            Note: While CNC stops active collection, penalties and interest continue to accrue until the CSED expires or the balance is paid.
-          </p>
-        </div>
-
-        {/* Annual Review Warning */}
-        <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-5">
-          <div className="flex gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-amber-500/15">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-amber-400">
-                <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-              </svg>
-            </div>
-            <div>
-              <h3 className="font-semibold text-amber-400">Annual Review Notice</h3>
-              <p className="mt-2 text-sm text-zinc-300 leading-relaxed">
-                The IRS may review your financial situation annually. If your income increases significantly, CNC status may be removed and collection activity could resume. Keep your financial records updated so you can respond promptly to any IRS inquiry.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Triggers for Removal */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-1">What Could Remove CNC Status</h2>
-          <p className="text-sm text-zinc-400 mb-6">Be aware of these potential triggers for CNC removal.</p>
-          <div className="space-y-3">
-            {REMOVAL_TRIGGERS.map((trigger) => (
-              <div key={trigger.title} className="rounded-xl border border-red-500/10 bg-red-500/5 p-4">
-                <h3 className="flex items-center gap-2 font-medium text-white">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-red-400">
-                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-                    <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
-                  </svg>
-                  {trigger.title}
-                </h3>
-                <p className="mt-2 text-sm text-zinc-400">{trigger.description}</p>
+          {/* Active Effects Card */}
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-4">
+            <p className="text-xs font-bold text-[#64748B] uppercase tracking-[0.06em] mb-2.5">Active Effects</p>
+            {effects.map((eff, i) => (
+              <div key={i} className={`flex items-start gap-2.5 py-2.5 text-[13px] ${i < effects.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
+                <i className={`fa-solid ${eff.icon} ${eff.color} text-sm mt-0.5`} />
+                <div>
+                  <p className="font-medium text-[#0A1628]">{eff.label}</p>
+                  {eff.sub && <p className="text-[11px] text-[#64748B]">{eff.sub}</p>}
+                </div>
               </div>
             ))}
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="space-y-3 pb-8">
-          <button className="w-full rounded-xl bg-blue-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-blue-500 active:bg-blue-700">
-            Update Financial Info
-          </button>
-          <button className="w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800">
-            View CSED Timeline
-          </button>
+          {/* CSED Countdown */}
+          <div className="rounded-2xl bg-[#F0FDFA] border border-[rgba(13,148,136,0.15)] p-4 mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <i className="fa-solid fa-clock text-[#0D9488] text-base" />
+              <p className="text-sm font-bold text-[#0A1628]">CSED Countdown</p>
+            </div>
+            <div className="flex items-baseline gap-1.5 mb-2">
+              <span className="text-2xl font-black text-[#0D9488]">2 yrs, 6 mo</span>
+            </div>
+            <p className="text-xs text-[#64748B] mb-3">Nearest expiration: <span className="font-semibold">Sep 2028</span></p>
+            <div className="w-full h-2 bg-[#E2E8F0] rounded-full overflow-hidden">
+              <div className="h-full rounded-full bg-[#00A651]" style={{ width: '75%' }} />
+            </div>
+            <div className="flex justify-between mt-1.5">
+              <span className="text-[10px] text-[#94A3B8]">Assessment</span>
+              <span className="text-[10px] text-[#94A3B8]">Expiration</span>
+            </div>
+            <div className="mt-3.5 rounded-[10px] bg-white border border-[#F1F5F9] p-2.5">
+              <p className="text-xs text-[#065F46] font-medium">
+                <i className="fa-solid fa-sparkles text-[#0D9488] mr-1" />
+                When CSED expires: TC 608 posts, debt is legally gone
+              </p>
+            </div>
+          </div>
+
+          {/* Risk Warnings */}
+          <div className="mb-4">
+            <p className="text-xs font-bold text-[#64748B] uppercase tracking-[0.06em] mb-2.5">Important Warnings</p>
+            <div className="flex flex-col gap-2">
+              {warnings.map((w, i) => (
+                <div key={i} className="flex items-start gap-2.5 rounded-xl bg-[#FFFBEB] border border-[rgba(245,166,35,0.2)] p-3">
+                  <i className={`fa-solid ${w.icon} text-[#D97706] text-sm mt-0.5`} />
+                  <p className="text-xs text-[#92400E] font-medium">{w.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTAs */}
+          <div className="mt-2">
+            <button className="flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0A1628] py-4 text-[15px] font-bold text-white">
+              <i className="fa-solid fa-pen-to-square" />
+              Update Financial Info
+            </button>
+          </div>
+          <div className="mt-3 text-center">
+            <a href="#" className="text-[13px] font-semibold text-[#0A1628]">
+              <i className="fa-solid fa-clock text-[11px] mr-1" />
+              Check CSED Status
+            </a>
+          </div>
         </div>
       </div>
     </div>
