@@ -91,7 +91,7 @@ export interface PreQualifierAnswers {
 // Output types
 export interface QSVResult { assetId: string; assetType: string; qsv: number; }
 export interface NREResult { totalNRE: number; breakdown: QSVResult[]; }
-export interface MDIResult { totalIncome: number; totalAllowableExpenses: number; mdi: number; expenseBreakdown: { category: string; actual: number; allowable: number; standard: number; }[]; }
+export interface MDIResult { totalIncome: number; totalAllowableExpenses: number; mdi: number; expenseBreakdown: { category: string; actual: number; allowable: number; standard: number; }[]; notes?: string[]; }
 export interface RCPResult { nre: number; futureIncomeLumpSum: number; futureIncomePeriodic: number; rcpLumpSum: number; rcpPeriodic: number; }
 export interface CSEDResult { taxDebtId: string; taxYear: number; baseCSED: string; adjustedCSED: string; totalTollingDays: number; remainingMonths: number; isExpired: boolean; }
 

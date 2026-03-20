@@ -172,8 +172,23 @@ export async function POST(request: Request) {
       taxpayerType: caseRecord.taxpayer_type ?? 'Individual',
     }
 
+    // Fetch local housing standard from DB if available
+    let localHousingStandard: number | null = null
+    if (householdInfo.state && householdInfo.county) {
+      const { data: localStd } = await supabaseAdmin
+        .from('irs_local_standards')
+        .select('allowance')
+        .eq('state', householdInfo.state)
+        .eq('county', householdInfo.county)
+        .eq('family_size', Math.min(householdInfo.familySize, 5))
+        .eq('effective_year', 2026)
+        .limit(1)
+        .single()
+      if (localStd) localHousingStandard = localStd.allowance
+    }
+
     // Run the calculation pipeline
-    const results = runCalculationPipeline(calculationInput)
+    const results = runCalculationPipeline(calculationInput, localHousingStandard)
 
     // Upsert calculated results
     const { error: upsertCalcError } = await supabaseAdmin

@@ -7,9 +7,20 @@ import { calculateIA } from './ia'
 import { calculateOIC } from './oic'
 import { calculatePenalties } from './penalty'
 import { calculateEligibility } from './eligibility'
+import { getFPL250 } from './standards'
 import type { CalculationInput, CalculationOutput } from './types'
 
-export function runCalculationPipeline(input: CalculationInput): CalculationOutput {
+/**
+ * Run the full IRS resolution calculation pipeline.
+ *
+ * @param input - All financial data, tax debts, household info, and pre-qualifier answers
+ * @param localHousingStandard - Optional pre-fetched local housing standard from DB
+ * @returns Complete calculation output including NRE, MDI, RCP, eligibility for 13 programs
+ */
+export function runCalculationPipeline(
+  input: CalculationInput,
+  localHousingStandard?: number | null
+): CalculationOutput {
   const totalDebt = input.taxDebts.reduce((sum, d) => sum + d.balance, 0)
   const totalAnnualIncome = input.income.reduce((sum, i) => sum + i.grossMonthly * 12, 0)
 
@@ -21,12 +32,13 @@ export function runCalculationPipeline(input: CalculationInput): CalculationOutp
 
   // 3. CSED
   const csedResults = calculateCSED(input.taxDebts, input.tollingEvents)
-  const earliestCSEDMonths = csedResults.length > 0
-    ? Math.min(...csedResults.filter(c => !c.isExpired).map(c => c.remainingMonths))
+  const nonExpired = csedResults.filter(c => !c.isExpired)
+  const earliestCSEDMonths = nonExpired.length > 0
+    ? Math.min(...nonExpired.map(c => c.remainingMonths))
     : 120
 
-  // 4. MDI
-  const mdiResult = calculateMDI(input.income, input.expenses, input.household)
+  // 4. MDI (pass local housing standard if available)
+  const mdiResult = calculateMDI(input.income, input.expenses, input.household, localHousingStandard)
 
   // 5. RCP
   const rcpResult = calculateRCP(nreResult.totalNRE, mdiResult.mdi)
@@ -44,7 +56,6 @@ export function runCalculationPipeline(input: CalculationInput): CalculationOutp
   const eligibilityResults = calculateEligibility(input, nreResult.totalNRE, mdiResult.mdi, rcpResult.rcpLumpSum, rcpResult.rcpPeriodic, totalDebt, earliestCSEDMonths)
 
   // 10. Low-income check
-  const { getFPL250 } = require('./standards')
   const isLowIncome = totalAnnualIncome <= getFPL250(input.household.familySize)
 
   return {
