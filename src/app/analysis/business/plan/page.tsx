@@ -112,22 +112,22 @@ export default function BusinessPlanPage() {
   const actions = ACTION_ITEMS[selected] || []
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
             Resolution Plan
           </h1>
-          <p className="mt-3 text-base text-zinc-400">
+          <p className="mt-3 text-base text-[#64748B]">
             Select your resolution strategy and review the action plan.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* Resolution Type Selector */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">
               Selected Resolution Type
             </p>
             <div className="space-y-2">
@@ -137,16 +137,16 @@ export default function BusinessPlanPage() {
                   onClick={() => setSelected(type)}
                   className={`w-full rounded-lg border p-3 text-left text-sm transition-all ${
                     selected === type
-                      ? 'border-emerald-500/50 bg-emerald-500/10 text-white'
-                      : 'border-zinc-700 bg-zinc-800/50 text-zinc-300 hover:border-zinc-600'
+                      ? 'border-emerald-500/50 bg-[#00A651]/10 text-[#0A1628]'
+                      : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#334155] hover:border-[#E2E8F0]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`h-4 w-4 shrink-0 rounded-full border-2 ${
                         selected === type
-                          ? 'border-emerald-500 bg-emerald-500'
-                          : 'border-zinc-600'
+                          ? 'border-emerald-500 bg-[#00A651]'
+                          : 'border-[#E2E8F0]'
                       }`}
                     />
                     {type}
@@ -157,18 +157,18 @@ export default function BusinessPlanPage() {
           </div>
 
           {/* Timeline */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
             <div className="flex items-center justify-between">
-              <p className="font-medium text-white">Estimated Timeline</p>
-              <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-400">
+              <p className="font-medium text-[#0A1628]">Estimated Timeline</p>
+              <span className="rounded-full bg-[#00A651]/15 px-3 py-1 text-sm font-semibold text-[#00A651]">
                 {timeline}
               </span>
             </div>
           </div>
 
           {/* Required Forms */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">Required Forms</p>
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">Required Forms</p>
             <ul className="space-y-3">
               {forms.map((form) => (
                 <li key={form} className="flex items-start gap-3">
@@ -179,11 +179,11 @@ export default function BusinessPlanPage() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="mt-0.5 shrink-0 text-zinc-500"
+                    className="mt-0.5 shrink-0 text-[#94A3B8]"
                   >
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   </svg>
-                  <span className="text-sm leading-relaxed text-zinc-300">
+                  <span className="text-sm leading-relaxed text-[#334155]">
                     {form}
                   </span>
                 </li>
@@ -192,15 +192,15 @@ export default function BusinessPlanPage() {
           </div>
 
           {/* Action Items */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">Action Items</p>
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">Action Items</p>
             <ol className="space-y-3">
               {actions.map((action, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-xs font-bold text-emerald-400">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#00A651]/15 text-xs font-bold text-[#00A651]">
                     {i + 1}
                   </span>
-                  <span className="text-sm leading-relaxed text-zinc-300">
+                  <span className="text-sm leading-relaxed text-[#334155]">
                     {action}
                   </span>
                 </li>
@@ -212,7 +212,7 @@ export default function BusinessPlanPage() {
         {/* Proceed to Forms */}
         <button
           onClick={() => router.push('/forms')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+          className="mt-10 w-full rounded-xl bg-[#00A651] py-4 text-lg font-semibold text-white transition-colors hover:bg-[#008C44] active:bg-[#008C44]"
         >
           Proceed to Forms
         </button>

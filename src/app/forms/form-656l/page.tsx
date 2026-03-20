@@ -12,7 +12,7 @@ const fmt = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 
 const inputClass =
-  'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
+  'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
 
 /* ------------------------------------------------------------------ */
 /* Year Assessment                                                     */
@@ -69,12 +69,12 @@ export default function Form656LPage() {
       {/* Progress */}
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-xs font-semibold text-zinc-500">Step {step} of 4</span>
-          <span className="text-xs font-bold text-white">{Math.round(progress)}%</span>
+          <span className="text-xs font-semibold text-[#94A3B8]">Step {step} of 4</span>
+          <span className="text-xs font-bold text-[#0A1628]">{Math.round(progress)}%</span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
           <div
-            className="h-full rounded-full bg-blue-500 transition-all duration-500"
+            className="h-full rounded-full bg-[#2563EB] transition-all duration-500"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -82,34 +82,34 @@ export default function Form656LPage() {
 
       {/* Heading */}
       <div>
-        <h1 className="text-2xl font-extrabold text-white">
+        <h1 className="text-2xl font-extrabold text-[#0A1628]">
           Offer in Compromise &mdash; Doubt as to Liability
         </h1>
-        <p className="mt-1.5 text-sm text-zinc-400">
+        <p className="mt-1.5 text-sm text-[#64748B]">
           Unlike standard OIC, DATL does not require financial disclosure
         </p>
       </div>
 
       {/* Taxpayer Information */}
       <section>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
           Taxpayer Information
         </h3>
         <div className="space-y-3">
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-400">Full Name</label>
-            <div className="flex items-center justify-between rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-3">
-              <span className="text-sm font-semibold text-white">{taxpayerName}</span>
-              <svg className="h-3.5 w-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 20 20">
+            <label className="mb-1 block text-xs font-semibold text-[#64748B]">Full Name</label>
+            <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
+              <span className="text-sm font-semibold text-[#0A1628]">{taxpayerName}</span>
+              <svg className="h-3.5 w-3.5 text-[#94A3B8]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
               </svg>
             </div>
           </div>
           <div>
-            <label className="mb-1 block text-xs font-semibold text-zinc-400">Social Security Number</label>
-            <div className="flex items-center justify-between rounded-lg border border-zinc-700/50 bg-zinc-800/50 px-4 py-3">
-              <span className="text-sm font-semibold tracking-wide text-white">{ssnMasked}</span>
-              <svg className="h-3.5 w-3.5 text-zinc-600" fill="currentColor" viewBox="0 0 20 20">
+            <label className="mb-1 block text-xs font-semibold text-[#64748B]">Social Security Number</label>
+            <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3">
+              <span className="text-sm font-semibold tracking-wide text-[#0A1628]">{ssnMasked}</span>
+              <svg className="h-3.5 w-3.5 text-[#94A3B8]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
               </svg>
             </div>
@@ -119,7 +119,7 @@ export default function Form656LPage() {
 
       {/* Tax Years Disputed */}
       <section>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
           Tax Years Disputed
         </h3>
         <div className="flex flex-wrap gap-2">
@@ -130,8 +130,8 @@ export default function Form656LPage() {
               onClick={() => toggleYear(i)}
               className={`inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
                 y.selected
-                  ? 'border border-white/20 bg-blue-500/15 text-white'
-                  : 'border border-zinc-700 bg-zinc-800/50 text-zinc-500 hover:border-zinc-500 hover:text-zinc-300'
+                  ? 'border border-[#E2E8F0] bg-[#2563EB]/15 text-[#0A1628]'
+                  : 'border border-[#E2E8F0] bg-[#F8FAFC] text-[#94A3B8] hover:border-[#94A3B8] hover:text-[#334155]'
               }`}
             >
               {y.selected && (
@@ -147,7 +147,7 @@ export default function Form656LPage() {
 
       {/* Assessment Details */}
       <section>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
           Assessment Details
         </h3>
         <div className="space-y-3">
@@ -156,25 +156,25 @@ export default function Form656LPage() {
             .map((y) => {
               const idx = years.findIndex((yr) => yr.year === y.year)
               return (
-                <div key={y.year} className="rounded-xl border border-zinc-800 bg-zinc-900/50 p-4">
-                  <span className="mb-3 inline-block rounded-full bg-blue-500/15 px-3 py-1 text-xs font-bold text-blue-400">
+                <div key={y.year} className="rounded-xl border border-[#F1F5F9] bg-white p-4">
+                  <span className="mb-3 inline-block rounded-full bg-[#2563EB]/15 px-3 py-1 text-xs font-bold text-[#2563EB]">
                     {y.year}
                   </span>
-                  <div className="flex items-center justify-between border-b border-zinc-800 py-2.5">
-                    <span className="text-sm text-zinc-400">Original Assessment</span>
-                    <span className="text-base font-bold text-red-400">
+                  <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2.5">
+                    <span className="text-sm text-[#64748B]">Original Assessment</span>
+                    <span className="text-base font-bold text-[#E63946]">
                       {fmt(y.originalAmount)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between pt-2.5">
-                    <span className="text-sm text-zinc-400">Your Proposed</span>
-                    <div className="flex items-center gap-1 rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-1.5">
-                      <span className="text-sm font-bold text-zinc-500">$</span>
+                    <span className="text-sm text-[#64748B]">Your Proposed</span>
+                    <div className="flex items-center gap-1 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3 py-1.5">
+                      <span className="text-sm font-bold text-[#94A3B8]">$</span>
                       <input
                         type="text"
                         value={y.proposedAmount}
                         onChange={(e) => updateProposed(idx, e.target.value)}
-                        className="w-16 border-none bg-transparent text-right text-base font-bold text-white outline-none"
+                        className="w-16 border-none bg-transparent text-right text-base font-bold text-[#0A1628] outline-none"
                         placeholder="0"
                       />
                     </div>
@@ -184,16 +184,16 @@ export default function Form656LPage() {
             })}
 
           {/* Total */}
-          <div className="flex items-center justify-between rounded-xl bg-blue-500/10 px-4 py-3.5 ring-1 ring-blue-500/20">
-            <span className="text-sm font-bold text-white">Total Offer Amount</span>
-            <span className="text-xl font-black text-white">{fmt(totalOffer)}</span>
+          <div className="flex items-center justify-between rounded-xl bg-[#2563EB]/10 px-4 py-3.5 ring-1 ring-blue-500/20">
+            <span className="text-sm font-bold text-[#0A1628]">Total Offer Amount</span>
+            <span className="text-xl font-black text-[#0A1628]">{fmt(totalOffer)}</span>
           </div>
         </div>
       </section>
 
       {/* Basis for Dispute */}
       <section>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
           Basis for Dispute
         </h3>
         <textarea
@@ -206,27 +206,27 @@ export default function Form656LPage() {
 
       {/* Supporting Documents Upload */}
       <section>
-        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-zinc-500">
+        <h3 className="mb-3 text-xs font-bold uppercase tracking-wider text-[#94A3B8]">
           Supporting Documents
         </h3>
-        <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-zinc-700 p-6 text-center transition-colors hover:border-blue-500 hover:bg-blue-500/5">
-          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-blue-500/15">
-            <svg className="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <label className="flex cursor-pointer flex-col items-center rounded-xl border-2 border-dashed border-[#E2E8F0] p-6 text-center transition-colors hover:border-blue-500 hover:bg-[#1D4ED8]/5">
+          <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-xl bg-[#2563EB]/15">
+            <svg className="h-5 w-5 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
           </div>
-          <span className="text-sm font-semibold text-white">Tap to upload documents</span>
-          <span className="mt-1 text-xs text-zinc-500">PDF, JPG, or PNG &mdash; Max 10MB</span>
+          <span className="text-sm font-semibold text-[#0A1628]">Tap to upload documents</span>
+          <span className="mt-1 text-xs text-[#94A3B8]">PDF, JPG, or PNG &mdash; Max 10MB</span>
           <input type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" multiple />
         </label>
       </section>
 
       {/* Info Banner */}
-      <div className="flex items-start gap-3 rounded-xl bg-emerald-500/10 px-4 py-3 ring-1 ring-emerald-500/20">
-        <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+      <div className="flex items-start gap-3 rounded-xl bg-[#00A651]/10 px-4 py-3 ring-1 ring-emerald-500/20">
+        <svg className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#00A651]" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
         </svg>
-        <span className="text-sm text-emerald-300">
+        <span className="text-sm text-[#00A651]">
           No application fee or initial payment required for DATL
         </span>
       </div>
@@ -234,7 +234,7 @@ export default function Form656LPage() {
       {/* Continue */}
       <button
         onClick={() => router.push('/form-656l/step-2')}
-        className="flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 py-4 text-base font-bold text-white transition-all hover:bg-emerald-500 active:scale-[0.98]"
+        className="flex w-full items-center justify-center gap-2 rounded-full bg-[#00A651] px-6 py-4 text-base font-bold text-white transition-all hover:bg-[#008C44] active:scale-[0.98]"
       >
         Continue
         <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

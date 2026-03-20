@@ -1,6 +1,6 @@
 export default function AnalysisLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0A1628]">
       {children}
     </div>
   )

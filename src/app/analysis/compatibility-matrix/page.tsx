@@ -44,26 +44,26 @@ export default function CompatibilityMatrixPage() {
     <div className="mx-auto max-w-2xl space-y-5">
       {/* Title */}
       <div>
-        <h1 className="text-2xl font-extrabold text-white">Resolution Compatibility</h1>
-        <p className="mt-1 text-sm text-zinc-400">Not all resolutions can run together</p>
+        <h1 className="text-2xl font-extrabold text-[#0A1628]">Resolution Compatibility</h1>
+        <p className="mt-1 text-sm text-[#64748B]">Not all resolutions can run together</p>
       </div>
 
       {/* SIMULTANEOUS */}
       <section>
         <div className="mb-3 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-emerald-500" />
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">Simultaneous</span>
-          <span className="text-xs text-zinc-500">Can coexist</span>
+          <div className="h-2 w-2 rounded-full bg-[#00A651]" />
+          <span className="text-xs font-bold uppercase tracking-wider text-[#00A651]">Simultaneous</span>
+          <span className="text-xs text-[#94A3B8]">Can coexist</span>
         </div>
         <div className="space-y-2">
           {SIMULTANEOUS.map((item) => (
-            <div key={item} className="flex items-center gap-3 rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-3 transition-all hover:border-zinc-700">
-              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-emerald-500/15">
-                <svg className="h-3 w-3 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <div key={item} className="flex items-center gap-3 rounded-xl border border-[#F1F5F9] bg-white px-4 py-3 transition-all hover:border-[#E2E8F0]">
+              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#00A651]/15">
+                <svg className="h-3 w-3 text-[#00A651]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <p className="text-sm font-semibold text-white">{item}</p>
+              <p className="text-sm font-semibold text-[#0A1628]">{item}</p>
             </div>
           ))}
         </div>
@@ -73,20 +73,20 @@ export default function CompatibilityMatrixPage() {
       <section>
         <div className="mb-3 flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-red-500" />
-          <span className="text-xs font-bold uppercase tracking-wider text-red-400">Mutually Exclusive</span>
-          <span className="text-xs text-zinc-500">Cannot coexist</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-[#E63946]">Mutually Exclusive</span>
+          <span className="text-xs text-[#94A3B8]">Cannot coexist</span>
         </div>
         <div className="space-y-2">
           {EXCLUSIVE.map((item) => (
-            <div key={item.combo} className="flex items-center gap-3 rounded-xl border border-red-500/10 bg-zinc-900/50 px-4 py-3 transition-all hover:border-red-500/20">
+            <div key={item.combo} className="flex items-center gap-3 rounded-xl border border-red-500/10 bg-white px-4 py-3 transition-all hover:border-red-500/20">
               <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-red-500/15">
-                <svg className="h-3 w-3 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="h-3 w-3 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">{item.combo}</p>
-                <p className="text-xs text-zinc-500">{item.reason}</p>
+                <p className="text-sm font-semibold text-[#0A1628]">{item.combo}</p>
+                <p className="text-xs text-[#94A3B8]">{item.reason}</p>
               </div>
             </div>
           ))}
@@ -96,21 +96,21 @@ export default function CompatibilityMatrixPage() {
       {/* SEQUENTIAL */}
       <section>
         <div className="mb-3 flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-blue-500" />
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-400">Sequential</span>
-          <span className="text-xs text-zinc-500">Do one, then the other</span>
+          <div className="h-2 w-2 rounded-full bg-[#2563EB]" />
+          <span className="text-xs font-bold uppercase tracking-wider text-[#2563EB]">Sequential</span>
+          <span className="text-xs text-[#94A3B8]">Do one, then the other</span>
         </div>
         <div className="space-y-2">
           {SEQUENTIAL.map((item) => (
-            <div key={item.combo} className="flex items-center gap-3 rounded-xl border border-blue-500/10 bg-zinc-900/50 px-4 py-3 transition-all hover:border-blue-500/20">
-              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15">
-                <svg className="h-3 w-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <div key={item.combo} className="flex items-center gap-3 rounded-xl border border-blue-500/10 bg-white px-4 py-3 transition-all hover:border-blue-500/20">
+              <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15">
+                <svg className="h-3 w-3 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">{item.combo}</p>
-                <p className="text-xs text-zinc-500">{item.reason}</p>
+                <p className="text-sm font-semibold text-[#0A1628]">{item.combo}</p>
+                <p className="text-xs text-[#94A3B8]">{item.reason}</p>
               </div>
             </div>
           ))}
@@ -125,8 +125,8 @@ export default function CompatibilityMatrixPage() {
         </div>
         <div className="space-y-2">
           {SPECIAL.map((item) => (
-            <div key={item.text} className="flex items-start gap-3 rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-3.5">
-              <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${item.allowed ? 'text-emerald-400' : 'text-red-400'}`} fill="currentColor" viewBox="0 0 20 20">
+            <div key={item.text} className="flex items-start gap-3 rounded-xl border border-[#F1F5F9] bg-white px-4 py-3.5">
+              <svg className={`mt-0.5 h-4 w-4 flex-shrink-0 ${item.allowed ? 'text-[#00A651]' : 'text-[#E63946]'}`} fill="currentColor" viewBox="0 0 20 20">
                 {item.allowed ? (
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 ) : (
@@ -134,8 +134,8 @@ export default function CompatibilityMatrixPage() {
                 )}
               </svg>
               <div>
-                <p className="text-sm font-semibold text-white">{item.text}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{item.detail}</p>
+                <p className="text-sm font-semibold text-[#0A1628]">{item.text}</p>
+                <p className="mt-0.5 text-xs text-[#94A3B8]">{item.detail}</p>
               </div>
             </div>
           ))}
@@ -146,7 +146,7 @@ export default function CompatibilityMatrixPage() {
       <div className="pt-4 text-center">
         <button
           onClick={() => router.back()}
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-zinc-500 transition-colors hover:text-zinc-300"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#94A3B8] transition-colors hover:text-[#334155]"
         >
           <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" />

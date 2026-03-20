@@ -113,25 +113,25 @@ export default function Form4180Page() {
   const [expandedSection, setExpandedSection] = useState<number | null>(0)
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
             Form 4180 Interview Prep
           </h1>
-          <p className="mt-3 text-base text-zinc-400">
+          <p className="mt-3 text-base text-[#64748B]">
             Prepare for the IRS Trust Fund Recovery Penalty interview.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* What is Form 4180 */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <h2 className="mb-3 font-semibold text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <h2 className="mb-3 font-semibold text-[#0A1628]">
               What is Form 4180?
             </h2>
-            <p className="text-sm leading-relaxed text-zinc-400">
+            <p className="text-sm leading-relaxed text-[#64748B]">
               Form 4180 is the &quot;Report of Interview with Individual
               Relative to Trust Fund Recovery Penalty.&quot; The IRS Revenue
               Officer uses this form to interview potentially responsible
@@ -142,8 +142,8 @@ export default function Form4180Page() {
           </div>
 
           {/* 5 Sections */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <h2 className="mb-4 font-semibold text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#0A1628]">
               Interview Sections
             </h2>
             <div className="space-y-2">
@@ -153,9 +153,9 @@ export default function Form4180Page() {
                     onClick={() =>
                       setExpandedSection(expandedSection === i ? null : i)
                     }
-                    className="flex w-full items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800/50 p-3 text-left transition-colors hover:border-zinc-600"
+                    className="flex w-full items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-left transition-colors hover:border-[#E2E8F0]"
                   >
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-[#0A1628]">
                       {section.title}
                     </span>
                     <svg
@@ -165,7 +165,7 @@ export default function Form4180Page() {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      className={`shrink-0 text-zinc-500 transition-transform ${
+                      className={`shrink-0 text-[#94A3B8] transition-transform ${
                         expandedSection === i ? 'rotate-180' : ''
                       }`}
                     >
@@ -173,17 +173,17 @@ export default function Form4180Page() {
                     </svg>
                   </button>
                   {expandedSection === i && (
-                    <div className="mt-2 rounded-lg bg-zinc-800/40 p-4">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                    <div className="mt-2 rounded-lg bg-[#F8FAFC] p-4">
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
                         Key Questions
                       </p>
                       <ul className="mb-3 space-y-2">
                         {section.questions.map((q, qi) => (
                           <li
                             key={qi}
-                            className="flex items-start gap-2 text-sm text-zinc-300"
+                            className="flex items-start gap-2 text-sm text-[#334155]"
                           >
-                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-500" />
+                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
                             {q}
                           </li>
                         ))}
@@ -205,12 +205,12 @@ export default function Form4180Page() {
 
           {/* Common Traps */}
           <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-5">
-            <h2 className="mb-4 font-semibold text-red-300">Common Traps</h2>
+            <h2 className="mb-4 font-semibold text-[#E63946]">Common Traps</h2>
             <div className="space-y-4">
               {TRAPS.map((trap, i) => (
                 <div key={i}>
-                  <p className="text-sm font-medium text-white">{trap.trap}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-zinc-400">
+                  <p className="text-sm font-medium text-[#0A1628]">{trap.trap}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#64748B]">
                     {trap.guidance}
                   </p>
                 </div>
@@ -219,8 +219,8 @@ export default function Form4180Page() {
           </div>
 
           {/* Defense Strategy Selector */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <h2 className="mb-4 font-semibold text-white">Defense Strategy</h2>
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#0A1628]">Defense Strategy</h2>
             <div className="space-y-2">
               {DEFENSE_STRATEGIES.map((strategy) => (
                 <button
@@ -228,19 +228,19 @@ export default function Form4180Page() {
                   onClick={() => setSelectedDefense(strategy.value)}
                   className={`w-full rounded-lg border p-3 text-left text-sm transition-all ${
                     selectedDefense === strategy.value
-                      ? 'border-emerald-500/50 bg-emerald-500/10'
-                      : 'border-zinc-700 bg-zinc-800/50 hover:border-zinc-600'
+                      ? 'border-emerald-500/50 bg-[#00A651]/10'
+                      : 'border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#E2E8F0]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <div
                       className={`h-4 w-4 shrink-0 rounded-full border-2 ${
                         selectedDefense === strategy.value
-                          ? 'border-emerald-500 bg-emerald-500'
-                          : 'border-zinc-600'
+                          ? 'border-emerald-500 bg-[#00A651]'
+                          : 'border-[#E2E8F0]'
                       }`}
                     />
-                    <span className="font-medium text-white">
+                    <span className="font-medium text-[#0A1628]">
                       {strategy.label}
                     </span>
                   </div>
@@ -248,8 +248,8 @@ export default function Form4180Page() {
               ))}
             </div>
             {selectedDefense && (
-              <div className="mt-3 rounded-lg bg-emerald-500/5 p-4">
-                <p className="text-sm leading-relaxed text-zinc-300">
+              <div className="mt-3 rounded-lg bg-[#00A651]/5 p-4">
+                <p className="text-sm leading-relaxed text-[#334155]">
                   {
                     DEFENSE_STRATEGIES.find(
                       (s) => s.value === selectedDefense
@@ -261,8 +261,8 @@ export default function Form4180Page() {
           </div>
 
           {/* Document Checklist */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <h2 className="mb-4 font-semibold text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#0A1628]">
               Document Checklist
             </h2>
             <ul className="space-y-3">
@@ -275,11 +275,11 @@ export default function Form4180Page() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="mt-0.5 shrink-0 text-zinc-500"
+                    className="mt-0.5 shrink-0 text-[#94A3B8]"
                   >
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   </svg>
-                  <span className="text-sm leading-relaxed text-zinc-300">
+                  <span className="text-sm leading-relaxed text-[#334155]">
                     {doc}
                   </span>
                 </li>
@@ -291,7 +291,7 @@ export default function Form4180Page() {
         {/* Continue */}
         <button
           onClick={() => router.push('/analysis/tfrp/assessment')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+          className="mt-10 w-full rounded-xl bg-[#00A651] py-4 text-lg font-semibold text-white transition-colors hover:bg-[#008C44] active:bg-[#008C44]"
         >
           Continue to Assessment Detail
         </button>

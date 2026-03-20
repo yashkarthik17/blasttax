@@ -44,29 +44,29 @@ export default function BusinessIncomeExpensesPage() {
     n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
             Business Income &amp; Expenses
           </h1>
-          <p className="mt-3 text-base text-zinc-400">
+          <p className="mt-3 text-base text-[#64748B]">
             Form 433-B financial information for your business.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* Revenue Section */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">Monthly Revenue</p>
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">Monthly Revenue</p>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs text-zinc-500">
+                <label className="mb-1 block text-xs text-[#94A3B8]">
                   Monthly Gross Revenue
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                     $
                   </span>
                   <input
@@ -76,16 +76,16 @@ export default function BusinessIncomeExpensesPage() {
                     value={grossRevenue}
                     onChange={(e) => setGrossRevenue(e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-8 pr-4 text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                   />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs text-zinc-500">
+                <label className="mb-1 block text-xs text-[#94A3B8]">
                   Cost of Goods Sold
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                     $
                   </span>
                   <input
@@ -95,15 +95,15 @@ export default function BusinessIncomeExpensesPage() {
                     value={cogs}
                     onChange={(e) => setCogs(e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-8 pr-4 text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                   />
                 </div>
               </div>
-              <div className="flex justify-between rounded-lg bg-zinc-800/50 p-3">
-                <span className="text-sm text-zinc-400">Gross Profit</span>
+              <div className="flex justify-between rounded-lg bg-[#F8FAFC] p-3">
+                <span className="text-sm text-[#64748B]">Gross Profit</span>
                 <span
                   className={`text-sm font-semibold ${
-                    grossProfit >= 0 ? 'text-emerald-400' : 'text-red-400'
+                    grossProfit >= 0 ? 'text-[#00A651]' : 'text-[#E63946]'
                   }`}
                 >
                   ${fmt(grossProfit)}
@@ -113,18 +113,18 @@ export default function BusinessIncomeExpensesPage() {
           </div>
 
           {/* Operating Expenses */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">
               Monthly Operating Expenses
             </p>
             <div className="space-y-3">
               {EXPENSE_FIELDS.map(({ key, label }) => (
                 <div key={key}>
-                  <label className="mb-1 block text-xs text-zinc-500">
+                  <label className="mb-1 block text-xs text-[#94A3B8]">
                     {label}
                   </label>
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                       $
                     </span>
                     <input
@@ -139,17 +139,17 @@ export default function BusinessIncomeExpensesPage() {
                         }))
                       }
                       placeholder="0.00"
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2.5 pl-8 pr-4 text-sm text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                      className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-2.5 pl-8 pr-4 text-sm text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                     />
                   </div>
                 </div>
               ))}
-              <div className="my-2 border-t border-zinc-700" />
-              <div className="flex justify-between rounded-lg bg-zinc-800/50 p-3">
-                <span className="text-sm text-zinc-400">
+              <div className="my-2 border-t border-[#E2E8F0]" />
+              <div className="flex justify-between rounded-lg bg-[#F8FAFC] p-3">
+                <span className="text-sm text-[#64748B]">
                   Total Operating Expenses
                 </span>
-                <span className="text-sm font-semibold text-white">
+                <span className="text-sm font-semibold text-[#0A1628]">
                   ${fmt(totalExpenses)}
                 </span>
               </div>
@@ -157,36 +157,36 @@ export default function BusinessIncomeExpensesPage() {
           </div>
 
           {/* Net Income */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
             <div className="flex justify-between">
-              <span className="font-medium text-white">
+              <span className="font-medium text-[#0A1628]">
                 Net Business Income
               </span>
               <span
                 className={`text-lg font-bold ${
-                  netIncome >= 0 ? 'text-emerald-400' : 'text-red-400'
+                  netIncome >= 0 ? 'text-[#00A651]' : 'text-[#E63946]'
                 }`}
               >
                 ${fmt(netIncome)}
               </span>
             </div>
-            <p className="mt-1 text-xs text-zinc-500">
+            <p className="mt-1 text-xs text-[#94A3B8]">
               Gross Profit minus Total Operating Expenses
             </p>
           </div>
 
           {/* Cash & Receivables */}
-          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">
+          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">
               Cash &amp; Receivables
             </p>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs text-zinc-500">
+                <label className="mb-1 block text-xs text-[#94A3B8]">
                   Cash in Bank (Business)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                     $
                   </span>
                   <input
@@ -196,16 +196,16 @@ export default function BusinessIncomeExpensesPage() {
                     value={cashInBank}
                     onChange={(e) => setCashInBank(e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-8 pr-4 text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                   />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs text-zinc-500">
+                <label className="mb-1 block text-xs text-[#94A3B8]">
                   Accounts Receivable Total
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
                     $
                   </span>
                   <input
@@ -215,7 +215,7 @@ export default function BusinessIncomeExpensesPage() {
                     value={accountsReceivable}
                     onChange={(e) => setAccountsReceivable(e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-3 pl-8 pr-4 text-white placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -226,7 +226,7 @@ export default function BusinessIncomeExpensesPage() {
         {/* Continue */}
         <button
           onClick={() => router.push('/analysis/business/rcp')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+          className="mt-10 w-full rounded-xl bg-[#00A651] py-4 text-lg font-semibold text-white transition-colors hover:bg-[#008C44] active:bg-[#008C44]"
         >
           Continue
         </button>

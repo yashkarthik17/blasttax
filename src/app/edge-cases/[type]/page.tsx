@@ -430,16 +430,16 @@ export default function EdgeCasePage() {
 
   if (!content) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#09090b] px-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4">
         <div className="text-center space-y-4">
-          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-zinc-800">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-zinc-500">
+          <div className="flex h-16 w-16 mx-auto items-center justify-center rounded-full bg-[#F1F5F9]">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#94A3B8]">
               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-white">Topic Not Found</h1>
-          <p className="text-zinc-400">The edge case type &quot;{edgeType}&quot; is not recognized.</p>
-          <Link href="/dashboard" className="inline-block rounded-lg bg-blue-600 px-6 py-3 text-sm font-medium text-white hover:bg-blue-500 transition">
+          <h1 className="text-2xl font-bold text-[#0A1628]">Topic Not Found</h1>
+          <p className="text-[#64748B]">The edge case type &quot;{edgeType}&quot; is not recognized.</p>
+          <Link href="/dashboard" className="inline-block rounded-lg bg-[#2563EB] px-6 py-3 text-sm font-medium text-white hover:bg-[#1D4ED8] transition">
             Return to Dashboard
           </Link>
         </div>
@@ -448,12 +448,12 @@ export default function EdgeCasePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#09090b] px-4 py-8">
+    <div className="min-h-screen bg-[#F8FAFC] px-4 py-8">
       <div className="mx-auto w-full max-w-3xl space-y-8">
         {/* Back Navigation */}
         <Link
           href="/dashboard"
-          className="inline-flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition"
+          className="inline-flex items-center gap-2 text-sm text-[#64748B] hover:text-[#0A1628] transition"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M19 12H5" /><polyline points="12 19 5 12 12 5" />
@@ -462,80 +462,80 @@ export default function EdgeCasePage() {
         </Link>
 
         {/* Header */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
           <div className="flex items-center gap-2 mb-3">
-            <span className="rounded-full bg-blue-500/15 px-3 py-0.5 text-xs font-semibold text-blue-400">
+            <span className="rounded-full bg-[#2563EB]/15 px-3 py-0.5 text-xs font-semibold text-[#2563EB]">
               {content.category}
             </span>
           </div>
-          <h1 className="text-2xl font-bold text-white">{content.title}</h1>
+          <h1 className="text-2xl font-bold text-[#0A1628]">{content.title}</h1>
         </div>
 
         {/* Overview */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-3">Overview</h2>
-          <p className="text-sm text-zinc-300 leading-relaxed">{content.overview}</p>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#0A1628] mb-3">Overview</h2>
+          <p className="text-sm text-[#334155] leading-relaxed">{content.overview}</p>
         </div>
 
         {/* When This Applies */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">When This Applies</h2>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#0A1628] mb-4">When This Applies</h2>
           <div className="space-y-2">
             {content.whenApplies.map((item, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg border border-[#27272a] bg-[#09090b] p-3">
-                <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15 mt-0.5">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+              <div key={i} className="flex items-start gap-3 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3">
+                <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15 mt-0.5">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-[#2563EB]">
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </div>
-                <p className="text-sm text-zinc-300">{item}</p>
+                <p className="text-sm text-[#334155]">{item}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* What To Do */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">What to Do</h2>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#0A1628] mb-4">What to Do</h2>
           <div className="space-y-3">
             {content.whatToDo.map((step, i) => (
-              <div key={i} className="flex items-start gap-3 rounded-lg bg-[#09090b] border border-[#27272a] p-4">
-                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15 text-xs font-bold text-blue-400">
+              <div key={i} className="flex items-start gap-3 rounded-lg bg-[#F8FAFC] border border-[#E2E8F0] p-4">
+                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15 text-xs font-bold text-[#2563EB]">
                   {i + 1}
                 </span>
-                <p className="text-sm text-zinc-300 pt-1">{step}</p>
+                <p className="text-sm text-[#334155] pt-1">{step}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Key Facts */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Key Facts</h2>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#0A1628] mb-4">Key Facts</h2>
           <div className="space-y-3">
             {content.keyFacts.map((fact) => (
-              <div key={fact.label} className="rounded-xl border border-[#27272a] bg-[#09090b] p-4">
-                <h3 className="text-sm font-semibold text-white">{fact.label}</h3>
-                <p className="mt-1 text-sm text-zinc-400">{fact.description}</p>
+              <div key={fact.label} className="rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+                <h3 className="text-sm font-semibold text-[#0A1628]">{fact.label}</h3>
+                <p className="mt-1 text-sm text-[#64748B]">{fact.description}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Required Forms */}
-        <div className="rounded-2xl border border-[#27272a] bg-[#18181b] p-6">
-          <h2 className="text-lg font-semibold text-white mb-4">Required Forms</h2>
+        <div className="rounded-2xl border border-[#E2E8F0] bg-white p-6">
+          <h2 className="text-lg font-semibold text-[#0A1628] mb-4">Required Forms</h2>
           <div className="space-y-2">
             {content.requiredForms.map((form) => (
-              <div key={form.name} className="flex items-center gap-3 rounded-lg border border-[#27272a] bg-[#09090b] p-4">
-                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-blue-500/15">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+              <div key={form.name} className="flex items-center gap-3 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4">
+                <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#2563EB]/15">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#2563EB]">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">{form.name}</p>
-                  <p className="text-xs text-zinc-500">{form.description}</p>
+                  <p className="text-sm font-semibold text-[#0A1628]">{form.name}</p>
+                  <p className="text-xs text-[#94A3B8]">{form.description}</p>
                 </div>
               </div>
             ))}
@@ -543,16 +543,16 @@ export default function EdgeCasePage() {
         </div>
 
         {/* Timeline */}
-        <div className="rounded-xl border border-[#27272a] bg-[#18181b] p-5">
+        <div className="rounded-xl border border-[#E2E8F0] bg-white p-5">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#2563EB]">
                 <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
               </svg>
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">Expected Timeline</h3>
-              <p className="text-sm text-zinc-400">{content.timeline}</p>
+              <h3 className="text-sm font-semibold text-[#0A1628]">Expected Timeline</h3>
+              <p className="text-sm text-[#64748B]">{content.timeline}</p>
             </div>
           </div>
         </div>
@@ -568,7 +568,7 @@ export default function EdgeCasePage() {
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
                     <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
                   </svg>
-                  <p className="text-sm text-zinc-300">{warning}</p>
+                  <p className="text-sm text-[#334155]">{warning}</p>
                 </div>
               ))}
             </div>
@@ -576,18 +576,18 @@ export default function EdgeCasePage() {
         )}
 
         {/* Expert Referral */}
-        <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-6">
+        <div className="rounded-2xl border border-blue-500/20 bg-[#2563EB]/5 p-6">
           <div className="flex gap-4">
-            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/15">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#2563EB]/15">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#2563EB]">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
                 <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-white">Need Expert Help?</h2>
-              <p className="mt-2 text-sm text-zinc-300 leading-relaxed">{content.expertReferral}</p>
-              <button className="mt-4 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-500 transition">
+              <h2 className="text-lg font-semibold text-[#0A1628]">Need Expert Help?</h2>
+              <p className="mt-2 text-sm text-[#334155] leading-relaxed">{content.expertReferral}</p>
+              <button className="mt-4 rounded-lg bg-[#2563EB] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#1D4ED8] transition">
                 Find a Tax Professional
               </button>
             </div>
@@ -598,7 +598,7 @@ export default function EdgeCasePage() {
         <div className="pb-8">
           <Link
             href="/dashboard"
-            className="block w-full rounded-xl border border-[#27272a] bg-[#18181b] py-4 text-center text-base font-medium text-zinc-300 transition-colors hover:bg-zinc-800"
+            className="block w-full rounded-xl border border-[#E2E8F0] bg-white py-4 text-center text-base font-medium text-[#334155] transition-colors hover:bg-[#F1F5F9]"
           >
             Back to Dashboard
           </Link>

@@ -25,12 +25,12 @@ export default function InvoicesPage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-4 pb-3">
-        <Link href="/billing" className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-          <svg className="h-4 w-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <Link href="/billing" className="w-9 h-9 rounded-xl bg-[#F1F5F9] flex items-center justify-center">
+          <svg className="h-4 w-4 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </Link>
-        <h1 className="text-lg font-bold text-white">Invoices</h1>
+        <h1 className="text-lg font-bold text-[#0A1628]">Invoices</h1>
         <div className="w-9" />
       </div>
 
@@ -43,8 +43,8 @@ export default function InvoicesPage() {
               onClick={() => setFilter(f)}
               className={`px-4 py-2 rounded-full text-xs font-semibold border transition-colors capitalize ${
                 filter === f
-                  ? 'bg-white text-zinc-900 border-white'
-                  : 'bg-zinc-900 text-zinc-400 border-zinc-800 hover:border-zinc-600'
+                  ? 'bg-white text-[#0A1628] border-white'
+                  : 'bg-white text-[#64748B] border-[#F1F5F9] hover:border-[#E2E8F0]'
               }`}
             >
               {f}
@@ -53,37 +53,37 @@ export default function InvoicesPage() {
         </div>
 
         {/* Invoice List */}
-        <div className="bg-zinc-900 rounded-2xl border border-zinc-800 px-4">
+        <div className="bg-white rounded-2xl border border-[#F1F5F9] px-4">
           {filteredInvoices.map((inv, i) => (
-            <div key={inv.id} className={`py-3.5 ${i < filteredInvoices.length - 1 ? 'border-b border-zinc-800/50' : ''}`}>
+            <div key={inv.id} className={`py-3.5 ${i < filteredInvoices.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
               <button onClick={() => setExpandedId(expandedId === inv.id ? null : inv.id)} className="w-full">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 text-left">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-bold text-white">{inv.id}</span>
-                      <span className="px-2 py-0.5 bg-green-500/10 rounded-full text-[0.6rem] font-semibold text-green-400">{inv.status}</span>
+                      <span className="text-sm font-bold text-[#0A1628]">{inv.id}</span>
+                      <span className="px-2 py-0.5 bg-[#00A651]/10 rounded-full text-[0.6rem] font-semibold text-[#00A651]">{inv.status}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-zinc-500 font-medium">{inv.date}</span>
-                      <span className="text-sm font-bold text-white">{inv.amount}</span>
+                      <span className="text-xs text-[#94A3B8] font-medium">{inv.date}</span>
+                      <span className="text-sm font-bold text-[#0A1628]">{inv.amount}</span>
                     </div>
                   </div>
-                  <span className="text-xs font-semibold text-blue-400">Download</span>
+                  <span className="text-xs font-semibold text-[#2563EB]">Download</span>
                 </div>
               </button>
               {expandedId === inv.id && (
-                <div className="mt-2.5 bg-zinc-800/50 rounded-[10px] p-3">
+                <div className="mt-2.5 bg-[#F8FAFC] rounded-[10px] p-3">
                   <div className="flex justify-between py-1.5">
-                    <span className="text-xs text-zinc-500">Line item</span>
-                    <span className="text-xs font-semibold text-white">{inv.lineItem}</span>
+                    <span className="text-xs text-[#94A3B8]">Line item</span>
+                    <span className="text-xs font-semibold text-[#0A1628]">{inv.lineItem}</span>
                   </div>
                   <div className="flex justify-between py-1.5">
-                    <span className="text-xs text-zinc-500">Payment method</span>
-                    <span className="text-xs font-semibold text-white">{inv.method}</span>
+                    <span className="text-xs text-[#94A3B8]">Payment method</span>
+                    <span className="text-xs font-semibold text-[#0A1628]">{inv.method}</span>
                   </div>
                   <div className="flex justify-between py-1.5">
-                    <span className="text-xs text-zinc-500">Transaction ID</span>
-                    <span className="text-xs font-semibold text-white">{inv.txnId}</span>
+                    <span className="text-xs text-[#94A3B8]">Transaction ID</span>
+                    <span className="text-xs font-semibold text-[#0A1628]">{inv.txnId}</span>
                   </div>
                 </div>
               )}
@@ -92,7 +92,7 @@ export default function InvoicesPage() {
         </div>
 
         {/* Download All */}
-        <button className="w-full flex items-center justify-center gap-2 py-3.5 bg-zinc-900 border border-zinc-800 rounded-[14px] text-sm font-semibold text-white hover:border-zinc-600 transition-colors">
+        <button className="w-full flex items-center justify-center gap-2 py-3.5 bg-white border border-[#F1F5F9] rounded-[14px] text-sm font-semibold text-[#0A1628] hover:border-[#E2E8F0] transition-colors">
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
           </svg>
@@ -100,10 +100,10 @@ export default function InvoicesPage() {
         </button>
 
         {/* Total Paid */}
-        <div className="flex items-center justify-center p-4 bg-blue-500/10 rounded-2xl">
+        <div className="flex items-center justify-center p-4 bg-[#2563EB]/10 rounded-2xl">
           <div className="text-center">
-            <div className="text-[0.7rem] font-semibold text-white uppercase tracking-wide mb-1">Total Paid</div>
-            <div className="text-2xl font-black text-white">$166.00</div>
+            <div className="text-[0.7rem] font-semibold text-[#0A1628] uppercase tracking-wide mb-1">Total Paid</div>
+            <div className="text-2xl font-black text-[#0A1628]">$166.00</div>
           </div>
         </div>
       </div>

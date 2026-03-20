@@ -80,14 +80,14 @@ export default function BusinessDebtPage() {
     n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
   return (
-    <div className="flex min-h-screen flex-col bg-zinc-950 px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
       <div className="mx-auto w-full max-w-2xl">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
             Business Debt Inventory
           </h1>
-          <p className="mt-3 text-base text-zinc-400">
+          <p className="mt-3 text-base text-[#64748B]">
             Enter all business tax periods with outstanding balances.
           </p>
         </div>
@@ -99,14 +99,14 @@ export default function BusinessDebtPage() {
             return (
               <div
                 key={entry.id}
-                className="rounded-xl border border-zinc-800 bg-zinc-900 p-5"
+                className="rounded-xl border border-[#F1F5F9] bg-white p-5"
               >
                 {/* Row 1: Form type, period, year */}
                 <div className="mb-4 flex flex-wrap items-center gap-3">
                   <select
                     value={entry.formType}
                     onChange={(e) => update(entry.id, 'formType', e.target.value)}
-                    className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500"
+                    className="rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-3 py-2 text-sm text-[#0A1628] outline-none focus:border-emerald-500"
                   >
                     {FORM_TYPES.map((f) => (
                       <option key={f} value={f}>
@@ -120,7 +120,7 @@ export default function BusinessDebtPage() {
                       onChange={(e) =>
                         update(entry.id, 'quarter', e.target.value)
                       }
-                      className="rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500"
+                      className="rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-3 py-2 text-sm text-[#0A1628] outline-none focus:border-emerald-500"
                     >
                       {QUARTERS.map((q) => (
                         <option key={q} value={q}>
@@ -130,7 +130,7 @@ export default function BusinessDebtPage() {
                     </select>
                   )}
                   {!isQuarterly && (
-                    <span className="rounded-lg bg-zinc-800 px-3 py-2 text-sm text-zinc-400">
+                    <span className="rounded-lg bg-[#F1F5F9] px-3 py-2 text-sm text-[#64748B]">
                       Annual
                     </span>
                   )}
@@ -140,11 +140,11 @@ export default function BusinessDebtPage() {
                     onChange={(e) => update(entry.id, 'year', e.target.value)}
                     placeholder="Year"
                     maxLength={4}
-                    className="w-20 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
+                    className="w-20 rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-3 py-2 text-sm text-[#0A1628] placeholder-zinc-500 outline-none focus:border-emerald-500"
                   />
                   <button
                     onClick={() => remove(entry.id)}
-                    className="ml-auto text-xs text-zinc-500 transition-colors hover:text-red-400"
+                    className="ml-auto text-xs text-[#94A3B8] transition-colors hover:text-[#E63946]"
                   >
                     Remove
                   </button>
@@ -161,11 +161,11 @@ export default function BusinessDebtPage() {
                     { field: 'nonTrustFundPortion' as const, label: 'Non-Trust Fund Portion' },
                   ].map(({ field, label }) => (
                     <div key={field}>
-                      <label className="mb-1 block text-xs text-zinc-500">
+                      <label className="mb-1 block text-xs text-[#94A3B8]">
                         {label}
                       </label>
                       <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-zinc-500">
+                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#94A3B8]">
                           $
                         </span>
                         <input
@@ -177,7 +177,7 @@ export default function BusinessDebtPage() {
                             update(entry.id, field, e.target.value)
                           }
                           placeholder="0.00"
-                          className="w-full rounded-lg border border-zinc-700 bg-zinc-800 py-2 pl-7 pr-3 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
+                          className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-2 pl-7 pr-3 text-sm text-[#0A1628] placeholder-zinc-500 outline-none focus:border-emerald-500"
                         />
                       </div>
                     </div>
@@ -187,7 +187,7 @@ export default function BusinessDebtPage() {
                 {/* Dates */}
                 <div className="mt-3 grid grid-cols-2 gap-3">
                   <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
+                    <label className="mb-1 block text-xs text-[#94A3B8]">
                       Assessment Date
                     </label>
                     <input
@@ -196,11 +196,11 @@ export default function BusinessDebtPage() {
                       onChange={(e) =>
                         update(entry.id, 'assessmentDate', e.target.value)
                       }
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500 [color-scheme:dark]"
+                      className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-3 py-2 text-sm text-[#0A1628] outline-none focus:border-emerald-500 [color-scheme:dark]"
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-xs text-zinc-500">
+                    <label className="mb-1 block text-xs text-[#94A3B8]">
                       CSED
                     </label>
                     <input
@@ -209,7 +209,7 @@ export default function BusinessDebtPage() {
                       onChange={(e) =>
                         update(entry.id, 'csed', e.target.value)
                       }
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white outline-none focus:border-emerald-500 [color-scheme:dark]"
+                      className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-3 py-2 text-sm text-[#0A1628] outline-none focus:border-emerald-500 [color-scheme:dark]"
                     />
                   </div>
                 </div>
@@ -226,8 +226,8 @@ export default function BusinessDebtPage() {
                       onClick={() => update(entry.id, field, !entry[field])}
                       className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
                         entry[field]
-                          ? 'bg-red-500/15 text-red-400'
-                          : 'bg-zinc-700 text-zinc-400 hover:bg-zinc-600'
+                          ? 'bg-red-500/15 text-[#E63946]'
+                          : 'bg-[#E2E8F0] text-[#64748B] hover:bg-[#E2E8F0]'
                       }`}
                     >
                       {label}
@@ -240,7 +240,7 @@ export default function BusinessDebtPage() {
 
           <button
             onClick={addEntry}
-            className="w-full rounded-xl border-2 border-dashed border-zinc-700 py-4 text-sm font-semibold text-zinc-400 transition-colors hover:border-zinc-600 hover:text-zinc-300"
+            className="w-full rounded-xl border-2 border-dashed border-[#E2E8F0] py-4 text-sm font-semibold text-[#64748B] transition-colors hover:border-[#E2E8F0] hover:text-[#334155]"
           >
             + Add Tax Period
           </button>
@@ -248,24 +248,24 @@ export default function BusinessDebtPage() {
 
         {/* Summary */}
         {entries.length > 0 && (
-          <div className="mt-6 rounded-xl border border-zinc-800 bg-zinc-900 p-5">
-            <p className="mb-4 font-medium text-white">Debt Summary</p>
+          <div className="mt-6 rounded-xl border border-[#F1F5F9] bg-white p-5">
+            <p className="mb-4 font-medium text-[#0A1628]">Debt Summary</p>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Business Debt</span>
-                <span className="font-semibold text-white">
+                <span className="text-[#64748B]">Total Business Debt</span>
+                <span className="font-semibold text-[#0A1628]">
                   ${fmt(totals.totalDebt)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Trust Fund</span>
-                <span className="font-semibold text-emerald-400">
+                <span className="text-[#64748B]">Total Trust Fund</span>
+                <span className="font-semibold text-[#00A651]">
                   ${fmt(totals.totalTrust)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total Non-Trust Fund</span>
-                <span className="font-semibold text-blue-400">
+                <span className="text-[#64748B]">Total Non-Trust Fund</span>
+                <span className="font-semibold text-[#2563EB]">
                   ${fmt(totals.totalNonTrust)}
                 </span>
               </div>
@@ -276,7 +276,7 @@ export default function BusinessDebtPage() {
         {/* Continue */}
         <button
           onClick={() => router.push('/analysis/business/income-expenses')}
-          className="mt-10 w-full rounded-xl bg-emerald-600 py-4 text-lg font-semibold text-white transition-colors hover:bg-emerald-500 active:bg-emerald-700"
+          className="mt-10 w-full rounded-xl bg-[#00A651] py-4 text-lg font-semibold text-white transition-colors hover:bg-[#008C44] active:bg-[#008C44]"
         >
           Continue
         </button>

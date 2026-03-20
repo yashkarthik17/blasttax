@@ -20,7 +20,7 @@ const STATUS_CONFIG: Record<
 > = {
   completed: {
     dot: 'bg-emerald-400',
-    badge: 'bg-emerald-500/10 text-emerald-400',
+    badge: 'bg-[#00A651]/10 text-[#00A651]',
     label: 'Completed',
   },
   'in-progress': {
@@ -34,8 +34,8 @@ const STATUS_CONFIG: Record<
     label: 'Pending',
   },
   'not-started': {
-    dot: 'bg-zinc-600',
-    badge: 'bg-zinc-500/10 text-zinc-400',
+    dot: 'bg-[#CBD5E1]',
+    badge: 'bg-[#94A3B8]/10 text-[#64748B]',
     label: 'Not Started',
   },
 }
@@ -137,7 +137,7 @@ export default function SubmissionTrackerPage() {
                       <div className="mt-2 flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
                         <span>Expected: {milestone.expectedDate}</span>
                         {milestone.completedDate && (
-                          <span className="text-emerald-400">
+                          <span className="text-[#00A651]">
                             Completed: {milestone.completedDate}
                           </span>
                         )}
