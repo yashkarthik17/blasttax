@@ -40,7 +40,7 @@ export default function CNCPostSubmissionPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
@@ -79,8 +79,9 @@ export default function CNCPostSubmissionPage() {
             ))}
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           {/* Active Effects Card */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-4">
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
             <p className="text-xs font-bold text-[#64748B] uppercase tracking-[0.06em] mb-2.5">Active Effects</p>
             {effects.map((eff, i) => (
               <div key={i} className={`flex items-start gap-2.5 py-2.5 text-[13px] ${i < effects.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
@@ -94,7 +95,7 @@ export default function CNCPostSubmissionPage() {
           </div>
 
           {/* CSED Countdown */}
-          <div className="rounded-2xl bg-[#F0FDFA] border border-[rgba(13,148,136,0.15)] p-4 mb-4">
+          <div className="rounded-2xl bg-[#F0FDFA] border border-[rgba(13,148,136,0.15)] p-4">
             <div className="flex items-center gap-2 mb-3">
               <i className="fa-solid fa-clock text-[#0D9488] text-base" />
               <p className="text-sm font-bold text-[#0A1628]">CSED Countdown</p>
@@ -116,6 +117,8 @@ export default function CNCPostSubmissionPage() {
                 When CSED expires: TC 608 posts, debt is legally gone
               </p>
             </div>
+          </div>
+
           </div>
 
           {/* Risk Warnings */}

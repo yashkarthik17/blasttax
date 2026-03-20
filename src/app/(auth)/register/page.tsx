@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import AuthLayout from '@/components/layout/AuthLayout'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -75,9 +76,9 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen" style={{ background: '#FFFFFF' }}>
-        <div className="flex-1 flex flex-col pt-4">
+    <AuthLayout>
+      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-8 lg:max-h-[90vh] lg:overflow-y-auto" style={{ background: '#FFFFFF' }}>
+        <div className="flex-1 flex flex-col pt-4 lg:pt-0">
           {/* Back button */}
           <div className="mb-4">
             <Link
@@ -258,15 +259,15 @@ export default function RegisterPage() {
           </div>
 
           {/* Spacer */}
-          <div className="flex-1" />
+          <div className="flex-1 lg:hidden" />
 
           {/* Reassurance */}
-          <div className="flex items-center justify-center gap-[6px] pb-5" style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>
+          <div className="flex items-center justify-center gap-[6px] pb-5 lg:pb-0 lg:mt-2" style={{ fontSize: '0.72rem', color: '#94A3B8', fontWeight: 500 }}>
             <i className="fas fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
             <span>We never share your information</span>
           </div>
         </div>
       </div>
-    </div>
+    </AuthLayout>
   )
 }

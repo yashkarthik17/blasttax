@@ -201,7 +201,7 @@ export default function FailurePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
@@ -268,6 +268,7 @@ export default function FailurePage() {
             <div className="text-xs font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-2.5">
               How to Cure (Within 30 Days)
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {content.cureActions.map((action, i) => (
               <div key={i} className="flex items-center gap-3 rounded-[14px] bg-white border-[1.5px] border-[#F1F5F9] p-3 mb-2 cursor-pointer transition-all hover:border-[#2563EB]/20">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl" style={{ background: action.iconBg }}>
@@ -280,6 +281,7 @@ export default function FailurePage() {
                 <i className="fa-solid fa-chevron-right text-[#CBD5E1] text-xs" />
               </div>
             ))}
+            </div>
           </div>
 
           {/* Protection Notice */}

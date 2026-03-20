@@ -38,7 +38,7 @@ export default function AnalysisTypePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Header */}
         <div className="flex items-center justify-between px-5 pb-2 pt-4">
           <button
@@ -64,7 +64,7 @@ export default function AnalysisTypePage() {
           </div>
 
           {/* Entity Type Selection */}
-          <div className="space-y-2.5">
+          <div className="space-y-2.5 md:grid md:grid-cols-3 md:gap-3 md:space-y-0">
             {/* Individual */}
             <button
               onClick={() => selectEntity('individual')}
@@ -169,7 +169,7 @@ export default function AnalysisTypePage() {
               </div>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-2.5 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
               {/* Full Resolution */}
               <button
                 onClick={() => selectDepth('full')}

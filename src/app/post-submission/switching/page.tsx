@@ -90,7 +90,7 @@ export default function SwitchingPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
@@ -108,7 +108,7 @@ export default function SwitchingPage() {
           <p className="text-[13px] text-[#64748B] mb-5">Sometimes circumstances change and a different resolution makes sense</p>
 
           {/* Switch Cards */}
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {SWITCH_CARDS.map((card) => {
               const isExpanded = expandedId === card.id
               return (

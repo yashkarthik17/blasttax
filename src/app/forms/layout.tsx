@@ -51,7 +51,7 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
     <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white border-b border-[#F1F5F9]">
-        <div className="mx-auto flex max-w-md items-center justify-between px-5 py-3.5">
+        <div className="mx-auto flex max-w-md md:max-w-2xl lg:max-w-4xl items-center justify-between px-5 py-3.5">
           {/* Back button */}
           <button
             onClick={() => router.back()}
@@ -70,7 +70,7 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
 
         {/* Progress Bar */}
         {currentIndex >= 0 && (
-          <div className="mx-auto max-w-md px-5 pb-3">
+          <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl px-5 pb-3">
             <div className="flex items-center justify-between mb-1.5">
               <span className="text-[0.7rem] font-semibold text-[#94A3B8]">{stepLabel}</span>
               <span className="text-[0.7rem] font-bold text-[#0A1628]">{Math.round(progress)}%</span>
@@ -88,7 +88,7 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
       </header>
 
       {/* Page Content */}
-      <main className="mx-auto w-full max-w-md flex-1 px-5 py-4 pb-24">
+      <main className="mx-auto w-full max-w-md md:max-w-2xl lg:max-w-4xl flex-1 px-5 py-4 pb-24">
         {children}
       </main>
     </div>

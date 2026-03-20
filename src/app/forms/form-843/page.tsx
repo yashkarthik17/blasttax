@@ -96,6 +96,7 @@ export default function Form843Page() {
       {/* Abatement Type */}
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Abatement Type</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
         <button type="button" onClick={() => setAbatementType('fta')} className={`flex gap-3.5 p-[18px] bg-white border-[1.5px] rounded-2xl mb-2.5 w-full text-left transition-all ${abatementType === 'fta' ? 'border-[#0A1628] bg-[#EBF0FF] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]' : 'border-[#F3F4F6]'}`}>
           <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-0.5 ${abatementType === 'fta' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{abatementType === 'fta' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
           <div className="flex-1">
@@ -110,6 +111,7 @@ export default function Form843Page() {
             <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed mt-1">Provide evidence for why penalties should be removed due to circumstances beyond your control.</div>
           </div>
         </button>
+        </div>
       </div>
 
       {/* Penalty Breakdown */}

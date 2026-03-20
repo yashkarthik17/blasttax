@@ -63,7 +63,7 @@ export default function PlanPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div className="flex items-center gap-3 pt-4 pb-3">
           <button onClick={() => router.back()} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#F3F4F6] bg-[#F8FAFC] transition-all hover:border-[#2563EB]">
@@ -92,6 +92,10 @@ export default function PlanPage() {
           </div>
         </div>
 
+        {/* 2-col layout wrapper for desktop */}
+        <div className="md:grid md:grid-cols-2 md:gap-4 md:items-start">
+        <div>
+
         {/* Progress Summary */}
         <div className="mt-4 flex items-center gap-3 rounded-[14px] border border-[#F3F4F6] bg-white p-3.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           <div className="flex-1">
@@ -107,8 +111,9 @@ export default function PlanPage() {
           </div>
         </div>
 
+        </div>
         {/* Checklist */}
-        <div className="mt-4">
+        <div className="mt-4 md:mt-0">
           <div className="mb-3 px-1 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">Required Steps</div>
           <div className="overflow-hidden rounded-[20px] border border-[#F3F4F6] bg-white shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
             {steps.map((step) => {
@@ -155,6 +160,9 @@ export default function PlanPage() {
             })}
           </div>
         </div>
+
+        </div>
+        {/* End 2-col layout wrapper */}
 
         {/* CTA Buttons */}
         <div className="mt-5 flex flex-col gap-3">

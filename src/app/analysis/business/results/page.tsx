@@ -59,7 +59,7 @@ export default function BusinessResultsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Progress */}
         <div className="px-5 pt-4">
           <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
@@ -82,6 +82,7 @@ export default function BusinessResultsPage() {
           </div>
 
           {/* Result Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {RESULTS.map((r) => (
             <div key={r.rank} className={`rounded-[18px] bg-white border mb-3.5 overflow-hidden ${
               r.recommended ? 'border-2 border-[#2563EB] relative' : 'border border-[#F1F5F9]'
@@ -127,6 +128,7 @@ export default function BusinessResultsPage() {
               </div>
             </div>
           ))}
+          </div>
 
           {/* CNC Not Available */}
           <div className="rounded-[14px] bg-[#FEF2F2] border border-[#FEE2E2] p-4 mb-3.5">

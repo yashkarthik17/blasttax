@@ -57,6 +57,7 @@ export default function Form8857Page() {
         <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-2">Relief Type</div>
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
       {reliefOptions.map((opt) => (
         <button
           key={opt.key}
@@ -85,6 +86,7 @@ export default function Form8857Page() {
           </div>
         </button>
       ))}
+      </div>
 
       {/* Spouse Information */}
       <div className="mt-4">

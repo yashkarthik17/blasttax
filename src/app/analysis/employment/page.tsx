@@ -53,7 +53,7 @@ export default function EmploymentPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -86,6 +86,7 @@ export default function EmploymentPage() {
             </div>
 
             <div className="rounded-[16px] border border-[#F3F4F6] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+              <div className="md:grid md:grid-cols-2 md:gap-3">
               <div className="mb-3">
                 <div className={labelClass}>Current Employer Name</div>
                 <input type="text" className={inputClass} value={form.employerName} onChange={(e) => update('employerName', e.target.value)} placeholder="Employer name" />
@@ -93,6 +94,7 @@ export default function EmploymentPage() {
               <div className="mb-3">
                 <div className={labelClass}>Employer Address</div>
                 <input type="text" className={inputClass} value={form.employerStreet} onChange={(e) => update('employerStreet', e.target.value)} placeholder="Street address" />
+              </div>
               </div>
               <div className="mb-3 flex gap-2.5">
                 <div className="flex-[2]">
@@ -111,6 +113,7 @@ export default function EmploymentPage() {
                   <input type="text" className={inputClass} value={form.employerZip} onChange={(e) => update('employerZip', e.target.value)} maxLength={10} placeholder="ZIP" />
                 </div>
               </div>
+              <div className="md:grid md:grid-cols-2 md:gap-3">
               <div className="mb-3">
                 <div className={labelClass}>Employer Phone Number</div>
                 <input type="tel" className={inputClass} value={form.employerPhone} onChange={(e) => update('employerPhone', e.target.value)} placeholder="(000) 000-0000" />
@@ -124,6 +127,8 @@ export default function EmploymentPage() {
                   <span className="text-[0.72rem] text-[#94A3B8]">mos</span>
                 </div>
               </div>
+              </div>
+              <div className="md:grid md:grid-cols-2 md:gap-3">
               <div className="mb-3">
                 <div className={labelClass}>Pay Frequency</div>
                 <div className="flex flex-wrap gap-1.5">
@@ -145,6 +150,7 @@ export default function EmploymentPage() {
               <div>
                 <div className={labelClass}>Occupation</div>
                 <input type="text" className={inputClass} value={form.occupation} onChange={(e) => update('occupation', e.target.value)} placeholder="Your occupation / job title" />
+              </div>
               </div>
             </div>
           </div>

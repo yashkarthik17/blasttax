@@ -425,7 +425,7 @@ export default function DetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div className="flex items-center gap-3 pt-4 pb-3">
           <button onClick={() => router.push('/analysis/results')} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-white transition-all hover:border-[#2563EB]">

@@ -58,7 +58,7 @@ export default function GlossaryPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-3.5">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
@@ -99,7 +99,7 @@ export default function GlossaryPage() {
           </div>
 
           {/* Glossary Items */}
-          <div className="flex flex-col gap-2.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {filtered.map((term, idx) => {
               const isOpen = openIndex === idx
               return (

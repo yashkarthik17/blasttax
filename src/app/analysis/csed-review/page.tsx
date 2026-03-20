@@ -201,7 +201,7 @@ export default function CSEDReviewPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div className="flex items-center gap-3 pt-4 pb-3">
           <button onClick={() => router.back()} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition-all hover:border-[#2563EB]">
@@ -240,7 +240,7 @@ export default function CSEDReviewPage() {
         </div>
 
         {/* Timeline Cards */}
-        <div className="mt-3 space-y-3">
+        <div className="mt-3 space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
           {csedData.map((entry, yi) => {
             const row = computedRows[yi]
             const isNearest = earliest?.taxYear === entry.taxYear

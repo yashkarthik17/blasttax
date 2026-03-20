@@ -92,7 +92,7 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div className="pt-5 pb-4 text-center">
           <div className="mb-3 inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-[11px] font-bold tracking-wide text-[#2563EB]">
@@ -150,6 +150,7 @@ export default function ResultsPage() {
         </div>
 
         {/* Resolution Cards */}
+        <div className="md:grid md:grid-cols-2 md:gap-3.5">
         {sortedPrograms.map((prog, idx) => {
           const isRecommended = idx === 0
           const conf = getConfidenceLabel(prog.confidence)
@@ -275,6 +276,8 @@ export default function ResultsPage() {
             </div>
           )
         })}
+
+        </div>
 
         {/* Do Nothing Card */}
         <div className="mb-3.5 rounded-[14px] border border-[#FEE2E2] bg-[#FEF2F2] px-4 py-3.5">

@@ -81,8 +81,9 @@ export default function Form12153Page() {
           <div className="w-8 h-8 rounded-[10px] bg-[#EFF4FF] flex items-center justify-center"><i className="fa-solid fa-scale-balanced text-sm text-[#2563EB]" /></div>
           <span className="text-sm font-bold text-[#0A1628]">Hearing Type</span>
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {/* CDP */}
-        <button type="button" onClick={() => setHearingType('cdp')} className={`flex gap-3 p-3.5 border-[1.5px] rounded-[14px] mb-2 w-full text-left transition-all ${hearingType === 'cdp' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F1F5F9] bg-white'}`}>
+        <button type="button" onClick={() => setHearingType('cdp')} className={`flex gap-3 p-3.5 border-[1.5px] rounded-[14px] w-full text-left transition-all ${hearingType === 'cdp' ? 'border-[#0A1628] bg-[#EBF0FF]' : 'border-[#F1F5F9] bg-white'}`}>
           <div className={`w-[22px] h-[22px] rounded-full border-2 flex-shrink-0 flex items-center justify-center mt-px ${hearingType === 'cdp' ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'}`}>{hearingType === 'cdp' && <div className="w-2 h-2 rounded-full bg-white" />}</div>
           <div className="flex-1">
             <div className="text-[0.85rem] font-bold text-[#0A1628] mb-1">CDP Hearing <span className="inline-flex px-1.5 py-0.5 bg-[#E6F9EE] rounded-full text-[0.58rem] font-bold text-[#00A651] ml-1">WITHIN 30 DAYS</span></div>
@@ -105,6 +106,7 @@ export default function Form12153Page() {
             </div>
           </div>
         </button>
+        </div>
       </div>
 
       {/* Tax Periods */}

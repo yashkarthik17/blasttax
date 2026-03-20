@@ -40,7 +40,7 @@ export default function ChatPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col">
+      <div className="mx-auto flex w-full max-w-md md:max-w-2xl lg:max-w-4xl flex-1 flex-col">
         {/* Header */}
         <div className="flex items-center gap-2.5 px-5 py-3.5">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">

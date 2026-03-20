@@ -89,7 +89,7 @@ export default function CaseReviewPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto flex min-h-screen max-w-md flex-col">
+      <div className="mx-auto flex min-h-screen max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl flex-col">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">

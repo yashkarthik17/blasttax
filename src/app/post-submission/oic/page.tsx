@@ -46,7 +46,7 @@ export default function OICPostSubmissionPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
@@ -69,6 +69,7 @@ export default function OICPostSubmissionPage() {
             </div>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {/* Timeline */}
           <div className="rounded-2xl bg-white border border-[#F1F5F9] shadow-[0_1px_3px_rgba(10,22,40,0.06)] p-4">
             <div className="text-[11px] font-bold text-[#CBD5E1] uppercase tracking-[0.06em] mb-3">
@@ -112,6 +113,8 @@ export default function OICPostSubmissionPage() {
                 If no decision by then: Deemed Accepted (IRC &sect; 7122(f))
               </div>
             </div>
+          </div>
+
           </div>
 
           {/* Reminders */}

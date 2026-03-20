@@ -46,7 +46,7 @@ export default function VerificationPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
         <div className="pt-4">
           <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
@@ -92,7 +92,7 @@ export default function VerificationPage() {
         </div>
 
         {/* Summary Stats */}
-        <div className="mb-3.5 flex gap-2"
+        <div className="mb-3.5 grid grid-cols-2 gap-2 md:grid-cols-4"
           style={{
             opacity: animated ? 1 : 0,
             transform: animated ? 'translateY(0)' : 'translateY(10px)',

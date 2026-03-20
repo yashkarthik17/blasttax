@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import AuthLayout from '@/components/layout/AuthLayout'
 
 export default function ResetPasswordPage() {
   const [email, setEmail] = useState('')
@@ -33,9 +34,9 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen" style={{ background: '#FFFFFF' }}>
-        <div className="flex-1 flex flex-col pt-4">
+    <AuthLayout>
+      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-10" style={{ background: '#FFFFFF' }}>
+        <div className="flex-1 flex flex-col pt-4 lg:pt-0">
           {/* Back button */}
           <div className="mb-10">
             <Link
@@ -188,6 +189,6 @@ export default function ResetPasswordPage() {
           50% { transform: scale(1.06); opacity: 0.3; }
         }
       `}</style>
-    </div>
+    </AuthLayout>
   )
 }

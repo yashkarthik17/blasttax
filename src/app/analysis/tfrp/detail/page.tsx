@@ -14,7 +14,7 @@ export default function TFRPDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
@@ -108,7 +108,7 @@ export default function TFRPDetailPage() {
 
           {/* Resolution Options */}
           <h2 className="text-[15px] font-bold text-[#0A1628] mb-2.5">Resolution Options for TFRP</h2>
-          <div className="flex flex-col gap-2.5 mb-[18px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-[18px]">
             {RESOLUTION_OPTIONS.map((opt) => (
               <div key={opt.num} className="flex items-start gap-3 rounded-[14px] bg-white border-[1.5px] border-[#F1F5F9] p-3.5 cursor-pointer transition-all hover:border-[rgba(0,61,165,0.25)] hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#EBF0FF] text-xs font-bold text-[#0A1628]">{opt.num}</div>
@@ -131,7 +131,7 @@ export default function TFRPDetailPage() {
 
         {/* Bottom CTA */}
         <div className="fixed bottom-0 left-0 right-0 z-10 bg-white px-5 py-4 pb-7 border-t border-[#F1F5F9]">
-          <div className="mx-auto max-w-md">
+          <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
             <button
               onClick={() => router.push('/analysis/tfrp/persons')}
               className="flex w-full h-[52px] items-center justify-center gap-2 rounded-2xl bg-[#E63946] text-[15px] font-bold text-white"

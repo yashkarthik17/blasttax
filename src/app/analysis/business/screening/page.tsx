@@ -25,7 +25,7 @@ export default function BusinessScreeningPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Progress Bar */}
         <div className="px-5 pt-4">
           <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
@@ -44,7 +44,7 @@ export default function BusinessScreeningPage() {
           </div>
           <p className="text-[13px] text-[#64748B] mb-5">Additional questions for business tax debt</p>
 
-          <div className="flex flex-col gap-3.5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
             {/* Q1: Business still operating? */}
             <div className="rounded-[14px] bg-white border-[1.5px] border-[#F1F5F9] p-4">
               <p className="text-sm font-bold text-[#0A1628] mb-1">Is your business still operating?</p>

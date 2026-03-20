@@ -66,7 +66,7 @@ export default function CaseInfoPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -134,16 +134,17 @@ export default function CaseInfoPage() {
                 </div>
               </div>
 
-              {/* Assessment Date */}
+              {/* Assessment Date + Last Payment */}
+              <div className="md:grid md:grid-cols-2 md:gap-2.5">
               <div className="mb-3">
                 <div className={labelClass}>Original Assessment Date (TC 150)</div>
                 <input type="date" className={inputClass} value={entry.assessmentDate} onChange={(e) => updateEntry(idx, 'assessmentDate', e.target.value)} />
               </div>
 
-              {/* Last Payment */}
               <div className="mb-3">
                 <div className={labelClass}>Date of Last Payment</div>
                 <input type="date" className={inputClass} value={entry.lastPaymentDate} onChange={(e) => updateEntry(idx, 'lastPaymentDate', e.target.value)} />
+              </div>
               </div>
 
               {/* SFR Toggle */}

@@ -42,7 +42,7 @@ export default function LearnPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-3.5">
           <h1 className="text-[1.2rem] font-extrabold text-[#0A1628]">Learn</h1>
@@ -92,14 +92,12 @@ export default function LearnPage() {
           </div>
 
           {/* Articles List */}
-          <div>
-            {filteredArticles.map((article, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredArticles.map((article) => (
               <Link
                 key={article.slug}
                 href={`/learn/${article.slug}`}
-                className={`flex gap-3.5 py-3.5 no-underline transition hover:bg-[#F8FAFC] ${
-                  i < filteredArticles.length - 1 ? 'border-b border-[#F1F5F9]' : ''
-                }`}
+                className="flex gap-3.5 py-3.5 no-underline transition hover:bg-[#F8FAFC] rounded-xl border border-transparent md:border-[#F1F5F9] md:px-3 md:bg-white"
               >
                 <div className={`flex h-[72px] w-[72px] shrink-0 items-center justify-center rounded-xl ${article.thumbBg}`}>
                   <i className={`fas ${article.icon} text-[22px] ${article.iconColor}`} />

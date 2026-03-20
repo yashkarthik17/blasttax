@@ -56,7 +56,7 @@ export default function PersonalInfoPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -109,7 +109,7 @@ export default function PersonalInfoPage() {
           </div>
 
           {/* SSN & DOB */}
-          <div className="mb-2.5 flex gap-2.5">
+          <div className="mb-2.5 flex gap-2.5 md:w-1/2">
             <div className="flex-1">
               <div className={labelClass}>Social Security Number</div>
               <input type="text" className={inputClass} value={form.ssn} onChange={(e) => update('ssn', e.target.value)} placeholder="XXX-XX-XXXX" maxLength={11} />
@@ -198,22 +198,20 @@ export default function PersonalInfoPage() {
             <div className="mb-3 text-[0.75rem] font-bold uppercase tracking-[0.06em] text-[#CBD5E1]">
               Contact Information
             </div>
-            <div className="mb-2.5 flex gap-2.5">
-              <div className="flex-1">
+            <div className="md:grid md:grid-cols-2 md:gap-2.5">
+              <div className="mb-2.5 md:mb-0">
                 <div className={labelClass}>Home Phone</div>
                 <input type="tel" className={inputClass} value={form.phoneHome} onChange={(e) => update('phoneHome', e.target.value)} placeholder="(000) 000-0000" />
               </div>
-              <div className="flex-1">
+              <div className="mb-2.5 md:mb-0">
                 <div className={labelClass}>Cell Phone</div>
                 <input type="tel" className={inputClass} value={form.phoneCell} onChange={(e) => update('phoneCell', e.target.value)} placeholder="(000) 000-0000" />
               </div>
-            </div>
-            <div className="mb-2.5 flex gap-2.5">
-              <div className="flex-1">
+              <div className="mb-2.5 md:mb-0">
                 <div className={labelClass}>Work Phone</div>
                 <input type="tel" className={inputClass} value={form.phoneWork} onChange={(e) => update('phoneWork', e.target.value)} placeholder="(000) 000-0000" />
               </div>
-              <div className="flex-1">
+              <div className="mb-2.5 md:mb-0">
                 <div className={labelClass}>Email Address</div>
                 <input type="email" className={inputClass} value={form.email} onChange={(e) => update('email', e.target.value)} placeholder="email@example.com" />
               </div>

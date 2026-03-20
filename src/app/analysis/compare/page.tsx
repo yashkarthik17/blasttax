@@ -38,7 +38,7 @@ export default function ComparePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div className="flex items-center gap-3 pt-4 pb-3">
           <button onClick={() => router.push('/analysis/results')} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#E2E8F0] bg-white transition-all hover:border-[#2563EB]">
@@ -107,6 +107,7 @@ export default function ComparePage() {
           </div>
 
           {/* Play A */}
+          <div className="md:grid md:grid-cols-2 md:gap-3">
           <div className="mb-2.5 rounded-2xl border-[1.5px] border-[#F1F5F9] bg-white p-4 transition-all hover:border-[rgba(0,61,165,0.2)] hover:-translate-y-px hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
             <div className="mb-2 flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#EBF0FF]">
@@ -142,6 +143,7 @@ export default function ComparePage() {
             <button onClick={() => router.push('/analysis/detail/cnc')} className="text-xs font-semibold text-[#2563EB]">
               Learn More <i className="fa-solid fa-arrow-right ml-0.5 text-[10px]" />
             </button>
+          </div>
           </div>
         </div>
 

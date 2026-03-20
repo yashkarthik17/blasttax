@@ -84,7 +84,7 @@ export default function HouseholdPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -104,6 +104,7 @@ export default function HouseholdPage() {
           </div>
 
           {/* Household Size */}
+          <div className="md:grid md:grid-cols-2 md:gap-3">
           <div className="mb-3 rounded-[16px] border border-[#F1F5F9] bg-white p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -134,7 +135,10 @@ export default function HouseholdPage() {
             </div>
           </div>
 
+          </div>
+
           {/* Income Bracket */}
+          <div className="md:grid md:grid-cols-2 md:gap-3">
           <div className="mb-3 rounded-[16px] border border-[#F1F5F9] bg-white p-4">
             <div className="mb-1 text-[13px] font-bold text-[#0A1628]">Approximate Gross Monthly Household Income</div>
             <div className="mb-2.5 text-[11px] text-[#94A3B8]">Matches IRS National Standards income brackets</div>
@@ -173,7 +177,10 @@ export default function HouseholdPage() {
             </div>
           </div>
 
+          </div>
+
           {/* Vehicles */}
+          <div className="md:grid md:grid-cols-2 md:gap-3">
           <div className="mb-3 rounded-[16px] border border-[#F1F5F9] bg-white p-4">
             <div className="mb-1 text-[13px] font-bold text-[#0A1628]">Vehicles in Household</div>
             <div className="mb-2.5 text-[11px] text-[#94A3B8]">How many vehicles does your household own or lease?</div>
@@ -224,6 +231,8 @@ export default function HouseholdPage() {
                 </button>
               ))}
             </div>
+          </div>
+
           </div>
 
           {/* Health Insurance */}

@@ -84,7 +84,7 @@ export default function MethodologyPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-3.5">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
@@ -102,6 +102,7 @@ export default function MethodologyPage() {
           </div>
 
           {/* Expandable Sections */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {SECTIONS.map((section) => {
             const isOpen = openSection === section.id
             return (
@@ -172,6 +173,7 @@ export default function MethodologyPage() {
               </div>
             )
           })}
+          </div>
 
           {/* IRS Methodology Reassurance */}
           <div className="flex items-center gap-2 rounded-xl bg-[#ECFDF5] px-4 py-3">

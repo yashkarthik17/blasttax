@@ -195,7 +195,7 @@ export default function IncomeExpensesPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
         <div className="pt-4">
           <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
@@ -214,6 +214,9 @@ export default function IncomeExpensesPage() {
             {"We'll use IRS allowable expense standards to calculate your disposable income"}
           </p>
         </div>
+
+        {/* ── Income & Expenses Container ── */}
+        <div className="md:grid md:grid-cols-2 md:gap-4">
 
         {/* ── Income Section ── */}
         <div className="mt-3 rounded-2xl border border-[#F1F5F9] bg-white p-4.5">
@@ -282,7 +285,7 @@ export default function IncomeExpensesPage() {
         </div>
 
         {/* ── Expenses Section ── */}
-        <div className="mt-3 rounded-2xl border border-[#F1F5F9] bg-white p-4.5">
+        <div className="mt-3 md:mt-0 rounded-2xl border border-[#F1F5F9] bg-white p-4.5">
           <div className="mb-3.5 flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFF0F1] text-xs text-[#E63946]">
               <i className="fa-solid fa-arrow-up" />
@@ -340,6 +343,9 @@ export default function IncomeExpensesPage() {
             <span className="text-base font-extrabold text-[#E63946]">{fmt(totalExpenses)}</span>
           </div>
         </div>
+
+        </div>
+        {/* ── End Income & Expenses Container ── */}
 
         {/* ── IRS Standards Reference ── */}
         <div className="mt-3 rounded-xl border border-[#BFDBFE] bg-[#EFF4FF] px-3.5 py-2.5">

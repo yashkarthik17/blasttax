@@ -230,7 +230,7 @@ export default function PreQualifierStepPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto flex min-h-screen max-w-md flex-col">
+      <div className="mx-auto flex min-h-screen max-w-md sm:max-w-xl md:max-w-2xl flex-col">
         {/* Progress Bar */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -269,10 +269,10 @@ export default function PreQualifierStepPage() {
           </p>
 
           {/* Yes / No Pills */}
-          <div className="mt-8 flex gap-3">
+          <div className="mt-8 flex gap-3 md:gap-4">
             <button
               onClick={() => handleSelect(true)}
-              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] text-base font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
+              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] md:py-[22px] text-base md:text-lg font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
                 selected === true
                   ? 'border-[#00A651] bg-[#E6F9EE] text-[#065F46]'
                   : 'border-[#E2E8F0] bg-white text-[#0A1628]'
@@ -283,7 +283,7 @@ export default function PreQualifierStepPage() {
             </button>
             <button
               onClick={() => handleSelect(false)}
-              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] text-base font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
+              className={`flex flex-1 items-center justify-center gap-2.5 rounded-[16px] border-2 py-[18px] md:py-[22px] text-base md:text-lg font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97] ${
                 selected === false
                   ? 'border-[#E63946] bg-[#FFF0F1] text-[#991B1B]'
                   : 'border-[#E2E8F0] bg-white text-[#0A1628]'

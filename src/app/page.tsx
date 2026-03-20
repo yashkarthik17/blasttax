@@ -22,7 +22,7 @@ export default function SplashPage() {
       style={{ background: '#0A1628' }}
       onClick={showTap ? handleContinue : undefined}
     >
-      <div className="relative flex w-full max-w-md flex-col items-center justify-center px-6 py-20 text-center">
+      <div className="relative flex w-full max-w-md sm:max-w-lg flex-col items-center justify-center px-6 py-20 text-center">
         {/* Logo */}
         <div
           className="animate-[logoEntrance_1.4s_0.5s_cubic-bezier(0.4,0,0.2,1)_forwards]"

@@ -31,7 +31,7 @@ export default function BusinessCompliancePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Progress */}
         <div className="px-5 pt-4">
           <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
@@ -53,8 +53,9 @@ export default function BusinessCompliancePage() {
             <span className="text-xs text-[#991B1B]">Filing compliance is the FIRST gate. IRS will not process any resolution request until the business is in compliance.</span>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
           {/* Operating Checklist */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
             <div className="text-sm font-bold text-[#0A1628] mb-3">
               <i className="fa-solid fa-file-lines text-xs text-[#2563EB] mr-1.5" /> Operating Business Checklist
             </div>
@@ -75,7 +76,7 @@ export default function BusinessCompliancePage() {
           </div>
 
           {/* OOB Checklist */}
-          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4 mb-3">
+          <div className="rounded-2xl bg-white border border-[#F1F5F9] p-4">
             <div className="text-sm font-bold text-[#0A1628] mb-3">
               <i className="fa-solid fa-door-closed text-xs text-[#92400E] mr-1.5" /> Out-of-Business Checklist
             </div>
@@ -93,6 +94,7 @@ export default function BusinessCompliancePage() {
                 <span className="text-xs font-medium text-[#64748B]">{item}</span>
               </label>
             ))}
+          </div>
           </div>
 
           {/* Per-Quarter Table */}

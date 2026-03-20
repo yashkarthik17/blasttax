@@ -54,7 +54,7 @@ export default function EntityTypePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Progress */}
         <div className="px-5 pt-4">
           <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
@@ -73,7 +73,7 @@ export default function EntityTypePage() {
           </div>
 
           {/* Entity Cards */}
-          <div className="flex flex-col gap-2.5 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mt-4">
             {ENTITIES.map((ent) => (
               <button
                 key={ent.id}

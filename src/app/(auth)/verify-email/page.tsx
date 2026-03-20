@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import AuthLayout from '@/components/layout/AuthLayout'
 
 export default function VerifyEmailPage() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
@@ -69,8 +70,8 @@ export default function VerifyEmailPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen" style={{ background: '#FFFFFF' }}>
+    <AuthLayout>
+      <div className="w-full max-w-md mx-auto px-6 flex flex-col min-h-screen lg:min-h-0 lg:py-10" style={{ background: '#FFFFFF' }}>
         <div className="flex-1 flex flex-col items-center justify-center text-center" style={{ paddingTop: 60, paddingBottom: 40 }}>
           {/* Envelope icon with pulse rings */}
           <div className="mb-7 relative" style={{ width: 88, height: 88 }}>
@@ -174,6 +175,6 @@ export default function VerifyEmailPage() {
           50% { transform: scale(1.08); opacity: 0.4; }
         }
       `}</style>
-    </div>
+    </AuthLayout>
   )
 }

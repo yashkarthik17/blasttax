@@ -55,7 +55,7 @@ export default function ScreeningResultPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         {/* Progress */}
         <div className="px-5">
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-[#E2E8F0]">
@@ -103,6 +103,7 @@ export default function ScreeningResultPage() {
           )}
 
           {/* Result Categories */}
+          <div className="md:grid md:grid-cols-2 md:gap-3">
           {CATEGORIES.map((cat) => {
             const items = QUESTION_META.filter((q) => q.category === cat.id)
             const answeredCount = items.filter((q) => answers[q.key] !== undefined).length
@@ -139,6 +140,7 @@ export default function ScreeningResultPage() {
               </div>
             )
           })}
+          </div>
 
           {/* Stat Highlight */}
           <div className="mt-2 rounded-[16px] border border-[rgba(10,22,40,0.1)] bg-white p-5 text-center">

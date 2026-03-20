@@ -88,27 +88,33 @@ export default function Form9465Page() {
       {/* Spouse Info */}
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Spouse Info (Lines 1b-2b) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse Name (Line 1b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse full legal name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} /></div>
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Spouse SSN (Line 2b)</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} /></div>
+          </div>
         </div>
       </div>
 
       {/* Employer — Taxpayer */}
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Taxpayer (Line 5)</div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerName} onChange={(e) => setEmployerName(e.target.value)} /></div>
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} /></div>
+          </div>
         </div>
       </div>
 
       {/* Employer — Spouse */}
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">Employer &mdash; Spouse (Line 6) <span className="text-[0.65rem] font-medium normal-case tracking-normal text-[#94A3B8]">if filing jointly</span></div>
-        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] space-y-2.5">
+        <div className="bg-white rounded-2xl p-4 border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Name</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Spouse employer name" value={spouseEmployerName} onChange={(e) => setSpouseEmployerName(e.target.value)} /></div>
           <div><div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Employer Address</div><input type="text" className="w-full px-3.5 py-2.5 bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-[10px] text-[0.82rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628]" placeholder="Street, City, State, ZIP" value={spouseEmployerAddress} onChange={(e) => setSpouseEmployerAddress(e.target.value)} /></div>
+          </div>
         </div>
       </div>
 

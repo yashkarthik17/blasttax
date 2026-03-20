@@ -172,7 +172,7 @@ export default function AssetCategoryPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md px-5 pb-8">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress bar */}
         <div className="pt-4">
           <div className="h-1 w-full rounded-full bg-[#F1F5F9] overflow-hidden">
@@ -198,7 +198,7 @@ export default function AssetCategoryPage() {
         </div>
 
         {/* Gate cards */}
-        <div className="mt-4 space-y-2.5">
+        <div className="mt-4 space-y-2.5 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
           <button
             onClick={() => setHasAsset(true)}
             className={`flex w-full items-center gap-3.5 rounded-2xl border-2 p-5 text-left transition-all ${

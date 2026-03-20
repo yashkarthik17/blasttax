@@ -143,8 +143,9 @@ export default function Form656Page() {
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Taxpayer Information</div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {/* Name (pre-filled) */}
-        <div className="mb-3">
+        <div>
           <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Full Name</div>
           <div className="relative bg-[#F8FAFC] border-[1.5px] border-[#F3F4F6] rounded-xl px-4 py-3">
             <span className="text-[0.85rem] font-semibold text-[#0A1628]">{name}</span>
@@ -171,7 +172,7 @@ export default function Form656Page() {
         </div>
 
         {/* Phone */}
-        <div className="mb-3">
+        <div className="md:col-span-2">
           <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Phone Number(s)</div>
           <div className="flex gap-2">
             <input
@@ -192,7 +193,7 @@ export default function Form656Page() {
         </div>
 
         {/* Email */}
-        <div className="mb-3">
+        <div className="md:col-span-2">
           <div className="text-[0.72rem] font-semibold text-[#64748B] mb-1.5">Email Address</div>
           <input
             type="email"
@@ -201,6 +202,7 @@ export default function Form656Page() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+        </div>
         </div>
       </div>
 
@@ -346,6 +348,7 @@ export default function Form656Page() {
       <div>
         <div className="text-[0.75rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">Payment Option</div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
         {/* Lump Sum */}
         <button
           type="button"
@@ -386,6 +389,7 @@ export default function Form656Page() {
             <div className="text-[0.78rem] text-[#94A3B8] leading-relaxed">Monthly payments over 6-24 months during IRS review</div>
           </div>
         </button>
+        </div>
       </div>
 
       {/* Low-Income Certification */}

@@ -94,7 +94,7 @@ export default function StrategicPlaysPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-3.5">
           <button onClick={() => router.back()} className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
@@ -110,7 +110,7 @@ export default function StrategicPlaysPage() {
           <h2 className="mb-1.5 text-[1.25rem] font-extrabold leading-tight text-[#0A1628]">Advanced Resolution Strategies</h2>
           <p className="mb-5 text-[0.8125rem] text-[#64748B]">Combine multiple approaches for optimal outcomes</p>
 
-          <div className="flex flex-col gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {STRATEGIES.map((s) => {
               const isExpanded = expandedId === s.id
               return (

@@ -7,7 +7,7 @@ export default function WelcomePage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+      <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         <div className="flex min-h-screen flex-col items-center justify-center px-7 py-5 text-center">
           {/* Illustration */}
           <div className="relative flex h-[140px] w-[140px] items-center justify-center rounded-full bg-[#F3F4F6]">
@@ -25,7 +25,7 @@ export default function WelcomePage() {
           </div>
 
           {/* Steps */}
-          <div className="mt-8 flex w-full flex-col gap-4 text-left">
+          <div className="mt-8 flex w-full flex-col gap-4 text-left md:flex-row md:gap-6">
             {/* Step 1 */}
             <div className="flex items-center gap-3.5">
               <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0A1628] text-sm text-white">
