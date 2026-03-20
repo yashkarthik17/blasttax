@@ -6,13 +6,89 @@ import {
   getTransportationOperating,
   getPublicTransportation,
 } from '@/lib/calculations/standards';
+import { createClient } from '@supabase/supabase-js';
+
+/**
+ * Cached local standard lookups to avoid redundant DB calls within a single
+ * MDI calculation run. Keyed by "STATE|COUNTY|FAMILY_SIZE".
+ */
+const localStandardCache = new Map<string, number | null>();
+
+/**
+ * Look up the IRS Local Standard for housing & utilities from the database.
+ *
+ * Queries the irs_local_standards table for the given state, county, and family
+ * size. Family size 5+ is stored as family_size = 5 in the database.
+ *
+ * @param state - Two-letter US state abbreviation (e.g. "CA", "NY")
+ * @param county - County name as stored in the IRS tables (e.g. "Los Angeles")
+ * @param familySize - Number of household members (capped at 5 for lookup)
+ * @returns The local standard allowance, or null if no data found
+ */
+export async function getLocalHousingStandard(
+  state: string,
+  county: string,
+  familySize: number
+): Promise<number | null> {
+  const effectiveFamilySize = Math.min(familySize, 5);
+  const cacheKey = `${state.toUpperCase()}|${county}|${effectiveFamilySize}`;
+
+  if (localStandardCache.has(cacheKey)) {
+    return localStandardCache.get(cacheKey) ?? null;
+  }
+
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      localStandardCache.set(cacheKey, null);
+      return null;
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+    const { data, error } = await supabase
+      .from('irs_local_standards')
+      .select('allowance')
+      .eq('effective_year', 2026)
+      .eq('category', 'housing_and_utilities')
+      .eq('state', state.toUpperCase())
+      .ilike('county', county)
+      .eq('family_size', effectiveFamilySize)
+      .limit(1)
+      .single();
+
+    if (error || !data) {
+      localStandardCache.set(cacheKey, null);
+      return null;
+    }
+
+    const allowance = Number(data.allowance);
+    localStandardCache.set(cacheKey, allowance);
+    return allowance;
+  } catch {
+    localStandardCache.set(cacheKey, null);
+    return null;
+  }
+}
+
+/**
+ * Clear the local standard cache. Should be called at the start of each
+ * new MDI calculation to avoid stale data across requests.
+ */
+export function clearLocalStandardCache(): void {
+  localStandardCache.clear();
+}
 
 /**
  * Categories where the IRS allows the full actual amount (uncapped).
  * These expenses are not limited by a national or local standard.
+ *
+ * NOTE: HousingUtilities was moved out of this set because it is now
+ * capped against IRS Local Standards when county-level data is available.
  */
 const UNCAPPED_CATEGORIES: Set<ExpenseCategory> = new Set([
-  'HousingUtilities',
   'HealthInsurance',
   'CourtOrdered',
   'ChildDependentCare',
