@@ -12,7 +12,7 @@ const fmt = (n: number) =>
   n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 })
 
 const inputClass =
-  'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
+  'w-full rounded-lg border border-[var(--border)] bg-[var(--input)] px-3 py-2.5 text-sm text-[#1A1A2E] placeholder-zinc-500 outline-none transition-colors focus:border-blue-500 focus:ring-1 focus:ring-blue-500'
 
 /* ------------------------------------------------------------------ */
 /* Collapsible Section                                                 */
@@ -41,7 +41,7 @@ function Section({
 }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="rounded-2xl border border-[#F1F5F9] bg-white p-4">
+    <div className="rounded-2xl border border-[#F0F0F5] bg-white p-4">
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
@@ -52,8 +52,8 @@ function Section({
             {icon}
           </div>
           <div className="text-left">
-            <div className="text-sm font-bold text-[#0A1628]">{title}</div>
-            <div className="text-xs text-[#94A3B8]">{subtitle}</div>
+            <div className="text-sm font-bold text-[#1A1A2E]">{title}</div>
+            <div className="text-xs text-[#8585A0]">{subtitle}</div>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -62,9 +62,9 @@ function Section({
               {badge}
             </span>
           )}
-          {rightLabel && <span className="text-sm font-bold text-[#0A1628]">{rightLabel}</span>}
+          {rightLabel && <span className="text-sm font-bold text-[#1A1A2E]">{rightLabel}</span>}
           <svg
-            className={`h-3 w-3 text-[#94A3B8] transition-transform ${open ? 'rotate-180' : ''}`}
+            className={`h-3 w-3 text-[#8585A0] transition-transform ${open ? 'rotate-180' : ''}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -74,7 +74,7 @@ function Section({
           </svg>
         </div>
       </button>
-      {open && <div className="mt-4 border-t border-[#F1F5F9] pt-4">{children}</div>}
+      {open && <div className="mt-4 border-t border-[#F0F0F5] pt-4">{children}</div>}
     </div>
   )
 }
@@ -82,10 +82,10 @@ function Section({
 function PrefilledField({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="mb-1 text-xs font-semibold text-[#64748B]">{label}</div>
-      <div className="flex items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-4 py-2.5">
-        <span className="text-sm font-semibold text-[#0A1628]">{value}</span>
-        <svg className="h-3 w-3 text-[#94A3B8]" fill="currentColor" viewBox="0 0 20 20">
+      <div className="mb-1 text-xs font-semibold text-[#5C5C7A]">{label}</div>
+      <div className="flex items-center justify-between rounded-lg border border-[#D5D5E0] bg-[#FAFAFF] px-4 py-2.5">
+        <span className="text-sm font-semibold text-[#1A1A2E]">{value}</span>
+        <svg className="h-3 w-3 text-[#8585A0]" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
         </svg>
       </div>
@@ -95,22 +95,22 @@ function PrefilledField({ label, value }: { label: string; value: string }) {
 
 function AssetRow({ label, detail, amount }: { label: string; detail: string; amount: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2.5 last:border-0">
+    <div className="flex items-center justify-between border-b border-[#F0F0F5] py-2.5 last:border-0">
       <div>
-        <div className="text-sm font-semibold text-[#0A1628]">{label}</div>
-        <div className="text-xs text-[#94A3B8]">{detail}</div>
+        <div className="text-sm font-semibold text-[#1A1A2E]">{label}</div>
+        <div className="text-xs text-[#8585A0]">{detail}</div>
       </div>
-      <div className="text-sm font-bold text-[#0A1628]">{amount}</div>
+      <div className="text-sm font-bold text-[#1A1A2E]">{amount}</div>
     </div>
   )
 }
 
-function ExpenseRow({ label, detail, amount, color = 'text-[#0A1628]' }: { label: string; detail?: string; amount: string; color?: string }) {
+function ExpenseRow({ label, detail, amount, color = 'text-[#1A1A2E]' }: { label: string; detail?: string; amount: string; color?: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2 last:border-0">
+    <div className="flex items-center justify-between border-b border-[#F0F0F5] py-2 last:border-0">
       <div>
-        <span className="text-sm text-[#64748B]">{label}</span>
-        {detail && <div className="text-[10px] text-[#94A3B8]">{detail}</div>}
+        <span className="text-sm text-[#5C5C7A]">{label}</span>
+        {detail && <div className="text-[10px] text-[#8585A0]">{detail}</div>}
       </div>
       <span className={`text-sm font-bold ${color}`}>{amount}</span>
     </div>
@@ -142,18 +142,18 @@ export default function Form433APage() {
       {/* Progress */}
       <div>
         <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-xs font-semibold text-[#94A3B8]">Step {step} of 4</span>
-          <span className="text-xs font-bold text-[#0A1628]">{Math.round(progress)}%</span>
+          <span className="text-xs font-semibold text-[#8585A0]">Step {step} of 4</span>
+          <span className="text-xs font-bold text-[#1A1A2E]">{Math.round(progress)}%</span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#F0F0F5]">
           <div className="h-full rounded-full bg-[#2563EB] transition-all duration-500" style={{ width: `${progress}%` }} />
         </div>
       </div>
 
       {/* Heading */}
       <div>
-        <h1 className="text-2xl font-extrabold text-[#0A1628]">Collection Information Statement</h1>
-        <p className="mt-1 text-sm text-[#64748B]">IRS Form 433-A &mdash; Individual Financial Statement</p>
+        <h1 className="text-2xl font-extrabold text-[#1A1A2E]">Collection Information Statement</h1>
+        <p className="mt-1 text-sm text-[#5C5C7A]">IRS Form 433-A &mdash; Individual Financial Statement</p>
       </div>
 
       {/* Info Banner */}
@@ -204,7 +204,7 @@ export default function Form433APage() {
           <div className="grid grid-cols-2 gap-3">
             <PrefilledField label="How Long Employed" value="3 years, 4 months" />
             <div>
-              <div className="mb-1 text-xs font-semibold text-[#64748B]">Pay Frequency</div>
+              <div className="mb-1 text-xs font-semibold text-[#5C5C7A]">Pay Frequency</div>
               <select className={inputClass}>
                 <option>Bi-weekly</option>
                 <option>Weekly</option>
@@ -225,36 +225,36 @@ export default function Form433APage() {
         subtitle="Spouse employment &amp; other sources"
       >
         <div className="space-y-4">
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Spouse Employment</h4>
+          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Spouse Employment</h4>
           <div className="space-y-3">
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#64748B]">Spouse Employer Name</label>
+              <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Spouse Employer Name</label>
               <input type="text" className={inputClass} placeholder="Employer name (if applicable)" value={spouseEmployer} onChange={(e) => setSpouseEmployer(e.target.value)} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[#64748B]">Occupation</label>
+                <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Occupation</label>
                 <input type="text" className={inputClass} placeholder="Occupation" value={spouseOccupation} onChange={(e) => setSpouseOccupation(e.target.value)} />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[#64748B]">Monthly Income</label>
+                <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Monthly Income</label>
                 <input type="text" className={inputClass} placeholder="$0" value={spouseIncome} onChange={(e) => setSpouseIncome(e.target.value)} />
               </div>
             </div>
           </div>
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Other Income Sources</h4>
+          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Other Income Sources</h4>
           <div className="space-y-3">
             <div>
-              <label className="mb-1 block text-xs font-semibold text-[#64748B]">Social Security / Pension</label>
+              <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Social Security / Pension</label>
               <input type="text" className={inputClass} value={socialSecurity} onChange={(e) => setSocialSecurity(e.target.value)} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[#64748B]">Rental Income</label>
+                <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Rental Income</label>
                 <input type="text" className={inputClass} value={rentalIncome} onChange={(e) => setRentalIncome(e.target.value)} />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-semibold text-[#64748B]">Other</label>
+                <label className="mb-1 block text-xs font-semibold text-[#5C5C7A]">Other</label>
                 <input type="text" className={inputClass} value={otherIncome} onChange={(e) => setOtherIncome(e.target.value)} />
               </div>
             </div>
@@ -272,34 +272,34 @@ export default function Form433APage() {
         defaultOpen
       >
         <div className="space-y-1">
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Bank Accounts</h4>
+          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Bank Accounts</h4>
           <AssetRow label="Chase Checking ****3421" detail="Full balance reported" amount="$3,400" />
           <AssetRow label="Ally Savings ****7890" detail="Full balance reported" amount="$800" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Investments</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Investments</h4>
           <AssetRow label="Brokerage -- Schwab" detail="Stocks, bonds, mutual funds" amount="$0" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Retirement Accounts</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Retirement Accounts</h4>
           <AssetRow label="401(k) -- Fidelity" detail="Balance reported at FMV" amount="$42,000" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Real Estate</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Real Estate</h4>
           <AssetRow label="Primary Residence" detail="FMV $320K - $285K mtg - $20K HELOC" amount="$15,000" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Vehicles</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Vehicles</h4>
           <AssetRow label="2020 Honda Civic" detail="FMV $18.5K - $13.3K loan" amount="$5,200" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Life Insurance</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Life Insurance</h4>
           <AssetRow label="Whole Life -- Net CSV" detail="CSV $4,500 - $1,300 policy loans" amount="$3,200" />
 
-          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Other Assets</h4>
+          <h4 className="mt-3 text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Other Assets</h4>
           <AssetRow label="No other assets reported" detail="" amount="$0" />
 
           {/* Total */}
-          <div className="mt-3 flex items-center justify-between rounded-xl bg-[#F8FAFC] px-4 py-3">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#64748B]">Total Asset Equity</span>
-            <span className="text-lg font-black text-[#0A1628]">$68,600</span>
+          <div className="mt-3 flex items-center justify-between rounded-xl bg-[#FAFAFF] px-4 py-3">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#5C5C7A]">Total Asset Equity</span>
+            <span className="text-lg font-black text-[#1A1A2E]">$68,600</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-[#94A3B8]">
+          <div className="flex items-center gap-1.5 text-xs text-[#8585A0]">
             <svg className="h-3 w-3 text-[#2563EB]" fill="currentColor" viewBox="0 0 20 20"><path d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" /></svg>
             Auto-calculated from financial analysis data
           </div>
@@ -315,14 +315,14 @@ export default function Form433APage() {
         rightLabel="$5,200/mo"
       >
         <div className="space-y-1">
-          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">Taxpayer</h4>
+          <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8585A0]">Taxpayer</h4>
           <ExpenseRow label="Gross wages/salary" amount="$6,250" />
           <ExpenseRow label="Federal tax withheld" amount="-$625" color="text-[#E63946]" />
           <ExpenseRow label="State tax withheld" amount="$0" color="text-[#E63946]" />
           <ExpenseRow label="FICA (SS + Medicare)" amount="-$425" color="text-[#E63946]" />
-          <div className="mt-2 flex items-center justify-between rounded-lg bg-[#F8FAFC] px-3 py-2.5">
-            <span className="text-sm font-bold text-[#0A1628]">Net monthly income</span>
-            <span className="text-base font-extrabold text-[#0A1628]">$5,200</span>
+          <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FAFAFF] px-3 py-2.5">
+            <span className="text-sm font-bold text-[#1A1A2E]">Net monthly income</span>
+            <span className="text-base font-extrabold text-[#1A1A2E]">$5,200</span>
           </div>
         </div>
       </Section>
@@ -344,8 +344,8 @@ export default function Form433APage() {
           <ExpenseRow label="Health insurance" amount="$450" />
           <ExpenseRow label="Court-ordered payments" amount="$0" />
           <ExpenseRow label="Child/dependent care" amount="$564" />
-          <div className="mt-2 flex items-center justify-between rounded-lg bg-[#F8FAFC] px-3 py-2.5">
-            <span className="text-sm font-bold text-[#0A1628]">Total allowable expenses</span>
+          <div className="mt-2 flex items-center justify-between rounded-lg bg-[#FAFAFF] px-3 py-2.5">
+            <span className="text-sm font-bold text-[#1A1A2E]">Total allowable expenses</span>
             <span className="text-base font-extrabold text-[#E63946]">$4,689</span>
           </div>
         </div>
@@ -357,19 +357,19 @@ export default function Form433APage() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#00A651]/15">
             <svg className="h-3.5 w-3.5 text-[#00A651]" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zm6 7a1 1 0 011 1v3a1 1 0 11-2 0v-3a1 1 0 011-1zm-3-1a1 1 0 10-2 0v4a1 1 0 102 0v-4zm-4 3a1 1 0 012 0v1a1 1 0 11-2 0v-1z" clipRule="evenodd" /></svg>
           </div>
-          <span className="text-sm font-bold text-[#0A1628]">Section 7: Monthly Disposable Income</span>
+          <span className="text-sm font-bold text-[#1A1A2E]">Section 7: Monthly Disposable Income</span>
         </div>
         <div className="space-y-2">
-          <div className="flex items-center justify-between rounded-lg bg-[#F8FAFC] px-3 py-2.5">
-            <span className="text-sm text-[#64748B]">Net monthly income</span>
-            <span className="text-sm font-bold text-[#0A1628]">$5,200</span>
+          <div className="flex items-center justify-between rounded-lg bg-[#FAFAFF] px-3 py-2.5">
+            <span className="text-sm text-[#5C5C7A]">Net monthly income</span>
+            <span className="text-sm font-bold text-[#1A1A2E]">$5,200</span>
           </div>
-          <div className="flex items-center justify-between rounded-lg bg-[#F8FAFC] px-3 py-2.5">
-            <span className="text-sm text-[#64748B]">Total allowable expenses</span>
+          <div className="flex items-center justify-between rounded-lg bg-[#FAFAFF] px-3 py-2.5">
+            <span className="text-sm text-[#5C5C7A]">Total allowable expenses</span>
             <span className="text-sm font-bold text-[#E63946]">-$4,689</span>
           </div>
           <div className="flex items-center justify-between rounded-lg bg-[#00A651]/10 px-3 py-3">
-            <span className="text-sm font-bold text-[#0A1628]">Monthly Disposable Income (MDI)</span>
+            <span className="text-sm font-bold text-[#1A1A2E]">Monthly Disposable Income (MDI)</span>
             <span className="text-lg font-black text-[#00A651]">$511</span>
           </div>
           <div className="flex items-center gap-2 rounded-lg bg-amber-500/10 px-3 py-2.5">
@@ -380,14 +380,14 @@ export default function Form433APage() {
       </div>
 
       {/* Signature Section */}
-      <div className="rounded-2xl border border-[#F1F5F9] bg-white p-4">
+      <div className="rounded-2xl border border-[#F0F0F5] bg-white p-4">
         <div className="mb-4 flex items-center gap-3">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-500/15">
             <svg className="h-3.5 w-3.5 text-violet-400" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" /></svg>
           </div>
-          <span className="text-sm font-bold text-[#0A1628]">Signature &amp; Certification</span>
+          <span className="text-sm font-bold text-[#1A1A2E]">Signature &amp; Certification</span>
         </div>
-        <p className="mb-4 text-xs text-[#64748B] leading-relaxed">
+        <p className="mb-4 text-xs text-[#5C5C7A] leading-relaxed">
           Under penalties of perjury, I declare that I have examined this statement and, to the best of my knowledge and belief, it is true, correct, and complete.
         </p>
         <label className="mb-4 flex items-center gap-3 cursor-pointer">
@@ -395,21 +395,21 @@ export default function Form433APage() {
             type="checkbox"
             checked={certify}
             onChange={(e) => setCertify(e.target.checked)}
-            className="h-5 w-5 rounded border-[#E2E8F0] bg-[#F1F5F9] text-blue-500 accent-blue-500"
+            className="h-5 w-5 rounded border-[#D5D5E0] bg-[#F0F0F5] text-blue-500 accent-blue-500"
           />
-          <span className="text-sm font-semibold text-[#0A1628]">I certify this information is accurate</span>
+          <span className="text-sm font-semibold text-[#1A1A2E]">I certify this information is accurate</span>
         </label>
         <div className="grid grid-cols-[1fr_120px] gap-3">
           <div>
-            <div className="mb-1 text-xs font-semibold text-[#64748B]">Taxpayer Signature</div>
-            <div className="flex h-12 items-center justify-center rounded-lg border-2 border-dashed border-[#E2E8F0] bg-[#F8FAFC]">
-              <span className="text-xs text-[#94A3B8]">Tap to sign</span>
+            <div className="mb-1 text-xs font-semibold text-[#5C5C7A]">Taxpayer Signature</div>
+            <div className="flex h-12 items-center justify-center rounded-lg border-2 border-dashed border-[#D5D5E0] bg-[#FAFAFF]">
+              <span className="text-xs text-[#8585A0]">Tap to sign</span>
             </div>
           </div>
           <div>
-            <div className="mb-1 text-xs font-semibold text-[#64748B]">Date</div>
-            <div className="flex h-12 items-center rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-3">
-              <span className="text-sm font-semibold text-[#0A1628]">03/17/2026</span>
+            <div className="mb-1 text-xs font-semibold text-[#5C5C7A]">Date</div>
+            <div className="flex h-12 items-center rounded-lg border border-[#D5D5E0] bg-[#FAFAFF] px-3">
+              <span className="text-sm font-semibold text-[#1A1A2E]">03/17/2026</span>
             </div>
           </div>
         </div>
@@ -429,7 +429,7 @@ export default function Form433APage() {
         </button>
         <button
           onClick={() => router.back()}
-          className="flex w-full items-center justify-center gap-2 py-3 text-sm font-semibold text-[#94A3B8] transition-colors hover:text-[#334155]"
+          className="flex w-full items-center justify-center gap-2 py-3 text-sm font-semibold text-[#8585A0] transition-colors hover:text-[#334155]"
         >
           <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" /></svg>
           Save &amp; Exit

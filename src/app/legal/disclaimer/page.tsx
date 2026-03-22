@@ -32,18 +32,18 @@ export default function DisclaimerPage() {
 
         {/* Heading */}
         <div className="text-center">
-          <h2 className="text-xl font-extrabold tracking-tight text-[#0A1628]">Important Disclaimer</h2>
+          <h2 className="text-xl font-extrabold tracking-tight text-[#1A1A2E]">Important Disclaimer</h2>
         </div>
 
         {/* Main Card */}
-        <div className="rounded-2xl border border-[#F3F4F6] bg-white p-5 shadow-card">
-          <div className="mb-3 text-[0.88rem] font-bold leading-snug text-[#0A1628]">
+        <div className="rounded-2xl border border-[#E8E8F0] bg-white p-5 shadow-card">
+          <div className="mb-3 text-[0.88rem] font-bold leading-snug text-[#1A1A2E]">
             BlastTax provides educational tax information and tools. This is NOT legal, tax, or financial advice.
           </div>
-          <p className="mb-4 text-[0.82rem] leading-relaxed text-[#64748B]">
+          <p className="mb-4 text-[0.82rem] leading-relaxed text-[#5C5C7A]">
             The information, analysis, and recommendations provided through BlastTax are for educational and informational purposes only. They should not be construed as legal, tax, accounting, or financial advice specific to your situation.
           </p>
-          <p className="mb-4 text-[0.82rem] leading-relaxed text-[#64748B]">
+          <p className="mb-4 text-[0.82rem] leading-relaxed text-[#5C5C7A]">
             Every tax situation is unique. The IRS evaluates each case on its own merits, and outcomes may vary significantly based on individual circumstances that our tools cannot fully assess.
           </p>
 
@@ -61,14 +61,14 @@ export default function DisclaimerPage() {
         </div>
 
         {/* Circular 230 */}
-        <div className="rounded-[14px] border border-[#F1F5F9] bg-[#F8FAFC] p-4">
-          <div className="mb-2 flex items-center gap-1 text-[0.72rem] font-bold uppercase tracking-wider text-[#94A3B8]">
+        <div className="rounded-[14px] border border-[#F0F0F5] bg-[#FAFAFF] p-4">
+          <div className="mb-2 flex items-center gap-1 text-[0.72rem] font-bold uppercase tracking-wider text-[#8585A0]">
             <svg className="h-2.5 w-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
             IRS Circular 230 Notice
           </div>
-          <p className="text-[0.75rem] leading-relaxed text-[#94A3B8]">
+          <p className="text-[0.75rem] leading-relaxed text-[#8585A0]">
             To ensure compliance with requirements imposed by the IRS, we inform you that any U.S. federal tax advice contained in this application is not intended or written to be used, and cannot be used, for the purpose of (i) avoiding penalties under the Internal Revenue Code or (ii) promoting, marketing, or recommending to another party any transaction or matter addressed herein.
           </p>
         </div>
@@ -76,7 +76,7 @@ export default function DisclaimerPage() {
         {/* Button */}
         <button
           onClick={() => router.back()}
-          className="flex w-full items-center justify-center rounded-full bg-[#0A1628] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
+          className="flex w-full items-center justify-center rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
         >
           I Understand
         </button>

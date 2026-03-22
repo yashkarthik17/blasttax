@@ -65,7 +65,7 @@ export default function ComplianceCheckPage() {
     if (a === 'yes') return '1.5px solid rgba(0, 166, 81, 0.25)'
     if (a === 'no') return '1.5px solid rgba(230, 57, 70, 0.2)'
     if (a === 'unsure') return '1.5px solid rgba(245, 166, 35, 0.25)'
-    return '1.5px solid #F1F5F9'
+    return '1.5px solid #F0F0F5'
   }
 
   const btnStyle = (qId: string, value: Answer): React.CSSProperties => {
@@ -73,8 +73,8 @@ export default function ComplianceCheckPage() {
     const base: React.CSSProperties = {
       padding: '6px 14px', borderRadius: 20, fontSize: '0.75rem',
       fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
-      transition: 'all 0.25s ease', border: '1.5px solid #F1F5F9',
-      background: 'white', color: '#64748B',
+      transition: 'all 0.25s ease', border: '1.5px solid #F0F0F5',
+      background: 'white', color: '#5C5C7A',
     }
     if (current === value) {
       if (value === 'yes') return { ...base, borderColor: '#00A651', background: '#E6F9EE', color: '#00A651' }
@@ -85,28 +85,28 @@ export default function ComplianceCheckPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px', flexShrink: 0 }}>
           <div style={{
             height: 4, width: '100%', borderRadius: 9999,
-            background: '#E2E8F0', overflow: 'hidden',
+            background: '#D5D5E0', overflow: 'hidden',
           }}>
             <div style={{ height: '100%', width: '20%', borderRadius: 9999, background: '#00A651', transition: 'all 0.5s' }} />
           </div>
-          <p style={{ fontSize: '0.6875rem', color: '#94A3B8', fontWeight: 600, marginTop: 6 }}>Step 3 of 15</p>
+          <p style={{ fontSize: '0.6875rem', color: '#8585A0', fontWeight: 600, marginTop: 6 }}>Step 3 of 15</p>
         </div>
 
         <div style={{ padding: '0 20px', paddingBottom: 140 }}>
           {/* Title */}
           <div style={{ marginTop: 16, marginBottom: 4 }}>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>
               Are You Current with the IRS?
             </h1>
           </div>
           <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: '0.8125rem', color: '#64748B', margin: 0 }}>
+            <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', margin: 0 }}>
               The IRS requires compliance before most resolution options
             </p>
           </div>
@@ -121,10 +121,10 @@ export default function ComplianceCheckPage() {
                   borderRadius: 14, transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 }}
               >
-                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: 4, marginTop: 0 }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: 4, marginTop: 0 }}>
                   {q.question}
                 </p>
-                <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: 10, marginTop: 0 }}>
+                <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: 10, marginTop: 0 }}>
                   {q.hint}
                 </p>
                 <div style={{ display: 'flex', gap: 8 }}>
@@ -148,16 +148,16 @@ export default function ComplianceCheckPage() {
         <div style={{
           position: 'sticky', bottom: 0, left: 0, right: 0,
           padding: '14px 20px', background: 'white',
-          borderTop: '1px solid #F1F5F9', zIndex: 10,
+          borderTop: '1px solid #F0F0F5', zIndex: 10,
         }}>
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 10 }}>
             {answeredCount === 0 ? (
-              <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#94A3B8' }}>
+              <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#8585A0' }}>
                 Answer questions to see eligibility...
               </span>
             ) : (
               <>
-                <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Eligible:</span>
+                <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#5C5C7A', marginRight: 4 }}>Eligible:</span>
                 {eligible.map(([name]) => (
                   <span key={name} style={{
                     fontSize: '0.625rem', fontWeight: 600, color: '#00A651', background: '#E6F9EE',
@@ -169,7 +169,7 @@ export default function ComplianceCheckPage() {
                 ))}
                 {blocked.length > 0 && (
                   <>
-                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Blocked:</span>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#5C5C7A', marginRight: 4 }}>Blocked:</span>
                     {blocked.map(([name]) => (
                       <span key={name} style={{
                         fontSize: '0.625rem', fontWeight: 600, color: '#E63946', background: '#FFF0F1',
@@ -183,7 +183,7 @@ export default function ComplianceCheckPage() {
                 )}
                 {blocked.length === 0 && (
                   <>
-                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#64748B', marginRight: 4 }}>Blocked:</span>
+                    <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: '#5C5C7A', marginRight: 4 }}>Blocked:</span>
                     <span style={{ fontSize: '0.625rem', fontWeight: 500, color: '#00A651' }}>None</span>
                   </>
                 )}

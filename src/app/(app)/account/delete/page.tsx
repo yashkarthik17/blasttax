@@ -46,44 +46,44 @@ export default function DeleteAccountPage() {
 
         {/* What Happens */}
         <div>
-          <div className="mb-2.5 text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">What happens when you delete</div>
-          <div className="rounded-[14px] border border-[#F1F5F9] bg-white">
+          <div className="mb-2.5 text-xs font-bold uppercase tracking-wider text-[#B0B0C8]">What happens when you delete</div>
+          <div className="rounded-[14px] border border-[#F0F0F5] bg-white">
             {[
               'All case data will be permanently removed',
               'Your subscription will be cancelled',
               'IRS forms will no longer be accessible',
             ].map((item, i) => (
-              <div key={i} className={`flex items-start gap-3 px-4 py-3 ${i < 2 ? 'border-b border-[#F1F5F9]' : ''}`}>
+              <div key={i} className={`flex items-start gap-3 px-4 py-3 ${i < 2 ? 'border-b border-[#F0F0F5]' : ''}`}>
                 <svg className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#EF4444]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
-                <span className="text-[0.82rem] leading-relaxed text-[#1F2937]" dangerouslySetInnerHTML={{ __html: item.replace(/(permanently removed|cancelled|no longer be accessible)/, '<strong>$1</strong>') }} />
+                <span className="text-[0.82rem] leading-relaxed text-[#1A1A2E]" dangerouslySetInnerHTML={{ __html: item.replace(/(permanently removed|cancelled|no longer be accessible)/, '<strong>$1</strong>') }} />
               </div>
             ))}
           </div>
         </div>
 
         {/* Sorry */}
-        <div className="py-2 text-center text-[0.88rem] font-semibold text-[#64748B]">
+        <div className="py-2 text-center text-[0.88rem] font-semibold text-[#5C5C7A]">
           We&apos;re sorry to see you go
         </div>
 
         {/* Reasons */}
         <div>
-          <div className="mb-2.5 text-xs font-bold uppercase tracking-wider text-[#CBD5E1]">Why are you leaving?</div>
+          <div className="mb-2.5 text-xs font-bold uppercase tracking-wider text-[#B0B0C8]">Why are you leaving?</div>
           <div className="space-y-2">
             {reasons.map((reason) => (
               <button
                 key={reason}
                 onClick={() => setSelectedReason(reason)}
-                className={`flex w-full items-center gap-3 rounded-xl border-[1.5px] p-3 text-left text-[0.85rem] font-medium text-[#0A1628] transition ${
+                className={`flex w-full items-center gap-3 rounded-xl border-[1.5px] p-3 text-left text-[0.85rem] font-medium text-[#1A1A2E] transition ${
                   selectedReason === reason
                     ? 'border-[#E63946] bg-[#FFF0F1]'
-                    : 'border-[#F1F5F9] bg-white hover:border-[#E2E8F0]'
+                    : 'border-[#F0F0F5] bg-white hover:border-[#D5D5E0]'
                 }`}
               >
                 <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 ${
-                  selectedReason === reason ? 'border-[#E63946] bg-[#E63946]' : 'border-[#E2E8F0]'
+                  selectedReason === reason ? 'border-[#E63946] bg-[#E63946]' : 'border-[#D5D5E0]'
                 }`}>
                   {selectedReason === reason && <div className="h-[7px] w-[7px] rounded-full bg-white" />}
                 </div>
@@ -95,25 +95,25 @@ export default function DeleteAccountPage() {
 
         {/* Feedback */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Additional Feedback (optional)</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Additional Feedback (optional)</label>
           <textarea
             rows={3}
             placeholder="Help us improve..."
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            className="w-full resize-none rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+            className="w-full resize-none rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
           />
         </div>
 
         {/* Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Confirm Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Confirm Password</label>
           <input
             type="password"
             placeholder="Enter your password to confirm"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+            className="w-full rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
           />
         </div>
 
@@ -149,8 +149,8 @@ export default function DeleteAccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
             </div>
-            <div className="mb-2 text-lg font-extrabold text-[#0A1628]">Are you absolutely sure?</div>
-            <div className="mb-6 text-[0.82rem] leading-relaxed text-[#64748B]">
+            <div className="mb-2 text-lg font-extrabold text-[#1A1A2E]">Are you absolutely sure?</div>
+            <div className="mb-6 text-[0.82rem] leading-relaxed text-[#5C5C7A]">
               This will permanently delete your account, all cases, documents, and subscription. This cannot be undone.
             </div>
             <div className="space-y-2.5">
@@ -162,7 +162,7 @@ export default function DeleteAccountPage() {
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full rounded-full border-[1.5px] border-[#E2E8F0] px-7 py-3.5 text-[0.88rem] font-semibold text-[#64748B]"
+                className="w-full rounded-full border-[1.5px] border-[#D5D5E0] px-7 py-3.5 text-[0.88rem] font-semibold text-[#5C5C7A]"
               >
                 Cancel
               </button>

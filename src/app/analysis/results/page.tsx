@@ -57,9 +57,9 @@ export default function ResultsPage() {
 
   if (!result) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4">
-        <h1 className="text-2xl font-extrabold text-[#0A1628]">No Results Available</h1>
-        <p className="mt-2 text-sm text-[#64748B]">Please complete the analysis first.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFF] px-4">
+        <h1 className="text-2xl font-extrabold text-[#1A1A2E]">No Results Available</h1>
+        <p className="mt-2 text-sm text-[#5C5C7A]">Please complete the analysis first.</p>
         <button onClick={() => router.push('/analysis/verification')} className="mt-6 rounded-[14px] bg-[#00A651] px-8 py-3 text-sm font-semibold text-white hover:bg-[#008C44]">Go to Verification</button>
       </div>
     )
@@ -82,7 +82,7 @@ export default function ResultsPage() {
   const earliest = csedData.filter(c => !c.isExpired).sort((a, b) => a.remainingMonths - b.remainingMonths)[0]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div style={{ textAlign: 'center', padding: '20px 0 16px', position: 'relative' }}>
@@ -90,10 +90,10 @@ export default function ResultsPage() {
             <i className="fa-solid fa-wand-magic-sparkles" style={{ fontSize: 10 }} />
             Analysis Complete
           </div>
-          <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0 }}>
+          <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0 }}>
             Your Resolution Options
           </h1>
-          <p style={{ fontSize: '12.5px', color: '#94A3B8', marginTop: 6, lineHeight: 1.4 }}>
+          <p style={{ fontSize: '12.5px', color: '#8585A0', marginTop: 6, lineHeight: 1.4 }}>
             Based on your financial profile, here are your best paths forward
           </p>
         </div>
@@ -103,38 +103,38 @@ export default function ResultsPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#F5F3FF', border: '1px solid #E0E7FF', borderRadius: 12, marginBottom: 14 }}>
             <i className="fa-solid fa-hourglass-half" style={{ fontSize: 12, color: '#7C3AED' }} />
             <div>
-              <span style={{ fontSize: 11, fontWeight: 700, color: '#0A1628' }}>Earliest debt expires: {earliest.adjustedCSED ? new Date(earliest.adjustedCSED).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}</span>
-              <span style={{ fontSize: 10, color: '#64748B', display: 'block' }}>{earliest.remainingMonths} months remaining (Tax Year {earliest.taxYear})</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#1A1A2E' }}>Earliest debt expires: {earliest.adjustedCSED ? new Date(earliest.adjustedCSED).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : ''}</span>
+              <span style={{ fontSize: 10, color: '#5C5C7A', display: 'block' }}>{earliest.remainingMonths} months remaining (Tax Year {earliest.taxYear})</span>
             </div>
           </div>
         )}
 
         {/* RCP Breakdown Card */}
-        <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 14, padding: '14px 16px', marginBottom: 14 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#0A1628', marginBottom: 8 }}>
+        <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 14, padding: '14px 16px', marginBottom: 14 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E', marginBottom: 8 }}>
             <i className="fa-solid fa-calculator" style={{ fontSize: 10, color: '#2563EB', marginRight: 4 }} />
             Your Reasonable Collection Potential
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12 }}>
-            <span style={{ color: '#64748B' }}>Net Realizable Equity (NRE)</span>
-            <span style={{ fontWeight: 700, color: '#0A1628' }}>{fmt(result.rcp.nre)}</span>
+            <span style={{ color: '#5C5C7A' }}>Net Realizable Equity (NRE)</span>
+            <span style={{ fontWeight: 700, color: '#1A1A2E' }}>{fmt(result.rcp.nre)}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12 }}>
-            <span style={{ color: '#64748B' }}>Future Income (MDI x 12)</span>
-            <span style={{ fontWeight: 700, color: '#0A1628' }}>{fmt(result.rcp.futureIncomeLumpSum)}</span>
+            <span style={{ color: '#5C5C7A' }}>Future Income (MDI x 12)</span>
+            <span style={{ fontWeight: 700, color: '#1A1A2E' }}>{fmt(result.rcp.futureIncomeLumpSum)}</span>
           </div>
-          <div style={{ borderTop: '2px solid #F1F5F9', marginTop: 4, paddingTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontWeight: 700, color: '#0A1628', fontSize: 12 }}>Total RCP</span>
+          <div style={{ borderTop: '2px solid #F0F0F5', marginTop: 4, paddingTop: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontWeight: 700, color: '#1A1A2E', fontSize: 12 }}>Total RCP</span>
             <span style={{ fontSize: 16, fontWeight: 900, color: '#2563EB' }}>{fmt(result.rcp.rcpLumpSum)}</span>
           </div>
-          <div style={{ fontSize: 10, color: '#64748B', marginTop: 6 }}>
+          <div style={{ fontSize: 10, color: '#5C5C7A', marginTop: 6 }}>
             Minimum OIC Offer = {fmt(result.rcp.rcpLumpSum)} (your RCP). Application fee: $205 (separate).
           </div>
         </div>
 
         {/* Compare Link */}
         <div style={{ textAlign: 'center', marginBottom: 14 }}>
-          <button onClick={() => router.push('/analysis/compare')} style={{ fontSize: 12, fontWeight: 600, color: '#0A1628', background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+          <button onClick={() => router.push('/analysis/compare')} style={{ fontSize: 12, fontWeight: 600, color: '#1A1A2E', background: 'none', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <i className="fa-solid fa-table-columns" style={{ fontSize: 11 }} />
             Compare All Options Side by Side
           </button>
@@ -150,7 +150,7 @@ export default function ResultsPage() {
             return (
               <div key={prog.program} style={{
                 background: 'white',
-                border: isRecommended ? '2px solid #2563EB' : '1px solid #F1F5F9',
+                border: isRecommended ? '2px solid #2563EB' : '1px solid #F0F0F5',
                 borderRadius: 18,
                 padding: 0,
                 boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
@@ -158,7 +158,7 @@ export default function ResultsPage() {
                 overflow: 'hidden',
                 position: 'relative',
               }}>
-                {isRecommended && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#0A1628', zIndex: 1 }} />}
+                {isRecommended && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: '#1A1A2E', zIndex: 1 }} />}
                 <div style={{ padding: 18, position: 'relative' }}>
                   {/* Header row */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
@@ -167,13 +167,13 @@ export default function ResultsPage() {
                         width: 28, height: 28, borderRadius: 8,
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: 13, fontWeight: 800, flexShrink: 0,
-                        background: isRecommended ? '#2563EB' : '#F8FAFC',
-                        color: isRecommended ? 'white' : '#64748B',
+                        background: isRecommended ? '#2563EB' : '#FAFAFF',
+                        color: isRecommended ? 'white' : '#5C5C7A',
                       }}>
                         {idx + 1}
                       </div>
                       {isRecommended && (
-                        <span style={{ fontSize: '9.5px', fontWeight: 800, color: 'white', background: '#0A1628', padding: '3px 10px', borderRadius: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Recommended</span>
+                        <span style={{ fontSize: '9.5px', fontWeight: 800, color: 'white', background: '#1A1A2E', padding: '3px 10px', borderRadius: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Recommended</span>
                       )}
                     </div>
                     {isRecommended && savings > 0 && (
@@ -185,7 +185,7 @@ export default function ResultsPage() {
                   </div>
 
                   {/* Title */}
-                  <h3 style={{ fontSize: isRecommended ? 16 : 15, fontWeight: isRecommended ? 800 : 700, color: '#0A1628', marginBottom: 10 }}>
+                  <h3 style={{ fontSize: isRecommended ? 16 : 15, fontWeight: isRecommended ? 800 : 700, color: '#1A1A2E', marginBottom: 10 }}>
                     {programLabels[prog.program] ?? prog.program}
                   </h3>
 
@@ -194,7 +194,7 @@ export default function ResultsPage() {
                     <>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
                         <span style={{ fontSize: 28, fontWeight: 900, color: '#00A651', letterSpacing: '-0.02em' }}>{fmt(prog.totalPayment)}</span>
-                        <span style={{ fontSize: 14, color: '#CBD5E1', textDecoration: 'line-through', fontWeight: 500 }}>{fmt(result.totalDebt)}</span>
+                        <span style={{ fontSize: 14, color: '#B0B0C8', textDecoration: 'line-through', fontWeight: 500 }}>{fmt(result.totalDebt)}</span>
                       </div>
                       {savings > 0 && (
                         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', background: '#E6F9EE', borderRadius: 8, marginBottom: 12 }}>
@@ -202,7 +202,7 @@ export default function ResultsPage() {
                           <span style={{ fontSize: 12, fontWeight: 700, color: '#065F46' }}>Save {fmt(savings)}</span>
                         </div>
                       )}
-                      <p style={{ fontSize: '12.5px', color: '#64748B', lineHeight: 1.45, marginBottom: 14 }}>
+                      <p style={{ fontSize: '12.5px', color: '#5C5C7A', lineHeight: 1.45, marginBottom: 14 }}>
                         Lump sum: {fmt(prog.totalPayment)} or {prog.termMonths ? `${prog.termMonths} monthly payments of ${fmt(Math.ceil(prog.totalPayment / prog.termMonths))}` : ''}
                       </p>
                     </>
@@ -212,10 +212,10 @@ export default function ResultsPage() {
                     <>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
                         <span style={{ fontSize: 22, fontWeight: 900, color: '#2563EB', letterSpacing: '-0.01em' }}>{fmt(prog.monthlyPayment)}</span>
-                        <span style={{ fontSize: 13, color: '#64748B', fontWeight: 500 }}>/month{prog.termMonths ? ` for ${prog.termMonths} months` : ''}</span>
+                        <span style={{ fontSize: 13, color: '#5C5C7A', fontWeight: 500 }}>/month{prog.termMonths ? ` for ${prog.termMonths} months` : ''}</span>
                       </div>
                       {prog.advantages.length > 0 && (
-                        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 12, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
+                        <p style={{ fontSize: 12, color: '#8585A0', marginBottom: 12, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
                       )}
                     </>
                   )}
@@ -226,7 +226,7 @@ export default function ResultsPage() {
                         <span style={{ fontSize: 18, fontWeight: 800, color: '#7C3AED', letterSpacing: '-0.01em' }}>Pause payments</span>
                       </div>
                       {prog.advantages.length > 0 && (
-                        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 4, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
+                        <p style={{ fontSize: 12, color: '#8585A0', marginBottom: 4, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
                       )}
                     </>
                   )}
@@ -234,12 +234,12 @@ export default function ResultsPage() {
                   {prog.program.startsWith('PenaltyAbatement') && prog.totalPayment != null && (
                     <>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
-                        <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>Remove</span>
+                        <span style={{ fontSize: 12, color: '#5C5C7A', fontWeight: 500 }}>Remove</span>
                         <span style={{ fontSize: 20, fontWeight: 900, color: '#00A651', letterSpacing: '-0.01em' }}>{fmt(prog.totalPayment)}</span>
-                        <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>in penalties</span>
+                        <span style={{ fontSize: 12, color: '#5C5C7A', fontWeight: 500 }}>in penalties</span>
                       </div>
                       {prog.advantages.length > 0 && (
-                        <p style={{ fontSize: 12, color: '#94A3B8', marginBottom: 4, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
+                        <p style={{ fontSize: 12, color: '#8585A0', marginBottom: 4, lineHeight: 1.4 }}>{prog.advantages[0]}</p>
                       )}
                     </>
                   )}
@@ -247,7 +247,7 @@ export default function ResultsPage() {
                   {/* Confidence bar */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: isRecommended ? 0 : 10 }}>
                     <span style={{ fontSize: 11, fontWeight: 600, color: conf.color }}>{conf.label}</span>
-                    <div style={{ height: 6, background: '#F1F5F9', borderRadius: 3, overflow: 'hidden', flex: 1 }}>
+                    <div style={{ height: 6, background: '#F0F0F5', borderRadius: 3, overflow: 'hidden', flex: 1 }}>
                       <div style={{ height: '100%', borderRadius: 3, background: conf.color, transition: 'width 1.5s cubic-bezier(0.25, 0.1, 0.25, 1)', width: animated ? `${prog.confidence}%` : '0%' }} />
                     </div>
                     <span style={{ fontSize: 11, fontWeight: 700, color: conf.color }}>{prog.confidence}%</span>
@@ -263,16 +263,16 @@ export default function ResultsPage() {
 
                 {/* Expandable details */}
                 {isExpanded && (
-                  <div style={{ display: 'block', padding: '0 18px 16px', borderTop: '1px solid #F1F5F9' }}>
+                  <div style={{ display: 'block', padding: '0 18px 16px', borderTop: '1px solid #F0F0F5' }}>
                     <div style={{ paddingTop: 14 }}>
-                      <p style={{ fontSize: 12, color: '#64748B', lineHeight: 1.6 }}>
+                      <p style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.6 }}>
                         {prog.advantages.join('. ')}{prog.advantages.length > 0 ? '.' : ''}
                         {prog.reasons.length > 0 && ` ${prog.reasons.join('. ')}.`}
                       </p>
                       {prog.disadvantages.length > 0 && (
                         <div style={{ marginTop: 12, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                           {prog.disadvantages.map(d => (
-                            <span key={d} style={{ fontSize: 10, fontWeight: 600, padding: '4px 8px', background: '#F8FAFC', borderRadius: 6, color: '#64748B' }}>{d}</span>
+                            <span key={d} style={{ fontSize: 10, fontWeight: 600, padding: '4px 8px', background: '#FAFAFF', borderRadius: 6, color: '#5C5C7A' }}>{d}</span>
                           ))}
                         </div>
                       )}
@@ -312,29 +312,29 @@ export default function ResultsPage() {
           >
             <i className="fa-solid fa-check-circle" style={{ marginRight: 6 }} />Choose Resolution Now
           </button>
-          <div style={{ textAlign: 'center', color: '#CBD5E1', fontSize: 12, margin: '10px 0' }}>or</div>
+          <div style={{ textAlign: 'center', color: '#B0B0C8', fontSize: 12, margin: '10px 0' }}>or</div>
           <button
             onClick={() => router.push('/cases')}
-            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 14, border: '1.5px solid #E2E8F0', background: 'white', padding: '14px 28px', color: '#0A1628', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, borderRadius: 14, border: '1.5px solid #D5D5E0', background: 'white', padding: '14px 28px', color: '#1A1A2E', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}
           >
             <i className="fa-solid fa-bookmark" style={{ marginRight: 6 }} />Save as Case
           </button>
-          <p style={{ textAlign: 'center', fontSize: 11, color: '#94A3B8', marginTop: 6 }}>Decide later from your Cases</p>
+          <p style={{ textAlign: 'center', fontSize: 11, color: '#8585A0', marginTop: 6 }}>Decide later from your Cases</p>
 
           {/* Combined Approaches / Compatibility */}
           <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
-            <button onClick={() => router.push('/analysis/strategic-plays')} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', background: '#F5F3FF', borderRadius: 12, textDecoration: 'none', border: '1px solid #E2E8F0', cursor: 'pointer', textAlign: 'left' }}>
+            <button onClick={() => router.push('/analysis/strategic-plays')} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', background: '#F5F3FF', borderRadius: 12, textDecoration: 'none', border: '1px solid #D5D5E0', cursor: 'pointer', textAlign: 'left' }}>
               <i className="fa-solid fa-chess" style={{ fontSize: 14, color: '#7C3AED' }} />
               <div>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#0A1628', display: 'block' }}>Combined Approaches</span>
-                <span style={{ fontSize: 10, color: '#6B7280' }}>Multi-strategy options</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#1A1A2E', display: 'block' }}>Combined Approaches</span>
+                <span style={{ fontSize: 10, color: '#5C5C7A' }}>Multi-strategy options</span>
               </div>
             </button>
-            <button onClick={() => router.push('/analysis/compatibility-matrix')} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', background: '#EFF4FF', borderRadius: 12, textDecoration: 'none', border: '1px solid #E2E8F0', cursor: 'pointer', textAlign: 'left' }}>
-              <i className="fa-solid fa-table-cells" style={{ fontSize: 14, color: '#0A1628' }} />
+            <button onClick={() => router.push('/analysis/compatibility-matrix')} style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, padding: '12px 14px', background: '#EFF4FF', borderRadius: 12, textDecoration: 'none', border: '1px solid #D5D5E0', cursor: 'pointer', textAlign: 'left' }}>
+              <i className="fa-solid fa-table-cells" style={{ fontSize: 14, color: '#1A1A2E' }} />
               <div>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#0A1628', display: 'block' }}>Compatibility</span>
-                <span style={{ fontSize: 10, color: '#6B7280' }}>What works together</span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#1A1A2E', display: 'block' }}>Compatibility</span>
+                <span style={{ fontSize: 10, color: '#5C5C7A' }}>What works together</span>
               </div>
             </button>
           </div>
@@ -343,8 +343,8 @@ export default function ResultsPage() {
         {/* Reassurance */}
         <div style={{ textAlign: 'center', padding: '16px 0 24px' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-            <i className="fa-solid fa-shield-halved" style={{ fontSize: 11, color: '#94A3B8' }} />
-            <span style={{ fontSize: '11.5px', color: '#94A3B8', lineHeight: 1.4 }}>
+            <i className="fa-solid fa-shield-halved" style={{ fontSize: 11, color: '#8585A0' }} />
+            <span style={{ fontSize: '11.5px', color: '#8585A0', lineHeight: 1.4 }}>
               Based on current IRS guidelines and your financial profile
             </span>
           </div>

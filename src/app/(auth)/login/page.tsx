@@ -42,19 +42,19 @@ export default function LoginPage() {
           <div style={{ textAlign: 'center', marginBottom: 8 }}>
             <div style={{ fontSize: '1.7rem', fontWeight: 900, letterSpacing: '-0.02em' }}>
               <span style={{ color: '#E63946' }}>Blast</span>
-              <span style={{ color: '#0A1628' }}>Tax</span>
+              <span style={{ color: '#1A1A2E' }}>Tax</span>
             </div>
           </div>
 
           {/* Heading */}
           <div style={{ textAlign: 'center', marginBottom: 4 }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>
               Welcome back
             </h1>
           </div>
 
           <div style={{ textAlign: 'center', marginBottom: 32 }}>
-            <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.5 }}>
+            <p style={{ fontSize: '0.85rem', color: '#8585A0', fontWeight: 400, lineHeight: 1.5 }}>
               Sign in to continue your tax resolution journey
             </p>
           </div>
@@ -78,20 +78,20 @@ export default function LoginPage() {
                 style={{
                   width: '100%',
                   padding: '14px 16px 14px 46px',
-                  background: '#F8FAFC',
-                  border: '1.5px solid #E2E8F0',
+                  background: '#FAFAFF',
+                  border: '1.5px solid #D5D5E0',
                   borderRadius: 12,
                   fontFamily: 'inherit',
                   fontSize: '0.9375rem',
                   fontWeight: 500,
-                  color: '#0A1628',
+                  color: '#1A1A2E',
                   outline: 'none',
                   transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                 }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC'; e.currentTarget.style.boxShadow = 'none' }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = '#1A1A2E'; e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)' }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#D5D5E0'; e.currentTarget.style.background = '#FAFAFF'; e.currentTarget.style.boxShadow = 'none' }}
               />
-              <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, pointerEvents: 'none' }} />
+              <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 15, pointerEvents: 'none' }} />
             </div>
 
             {/* Password input */}
@@ -105,24 +105,24 @@ export default function LoginPage() {
                 style={{
                   width: '100%',
                   padding: '14px 46px 14px 46px',
-                  background: '#F8FAFC',
-                  border: '1.5px solid #E2E8F0',
+                  background: '#FAFAFF',
+                  border: '1.5px solid #D5D5E0',
                   borderRadius: 12,
                   fontFamily: 'inherit',
                   fontSize: '0.9375rem',
                   fontWeight: 500,
-                  color: '#0A1628',
+                  color: '#1A1A2E',
                   outline: 'none',
                   transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                 }}
-                onFocus={(e) => { e.currentTarget.style.borderColor = '#0A1628'; e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)' }}
-                onBlur={(e) => { e.currentTarget.style.borderColor = '#E2E8F0'; e.currentTarget.style.background = '#F8FAFC'; e.currentTarget.style.boxShadow = 'none' }}
+                onFocus={(e) => { e.currentTarget.style.borderColor = '#1A1A2E'; e.currentTarget.style.background = '#FFFFFF'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)' }}
+                onBlur={(e) => { e.currentTarget.style.borderColor = '#D5D5E0'; e.currentTarget.style.background = '#FAFAFF'; e.currentTarget.style.boxShadow = 'none' }}
               />
-              <i className="fas fa-lock" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, pointerEvents: 'none' }} />
+              <i className="fas fa-lock" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 15, pointerEvents: 'none' }} />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 15, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
               >
                 <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
               </button>
@@ -130,7 +130,7 @@ export default function LoginPage() {
 
             {/* Forgot password */}
             <div style={{ textAlign: 'right', marginTop: -8, marginBottom: 24 }}>
-              <Link href="/reset-password" style={{ fontSize: '0.8rem', fontWeight: 600, color: '#0A1628', textDecoration: 'none' }}>
+              <Link href="/reset-password" style={{ fontSize: '0.8rem', fontWeight: 600, color: '#1A1A2E', textDecoration: 'none' }}>
                 Forgot password?
               </Link>
             </div>
@@ -167,11 +167,11 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="flex items-center" style={{ gap: 16, marginBottom: 24 }}>
-            <div className="flex-1" style={{ height: 1, background: '#E2E8F0' }} />
-            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
+            <div className="flex-1" style={{ height: 1, background: '#D5D5E0' }} />
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.05em', whiteSpace: 'nowrap' }}>
               or continue with
             </span>
-            <div className="flex-1" style={{ height: 1, background: '#E2E8F0' }} />
+            <div className="flex-1" style={{ height: 1, background: '#D5D5E0' }} />
           </div>
 
           {/* Social auth */}
@@ -186,12 +186,12 @@ export default function LoginPage() {
                 gap: 10,
                 padding: '13px 16px',
                 background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
+                border: '1.5px solid #D5D5E0',
                 borderRadius: 9999,
                 fontFamily: 'inherit',
                 fontSize: '0.875rem',
                 fontWeight: 600,
-                color: '#0A1628',
+                color: '#1A1A2E',
                 cursor: 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
               }}
@@ -214,26 +214,26 @@ export default function LoginPage() {
                 gap: 10,
                 padding: '13px 16px',
                 background: '#FFFFFF',
-                border: '1.5px solid #E2E8F0',
+                border: '1.5px solid #D5D5E0',
                 borderRadius: 9999,
                 fontFamily: 'inherit',
                 fontSize: '0.875rem',
                 fontWeight: 600,
-                color: '#0A1628',
+                color: '#1A1A2E',
                 cursor: 'pointer',
                 transition: 'all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)',
               }}
             >
-              <i className="fab fa-apple" style={{ fontSize: 20, color: '#0A1628' }} />
+              <i className="fab fa-apple" style={{ fontSize: 20, color: '#1A1A2E' }} />
               Apple
             </button>
           </div>
 
           {/* Sign up link */}
           <div style={{ textAlign: 'center', marginBottom: 20 }}>
-            <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
+            <p style={{ fontSize: '0.82rem', color: '#8585A0', fontWeight: 400 }}>
               Don&apos;t have an account?{' '}
-              <Link href="/register" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
+              <Link href="/register" style={{ fontWeight: 700, color: '#1A1A2E', textDecoration: 'none' }}>
                 Sign up
               </Link>
             </p>
@@ -250,7 +250,7 @@ export default function LoginPage() {
               marginBottom: 16,
               paddingBottom: 10,
               fontSize: '0.72rem',
-              color: '#94A3B8',
+              color: '#8585A0',
               fontWeight: 500,
             }}
           >

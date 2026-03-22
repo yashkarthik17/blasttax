@@ -2,11 +2,11 @@
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen" style={{ background: '#F8FAFC' }}>
+    <div className="flex min-h-screen" style={{ background: '#FAFAFF' }}>
       {/* Left branding panel - desktop only */}
       <div
         className="hidden lg:flex lg:w-[480px] xl:w-[540px] lg:flex-col lg:items-center lg:justify-center lg:shrink-0 lg:relative lg:overflow-hidden"
-        style={{ background: '#0A1628' }}
+        style={{ background: '#1A1A2E' }}
       >
         {/* Background decoration */}
         <div
@@ -34,7 +34,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             style={{
               fontSize: '0.75rem',
               fontWeight: 700,
-              color: '#64748B',
+              color: '#5C5C7A',
               letterSpacing: '0.35em',
               textTransform: 'uppercase',
               marginTop: 4,
@@ -46,7 +46,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
           {/* Tagline */}
           <p
             style={{
-              color: '#94A3B8',
+              color: '#8585A0',
               fontSize: '1.05rem',
               fontWeight: 500,
               marginTop: 40,
@@ -66,17 +66,17 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 <i className="fas fa-star" style={{ fontSize: 12, color: '#F59E0B' }} />
                 <i className="fas fa-star-half-stroke" style={{ fontSize: 12, color: '#F59E0B' }} />
               </div>
-              <span style={{ fontSize: '0.78rem', color: '#64748B', fontWeight: 500 }}>
+              <span style={{ fontSize: '0.78rem', color: '#5C5C7A', fontWeight: 500 }}>
                 4.8/5 from 15,000+ taxpayers
               </span>
             </div>
 
             <div className="flex items-center gap-6 mt-2">
-              <div className="flex items-center gap-1.5" style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 500 }}>
+              <div className="flex items-center gap-1.5" style={{ fontSize: '0.72rem', color: '#5C5C7A', fontWeight: 500 }}>
                 <i className="fas fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
                 <span>Bank-level security</span>
               </div>
-              <div className="flex items-center gap-1.5" style={{ fontSize: '0.72rem', color: '#64748B', fontWeight: 500 }}>
+              <div className="flex items-center gap-1.5" style={{ fontSize: '0.72rem', color: '#5C5C7A', fontWeight: 500 }}>
                 <i className="fas fa-lock" style={{ fontSize: 12, color: '#00A651' }} />
                 <span>256-bit encryption</span>
               </div>
@@ -86,7 +86,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               className="mt-4 rounded-xl px-5 py-3"
               style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)' }}
             >
-              <p style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 600 }}>
+              <p style={{ fontSize: '0.8rem', color: '#8585A0', fontWeight: 600 }}>
                 $127M+ in tax debt resolved
               </p>
             </div>

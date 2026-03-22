@@ -30,34 +30,34 @@ export default function BusinessCompliancePage() {
   const [oobChecks, setOobChecks] = useState<Record<number, boolean>>({})
 
   const toggleSwitchStyle = (checked: boolean): React.CSSProperties => ({
-    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#E2E8F0',
+    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#D5D5E0',
     borderRadius: '10px', position: 'relative' as const, cursor: 'pointer', transition: 'background 0.2s ease', flexShrink: 0, border: 'none',
   })
 
   const fieldInputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5',
     borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
-    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+    color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' as const,
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', width: '20%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#D5D5E0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '20%', borderRadius: '9999px', background: '#1A1A2E', transition: 'all 0.3s' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 2 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 2 of 8</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Filing Compliance</span>
           </div>
         </div>
 
         <div style={{ padding: '16px 20px 20px' }}>
           <div style={{ marginBottom: '6px' }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Filing Compliance Check</h1>
-            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>IRS requires all returns filed before any resolution. Check each item below.</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Filing Compliance Check</h1>
+            <p style={{ fontSize: '13px', color: '#8585A0', marginTop: '4px', lineHeight: 1.5 }}>IRS requires all returns filed before any resolution. Check each item below.</p>
           </div>
 
           {/* Warning Alert */}
@@ -67,8 +67,8 @@ export default function BusinessCompliancePage() {
           </div>
 
           {/* Operating Checklist */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '12px' }}>
               <i className="fa-solid fa-file-lines" style={{ fontSize: '12px', color: '#2563EB' }} /> Operating Business Checklist
             </div>
             {OPERATING_ITEMS.map((item, i) => (
@@ -79,14 +79,14 @@ export default function BusinessCompliancePage() {
                   onChange={() => setOpChecks((p) => ({ ...p, [i]: !p[i] }))}
                   style={toggleSwitchStyle(opChecks[i] || false)}
                 />
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>{item}</span>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#5C5C7A' }}>{item}</span>
               </label>
             ))}
           </div>
 
           {/* OOB Checklist */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '12px' }}>
               <i className="fa-solid fa-door-closed" style={{ fontSize: '12px', color: '#92400E' }} /> Out-of-Business Checklist
             </div>
             {OOB_ITEMS.map((item, i) => (
@@ -97,29 +97,29 @@ export default function BusinessCompliancePage() {
                   onChange={() => setOobChecks((p) => ({ ...p, [i]: !p[i] }))}
                   style={toggleSwitchStyle(oobChecks[i] || false)}
                 />
-                <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>{item}</span>
+                <span style={{ fontSize: '12px', fontWeight: 500, color: '#5C5C7A' }}>{item}</span>
               </label>
             ))}
           </div>
 
           {/* Per-Quarter Table */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '12px' }}>
               <i className="fa-solid fa-table" style={{ fontSize: '12px', color: '#2563EB' }} /> Per-Quarter 941 Filing Status
             </div>
             <div style={{ overflowX: 'auto' as const }}>
               <table style={{ width: '100%', fontSize: '12px', borderCollapse: 'collapse' as const }}>
                 <thead>
-                  <tr style={{ background: '#F8FAFC' }}>
-                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>Quarter</th>
-                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>Filed?</th>
-                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>TC 150</th>
-                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#94A3B8' }}>SFR?</th>
+                  <tr style={{ background: '#FAFAFF' }}>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#8585A0' }}>Quarter</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#8585A0' }}>Filed?</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#8585A0' }}>TC 150</th>
+                    <th style={{ padding: '8px', textAlign: 'left' as const, fontWeight: 600, color: '#8585A0' }}>SFR?</th>
                   </tr>
                 </thead>
                 <tbody>
                   {QUARTERS.map((q, i) => (
-                    <tr key={i} style={{ borderBottom: i < QUARTERS.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                    <tr key={i} style={{ borderBottom: i < QUARTERS.length - 1 ? '1px solid #F0F0F5' : 'none' }}>
                       <td style={{ padding: '8px', fontWeight: 600 }}>{q.quarter}</td>
                       <td style={{ padding: '8px' }}>
                         <span style={{ color: q.filed ? '#00A651' : '#E63946', fontWeight: 700 }}>{q.filed ? 'Yes' : 'No'}</span>
@@ -147,7 +147,7 @@ export default function BusinessCompliancePage() {
           <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={() => router.push('/analysis/business/deposits')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#1A1A2E', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
             </button>

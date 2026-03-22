@@ -81,7 +81,7 @@ export default function VerifyEmailPage() {
                 background: '#EFF4FF', position: 'relative', zIndex: 2,
               }}
             >
-              <i className="fas fa-envelope" style={{ fontSize: 34, color: '#0A1628' }} />
+              <i className="fas fa-envelope" style={{ fontSize: 34, color: '#1A1A2E' }} />
             </div>
             {/* Pulse rings */}
             <div
@@ -96,16 +96,16 @@ export default function VerifyEmailPage() {
 
           {/* Heading */}
           <div style={{ marginBottom: 8 }}>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>
               Check your email
             </h1>
           </div>
 
           {/* Subtitle */}
           <div style={{ marginBottom: 36, maxWidth: 280 }}>
-            <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6 }}>
+            <p style={{ fontSize: '0.85rem', color: '#8585A0', fontWeight: 400, lineHeight: 1.6 }}>
               We&apos;ve sent a verification link to{' '}
-              <span style={{ color: '#0A1628', fontWeight: 600 }}>jane@example.com</span>
+              <span style={{ color: '#1A1A2E', fontWeight: 600 }}>jane@example.com</span>
             </p>
           </div>
 
@@ -130,12 +130,12 @@ export default function VerifyEmailPage() {
                   fontFamily: 'inherit',
                   fontSize: '1.4rem',
                   fontWeight: 700,
-                  color: '#0A1628',
-                  background: digit ? '#EFF4FF' : '#F8FAFC',
-                  border: `2px solid ${digit ? '#0A1628' : '#E2E8F0'}`,
+                  color: '#1A1A2E',
+                  background: digit ? '#EFF4FF' : '#FAFAFF',
+                  border: `2px solid ${digit ? '#1A1A2E' : '#D5D5E0'}`,
                   borderRadius: 14,
                   outline: 'none',
-                  caretColor: '#0A1628',
+                  caretColor: '#1A1A2E',
                   transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
                 }}
               />
@@ -149,7 +149,7 @@ export default function VerifyEmailPage() {
               style={{
                 fontSize: '0.82rem',
                 fontWeight: 600,
-                color: canResend ? '#0A1628' : '#CBD5E1',
+                color: canResend ? '#1A1A2E' : '#B0B0C8',
                 cursor: canResend ? 'pointer' : 'default',
                 background: 'none',
                 border: 'none',
@@ -188,7 +188,7 @@ export default function VerifyEmailPage() {
           </div>
 
           {/* Reassurance */}
-          <div className="flex items-center justify-center" style={{ gap: 6, fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500 }}>
+          <div className="flex items-center justify-center" style={{ gap: 6, fontSize: '0.75rem', color: '#8585A0', fontWeight: 500 }}>
             <i className="fas fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
             <span>This step keeps your account secure</span>
           </div>

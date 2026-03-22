@@ -9,7 +9,7 @@ const FILTERS: { key: FilterKey; label: string; dotColor?: string }[] = [
   { key: 'all', label: 'All' },
   { key: 'active', label: 'Active', dotColor: '#00A651' },
   { key: 'pending', label: 'Pending', dotColor: '#F59E0B' },
-  { key: 'resolved', label: 'Resolved', dotColor: '#94A3B8' },
+  { key: 'resolved', label: 'Resolved', dotColor: '#8585A0' },
 ]
 
 interface CaseItem {
@@ -35,9 +35,9 @@ const CASES: CaseItem[] = [
   {
     id: '1042', caseNumber: 'Case #1042', status: 'active', statusLabel: 'Active',
     statusBg: '#E6F9EE', statusColor: '#00A651',
-    resolutionType: 'Offer in Compromise', resolutionIcon: 'fa-handshake', resolutionIconColor: '#0A1628',
+    resolutionType: 'Offer in Compromise', resolutionIcon: 'fa-handshake', resolutionIconColor: '#1A1A2E',
     debt: '$47,250', updated: 'Updated 2h ago',
-    progressLabel: 'Under IRS Review', progressPercent: 60, progressColor: '#0A1628', progressDotColor: '#2563EB',
+    progressLabel: 'Under IRS Review', progressPercent: 60, progressColor: '#1A1A2E', progressDotColor: '#2563EB',
   },
   {
     id: '1038', caseNumber: 'Case #1038', status: 'pending', statusLabel: 'Pending Review',
@@ -48,7 +48,7 @@ const CASES: CaseItem[] = [
   },
   {
     id: '985', caseNumber: 'Case #985', status: 'resolved', statusLabel: 'Resolved',
-    statusBg: '#F8FAFC', statusColor: '#94A3B8',
+    statusBg: '#FAFAFF', statusColor: '#8585A0',
     resolutionType: 'Penalty Abatement', resolutionIcon: 'fa-eraser', resolutionIconColor: '#0D9488',
     debt: '$5,200', updated: 'Resolved Feb 28',
     progressLabel: 'Complete', progressPercent: 100, progressColor: '#00A651', progressDotColor: '',
@@ -62,29 +62,29 @@ export default function CasesPage() {
   const filteredCases = activeFilter === 'all' ? CASES : CASES.filter((c) => c.status === activeFilter)
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+    <div className="min-h-screen" style={{ background: '#FAFAFF' }}>
       <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
         <div style={{ padding: '0 20px 20px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>My Cases</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>My Cases</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div
                   style={{
                     width: 38,
                     height: 38,
                     borderRadius: 12,
-                    background: '#F8FAFC',
-                    border: '1px solid #F1F5F9',
+                    background: '#FAFAFF',
+                    border: '1px solid #F0F0F5',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     cursor: 'pointer',
                   }}
                 >
-                  <i className="fas fa-sliders" style={{ fontSize: 14, color: '#64748B' }} />
+                  <i className="fas fa-sliders" style={{ fontSize: 14, color: '#5C5C7A' }} />
                 </div>
                 <Link
                   href="/analysis/type"
@@ -92,7 +92,7 @@ export default function CasesPage() {
                     width: 38,
                     height: 38,
                     borderRadius: 12,
-                    background: '#0A1628',
+                    background: '#1A1A2E',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -120,8 +120,8 @@ export default function CasesPage() {
                     cursor: 'pointer',
                     fontFamily: 'inherit',
                     ...(activeFilter === f.key
-                      ? { background: '#0A1628', color: 'white', borderColor: '#0A1628' }
-                      : { background: 'white', color: '#64748B', borderColor: '#E2E8F0' }),
+                      ? { background: '#1A1A2E', color: 'white', borderColor: '#1A1A2E' }
+                      : { background: 'white', color: '#5C5C7A', borderColor: '#D5D5E0' }),
                   }}
                 >
                   {f.dotColor && (
@@ -150,7 +150,7 @@ export default function CasesPage() {
                     background: 'white',
                     borderRadius: 20,
                     padding: 20,
-                    border: '1px solid #F1F5F9',
+                    border: '1px solid #F0F0F5',
                     position: 'relative',
                     textDecoration: 'none',
                     color: 'inherit',
@@ -160,7 +160,7 @@ export default function CasesPage() {
                   {/* Top row: case number + status */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#0A1628' }}>{c.caseNumber}</span>
+                      <span style={{ fontSize: '0.9rem', fontWeight: 800, color: '#1A1A2E' }}>{c.caseNumber}</span>
                       <span
                         style={{
                           display: 'inline-flex',
@@ -182,22 +182,22 @@ export default function CasesPage() {
                         {c.statusLabel}
                       </span>
                     </div>
-                    <i className="fas fa-chevron-right" style={{ fontSize: 12, color: '#CBD5E1' }} />
+                    <i className="fas fa-chevron-right" style={{ fontSize: 12, color: '#B0B0C8' }} />
                   </div>
                   {/* Resolution type */}
-                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#64748B', marginBottom: 6 }}>
+                  <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 6 }}>
                     <i className={`fas ${c.resolutionIcon}`} style={{ fontSize: 11, color: c.resolutionIconColor, marginRight: 4 }} />
                     {c.resolutionType}
                   </div>
                   {/* Debt + timestamp */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-                    <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{c.debt}</div>
-                    <div style={{ fontSize: '0.68rem', color: '#CBD5E1', fontWeight: 500 }}>{c.updated}</div>
+                    <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>{c.debt}</div>
+                    <div style={{ fontSize: '0.68rem', color: '#B0B0C8', fontWeight: 500 }}>{c.updated}</div>
                   </div>
                   {/* Progress bar */}
                   <div style={{ marginBottom: 6 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                      <span style={{ fontSize: '0.68rem', fontWeight: 600, color: c.isComplete ? '#00A651' : '#94A3B8' }}>
+                      <span style={{ fontSize: '0.68rem', fontWeight: 600, color: c.isComplete ? '#00A651' : '#8585A0' }}>
                         {c.isComplete && <i className="fas fa-circle-check" style={{ fontSize: 10, marginRight: 2 }} />}
                         {c.progressLabel}
                       </span>
@@ -205,13 +205,13 @@ export default function CasesPage() {
                         style={{
                           fontSize: '0.68rem',
                           fontWeight: 700,
-                          color: c.isComplete ? '#00A651' : c.status === 'pending' ? '#7C3AED' : '#0A1628',
+                          color: c.isComplete ? '#00A651' : c.status === 'pending' ? '#7C3AED' : '#1A1A2E',
                         }}
                       >
                         {c.progressPercent}%
                       </span>
                     </div>
-                    <div style={{ height: 5, background: '#F1F5F9', borderRadius: 9999, overflow: 'hidden' }}>
+                    <div style={{ height: 5, background: '#F0F0F5', borderRadius: 9999, overflow: 'hidden' }}>
                       <div
                         style={{
                           width: `${c.progressPercent}%`,
@@ -262,16 +262,16 @@ export default function CasesPage() {
                     width: 48,
                     height: 48,
                     borderRadius: 14,
-                    background: '#F8FAFC',
+                    background: '#FAFAFF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <i className="fas fa-plus" style={{ fontSize: 18, color: '#CBD5E1' }} />
+                  <i className="fas fa-plus" style={{ fontSize: 18, color: '#B0B0C8' }} />
                 </div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>Start a new analysis</div>
-                <div style={{ fontSize: '0.75rem', color: '#CBD5E1', fontWeight: 400, lineHeight: 1.5 }}>Get a personalized resolution recommendation</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#5C5C7A' }}>Start a new analysis</div>
+                <div style={{ fontSize: '0.75rem', color: '#B0B0C8', fontWeight: 400, lineHeight: 1.5 }}>Get a personalized resolution recommendation</div>
               </Link>
             </div>
           </div>

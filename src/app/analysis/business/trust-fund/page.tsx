@@ -39,34 +39,34 @@ export default function TrustFundPage() {
   const fmt = (n: number) => '$' + n.toLocaleString()
 
   const fieldInputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5',
     borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
-    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+    color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' as const,
   }
 
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8',
+    display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0',
     textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '5px',
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', width: '30%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#D5D5E0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '30%', borderRadius: '9999px', background: '#1A1A2E', transition: 'all 0.3s' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 3 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 3 of 8</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Trust Fund Split</span>
           </div>
         </div>
 
         <div style={{ padding: '16px 20px 20px' }}>
           <div style={{ marginBottom: '6px' }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Trust Fund vs Non-Trust Fund</h1>
-            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>This is the most critical classification in business tax resolution. Trust fund = personal liability via TFRP.</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Trust Fund vs Non-Trust Fund</h1>
+            <p style={{ fontSize: '13px', color: '#8585A0', marginTop: '4px', lineHeight: 1.5 }}>This is the most critical classification in business tax resolution. Trust fund = personal liability via TFRP.</p>
           </div>
 
           {/* Warning Alert */}
@@ -76,8 +76,8 @@ export default function TrustFundPage() {
           </div>
 
           {/* Q3 2025 */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>
               <i className="fa-solid fa-calculator" style={{ fontSize: '12px', color: '#2563EB' }} /> {quarters[0].label}
             </div>
             <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
@@ -109,8 +109,8 @@ export default function TrustFundPage() {
           </div>
 
           {/* Q4 2025 */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>
               <i className="fa-solid fa-calculator" style={{ fontSize: '12px', color: '#2563EB' }} /> {quarters[1].label}
             </div>
             <div style={{ display: 'flex', gap: '10px', marginTop: '8px' }}>
@@ -138,7 +138,7 @@ export default function TrustFundPage() {
           </div>
 
           {/* Summary Bar */}
-          <div style={{ background: '#0A1628', borderRadius: '14px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
+          <div style={{ background: '#1A1A2E', borderRadius: '14px', padding: '16px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '16px' }}>
             <div>
               <span style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Total Trust Fund</span>
               <div style={{ fontSize: '1.3rem', fontWeight: 900, color: '#10B981', letterSpacing: '-0.02em', marginTop: '2px' }}>{fmt(totals.tf)}</div>
@@ -164,7 +164,7 @@ export default function TrustFundPage() {
           <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={() => router.push('/analysis/business/results')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#1A1A2E', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
             </button>

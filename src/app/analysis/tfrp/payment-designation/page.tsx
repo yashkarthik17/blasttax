@@ -51,22 +51,22 @@ Sincerely,
 [Business Name]`
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen bg-[#FAFAFF]">
+      <div className="mx-auto max-w-lg lg:max-w-3xl">
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F1F5F9]">
-          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F1F5F9]">
-            <i className="fa-solid fa-arrow-left text-sm text-[#64748B]" />
+        <div className="sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 border-b border-[#F0F0F5]">
+          <button onClick={() => router.back()} className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FAFAFF] border border-[#F0F0F5]">
+            <i className="fa-solid fa-arrow-left text-sm text-[#5C5C7A]" />
           </button>
-          <span className="text-[15px] font-extrabold text-[#0A1628]">Payment Designation</span>
+          <span className="text-[15px] font-extrabold text-[#1A1A2E]">Payment Designation</span>
           <div className="w-9" />
         </div>
 
         <div className="flex flex-col gap-3.5 px-5 py-5 pb-8">
           {/* Heading */}
           <div>
-            <div className="text-xl font-extrabold text-[#0A1628] tracking-tight leading-snug">Payment Designation</div>
-            <div className="text-[12px] text-[#94A3B8] mt-1 leading-relaxed">Control how the IRS applies your business tax payment</div>
+            <div className="text-xl font-extrabold text-[#1A1A2E] tracking-tight leading-snug">Payment Designation</div>
+            <div className="text-[12px] text-[#8585A0] mt-1 leading-relaxed">Control how the IRS applies your business tax payment</div>
           </div>
 
           {/* Info Banner */}
@@ -78,33 +78,33 @@ Sincerely,
           </div>
 
           {/* Why it matters */}
-          <div className="rounded-2xl bg-white border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px] border-l-4 border-l-[#E63946]">
+          <div className="rounded-2xl bg-white border border-[#E8E8F0] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px] border-l-4 border-l-[#E63946]">
             <div className="flex items-center gap-2 mb-2">
               <i className="fa-solid fa-triangle-exclamation text-[13px] text-[#E63946]" />
-              <span className="text-[13px] font-bold text-[#0A1628]">Why This Matters</span>
+              <span className="text-[13px] font-bold text-[#1A1A2E]">Why This Matters</span>
             </div>
-            <div className="text-[12px] text-[#64748B] leading-relaxed">
-              Payroll taxes have two parts: <strong className="text-[#0A1628]">trust fund</strong> (withheld from employees) and <strong className="text-[#0A1628]">non-trust fund</strong> (employer&apos;s share). Trust fund portions carry <strong className="text-[#E63946]">personal liability</strong> via the TFRP. Paying trust fund first reduces your personal exposure.
+            <div className="text-[12px] text-[#5C5C7A] leading-relaxed">
+              Payroll taxes have two parts: <strong className="text-[#1A1A2E]">trust fund</strong> (withheld from employees) and <strong className="text-[#1A1A2E]">non-trust fund</strong> (employer&apos;s share). Trust fund portions carry <strong className="text-[#E63946]">personal liability</strong> via the TFRP. Paying trust fund first reduces your personal exposure.
             </div>
           </div>
 
           {/* Designation Form */}
-          <div className="rounded-2xl bg-white border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px]">
+          <div className="rounded-2xl bg-white border border-[#E8E8F0] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px]">
             <div className="flex items-center gap-2.5 mb-3.5">
               <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#EFF4FF]">
                 <i className="fa-solid fa-pen-to-square text-xs text-[#2563EB]" />
               </div>
-              <div className="text-[13px] font-bold text-[#0A1628]">Designation Form</div>
+              <div className="text-[13px] font-bold text-[#1A1A2E]">Designation Form</div>
             </div>
 
             <div className="mb-2.5">
-              <div className="text-[11px] font-semibold text-[#64748B] mb-1.5">Payment Amount</div>
+              <div className="text-[11px] font-semibold text-[#5C5C7A] mb-1.5">Payment Amount</div>
               <input type="text" value={paymentAmount} onChange={(e) => setPaymentAmount(e.target.value)} placeholder="$0"
-                className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-[13px] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628] focus:bg-white" />
+                className="w-full rounded-[10px] bg-[#FAFAFF] border-[1.5px] border-[#F0F0F5] py-2.5 px-3 text-[13px] font-semibold text-[#1A1A2E] outline-none focus:border-[#1A1A2E] focus:bg-white" />
             </div>
 
             <div className="mb-2.5">
-              <div className="text-[11px] font-semibold text-[#64748B] mb-1.5">Designate To</div>
+              <div className="text-[11px] font-semibold text-[#5C5C7A] mb-1.5">Designate To</div>
               <div className="flex flex-col gap-2">
                 {DESIGNATION_OPTIONS.map((opt) => (
                   <button
@@ -112,18 +112,18 @@ Sincerely,
                     onClick={() => setDesignation(opt.value)}
                     className={`flex items-start gap-2.5 rounded-[14px] p-3.5 text-left transition-all ${
                       designation === opt.value
-                        ? 'bg-[#EBF0FF] border-[1.5px] border-[#0A1628] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]'
-                        : 'bg-white border-[1.5px] border-[#F3F4F6] hover:border-[#0A1628] hover:translate-y-[-2px]'
+                        ? 'bg-[#EBF0FF] border-[1.5px] border-[#1A1A2E] shadow-[0_0_0_3px_rgba(0,61,165,0.1)]'
+                        : 'bg-white border-[1.5px] border-[#E8E8F0] hover:border-[#1A1A2E] hover:translate-y-[-2px]'
                     }`}
                   >
                     <div className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all ${
-                      designation === opt.value ? 'border-[#0A1628] bg-[#0A1628]' : 'border-[#D5D5E0]'
+                      designation === opt.value ? 'border-[#1A1A2E] bg-[#1A1A2E]' : 'border-[#D5D5E0]'
                     }`}>
                       {designation === opt.value && <div className="h-2 w-2 rounded-full bg-white" />}
                     </div>
                     <div>
-                      <div className="text-[13px] font-bold text-[#0A1628]">{opt.label}</div>
-                      <div className="text-[11px] text-[#94A3B8]">{opt.description}</div>
+                      <div className="text-[13px] font-bold text-[#1A1A2E]">{opt.label}</div>
+                      <div className="text-[11px] text-[#8585A0]">{opt.description}</div>
                     </div>
                   </button>
                 ))}
@@ -131,9 +131,9 @@ Sincerely,
             </div>
 
             <div className="mb-2.5">
-              <div className="text-[11px] font-semibold text-[#64748B] mb-1.5">Tax Period (Quarter)</div>
+              <div className="text-[11px] font-semibold text-[#5C5C7A] mb-1.5">Tax Period (Quarter)</div>
               <select value={quarter} onChange={(e) => setQuarter(e.target.value)}
-                className="w-full rounded-[10px] bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] py-2.5 px-3 text-[13px] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628] appearance-none">
+                className="w-full rounded-[10px] bg-[#FAFAFF] border-[1.5px] border-[#F0F0F5] py-2.5 px-3 text-[13px] font-semibold text-[#1A1A2E] outline-none focus:border-[#1A1A2E] appearance-none">
                 {QUARTERS.map((q) => <option key={q} value={q}>{q}</option>)}
               </select>
             </div>
@@ -147,13 +147,13 @@ Sincerely,
           </div>
 
           {/* Letter Template */}
-          <div className="rounded-2xl bg-white border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px]">
+          <div className="rounded-2xl bg-white border border-[#E8E8F0] shadow-[0_1px_2px_rgba(0,0,0,0.03)] p-[18px]">
             <div className="flex items-center justify-between mb-3.5">
               <div className="flex items-center gap-2.5">
                 <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#F5F0FF]">
                   <i className="fa-solid fa-file-lines text-xs text-[#7C3AED]" />
                 </div>
-                <div className="text-[13px] font-bold text-[#0A1628]">Designation Letter</div>
+                <div className="text-[13px] font-bold text-[#1A1A2E]">Designation Letter</div>
               </div>
               <button
                 onClick={() => navigator.clipboard.writeText(letterText)}
@@ -162,7 +162,7 @@ Sincerely,
                 <i className="fa-solid fa-copy text-[10px]" /> Copy
               </button>
             </div>
-            <pre className="whitespace-pre-wrap rounded-xl bg-[#F8FAFC] border-[1.5px] border-[#F1F5F9] p-3.5 font-mono text-[11px] text-[#0A1628] leading-[1.7]">
+            <pre className="whitespace-pre-wrap rounded-xl bg-[#FAFAFF] border-[1.5px] border-[#F0F0F5] p-3.5 font-mono text-[11px] text-[#1A1A2E] leading-[1.7]">
               {letterText}
             </pre>
           </div>
@@ -190,7 +190,7 @@ Sincerely,
             </button>
             <button
               onClick={() => router.back()}
-              className="flex w-full items-center justify-center gap-2 py-3 text-[13px] font-semibold text-[#94A3B8]"
+              className="flex w-full items-center justify-center gap-2 py-3 text-[13px] font-semibold text-[#8585A0]"
             >
               <i className="fa-solid fa-arrow-left text-[11px]" /> Back to TFRP Detail
             </button>

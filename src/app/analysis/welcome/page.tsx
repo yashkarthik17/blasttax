@@ -6,7 +6,7 @@ export default function WelcomePage() {
   const router = useRouter()
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         <div style={{
           display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
@@ -15,10 +15,10 @@ export default function WelcomePage() {
 
           {/* Illustration */}
           <div style={{
-            width: 140, height: 140, borderRadius: '50%', background: '#F3F4F6',
+            width: 140, height: 140, borderRadius: '50%', background: '#E8E8F0',
             display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative',
           }}>
-            <i className="fa-solid fa-magnifying-glass" style={{ fontSize: 48, color: '#0A1628' }} />
+            <i className="fa-solid fa-magnifying-glass" style={{ fontSize: 48, color: '#1A1A2E' }} />
             {/* Dashed rings */}
             <div style={{
               position: 'absolute', inset: -8, borderRadius: '50%',
@@ -35,7 +35,7 @@ export default function WelcomePage() {
           {/* Heading */}
           <div style={{ marginTop: 32 }}>
             <h1 style={{
-              fontSize: '1.6rem', fontWeight: 800, color: '#0A1628',
+              fontSize: '1.6rem', fontWeight: 800, color: '#1A1A2E',
               lineHeight: 1.2, letterSpacing: '-0.01em',
             }}>
               Let&apos;s find your best<br />resolution path
@@ -48,13 +48,13 @@ export default function WelcomePage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <div style={{
                 width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center',
-                justifyContent: 'center', fontSize: 14, flexShrink: 0, color: 'white', background: '#0A1628',
+                justifyContent: 'center', fontSize: 14, flexShrink: 0, color: 'white', background: '#1A1A2E',
               }}>
                 <i className="fa-solid fa-clipboard-list" style={{ fontSize: 14 }} />
               </div>
               <div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', display: 'block' }}>Answer a few questions</span>
-                <span style={{ fontSize: 12, color: '#94A3B8' }}>Simple, guided questions about your situation</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E', display: 'block' }}>Answer a few questions</span>
+                <span style={{ fontSize: 12, color: '#8585A0' }}>Simple, guided questions about your situation</span>
               </div>
             </div>
 
@@ -67,8 +67,8 @@ export default function WelcomePage() {
                 <i className="fa-solid fa-microchip" style={{ fontSize: 14 }} />
               </div>
               <div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', display: 'block' }}>We&apos;ll analyze your eligibility</span>
-                <span style={{ fontSize: 12, color: '#94A3B8' }}>AI-powered assessment against IRS criteria</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E', display: 'block' }}>We&apos;ll analyze your eligibility</span>
+                <span style={{ fontSize: 12, color: '#8585A0' }}>AI-powered assessment against IRS criteria</span>
               </div>
             </div>
 
@@ -81,15 +81,15 @@ export default function WelcomePage() {
                 <i className="fa-solid fa-star" style={{ fontSize: 14 }} />
               </div>
               <div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', display: 'block' }}>Get your personalized plan</span>
-                <span style={{ fontSize: 12, color: '#94A3B8' }}>Ranked options with savings estimates</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E', display: 'block' }}>Get your personalized plan</span>
+                <span style={{ fontSize: 12, color: '#8585A0' }}>Ranked options with savings estimates</span>
               </div>
             </div>
           </div>
 
           {/* Time estimate */}
           <div style={{ marginTop: 24 }}>
-            <span style={{ fontSize: 13, color: '#94A3B8' }}>
+            <span style={{ fontSize: 13, color: '#8585A0' }}>
               <i className="fa-regular fa-clock" style={{ marginRight: 4 }} />
               This usually takes about 10 minutes
             </span>
@@ -99,7 +99,7 @@ export default function WelcomePage() {
           <div style={{ marginTop: 20, width: '100%' }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px',
-              background: '#F8FAFC', borderRadius: 12, border: '1px solid #F1F5F9',
+              background: '#FAFAFF', borderRadius: 12, border: '1px solid #F0F0F5',
             }}>
               <div style={{
                 width: 32, height: 32, borderRadius: 8, background: '#E6F9EE',
@@ -107,7 +107,7 @@ export default function WelcomePage() {
               }}>
                 <i className="fa-solid fa-lock" style={{ color: '#00A651', fontSize: 13 }} />
               </div>
-              <span style={{ fontSize: 12.5, color: '#64748B', textAlign: 'left', lineHeight: 1.4 }}>
+              <span style={{ fontSize: 12.5, color: '#5C5C7A', textAlign: 'left', lineHeight: 1.4 }}>
                 Everything you share is confidential and encrypted
               </span>
             </div>
@@ -130,7 +130,7 @@ export default function WelcomePage() {
             <button
               onClick={() => router.push('/dashboard')}
               style={{
-                fontSize: 13, color: '#94A3B8', background: 'none', border: 'none',
+                fontSize: 13, color: '#8585A0', background: 'none', border: 'none',
                 cursor: 'pointer', fontFamily: 'inherit', padding: '8px 16px',
               }}
             >

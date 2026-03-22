@@ -40,24 +40,24 @@ export default function Form8857Page() {
       <div style={{ padding: '0 0 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <div style={{ width: '24px', height: '8px', borderRadius: '9999px', background: '#2563EB' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
-          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F1F5F9' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F0F0F5' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F0F0F5' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F0F0F5' }} />
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F0F0F5' }} />
         </div>
-        <span style={{ fontSize: '11px', fontWeight: 600, color: '#94A3B8' }}>Step 1 of 5</span>
+        <span style={{ fontSize: '11px', fontWeight: 600, color: '#8585A0' }}>Step 1 of 5</span>
       </div>
 
       {/* Heading */}
       <div style={{ marginBottom: '14px' }}>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.3 }}>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.3 }}>
           Request Innocent Spouse Relief
         </h1>
       </div>
 
       {/* Relief Type Label */}
       <div style={{ marginBottom: '8px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Relief Type</div>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Relief Type</div>
       </div>
 
       {/* Relief Cards */}
@@ -72,7 +72,7 @@ export default function Form8857Page() {
             gap: '12px',
             padding: '16px',
             background: reliefType === opt.key ? '#EFF4FF' : 'white',
-            border: reliefType === opt.key ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            border: reliefType === opt.key ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
             borderRadius: '14px',
             cursor: 'pointer',
             marginBottom: '8px',
@@ -88,7 +88,7 @@ export default function Form8857Page() {
             width: '22px',
             height: '22px',
             borderRadius: '50%',
-            border: reliefType === opt.key ? '2px solid #2563EB' : '2px solid #F1F5F9',
+            border: reliefType === opt.key ? '2px solid #2563EB' : '2px solid #F0F0F5',
             background: reliefType === opt.key ? '#2563EB' : 'transparent',
             flexShrink: 0,
             display: 'flex',
@@ -100,14 +100,14 @@ export default function Form8857Page() {
             {reliefType === opt.key && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628', marginBottom: '3px' }}>{opt.title}</div>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E', marginBottom: '3px' }}>{opt.title}</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-              <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC', borderRadius: '6px', fontSize: '10px', fontWeight: 700, color: '#64748B', fontFamily: 'monospace' }}>{opt.irc}</span>
+              <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF', borderRadius: '6px', fontSize: '10px', fontWeight: 700, color: '#5C5C7A', fontFamily: 'monospace' }}>{opt.irc}</span>
             </div>
-            <div style={{ fontSize: '12px', color: '#94A3B8', lineHeight: 1.4 }}>{opt.desc}</div>
+            <div style={{ fontSize: '12px', color: '#8585A0', lineHeight: 1.4 }}>{opt.desc}</div>
             {reliefType === opt.key && (
               <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid rgba(0,61,165,0.1)' }}>
-                <div style={{ fontSize: '11px', color: '#64748B', lineHeight: 1.5 }}>{opt.detail}</div>
+                <div style={{ fontSize: '11px', color: '#5C5C7A', lineHeight: 1.5 }}>{opt.detail}</div>
               </div>
             )}
           </div>
@@ -116,43 +116,43 @@ export default function Form8857Page() {
 
       {/* Spouse Information */}
       <div style={{ marginTop: '16px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '10px' }}>Spouse Information</div>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '10px' }}>Spouse Information</div>
         <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Spouse Name</label>
-            <input type="text" placeholder="Full name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Spouse Name</label>
+            <input type="text" placeholder="Full name" value={spouseName} onChange={(e) => setSpouseName(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }} />
           </div>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>SSN</label>
-            <input type="text" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>SSN</label>
+            <input type="text" placeholder="***-**-****" value={spouseSsn} onChange={(e) => setSpouseSsn(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }} />
           </div>
         </div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Date of Marriage</label>
-            <input type="date" value={marriageDate} onChange={(e) => setMarriageDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Date of Marriage</label>
+            <input type="date" value={marriageDate} onChange={(e) => setMarriageDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }} />
           </div>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Separation/Divorce</label>
-            <input type="date" value={separationDate} onChange={(e) => setSeparationDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }} />
+            <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Separation/Divorce</label>
+            <input type="date" value={separationDate} onChange={(e) => setSeparationDate(e.target.value)} style={{ width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }} />
           </div>
         </div>
       </div>
 
       {/* Tax Years */}
       <div style={{ marginTop: '16px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Tax Years Requesting Relief</div>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Tax Years Requesting Relief</div>
         <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {['2020','2021','2022','2023'].map(year => (
             <button key={year} type="button" onClick={() => toggleYear(year)} style={{
               display: 'inline-flex',
               alignItems: 'center',
               padding: '8px 16px',
-              border: selectedYears.includes(year) ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+              border: selectedYears.includes(year) ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
               borderRadius: '9999px',
               fontSize: '13px',
               fontWeight: 600,
-              color: selectedYears.includes(year) ? '#2563EB' : '#64748B',
+              color: selectedYears.includes(year) ? '#2563EB' : '#5C5C7A',
               cursor: 'pointer',
               background: selectedYears.includes(year) ? '#EFF4FF' : 'white',
               transition: 'all 0.2s ease',
@@ -164,24 +164,24 @@ export default function Form8857Page() {
 
       {/* Reason */}
       <div style={{ marginTop: '16px' }}>
-        <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Why are you requesting relief?</label>
-        <textarea placeholder="Describe your situation..." value={reason} onChange={(e) => setReason(e.target.value)} style={{ width: '100%', minHeight: '70px', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#0A1628', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }} />
+        <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '5px' }}>Why are you requesting relief?</label>
+        <textarea placeholder="Describe your situation..." value={reason} onChange={(e) => setReason(e.target.value)} style={{ width: '100%', minHeight: '70px', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600, color: '#1A1A2E', outline: 'none', resize: 'vertical', boxSizing: 'border-box' }} />
       </div>
 
       {/* Benefit Question */}
       <div style={{ marginTop: '4px' }}>
-        <div style={{ fontSize: '12px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Did you benefit from the understatement?</div>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '8px' }}>Did you benefit from the understatement?</div>
         <div style={{ display: 'flex', gap: '10px' }}>
           <button type="button" onClick={() => setBenefited('yes')} style={{
-            flex: 1, padding: '12px', border: benefited === 'yes' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            flex: 1, padding: '12px', border: benefited === 'yes' ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
             borderRadius: '12px', textAlign: 'center', cursor: 'pointer', background: benefited === 'yes' ? '#EFF4FF' : 'white',
-            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'yes' ? '#2563EB' : '#0A1628',
+            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'yes' ? '#2563EB' : '#1A1A2E',
             transition: 'all 0.25s ease',
           }}>Yes</button>
           <button type="button" onClick={() => setBenefited('no')} style={{
-            flex: 1, padding: '12px', border: benefited === 'no' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+            flex: 1, padding: '12px', border: benefited === 'no' ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
             borderRadius: '12px', textAlign: 'center', cursor: 'pointer', background: benefited === 'no' ? '#EFF4FF' : 'white',
-            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'no' ? '#2563EB' : '#0A1628',
+            fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: benefited === 'no' ? '#2563EB' : '#1A1A2E',
             transition: 'all 0.25s ease',
           }}>No</button>
         </div>

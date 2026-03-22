@@ -5,7 +5,7 @@ import SidebarNav from '@/components/layout/SidebarNav'
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen lg:flex" style={{ background: '#F8FAFC', color: '#0A1628' }}>
+    <div className="min-h-screen lg:flex" style={{ background: '#FAFAFF', color: '#1A1A2E' }}>
       {/* Desktop sidebar - hidden below lg */}
       <SidebarNav />
 

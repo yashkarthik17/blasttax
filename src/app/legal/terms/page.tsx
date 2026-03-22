@@ -65,19 +65,19 @@ export default function TermsOfServicePage() {
         </div>
 
         {/* Last Updated */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-[#F1F5F9] bg-[#F8FAFC] px-3 py-1.5">
-          <svg className="h-2.5 w-2.5 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-[#F0F0F5] bg-[#FAFAFF] px-3 py-1.5">
+          <svg className="h-2.5 w-2.5 text-[#8585A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <span className="text-[0.72rem] font-semibold text-[#94A3B8]">Last updated: March 1, 2026</span>
+          <span className="text-[0.72rem] font-semibold text-[#8585A0]">Last updated: March 1, 2026</span>
         </div>
 
         {/* Sections */}
         <div>
           {sections.map((section) => (
             <div key={section.title} className="mb-6">
-              <h3 className="mb-2 text-[0.9rem] font-bold text-[#0A1628]">{section.title}</h3>
-              <p className="text-[0.8rem] leading-[1.65] text-[#64748B]">{section.content}</p>
+              <h3 className="mb-2 text-[0.9rem] font-bold text-[#1A1A2E]">{section.title}</h3>
+              <p className="text-[0.8rem] leading-[1.65] text-[#5C5C7A]">{section.content}</p>
             </div>
           ))}
         </div>
@@ -86,7 +86,7 @@ export default function TermsOfServicePage() {
         <div className="py-2">
           <button
             onClick={() => router.back()}
-            className="flex w-full items-center justify-center rounded-full bg-[#0A1628] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
+            className="flex w-full items-center justify-center rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
           >
             I Accept
           </button>

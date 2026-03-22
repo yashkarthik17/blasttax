@@ -197,29 +197,29 @@ export default function CSEDReviewPage() {
   }
 
   // Color logic per card
-  const cardColors = ['#0A1628', '#2563EB', '#00A651', '#7C3AED', '#0D9488']
+  const cardColors = ['#1A1A2E', '#2563EB', '#00A651', '#7C3AED', '#0D9488']
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div style={{ padding: '14px 0 12px', display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div
             onClick={() => router.back()}
-            style={{ width: '36px', height: '36px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s ease', flexShrink: 0 }}
+            style={{ width: '36px', height: '36px', borderRadius: '12px', background: '#FAFAFF', border: '1px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s ease', flexShrink: 0 }}
           >
-            <i className="fa-solid fa-arrow-left" style={{ fontSize: '14px', color: '#64748B' }} />
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: '14px', color: '#5C5C7A' }} />
           </div>
-          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>CSED Review</div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', textAlign: 'center' }}>CSED Review</div>
           <div style={{ width: '36px', flexShrink: 0 }} />
         </div>
 
         {/* Heading */}
         <div style={{ textAlign: 'center', padding: '4px 0 8px' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 12px', background: '#EFF4FF', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 700, color: '#0A1628', marginBottom: '10px' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', padding: '4px 12px', background: '#EFF4FF', borderRadius: '9999px', fontSize: '0.65rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '10px' }}>
             <i className="fa-solid fa-clock" style={{ fontSize: '9px' }} /> COLLECTION TIMELINE
           </div>
-          <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
+          <h1 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.2, letterSpacing: '-0.01em' }}>
             When does your tax debt expire?
           </h1>
         </div>
@@ -227,18 +227,18 @@ export default function CSEDReviewPage() {
         {/* Info Card */}
         <div style={{ background: 'white', border: '1px solid rgba(10,22,40,0.1)', borderRadius: '16px', padding: '16px', display: 'flex', gap: '12px', marginTop: '14px' }}>
           <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-            <i className="fa-solid fa-info-circle" style={{ fontSize: '16px', color: '#0A1628' }} />
+            <i className="fa-solid fa-info-circle" style={{ fontSize: '16px', color: '#1A1A2E' }} />
           </div>
           <div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>What is CSED?</div>
-            <div style={{ fontSize: '0.72rem', color: '#64748B', lineHeight: 1.6 }}>
-              The IRS has <strong style={{ color: '#0A1628' }}>10 years</strong> from the date of assessment to collect a tax debt. After the Collection Statute Expiration Date (CSED), the debt is legally uncollectible.
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>What is CSED?</div>
+            <div style={{ fontSize: '0.72rem', color: '#5C5C7A', lineHeight: 1.6 }}>
+              The IRS has <strong style={{ color: '#1A1A2E' }}>10 years</strong> from the date of assessment to collect a tax debt. After the Collection Statute Expiration Date (CSED), the debt is legally uncollectible.
             </div>
           </div>
         </div>
 
         {/* Section Label */}
-        <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 4px', marginTop: '16px' }}>
+        <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 4px', marginTop: '16px' }}>
           Your Tax Year Timeline
         </div>
 
@@ -249,7 +249,7 @@ export default function CSEDReviewPage() {
             const isNearest = earliest?.taxYear === entry.taxYear
             const color = cardColors[yi % cardColors.length]
             return (
-              <div key={entry.taxYear} className={`rounded-2xl bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ${isNearest ? 'border-2 border-[#2563EB]' : 'border border-[#E2E8F0]'}`} style={{ position: 'relative' }}>
+              <div key={entry.taxYear} className={`rounded-2xl bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.03)] ${isNearest ? 'border-2 border-[#2563EB]' : 'border border-[#D5D5E0]'}`} style={{ position: 'relative' }}>
                 {/* Year header */}
                 <div className="mb-2.5 flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -257,13 +257,13 @@ export default function CSEDReviewPage() {
                       <i className="fa-solid fa-calendar-check text-[13px]" style={{ color }} />
                     </div>
                     <div>
-                      <div className="text-[0.85rem] font-bold text-[#0A1628]">Tax Year {entry.taxYear}</div>
-                      <div className="text-[0.68rem] text-[#94A3B8] mt-px">Assessed: {entry.assessmentDate ? fmtDate(new Date(entry.assessmentDate)) : 'Not set'}</div>
+                      <div className="text-[0.85rem] font-bold text-[#1A1A2E]">Tax Year {entry.taxYear}</div>
+                      <div className="text-[0.68rem] text-[#8585A0] mt-px">Assessed: {entry.assessmentDate ? fmtDate(new Date(entry.assessmentDate)) : 'Not set'}</div>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-1">
                     {isNearest && (
-                      <div className="inline-flex items-center gap-1 rounded-full bg-[#0A1628] px-2 py-0.5 text-[0.58rem] font-extrabold uppercase tracking-wider text-white">
+                      <div className="inline-flex items-center gap-1 rounded-full bg-[#1A1A2E] px-2 py-0.5 text-[0.58rem] font-extrabold uppercase tracking-wider text-white">
                         <i className="fa-solid fa-bolt text-[7px]" /> Nearest Expiration
                       </div>
                     )}
@@ -274,41 +274,41 @@ export default function CSEDReviewPage() {
                 </div>
 
                 {/* Progress bar */}
-                <div className="h-2 w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-[#F0F0F5]">
                   <div className="h-full rounded-full transition-all duration-[1200ms]" style={{ background: color, width: animated ? `${row?.pct ?? 0}%` : '0%' }} />
                 </div>
                 <div className="mt-1.5 flex justify-between">
-                  <span className="text-[0.62rem] font-medium text-[#CBD5E1]">Assessed {entry.assessmentDate ? fmtDateShort(new Date(entry.assessmentDate)) : ''}</span>
+                  <span className="text-[0.62rem] font-medium text-[#B0B0C8]">Assessed {entry.assessmentDate ? fmtDateShort(new Date(entry.assessmentDate)) : ''}</span>
                   <span className="text-[0.62rem] font-semibold" style={{ color }}>Expires {row ? fmtDateShort(row.adjustedCSED) : ''}</span>
                 </div>
 
                 {/* Tolling Events */}
-                <div className="mt-2.5 rounded-xl border border-[#F1F5F9] bg-white p-2.5">
-                  <div className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-[#64748B]">
+                <div className="mt-2.5 rounded-xl border border-[#F0F0F5] bg-white p-2.5">
+                  <div className="mb-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-[#5C5C7A]">
                     <i className="fa-solid fa-pause-circle mr-1 text-[9px]" /> Tolling Events
                   </div>
                   {entry.tollingEvents.length === 0 && (
-                    <div className="text-[0.68rem] text-[#94A3B8] mb-1.5">No tolling events recorded</div>
+                    <div className="text-[0.68rem] text-[#8585A0] mb-1.5">No tolling events recorded</div>
                   )}
                   {entry.tollingEvents.map((evt) => (
-                    <div key={evt.id} className="mb-2 rounded-lg bg-[#F8FAFC] p-2">
+                    <div key={evt.id} className="mb-2 rounded-lg bg-[#FAFAFF] p-2">
                       <div className="flex gap-1.5 mb-1.5">
-                        <select value={evt.eventType} onChange={(e) => updateTollingEvent(yi, evt.id, 'eventType', e.target.value)} className="flex-1 rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]">
+                        <select value={evt.eventType} onChange={(e) => updateTollingEvent(yi, evt.id, 'eventType', e.target.value)} className="flex-1 rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2 py-1.5 text-[10px] font-semibold text-[#1A1A2E] outline-none focus:border-[#2563EB]">
                           {TOLLING_EVENT_TYPES.map((t) => <option key={t.value} value={t.value}>{t.label}</option>)}
                         </select>
                       </div>
                       <div className="flex items-center gap-1.5">
                         <div className="flex-1">
-                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">Start</div>
-                          <input type="date" value={evt.startDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'startDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                          <div className="text-[9px] font-semibold uppercase text-[#8585A0] mb-0.5">Start</div>
+                          <input type="date" value={evt.startDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'startDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2 py-1.5 text-[10px] font-semibold text-[#1A1A2E] outline-none focus:border-[#2563EB]" />
                         </div>
                         <div className="flex-1">
-                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">End</div>
-                          <input type="date" value={evt.endDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'endDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                          <div className="text-[9px] font-semibold uppercase text-[#8585A0] mb-0.5">End</div>
+                          <input type="date" value={evt.endDate} onChange={(e) => updateTollingEvent(yi, evt.id, 'endDate', e.target.value)} className="w-full rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2 py-1.5 text-[10px] font-semibold text-[#1A1A2E] outline-none focus:border-[#2563EB]" />
                         </div>
                         <div className="w-[60px] shrink-0">
-                          <div className="text-[9px] font-semibold uppercase text-[#94A3B8] mb-0.5">+Days</div>
-                          <input type="number" value={evt.extraDays} onChange={(e) => updateTollingEvent(yi, evt.id, 'extraDays', Number(e.target.value) || 0)} className="w-full rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-center text-[10px] font-semibold text-[#0A1628] outline-none focus:border-[#2563EB]" />
+                          <div className="text-[9px] font-semibold uppercase text-[#8585A0] mb-0.5">+Days</div>
+                          <input type="number" value={evt.extraDays} onChange={(e) => updateTollingEvent(yi, evt.id, 'extraDays', Number(e.target.value) || 0)} className="w-full rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2 py-1.5 text-center text-[10px] font-semibold text-[#1A1A2E] outline-none focus:border-[#2563EB]" />
                         </div>
                       </div>
                       <div className="mt-1.5 flex items-center justify-between">
@@ -327,8 +327,8 @@ export default function CSEDReviewPage() {
                   <i className="fa-solid fa-calendar-day text-[10px] text-[#7C3AED]" />
                   <div>
                     <span className="text-[0.68rem] font-bold text-[#7C3AED]">Adjusted CSED:</span>
-                    <span className="text-[0.68rem] font-bold text-[#0A1628]"> {row ? fmtDate(row.adjustedCSED) : ''}</span>
-                    <span className="text-[0.62rem] text-[#94A3B8]"> ({row && row.tollingDays > 0 ? `+${row.tollingDays} days tolling` : 'no tolling'})</span>
+                    <span className="text-[0.68rem] font-bold text-[#1A1A2E]"> {row ? fmtDate(row.adjustedCSED) : ''}</span>
+                    <span className="text-[0.62rem] text-[#8585A0]"> ({row && row.tollingDays > 0 ? `+${row.tollingDays} days tolling` : 'no tolling'})</span>
                   </div>
                 </div>
               </div>
@@ -349,7 +349,7 @@ export default function CSEDReviewPage() {
 
         {/* Summary Card */}
         {earliest && latest && (
-          <div style={{ background: '#0A1628', borderRadius: '18px', padding: '20px', position: 'relative', overflow: 'hidden', marginTop: '12px' }}>
+          <div style={{ background: '#1A1A2E', borderRadius: '18px', padding: '20px', position: 'relative', overflow: 'hidden', marginTop: '12px' }}>
             <div style={{ position: 'absolute', top: '-15px', right: '-15px', width: '80px', height: '80px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
             <div style={{ position: 'absolute', bottom: '-20px', left: '-10px', width: '60px', height: '60px', borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>

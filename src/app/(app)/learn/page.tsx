@@ -27,7 +27,7 @@ interface Article {
 }
 
 const ARTICLES: Article[] = [
-  { slug: 'oic-explained', title: 'What is an Offer in Compromise?', readTime: '5 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-handshake', iconColor: '#0A1628', thumbBg: '#EFF4FF', tagBg: '#EFF4FF', tagColor: '#0A1628' },
+  { slug: 'oic-explained', title: 'What is an Offer in Compromise?', readTime: '5 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-handshake', iconColor: '#1A1A2E', thumbBg: '#EFF4FF', tagBg: '#EFF4FF', tagColor: '#1A1A2E' },
   { slug: 'installment-agreements', title: 'Installment Agreement Types Explained', readTime: '7 min read', category: 'resolution', categoryLabel: 'Resolution', icon: 'fa-calendar-check', iconColor: '#00A651', thumbBg: '#E6F9EE', tagBg: '#E6F9EE', tagColor: '#00A651' },
   { slug: 'transaction-codes', title: 'Understanding IRS Transaction Codes', readTime: '10 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-code', iconColor: '#7C3AED', thumbBg: '#F5F0FF', tagBg: '#EEF2FF', tagColor: '#4F46E5' },
   { slug: 'csed-expiration', title: 'CSED: When Does Your Tax Debt Expire?', readTime: '6 min read', category: 'irs', categoryLabel: 'IRS Process', icon: 'fa-hourglass-half', iconColor: '#D97706', thumbBg: '#FEF3C7', tagBg: '#FEF3C7', tagColor: '#D97706' },
@@ -41,12 +41,12 @@ export default function LearnPage() {
     activeCategory === 'all' ? ARTICLES : ARTICLES.filter((a) => a.category === activeCategory)
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+    <div className="min-h-screen" style={{ background: '#FAFAFF' }}>
       <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
           <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>Learn</div>
-          <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, background: 'none', border: 'none', cursor: 'pointer', color: '#0A1628' }}>
+          <button style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, background: 'none', border: 'none', cursor: 'pointer', color: '#1A1A2E' }}>
             <i className="fas fa-magnifying-glass" style={{ fontSize: 16 }} />
           </button>
         </div>
@@ -55,7 +55,7 @@ export default function LearnPage() {
           {/* Featured Article */}
           <div
             style={{
-              background: '#0A1628',
+              background: '#1A1A2E',
               borderRadius: 20,
               padding: 24,
               position: 'relative',
@@ -146,8 +146,8 @@ export default function LearnPage() {
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                   ...(activeCategory === cat.key
-                    ? { background: '#0A1628', color: 'white', borderColor: '#0A1628' }
-                    : { background: 'white', color: '#64748B', borderColor: '#F3F4F6' }),
+                    ? { background: '#1A1A2E', color: 'white', borderColor: '#1A1A2E' }
+                    : { background: 'white', color: '#5C5C7A', borderColor: '#E8E8F0' }),
                 }}
               >
                 {cat.label}
@@ -165,7 +165,7 @@ export default function LearnPage() {
                   display: 'flex',
                   gap: 14,
                   padding: '14px 0',
-                  borderBottom: '1px solid #F1F5F9',
+                  borderBottom: '1px solid #F0F0F5',
                   cursor: 'pointer',
                   textDecoration: 'none',
                   color: 'inherit',
@@ -186,9 +186,9 @@ export default function LearnPage() {
                   <i className={`fas ${article.icon}`} style={{ fontSize: 22, color: article.iconColor }} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1F2937', lineHeight: 1.35, marginBottom: 6 }}>{article.title}</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1A1A2E', lineHeight: 1.35, marginBottom: 6 }}>{article.title}</div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: '0.68rem', color: '#94A3B8', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 3 }}>
+                    <span style={{ fontSize: '0.68rem', color: '#8585A0', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 3 }}>
                       <i className="far fa-clock" style={{ fontSize: 9 }} /> {article.readTime}
                     </span>
                     <span style={{ padding: '2px 8px', background: article.tagBg, borderRadius: 9999, fontSize: '0.6rem', fontWeight: 600, color: article.tagColor }}>{article.categoryLabel}</span>

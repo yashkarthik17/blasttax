@@ -45,28 +45,28 @@ export default function VerificationPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
         <div style={{ paddingTop: '16px' }}>
-          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '90%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+          <div style={{ height: '4px', background: '#F0F0F5', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#1A1A2E', borderRadius: '9999px', width: '90%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
         </div>
 
         {/* Heading */}
         <div style={{ marginTop: '20px', marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Almost there!</h1>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Almost there!</h1>
             <span style={{ fontSize: '20px', animation: 'sparkleFloat 2s ease-in-out infinite' }}>&#10024;</span>
           </div>
-          <p style={{ fontSize: '13px', color: '#94A3B8', lineHeight: 1.5 }}>
+          <p style={{ fontSize: '13px', color: '#8585A0', lineHeight: 1.5 }}>
             {"Let's do a final check before running your analysis"}
           </p>
         </div>
 
         {/* Verification Checklist */}
-        <div style={{ background: 'white', border: '1px solid #F3F4F6', borderRadius: '16px', padding: '4px 16px', marginBottom: '14px' }}>
+        <div style={{ background: 'white', border: '1px solid #E8E8F0', borderRadius: '16px', padding: '4px 16px', marginBottom: '14px' }}>
           {checkItems.map((item, idx) => (
             <div
               key={item.id}
@@ -75,7 +75,7 @@ export default function VerificationPage() {
                 alignItems: 'center',
                 gap: '12px',
                 padding: '12px 0',
-                borderBottom: idx < checkItems.length - 1 ? '1px solid #F1F5F9' : 'none',
+                borderBottom: idx < checkItems.length - 1 ? '1px solid #F0F0F5' : 'none',
                 opacity: animated ? 1 : 0,
                 transform: animated ? 'translateX(0)' : 'translateX(-12px)',
                 transition: `all 0.4s cubic-bezier(0.25,0.1,0.25,1) ${500 + idx * 120}ms`,
@@ -92,13 +92,13 @@ export default function VerificationPage() {
                 flexShrink: 0,
                 ...(item.status === 'success'
                   ? { background: '#ECFDF5', color: '#00A651' }
-                  : { background: '#F8FAFC', color: '#CBD5E1', border: '2px solid #F1F5F9' }
+                  : { background: '#FAFAFF', color: '#B0B0C8', border: '2px solid #F0F0F5' }
                 ),
               }}>
                 {item.status === 'success' && <i className="fa-solid fa-check" />}
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: '13px', fontWeight: 600, color: '#0A1628' }}>{item.label}</div>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#1A1A2E' }}>{item.label}</div>
               </div>
             </div>
           ))}
@@ -115,21 +115,21 @@ export default function VerificationPage() {
             transition: 'all 0.5s ease 800ms',
           }}
         >
-          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #E8E8F0', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
             <div style={{ fontSize: '16px', fontWeight: 800, color: '#E63946', letterSpacing: '-0.01em' }}>{fmt(totalDebt)}</div>
-            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Total Debt</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Total Debt</div>
           </div>
-          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{fmt(mdi)}</div>
-            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>MDI</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #E8E8F0', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>{fmt(mdi)}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>MDI</div>
           </div>
-          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{fmt(totalAssets)}</div>
-            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Assets</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #E8E8F0', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>{fmt(totalAssets)}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Assets</div>
           </div>
-          <div style={{ flex: 1, background: 'white', border: '1px solid #F3F4F6', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '16px', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>{taxYearCount}</div>
-            <div style={{ fontSize: '10px', fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Years</div>
+          <div style={{ flex: 1, background: 'white', border: '1px solid #E8E8F0', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+            <div style={{ fontSize: '16px', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>{taxYearCount}</div>
+            <div style={{ fontSize: '10px', fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: '2px' }}>Years</div>
           </div>
         </div>
 
@@ -141,8 +141,8 @@ export default function VerificationPage() {
             alignItems: 'flex-start',
             gap: '12px',
             padding: '14px 16px',
-            background: confirmed ? '#EFF4FF' : '#F8FAFC',
-            border: `1.5px solid ${confirmed ? '#2563EB' : '#F3F4F6'}`,
+            background: confirmed ? '#EFF4FF' : '#FAFAFF',
+            border: `1.5px solid ${confirmed ? '#2563EB' : '#E8E8F0'}`,
             borderRadius: '14px',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
@@ -154,7 +154,7 @@ export default function VerificationPage() {
           <div style={{
             width: '22px',
             height: '22px',
-            border: `2px solid ${confirmed ? '#2563EB' : '#F1F5F9'}`,
+            border: `2px solid ${confirmed ? '#2563EB' : '#F0F0F5'}`,
             borderRadius: '6px',
             flexShrink: 0,
             display: 'flex',
@@ -167,7 +167,7 @@ export default function VerificationPage() {
             {confirmed && <i className="fa-solid fa-check" style={{ fontSize: '11px', color: 'white' }} />}
           </div>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '13px', fontWeight: 600, color: '#0A1628', lineHeight: 1.5 }}>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: '#1A1A2E', lineHeight: 1.5 }}>
               I confirm all information is accurate to the best of my knowledge
             </div>
           </div>
@@ -227,7 +227,7 @@ export default function VerificationPage() {
         >
           <button
             onClick={() => router.push('/analysis/csed-review')}
-            style={{ background: 'none', border: 'none', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: '#64748B', cursor: 'pointer' }}
+            style={{ background: 'none', border: 'none', fontFamily: 'inherit', fontSize: '13px', fontWeight: 600, color: '#5C5C7A', cursor: 'pointer' }}
           >
             <i className="fa-solid fa-arrow-left" style={{ fontSize: '11px', marginRight: '4px' }} />
             Back to Edit
@@ -243,7 +243,7 @@ export default function VerificationPage() {
             transition: 'opacity 0.5s ease 1400ms',
           }}
         >
-          <div style={{ fontSize: '11px', color: '#CBD5E1', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <div style={{ fontSize: '11px', color: '#B0B0C8', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
             <i className="fa-solid fa-clock" style={{ fontSize: '10px' }} />
             Analysis typically takes 30-60 seconds
           </div>

@@ -48,21 +48,21 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC]">
+    <div className="flex min-h-screen flex-col bg-[#FAFAFF]">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-[#F1F5F9]">
+      <header className="sticky top-0 z-50 bg-white border-b border-[#F0F0F5]">
         <div className="mx-auto flex max-w-md md:max-w-2xl lg:max-w-4xl items-center justify-between px-5 py-3.5">
           {/* Back button */}
           <button
             onClick={() => router.back()}
-            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F8FAFC] border border-[#F3F4F6] transition-all hover:bg-[#F1F5F9] flex-shrink-0"
+            className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FAFAFF] border border-[#E8E8F0] transition-all hover:bg-[#F0F0F5] flex-shrink-0"
             aria-label="Go back"
           >
-            <i className="fas fa-arrow-left text-sm text-[#64748B]" />
+            <i className="fas fa-arrow-left text-sm text-[#5C5C7A]" />
           </button>
 
           {/* Form Name */}
-          <h1 className="text-[0.95rem] font-extrabold text-[#0A1628] text-center flex-1 px-3">{formLabel}</h1>
+          <h1 className="text-[0.95rem] font-extrabold text-[#1A1A2E] text-center flex-1 px-3">{formLabel}</h1>
 
           {/* Save Draft / spacer */}
           <div className="w-9 flex-shrink-0" />
@@ -72,12 +72,12 @@ export default function FormsLayout({ children }: { children: React.ReactNode })
         {currentIndex >= 0 && (
           <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl px-5 pb-3">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[0.7rem] font-semibold text-[#94A3B8]">{stepLabel}</span>
-              <span className="text-[0.7rem] font-bold text-[#0A1628]">{Math.round(progress)}%</span>
+              <span className="text-[0.7rem] font-semibold text-[#8585A0]">{stepLabel}</span>
+              <span className="text-[0.7rem] font-bold text-[#1A1A2E]">{Math.round(progress)}%</span>
             </div>
-            <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#F1F5F9]">
+            <div className="h-[5px] w-full overflow-hidden rounded-full bg-[#F0F0F5]">
               <div
-                className="relative h-full rounded-full bg-[#0A1628] transition-all duration-500 ease-out"
+                className="relative h-full rounded-full bg-[#1A1A2E] transition-all duration-500 ease-out"
                 style={{ width: `${progress}%` }}
               >
                 <div className="absolute -top-[1px] right-0 h-[7px] w-[7px] rounded-full bg-[#2563EB]" />

@@ -40,39 +40,39 @@ export default function TFRPPersonsPage() {
   }
 
   const fieldInputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5',
     borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
-    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+    color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' as const,
   }
 
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8',
+    display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0',
     textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '5px',
   }
 
   const toggleSwitchStyle = (checked: boolean): React.CSSProperties => ({
-    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#E2E8F0',
+    width: '36px', height: '20px', appearance: 'none' as const, background: checked ? '#2563EB' : '#D5D5E0',
     borderRadius: '10px', position: 'relative' as const, cursor: 'pointer', transition: 'background 0.2s ease', flexShrink: 0, border: 'none',
   })
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', width: '33%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#D5D5E0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '33%', borderRadius: '9999px', background: '#1A1A2E', transition: 'all 0.3s' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 1 of 3</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 1 of 3</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>TFRP Track</span>
           </div>
         </div>
 
         <div style={{ padding: '16px 20px 20px' }}>
           <div style={{ marginBottom: '6px' }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Responsible Person Identification</h1>
-            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px' }}>Identify all persons with TFRP exposure under IRC 6672.</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Responsible Person Identification</h1>
+            <p style={{ fontSize: '13px', color: '#8585A0', marginTop: '4px' }}>Identify all persons with TFRP exposure under IRC 6672.</p>
           </div>
 
           {/* Warning Alert */}
@@ -83,12 +83,12 @@ export default function TFRPPersonsPage() {
 
           {/* Person Cards */}
           {persons.map((person, pi) => (
-            <div key={person.id} style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '18px', marginBottom: '12px' }}>
+            <div key={person.id} style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '18px', marginBottom: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '4px 12px', background: '#FEF2F2', color: '#991B1B', borderRadius: '9999px', fontSize: '12px', fontWeight: 700 }}>
                   <i className="fa-solid fa-user-shield" style={{ fontSize: '10px' }} /> Person {pi + 1}
                 </span>
-                {person.isPrimary && <span style={{ fontSize: '11px', color: '#94A3B8' }}>Primary</span>}
+                {person.isPrimary && <span style={{ fontSize: '11px', color: '#8585A0' }}>Primary</span>}
               </div>
 
               {/* Person 1 fields */}
@@ -163,7 +163,7 @@ export default function TFRPPersonsPage() {
                     onChange={() => updatePerson(person.id, sw.field, !person[sw.field])}
                     style={toggleSwitchStyle(person[sw.field])}
                   />
-                  <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>{sw.label}</span>
+                  <span style={{ fontSize: '12px', fontWeight: 500, color: '#5C5C7A' }}>{sw.label}</span>
                 </label>
               ))}
 
@@ -183,26 +183,26 @@ export default function TFRPPersonsPage() {
           </button>
 
           {/* Form 4180 */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+            <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>
               <i className="fa-solid fa-gavel" style={{ fontSize: '12px', color: '#2563EB' }} /> Form 4180 Interview
             </div>
-            <div style={{ fontSize: '12px', color: '#64748B', lineHeight: 1.6, marginBottom: '8px' }}>The IRS will interview each potential responsible person using Form 4180. Prepare thoroughly before the interview.</div>
+            <div style={{ fontSize: '12px', color: '#5C5C7A', lineHeight: 1.6, marginBottom: '8px' }}>The IRS will interview each potential responsible person using Form 4180. Prepare thoroughly before the interview.</div>
             <button
               onClick={() => router.push('/analysis/tfrp/form-4180')}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '12px', border: '1.5px solid #E2E8F0', background: 'white', padding: '12px 20px', fontSize: '13px', fontWeight: 600, color: '#0A1628', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '12px', border: '1.5px solid #D5D5E0', background: 'white', padding: '12px 20px', fontSize: '13px', fontWeight: 600, color: '#1A1A2E', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               Prepare for Form 4180 <i className="fa-solid fa-arrow-right" style={{ fontSize: '11px' }} />
             </button>
           </div>
 
           {/* Letter 1153 */}
-          <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
+          <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <i className="fa-solid fa-envelope" style={{ fontSize: '14px', color: '#E63946' }} />
               <div>
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>Letter 1153 Received?</span>
-                <p style={{ fontSize: '11.5px', color: '#64748B', marginTop: '2px' }}>If yes, you have 60 days to appeal. Missing this deadline means automatic assessment.</p>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E' }}>Letter 1153 Received?</span>
+                <p style={{ fontSize: '11.5px', color: '#5C5C7A', marginTop: '2px' }}>If yes, you have 60 days to appeal. Missing this deadline means automatic assessment.</p>
               </div>
             </div>
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '10px', cursor: 'pointer' }}>
@@ -212,7 +212,7 @@ export default function TFRPPersonsPage() {
                 onChange={() => setLetter1153(!letter1153)}
                 style={toggleSwitchStyle(letter1153)}
               />
-              <span style={{ fontSize: '12px', fontWeight: 500, color: '#64748B' }}>Letter 1153 received?</span>
+              <span style={{ fontSize: '12px', fontWeight: 500, color: '#5C5C7A' }}>Letter 1153 received?</span>
             </label>
             <div style={{ display: 'flex', gap: '10px', marginTop: '12px' }}>
               <div style={{ flex: 1 }}>
@@ -229,7 +229,7 @@ export default function TFRPPersonsPage() {
           <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={() => router.push('/analysis/tfrp/form-4180')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#1A1A2E', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
             </button>

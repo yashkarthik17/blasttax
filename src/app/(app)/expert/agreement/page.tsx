@@ -7,22 +7,22 @@ export default function ExpertAgreementPage() {
   const [termsAccepted, setTermsAccepted] = useState(false)
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen bg-[#FAFAFF]">
+      <div className="mx-auto max-w-lg lg:max-w-3xl">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4">
-          <Link href="/expert/pending" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-[#F1F5F9]">
-            <svg className="w-4 h-4 text-[#0A1628]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <Link href="/expert/pending" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-[#F0F0F5]">
+            <svg className="w-4 h-4 text-[#1A1A2E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
           </Link>
-          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Expert Agreement</h1>
+          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#1A1A2E]">Expert Agreement</h1>
           <div className="w-10" />
         </div>
 
         <div className="px-5 pb-10 space-y-[18px]">
           {/* Expert Matched Card */}
-          <div className="bg-[#0A1628] rounded-[20px] p-5 relative overflow-hidden">
+          <div className="bg-[#1A1A2E] rounded-[20px] p-5 relative overflow-hidden">
             <div className="absolute -top-[30px] -right-[30px] w-[100px] h-[100px] rounded-full bg-white/[0.08]" />
             <div className="flex items-center gap-3.5 relative z-10">
               <div className="w-14 h-14 rounded-full bg-white/15 flex items-center justify-center border-2 border-white/30 shrink-0">
@@ -45,9 +45,9 @@ export default function ExpertAgreementPage() {
           </div>
 
           {/* Engagement Terms */}
-          <div className="text-[1.15rem] font-extrabold text-[#0A1628] tracking-tight">Engagement Terms</div>
+          <div className="text-[1.15rem] font-extrabold text-[#1A1A2E] tracking-tight">Engagement Terms</div>
 
-          <div className="bg-white rounded-2xl p-4 border border-[#E2E8F0]">
+          <div className="bg-white rounded-2xl p-4 border border-[#D5D5E0]">
             {[
               { label: 'Service', value: 'OIC Preparation & Submission' },
               { label: 'Fee', value: '$1,500', sub: 'or included in Pro plan' },
@@ -55,10 +55,10 @@ export default function ExpertAgreementPage() {
               { label: 'Duration', value: 'Until resolution' },
               { label: 'Payment', value: '50% upfront, 50% on submission' },
             ].map((row, i, arr) => (
-              <div key={row.label} className={`flex items-start justify-between py-2.5 ${i < arr.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
-                <span className="text-[0.82rem] font-semibold text-[#64748B]">{row.label}</span>
+              <div key={row.label} className={`flex items-start justify-between py-2.5 ${i < arr.length - 1 ? 'border-b border-[#F0F0F5]' : ''}`}>
+                <span className="text-[0.82rem] font-semibold text-[#5C5C7A]">{row.label}</span>
                 <div className="text-right max-w-[180px]">
-                  <span className={`text-[0.82rem] ${row.label === 'Fee' ? 'text-[0.95rem] font-extrabold' : 'font-bold'} text-[#0A1628]`}>{row.value}</span>
+                  <span className={`text-[0.82rem] ${row.label === 'Fee' ? 'text-[0.95rem] font-extrabold' : 'font-bold'} text-[#1A1A2E]`}>{row.value}</span>
                   {row.sub && <div className="text-[0.68rem] text-[#00A651] font-semibold">{row.sub}</div>}
                 </div>
               </div>
@@ -67,8 +67,8 @@ export default function ExpertAgreementPage() {
 
           {/* What's Included */}
           <div>
-            <div className="text-xs font-bold text-[#CBD5E1] uppercase tracking-wider mb-2.5">What&apos;s Included</div>
-            <div className="bg-white rounded-2xl p-4 border border-[#E2E8F0] flex flex-col gap-3">
+            <div className="text-xs font-bold text-[#B0B0C8] uppercase tracking-wider mb-2.5">What&apos;s Included</div>
+            <div className="bg-white rounded-2xl p-4 border border-[#D5D5E0] flex flex-col gap-3">
               {['Full case review', 'Form preparation', 'IRS correspondence', 'Phone/chat support', 'Post-submission monitoring'].map((item) => (
                 <div key={item} className="flex items-center gap-2.5">
                   <div className="w-[22px] h-[22px] rounded-full bg-[#E6F9EE] flex items-center justify-center shrink-0">
@@ -76,7 +76,7 @@ export default function ExpertAgreementPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                     </svg>
                   </div>
-                  <span className="text-[0.82rem] font-semibold text-[#0A1628]">{item}</span>
+                  <span className="text-[0.82rem] font-semibold text-[#1A1A2E]">{item}</span>
                 </div>
               ))}
             </div>
@@ -86,11 +86,11 @@ export default function ExpertAgreementPage() {
           <button
             onClick={() => setTermsAccepted(!termsAccepted)}
             className={`flex items-center gap-3 w-full p-3.5 border-[1.5px] rounded-[14px] transition-colors text-left ${
-              termsAccepted ? 'border-[#0A1628] bg-[#EFF4FF]' : 'border-[#E2E8F0] bg-white hover:border-[#0A1628]'
+              termsAccepted ? 'border-[#1A1A2E] bg-[#EFF4FF]' : 'border-[#D5D5E0] bg-white hover:border-[#1A1A2E]'
             }`}
           >
             <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center shrink-0 transition-colors ${
-              termsAccepted ? 'bg-[#0A1628] border-[#0A1628]' : 'border-[#D5D5E0]'
+              termsAccepted ? 'bg-[#1A1A2E] border-[#1A1A2E]' : 'border-[#D5D5E0]'
             }`}>
               {termsAccepted && (
                 <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -98,7 +98,7 @@ export default function ExpertAgreementPage() {
                 </svg>
               )}
             </div>
-            <span className="text-[0.82rem] font-semibold text-[#0A1628] leading-[1.4]">I agree to the engagement terms and conditions</span>
+            <span className="text-[0.82rem] font-semibold text-[#1A1A2E] leading-[1.4]">I agree to the engagement terms and conditions</span>
           </button>
 
           {/* CTA Section */}
@@ -116,7 +116,7 @@ export default function ExpertAgreementPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </Link>
-            <button className="py-3 text-center text-[#94A3B8] text-[0.82rem] font-semibold">
+            <button className="py-3 text-center text-[#8585A0] text-[0.82rem] font-semibold">
               Decline
             </button>
           </div>

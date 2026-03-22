@@ -36,59 +36,59 @@ function IADetail({ result }: { result: Record<string, unknown> }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 24 }}>
       {/* Heading */}
       <div>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', marginBottom: 4 }}>Payment Plan Options</h1>
-        <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Pay your tax debt over time with monthly payments</p>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 4 }}>Payment Plan Options</h1>
+        <p style={{ fontSize: '0.82rem', color: '#8585A0' }}>Pay your tax debt over time with monthly payments</p>
       </div>
 
       {/* What is IA */}
       <div style={{ background: '#EFF4FF', borderRadius: 16, padding: 18, marginBottom: 16, border: '1px solid rgba(0,61,165,0.08)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#0A1628', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 36, height: 36, borderRadius: 10, background: '#1A1A2E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-calendar-check" style={{ fontSize: 14, color: 'white' }} />
           </div>
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>What is an Installment Agreement?</h3>
+          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>What is an Installment Agreement?</h3>
         </div>
-        <p style={{ fontSize: '0.82rem', color: '#374151', lineHeight: 1.6, margin: 0 }}>A <strong>payment plan</strong> with the IRS. Instead of paying everything at once, you make <strong>monthly payments</strong> over time until your debt is paid off. Think of it like financing -- manageable monthly amounts.</p>
+        <p style={{ fontSize: '0.82rem', color: '#2D2B3D', lineHeight: 1.6, margin: 0 }}>A <strong>payment plan</strong> with the IRS. Instead of paying everything at once, you make <strong>monthly payments</strong> over time until your debt is paid off. Think of it like financing -- manageable monthly amounts.</p>
       </div>
 
       {/* Profile Card */}
       <div style={{ background: 'white', border: '1px solid rgba(0,61,165,0.1)', borderRadius: 16, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#0A1628', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#1A1A2E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fa-solid fa-user" style={{ color: 'white', fontSize: 13 }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>YOUR PROFILE</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>YOUR PROFILE</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>Total Debt</div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>Total Debt</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: '#E63946' }}>{fmt(totalDebt)}</div>
           </div>
-          <div style={{ width: 1, background: '#F1F5F9' }} />
+          <div style={{ width: 1, background: '#F0F0F5' }} />
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>MDI</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#0A1628' }}>{fmt(mdi)}<span style={{ fontSize: 11, fontWeight: 500, color: '#64748B' }}>/mo</span></div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>MDI</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A2E' }}>{fmt(mdi)}<span style={{ fontSize: 11, fontWeight: 500, color: '#5C5C7A' }}>/mo</span></div>
           </div>
-          <div style={{ width: 1, background: '#F1F5F9' }} />
+          <div style={{ width: 1, background: '#F0F0F5' }} />
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>CSED Range</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#0A1628' }}>2028-2031</div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>CSED Range</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#1A1A2E' }}>2028-2031</div>
           </div>
         </div>
       </div>
 
       {/* IA Type Cards */}
       {iaTypes.map((ia) => {
-        const topColor = ia.eligible ? '#00A651' : ia.badgeStyle === 'info' ? '#2563EB' : '#CBD5E1'
-        const borderColor = ia.eligible ? 'rgba(0,166,81,0.25)' : ia.badgeStyle === 'info' ? 'rgba(37,99,235,0.15)' : '#F1F5F9'
+        const topColor = ia.eligible ? '#00A651' : ia.badgeStyle === 'info' ? '#2563EB' : '#B0B0C8'
+        const borderColor = ia.eligible ? 'rgba(0,166,81,0.25)' : ia.badgeStyle === 'info' ? 'rgba(37,99,235,0.15)' : '#F0F0F5'
         return (
           <div key={ia.name} style={{ background: 'white', border: `1.5px solid ${borderColor}`, borderRadius: 16, padding: 16, marginBottom: 0, position: 'relative', overflow: 'hidden', opacity: ia.eligible ? 1 : 0.7, boxShadow: ia.eligible ? '0 1px 2px rgba(0,0,0,0.03)' : undefined, transition: 'all 0.3s ease' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, borderRadius: '16px 16px 0 0', background: topColor }} />
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: ia.eligible ? 10 : 8 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>{ia.name}</span>
-                {ia.range && <span style={{ fontSize: 11, color: '#64748B' }}>{ia.range}</span>}
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>{ia.name}</span>
+                {ia.range && <span style={{ fontSize: 11, color: '#5C5C7A' }}>{ia.range}</span>}
               </div>
               <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 9999, fontWeight: 700, ...Object.fromEntries(badgeColors[ia.badgeStyle].split(';').filter(Boolean).map(s => { const [k, v] = s.split(':').map(x => x.trim()); return [k, v] })) }}>
                 <i className={`fa-solid ${ia.badgeIcon}`} style={{ fontSize: 9, marginRight: 3 }} />
@@ -115,45 +115,45 @@ function IADetail({ result }: { result: Record<string, unknown> }) {
             )}
 
             {ia.eligible && ia.monthlyPayment && (
-              <div style={{ background: '#F8FAFC', borderRadius: 12, padding: 12, marginBottom: 10 }}>
+              <div style={{ background: '#FAFAFF', borderRadius: 12, padding: 12, marginBottom: 10 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12 }}>
-                  <span style={{ color: '#64748B' }}>Monthly Payment</span>
-                  <span style={{ fontWeight: 700, color: '#0A1628' }}>{fmt(ia.monthlyPayment)}/mo</span>
+                  <span style={{ color: '#5C5C7A' }}>Monthly Payment</span>
+                  <span style={{ fontWeight: 700, color: '#1A1A2E' }}>{fmt(ia.monthlyPayment)}/mo</span>
                 </div>
                 {ia.term && (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                    <span style={{ color: '#64748B' }}>Duration</span>
-                    <span style={{ fontWeight: 600, color: '#0A1628' }}>{ia.term} months</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                    <span style={{ color: '#5C5C7A' }}>Duration</span>
+                    <span style={{ fontWeight: 600, color: '#1A1A2E' }}>{ia.term} months</span>
                   </div>
                 )}
                 {ia.recommended && (
                   <>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>Financial Statement</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>Financial Statement</span>
                       <span style={{ fontWeight: 600, color: '#00A651' }}>Not Required</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>Lien Status</span>
-                      <span style={{ fontWeight: 600, color: '#0A1628' }}>No lien under $25K</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>Lien Status</span>
+                      <span style={{ fontWeight: 600, color: '#1A1A2E' }}>No lien under $25K</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>$25K-$50K requires</span>
-                      <span style={{ fontWeight: 600, color: '#0A1628' }}>DDIA (auto-pay)</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>$25K-$50K requires</span>
+                      <span style={{ fontWeight: 600, color: '#1A1A2E' }}>DDIA (auto-pay)</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>Setup Fee</span>
-                      <span style={{ fontWeight: 600, color: '#0A1628' }}>$22 (online+DDIA) to $178</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>Setup Fee</span>
+                      <span style={{ fontWeight: 600, color: '#1A1A2E' }}>$22 (online+DDIA) to $178</span>
                     </div>
                   </>
                 )}
                 {ia.alternative && (
                   <>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>Duration</span>
-                      <span style={{ fontWeight: 600, color: '#0A1628' }}>Until CSED (2028-2031)</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>Duration</span>
+                      <span style={{ fontWeight: 600, color: '#1A1A2E' }}>Until CSED (2028-2031)</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-                      <span style={{ color: '#64748B' }}>Review Cycle</span>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+                      <span style={{ color: '#5C5C7A' }}>Review Cycle</span>
                       <span style={{ fontWeight: 600, color: '#F59E0B' }}>Every 2 years</span>
                     </div>
                   </>
@@ -162,17 +162,17 @@ function IADetail({ result }: { result: Record<string, unknown> }) {
             )}
 
             {ia.alternative && ia.eligible && (
-              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>
+              <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5 }}>
                 Pay {fmt(mdi)}/mo, remaining balance expires at CSED. Lower monthly payment but longer obligation with financial review every 2 years.
               </div>
             )}
 
             {!ia.eligible && ia.reason && (
-              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 8 }}>{ia.reason}</div>
+              <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5, marginBottom: 8 }}>{ia.reason}</div>
             )}
 
             {!ia.eligible && ia.note && (
-              <div style={{ fontSize: 11, color: '#94A3B8' }}>
+              <div style={{ fontSize: 11, color: '#8585A0' }}>
                 <i className="fa-solid fa-info-circle" style={{ fontSize: 10, marginRight: 4 }} />
                 {ia.note}
               </div>
@@ -217,8 +217,8 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 24 }}>
       <div>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', marginBottom: 4 }}>Settle Your Debt for Less</h1>
-        <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Negotiate a reduced payoff amount with the IRS</p>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 4 }}>Settle Your Debt for Less</h1>
+        <p style={{ fontSize: '0.82rem', color: '#8585A0' }}>Negotiate a reduced payoff amount with the IRS</p>
       </div>
 
       {/* What is OIC */}
@@ -227,33 +227,33 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: '#00A651', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-handshake" style={{ fontSize: 14, color: 'white' }} />
           </div>
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>What is an Offer in Compromise?</h3>
+          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>What is an Offer in Compromise?</h3>
         </div>
-        <p style={{ fontSize: '0.82rem', color: '#374151', lineHeight: 1.6, margin: 0 }}>A deal with the IRS to <strong>settle your tax debt for less than you owe</strong>. If you {"can't"} pay the full amount and the IRS agrees, you pay a reduced amount and the rest is forgiven. {"It's"} the IRS&apos;s &quot;fresh start&quot; program.</p>
+        <p style={{ fontSize: '0.82rem', color: '#2D2B3D', lineHeight: 1.6, margin: 0 }}>A deal with the IRS to <strong>settle your tax debt for less than you owe</strong>. If you {"can't"} pay the full amount and the IRS agrees, you pay a reduced amount and the rest is forgiven. {"It's"} the IRS&apos;s &quot;fresh start&quot; program.</p>
       </div>
 
       {/* Profile Card */}
       <div style={{ background: 'white', border: '1px solid rgba(0,61,165,0.1)', borderRadius: 16, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#0A1628', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 32, height: 32, borderRadius: 10, background: '#1A1A2E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fa-solid fa-user" style={{ color: 'white', fontSize: 13 }} />
           </div>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>YOUR PROFILE</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>YOUR PROFILE</span>
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>Total Debt</div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>Total Debt</div>
             <div style={{ fontSize: 18, fontWeight: 800, color: '#E63946' }}>{fmt(totalDebt)}</div>
           </div>
-          <div style={{ width: 1, background: '#F1F5F9' }} />
+          <div style={{ width: 1, background: '#F0F0F5' }} />
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>MDI</div>
-            <div style={{ fontSize: 18, fontWeight: 800, color: '#0A1628' }}>{fmt(mdi)}<span style={{ fontSize: 11, fontWeight: 500, color: '#64748B' }}>/mo</span></div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>MDI</div>
+            <div style={{ fontSize: 18, fontWeight: 800, color: '#1A1A2E' }}>{fmt(mdi)}<span style={{ fontSize: 11, fontWeight: 500, color: '#5C5C7A' }}>/mo</span></div>
           </div>
-          <div style={{ width: 1, background: '#F1F5F9' }} />
+          <div style={{ width: 1, background: '#F0F0F5' }} />
           <div style={{ textAlign: 'center', flex: 1 }}>
-            <div style={{ fontSize: 11, color: '#94A3B8', fontWeight: 600, marginBottom: 2 }}>CSED Range</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#0A1628' }}>2028-2031</div>
+            <div style={{ fontSize: 11, color: '#8585A0', fontWeight: 600, marginBottom: 2 }}>CSED Range</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#1A1A2E' }}>2028-2031</div>
           </div>
         </div>
       </div>
@@ -262,7 +262,7 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
       <div style={{ background: 'white', border: '1.5px solid rgba(0,166,81,0.25)', borderRadius: 16, padding: 16, position: 'relative', overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#00A651' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Doubt as to Collectibility</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Doubt as to Collectibility</span>
           <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 9999, fontWeight: 700, background: '#E6F9EE', color: '#00A651' }}>
             <i className="fa-solid fa-check" style={{ fontSize: 9, marginRight: 3 }} /> Eligible
           </span>
@@ -271,22 +271,22 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, background: 'rgba(0,166,81,0.08)', padding: '2px 7px', borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#00A651' }}>
             <i className="fa-solid fa-star" style={{ fontSize: 8 }} /> Recommended
           </span>
-          <span style={{ fontSize: 10, color: '#64748B', padding: '2px 7px', background: '#F8FAFC', borderRadius: 6, fontWeight: 600 }}>Most Common OIC Type</span>
+          <span style={{ fontSize: 10, color: '#5C5C7A', padding: '2px 7px', background: '#FAFAFF', borderRadius: 6, fontWeight: 600 }}>Most Common OIC Type</span>
         </div>
 
         {/* RCP calc */}
-        <div style={{ background: '#F8FAFC', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>RCP Calculation</div>
+        <div style={{ background: '#FAFAFF', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>RCP Calculation</div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12 }}>
-            <span style={{ color: '#64748B' }}>Asset Equity</span>
-            <span style={{ fontWeight: 600, color: '#0A1628' }}>{fmt(nre)}</span>
+            <span style={{ color: '#5C5C7A' }}>Asset Equity</span>
+            <span style={{ fontWeight: 600, color: '#1A1A2E' }}>{fmt(nre)}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12, borderTop: '1px solid #F1F5F9' }}>
-            <span style={{ color: '#64748B' }}>Future Income (Lump Sum)</span>
-            <span style={{ fontWeight: 600, color: '#0A1628' }}>{fmt(mdi)} x 12 = {fmt(Math.max(0, mdi) * 12)}</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12, borderTop: '1px solid #F0F0F5' }}>
+            <span style={{ color: '#5C5C7A' }}>Future Income (Lump Sum)</span>
+            <span style={{ fontWeight: 600, color: '#1A1A2E' }}>{fmt(mdi)} x 12 = {fmt(Math.max(0, mdi) * 12)}</span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12, borderTop: '2px solid #F1F5F9' }}>
-            <span style={{ fontWeight: 700, color: '#0A1628' }}>Minimum Offer (RCP)</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', fontSize: 12, borderTop: '2px solid #F0F0F5' }}>
+            <span style={{ fontWeight: 700, color: '#1A1A2E' }}>Minimum Offer (RCP)</span>
             <span style={{ fontWeight: 800, color: '#2563EB' }}>{fmt(rcp)}</span>
           </div>
         </div>
@@ -294,8 +294,8 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
         {/* Savings */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
           <div>
-            <div style={{ fontSize: 12, color: '#64748B', marginBottom: 2 }}>Your offer vs owed</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: '#0A1628' }}>{fmt(rcp)} <span style={{ fontSize: 12, color: '#64748B', fontWeight: 500 }}>vs {fmt(totalDebt)}</span></div>
+            <div style={{ fontSize: 12, color: '#5C5C7A', marginBottom: 2 }}>Your offer vs owed</div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: '#1A1A2E' }}>{fmt(rcp)} <span style={{ fontSize: 12, color: '#5C5C7A', fontWeight: 500 }}>vs {fmt(totalDebt)}</span></div>
           </div>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: '#E6F9EE', color: '#065F46', fontSize: 13, fontWeight: 800, padding: '6px 12px', borderRadius: 10, border: '1px solid rgba(0,166,81,0.2)' }}>
             <i className="fa-solid fa-arrow-down" style={{ fontSize: 11 }} />
@@ -304,18 +304,18 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
         </div>
 
         {/* Payment Options */}
-        <div style={{ background: '#F8FAFC', borderRadius: 12, padding: 12, marginBottom: 12 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Payment Options</div>
+        <div style={{ background: '#FAFAFF', borderRadius: 12, padding: 12, marginBottom: 12 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Payment Options</div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <div style={{ flex: 1, background: 'white', border: '1px solid #F1F5F9', borderRadius: 10, padding: 10 }}>
+            <div style={{ flex: 1, background: 'white', border: '1px solid #F0F0F5', borderRadius: 10, padding: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#2563EB', marginBottom: 4 }}>Lump Sum</div>
-              <div style={{ fontSize: 12, color: '#0A1628', fontWeight: 600 }}>20% down ({fmt(Math.round(rcp * 0.2))})</div>
-              <div style={{ fontSize: 11, color: '#64748B' }}>Remainder in 5 months</div>
+              <div style={{ fontSize: 12, color: '#1A1A2E', fontWeight: 600 }}>20% down ({fmt(Math.round(rcp * 0.2))})</div>
+              <div style={{ fontSize: 11, color: '#5C5C7A' }}>Remainder in 5 months</div>
             </div>
-            <div style={{ flex: 1, background: 'white', border: '1px solid #F1F5F9', borderRadius: 10, padding: 10 }}>
+            <div style={{ flex: 1, background: 'white', border: '1px solid #F0F0F5', borderRadius: 10, padding: 10 }}>
               <div style={{ fontSize: 11, fontWeight: 700, color: '#7C3AED', marginBottom: 4 }}>Periodic</div>
-              <div style={{ fontSize: 12, color: '#0A1628', fontWeight: 600 }}>{fmt(Math.ceil(rcp / 24))}/mo</div>
-              <div style={{ fontSize: 11, color: '#64748B' }}>For 24 months</div>
+              <div style={{ fontSize: 12, color: '#1A1A2E', fontWeight: 600 }}>{fmt(Math.ceil(rcp / 24))}/mo</div>
+              <div style={{ fontSize: 11, color: '#5C5C7A' }}>For 24 months</div>
             </div>
           </div>
         </div>
@@ -331,15 +331,15 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
       <div style={{ background: 'white', border: '1.5px solid rgba(37,99,235,0.15)', borderRadius: 16, padding: 16, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#2563EB' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Doubt as to Liability</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Doubt as to Liability</span>
           <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 9999, fontWeight: 700, background: '#EFF4FF', color: '#2563EB' }}>
             <i className="fa-solid fa-magnifying-glass" style={{ fontSize: 9, marginRight: 3 }} /> Review Needed
           </span>
         </div>
-        <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 8 }}>
+        <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5, marginBottom: 8 }}>
           Dispute the amount the IRS says you owe. No financial disclosure required.
         </div>
-        <div style={{ fontSize: 11, color: '#94A3B8' }}>
+        <div style={{ fontSize: 11, color: '#8585A0' }}>
           <i className="fa-solid fa-file-lines" style={{ fontSize: 10, marginRight: 4 }} />
           Use Form 656-L instead of Form 656
         </div>
@@ -349,26 +349,26 @@ function OICDetail({ result }: { result: Record<string, unknown> }) {
       <div style={{ background: 'white', border: '1.5px solid rgba(124,58,237,0.15)', borderRadius: 16, padding: 16, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: '#7C3AED' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Effective Tax Administration</span>
+          <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Effective Tax Administration</span>
           <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 9999, fontWeight: 700, background: '#F5F0FF', color: '#7C3AED' }}>
             <i className="fa-solid fa-hand-holding-heart" style={{ fontSize: 9, marginRight: 3 }} /> Special
           </span>
         </div>
-        <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>
+        <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5 }}>
           You can pay but it creates exceptional hardship. Applies to medical/disability situations or public policy cases.
         </div>
       </div>
 
       {/* TC Code Eligibility Checks */}
-      <div style={{ background: '#F8FAFC', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
+      <div style={{ background: '#FAFAFF', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
           <i className="fa-solid fa-shield-check" style={{ fontSize: 10, marginRight: 4 }} />
           Eligibility Checks
         </div>
         {['No TC 520 (No bankruptcy)', 'No TC 420/424 (No open audit)', 'No TC 480 (No pending OIC)', 'TC 150 all years (Returns filed)', 'No TC 481 in past 5 years'].map(check => (
           <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '5px 0' }}>
             <i className="fa-solid fa-circle-check" style={{ color: '#00A651', fontSize: 14 }} />
-            <span style={{ color: '#0A1628', fontWeight: 500, fontSize: 12 }}>{check}</span>
+            <span style={{ color: '#1A1A2E', fontWeight: 500, fontSize: 12 }}>{check}</span>
           </div>
         ))}
       </div>
@@ -411,8 +411,8 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 24 }}>
       <div>
-        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', marginBottom: 4 }}>Pause Collection Activity</h1>
-        <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Stop IRS collections while your debt clock runs down</p>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 4 }}>Pause Collection Activity</h1>
+        <p style={{ fontSize: '0.82rem', color: '#8585A0' }}>Stop IRS collections while your debt clock runs down</p>
       </div>
 
       {/* What is CNC */}
@@ -421,14 +421,14 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: '#7C3AED', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-pause-circle" style={{ fontSize: 14, color: 'white' }} />
           </div>
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>What is Currently Not Collectible?</h3>
+          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>What is Currently Not Collectible?</h3>
         </div>
-        <p style={{ fontSize: '0.82rem', color: '#374151', lineHeight: 1.6, margin: 0 }}>The IRS <strong>temporarily pauses all collection efforts</strong> because paying would cause financial hardship. Your debt {"doesn't"} go away, but the IRS stops trying to collect. If the debt reaches its expiration date (CSED), {"it's"} gone forever.</p>
+        <p style={{ fontSize: '0.82rem', color: '#2D2B3D', lineHeight: 1.6, margin: 0 }}>The IRS <strong>temporarily pauses all collection efforts</strong> because paying would cause financial hardship. Your debt {"doesn't"} go away, but the IRS stops trying to collect. If the debt reaches its expiration date (CSED), {"it's"} gone forever.</p>
       </div>
 
       {/* MDI Warning */}
       {mdi > 0 && (
-        <div style={{ background: '#FFFBEB', border: '1px solid #F3F4F6', borderRadius: 16, padding: 16 }}>
+        <div style={{ background: '#FFFBEB', border: '1px solid #E8E8F0', borderRadius: 16, padding: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
             <div style={{ width: 32, height: 32, borderRadius: 10, background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <i className="fa-solid fa-triangle-exclamation" style={{ color: 'white', fontSize: 13 }} />
@@ -446,27 +446,27 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
       )}
 
       {/* What CNC Means */}
-      <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>What CNC Means</div>
+      <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>What CNC Means</div>
         {points.map((pt, i) => (
           <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '8px 0', fontSize: 13, lineHeight: 1.5 }}>
             <i className={`fa-solid ${pt.icon}`} style={{ fontSize: 14, color: pt.color, marginTop: 2, flexShrink: 0 }} />
-            <span style={{ color: pt.bold ? '#0A1628' : '#64748B', fontWeight: pt.bold ? 500 : 400 }}>{pt.text}</span>
+            <span style={{ color: pt.bold ? '#1A1A2E' : '#5C5C7A', fontWeight: pt.bold ? 500 : 400 }}>{pt.text}</span>
           </div>
         ))}
       </div>
 
       {/* CSED Timeline */}
-      <div style={{ background: 'white', border: '1px solid #F3F4F6', borderRadius: 16, padding: 16 }}>
+      <div style={{ background: 'white', border: '1px solid #E8E8F0', borderRadius: 16, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <i className="fa-solid fa-clock" style={{ color: '#0D9488', fontSize: 16 }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>CSED Expiration Timeline</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>CSED Expiration Timeline</span>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#64748B', marginBottom: 6 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: '#5C5C7A', marginBottom: 6 }}>
           <span>Today (2026)</span>
           <span>Debts Expire (2028-2031)</span>
         </div>
-        <div style={{ position: 'relative', background: '#F8FAFC', borderRadius: 12, padding: 4, height: 32, overflow: 'hidden' }}>
+        <div style={{ position: 'relative', background: '#FAFAFF', borderRadius: 12, padding: 4, height: 32, overflow: 'hidden' }}>
           <div style={{ height: '100%', borderRadius: 10, background: '#0D9488', transition: 'width 1.5s cubic-bezier(0.25, 0.1, 0.25, 1)', width: csedAnimated ? '40%' : '0%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: 'white' }}>
             40% elapsed
           </div>
@@ -481,7 +481,7 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
 
       {/* CNC vs OIC Decision */}
       <div>
-        <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>CNC vs OIC Decision</div>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>CNC vs OIC Decision</div>
         <div style={{ display: 'flex', gap: 10 }}>
           <div style={{ flex: 1, background: 'white', border: '1.5px solid rgba(13,148,136,0.2)', borderRadius: 14, padding: 14 }}>
             <div style={{ textAlign: 'center', marginBottom: 8 }}>
@@ -489,25 +489,25 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
                 <i className="fa-solid fa-pause" style={{ color: '#0D9488', fontSize: 14 }} />
               </div>
             </div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#0A1628', textAlign: 'center', marginBottom: 6 }}>CNC</div>
-            <div style={{ fontSize: 11, color: '#64748B', lineHeight: 1.5 }}>Pay nothing. Wait 2-5 years. Risk of annual review & revocation.</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E', textAlign: 'center', marginBottom: 6 }}>CNC</div>
+            <div style={{ fontSize: 11, color: '#5C5C7A', lineHeight: 1.5 }}>Pay nothing. Wait 2-5 years. Risk of annual review & revocation.</div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', fontSize: 12, fontWeight: 700, color: '#CBD5E1' }}>vs</div>
+          <div style={{ display: 'flex', alignItems: 'center', fontSize: 12, fontWeight: 700, color: '#B0B0C8' }}>vs</div>
           <div style={{ flex: 1, background: 'white', border: '1.5px solid rgba(0,166,81,0.2)', borderRadius: 14, padding: 14 }}>
             <div style={{ textAlign: 'center', marginBottom: 8 }}>
               <div style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
                 <i className="fa-solid fa-handshake" style={{ color: '#00A651', fontSize: 14 }} />
               </div>
             </div>
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#0A1628', textAlign: 'center', marginBottom: 6 }}>OIC</div>
-            <div style={{ fontSize: 11, color: '#64748B', lineHeight: 1.5 }}>Pay {fmt(rcp)} now. Resolved in 6-12 months. Certainty.</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E', textAlign: 'center', marginBottom: 6 }}>OIC</div>
+            <div style={{ fontSize: 11, color: '#5C5C7A', lineHeight: 1.5 }}>Pay {fmt(rcp)} now. Resolved in 6-12 months. Certainty.</div>
           </div>
         </div>
       </div>
 
       {/* Required Docs */}
-      <div style={{ background: '#F8FAFC', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
+      <div style={{ background: '#FAFAFF', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>
           <i className="fa-solid fa-file-lines" style={{ fontSize: 10, marginRight: 4 }} /> Required Documentation
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -516,7 +516,7 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
             { icon: 'fa-building-columns', text: 'Bank statements (3 months)' },
             { icon: 'fa-receipt', text: 'Income proof (pay stubs, benefits letters)' },
           ].map(doc => (
-            <div key={doc.text} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#0A1628' }}>
+            <div key={doc.text} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: '#1A1A2E' }}>
               <i className={`fa-solid ${doc.icon}`} style={{ color: '#2563EB', fontSize: 12 }} />
               <span style={{ fontWeight: 500 }}>{doc.text}</span>
             </div>
@@ -532,7 +532,7 @@ function CNCDetail({ result }: { result: Record<string, unknown> }) {
           </button>
         ) : (
           <>
-            <button disabled style={{ width: '100%', padding: '14px 28px', background: 'white', color: '#64748B', border: '1.5px solid #E2E8F0', borderRadius: 14, fontSize: 14, fontWeight: 600, opacity: 0.6, pointerEvents: 'none', marginBottom: 8 }}>
+            <button disabled style={{ width: '100%', padding: '14px 28px', background: 'white', color: '#5C5C7A', border: '1.5px solid #D5D5E0', borderRadius: 14, fontSize: 14, fontWeight: 600, opacity: 0.6, pointerEvents: 'none', marginBottom: 8 }}>
               <i className="fa-solid fa-ban" style={{ fontSize: 12, marginRight: 6 }} /> Not Eligible &mdash; Your MDI is {fmt(mdi)}
             </button>
             <div style={{ textAlign: 'center', marginTop: 6 }}>
@@ -562,7 +562,7 @@ function PenaltyDetail({ result }: { result: Record<string, unknown> }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 24 }}>
       <div>
         <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#00A651', marginBottom: 4 }}>Remove {fmt(totalPen)} in Penalties</h1>
-        <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Eliminate IRS penalties from your balance</p>
+        <p style={{ fontSize: '0.82rem', color: '#8585A0' }}>Eliminate IRS penalties from your balance</p>
       </div>
 
       {/* What is Penalty Abatement */}
@@ -571,36 +571,36 @@ function PenaltyDetail({ result }: { result: Record<string, unknown> }) {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F59E0B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <i className="fas fa-eraser" style={{ fontSize: 14, color: 'white' }} />
           </div>
-          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>What is Penalty Abatement?</h3>
+          <h3 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>What is Penalty Abatement?</h3>
         </div>
-        <p style={{ fontSize: '0.82rem', color: '#374151', lineHeight: 1.6, margin: 0 }}><strong>Removing penalties</strong> the IRS added to your tax debt. If you had a good reason for filing late or paying late (like illness, disaster, or a clean prior record), the IRS may waive those penalties entirely.</p>
+        <p style={{ fontSize: '0.82rem', color: '#2D2B3D', lineHeight: 1.6, margin: 0 }}><strong>Removing penalties</strong> the IRS added to your tax debt. If you had a good reason for filing late or paying late (like illness, disaster, or a clean prior record), the IRS may waive those penalties entirely.</p>
       </div>
 
       {/* Penalty Breakdown */}
-      <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Your Penalty Breakdown</div>
+      <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Your Penalty Breakdown</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0' }}>
           <div style={{ minWidth: 100 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#0A1628' }}>Failure to File</div>
-            <div style={{ fontSize: 10, color: '#64748B' }}>TC 170</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#1A1A2E' }}>Failure to File</div>
+            <div style={{ fontSize: 10, color: '#5C5C7A' }}>TC 170</div>
           </div>
-          <div style={{ flex: 1, height: 8, background: '#F1F5F9', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ flex: 1, height: 8, background: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ height: '100%', borderRadius: 4, width: '60%', background: '#E63946' }} />
           </div>
           <span style={{ fontSize: 14, fontWeight: 700, color: '#E63946', minWidth: 50, textAlign: 'right' }}>{fmt(totalFTF)}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0' }}>
           <div style={{ minWidth: 100 }}>
-            <div style={{ fontSize: 12, fontWeight: 600, color: '#0A1628' }}>Failure to Pay</div>
-            <div style={{ fontSize: 10, color: '#64748B' }}>TC 276</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: '#1A1A2E' }}>Failure to Pay</div>
+            <div style={{ fontSize: 10, color: '#5C5C7A' }}>TC 276</div>
           </div>
-          <div style={{ flex: 1, height: 8, background: '#F1F5F9', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ flex: 1, height: 8, background: '#F0F0F5', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ height: '100%', borderRadius: 4, width: '40%', background: '#F59E0B' }} />
           </div>
           <span style={{ fontSize: 14, fontWeight: 700, color: '#F59E0B', minWidth: 50, textAlign: 'right' }}>{fmt(totalFTP)}</span>
         </div>
-        <div style={{ borderTop: '2px solid #F1F5F9', marginTop: 8, paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Total Penalties</span>
+        <div style={{ borderTop: '2px solid #F0F0F5', marginTop: 8, paddingTop: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Total Penalties</span>
           <span style={{ fontSize: 20, fontWeight: 800, color: '#E63946' }}>{fmt(totalPen)}</span>
         </div>
       </div>
@@ -612,26 +612,26 @@ function PenaltyDetail({ result }: { result: Record<string, unknown> }) {
             <i className="fa-solid fa-shield-check" style={{ color: 'white', fontSize: 16 }} />
           </div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>FTA Eligibility</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>FTA Eligibility</div>
             <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 9999, fontWeight: 700, background: '#E6F9EE', color: '#00A651', marginTop: 2, display: 'inline-block' }}>You Qualify!</span>
           </div>
         </div>
         {['No penalties in past 3 years (2022-2024 clean)', 'All returns filed', 'Current on payments/IA'].map(check => (
           <div key={check} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', fontSize: 12 }}>
             <i className="fa-solid fa-circle-check" style={{ color: '#00A651', fontSize: 13 }} />
-            <span style={{ color: '#0A1628', fontWeight: 500 }}>{check}</span>
+            <span style={{ color: '#1A1A2E', fontWeight: 500 }}>{check}</span>
           </div>
         ))}
         <div style={{ background: 'white', borderRadius: 12, padding: 14, textAlign: 'center', border: '1px solid rgba(0,166,81,0.15)', marginTop: 12 }}>
-          <div style={{ fontSize: 12, color: '#64748B', marginBottom: 4 }}>Estimated Savings</div>
+          <div style={{ fontSize: 12, color: '#5C5C7A', marginBottom: 4 }}>Estimated Savings</div>
           <div style={{ fontSize: 28, fontWeight: 900, color: '#00A651', letterSpacing: '-0.02em' }}>{fmt(totalPen)}</div>
           <div style={{ fontSize: 11, color: '#065F46', fontWeight: 600 }}>100% of penalties removed</div>
         </div>
       </div>
 
       {/* How FTA Works */}
-      <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
-        <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>How FTA Works</div>
+      <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
+        <div style={{ fontSize: 12, fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>How FTA Works</div>
         {[
           { step: 1, title: 'Call IRS at 800-829-1040', desc: 'Or have your representative call on your behalf', green: false },
           { step: 2, title: 'Request First-Time Abatement', desc: 'Reference IRC \u00A7 6651 administrative waiver', green: false },
@@ -639,11 +639,11 @@ function PenaltyDetail({ result }: { result: Record<string, unknown> }) {
           { step: 4, title: `Balance drops to ${fmt(totalDebt - totalPen)}`, desc: `From ${fmt(totalDebt)} \u2192 ${fmt(totalDebt - totalPen)} (saved ${fmt(totalPen)})`, green: true },
         ].map((s) => (
           <div key={s.step} style={{ display: 'flex', gap: 14, padding: '12px 0', position: 'relative' }}>
-            {s.step < 4 && <div style={{ position: 'absolute', left: 15, top: 42, bottom: 0, width: 2, background: '#F1F5F9' }} />}
-            <div style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, flexShrink: 0, background: s.green ? '#00A651' : '#0A1628', color: 'white', zIndex: 1 }}>{s.step}</div>
+            {s.step < 4 && <div style={{ position: 'absolute', left: 15, top: 42, bottom: 0, width: 2, background: '#F0F0F5' }} />}
+            <div style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, flexShrink: 0, background: s.green ? '#00A651' : '#1A1A2E', color: 'white', zIndex: 1 }}>{s.step}</div>
             <div>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>{s.title}</div>
-              <div style={{ fontSize: 11, color: '#64748B', marginTop: 2 }}>{s.desc}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>{s.title}</div>
+              <div style={{ fontSize: 11, color: '#5C5C7A', marginTop: 2 }}>{s.desc}</div>
             </div>
           </div>
         ))}
@@ -653,21 +653,21 @@ function PenaltyDetail({ result }: { result: Record<string, unknown> }) {
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, background: 'white', border: '1.5px solid rgba(0,61,165,0.15)', borderRadius: 14, padding: 16 }}>
         <i className="fa-solid fa-chess-knight" style={{ color: '#2563EB', fontSize: 18 }} />
         <div>
-          <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Pro Tip: Apply FTA BEFORE Filing an OIC</div>
-          <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>Lower balance = lower RCP = lower offer amount. This is <strong style={{ color: '#2563EB' }}>&quot;Play A: Balance Reducer&quot;</strong> strategy.</div>
+          <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>Pro Tip: Apply FTA BEFORE Filing an OIC</div>
+          <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5 }}>Lower balance = lower RCP = lower offer amount. This is <strong style={{ color: '#2563EB' }}>&quot;Play A: Balance Reducer&quot;</strong> strategy.</div>
         </div>
       </div>
 
       {/* Reasonable Cause Backup */}
-      <div style={{ background: '#F8FAFC', border: '1px solid #F1F5F9', borderRadius: 16, padding: 16 }}>
+      <div style={{ background: '#FAFAFF', border: '1px solid #F0F0F5', borderRadius: 16, padding: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <i className="fa-solid fa-shield-halved" style={{ color: '#64748B', fontSize: 14 }} />
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Reasonable Cause (Backup)</span>
+          <i className="fa-solid fa-shield-halved" style={{ color: '#5C5C7A', fontSize: 14 }} />
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Reasonable Cause (Backup)</span>
         </div>
-        <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 8 }}>If FTA is denied, try Reasonable Cause abatement. Qualifying reasons include:</div>
+        <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5, marginBottom: 8 }}>If FTA is denied, try Reasonable Cause abatement. Qualifying reasons include:</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {['Serious illness or hospitalization', 'Natural disaster or casualty', 'Death of immediate family member', 'Inability to obtain records', 'IRS error or incorrect advice'].map(reason => (
-            <div key={reason} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#94A3B8' }}>
+            <div key={reason} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#8585A0' }}>
               <i className="fa-solid fa-circle" style={{ fontSize: 4 }} /> {reason}
             </div>
           ))}
@@ -701,9 +701,9 @@ export default function DetailPage() {
 
   if (!result) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4">
-        <h1 className="text-2xl font-extrabold text-[#0A1628]">No Results</h1>
-        <p className="mt-2 text-sm text-[#64748B]">Run your analysis first to see details.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFF] px-4">
+        <h1 className="text-2xl font-extrabold text-[#1A1A2E]">No Results</h1>
+        <p className="mt-2 text-sm text-[#5C5C7A]">Run your analysis first to see details.</p>
         <button onClick={() => router.push('/analysis/results')} className="mt-4 text-sm font-medium text-[#2563EB]">Back to Results</button>
       </div>
     )
@@ -714,14 +714,14 @@ export default function DetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, paddingBottom: 12 }}>
-          <button onClick={() => router.push('/analysis/results')} style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12, border: '1px solid #E2E8F0', background: 'white', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          <button onClick={() => router.push('/analysis/results')} style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12, border: '1px solid #D5D5E0', background: 'white', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </button>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#0A1628' }}>{titles[type] ?? 'Resolution Detail'}</span>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E' }}>{titles[type] ?? 'Resolution Detail'}</span>
           <div style={{ width: 40, flexShrink: 0 }} />
         </div>
 

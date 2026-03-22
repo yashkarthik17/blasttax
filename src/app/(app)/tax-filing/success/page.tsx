@@ -8,7 +8,7 @@ const nextItems = [
       <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
     ),
     iconBg: 'bg-[#EFF4FF]',
-    iconColor: 'text-[#0A1628]',
+    iconColor: 'text-[#1A1A2E]',
     title: 'IRS processes in 1-3 weeks',
     sub: 'Standard e-file processing time',
   },
@@ -42,13 +42,13 @@ const summaryRows = [
 
 export default function FilingSuccessPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
+    <div className="flex flex-col min-h-screen bg-[#FAFAFF]">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-3.5">
-        <Link href="/tax-filing" className="w-9 h-9 rounded-xl bg-[#F8FAFC] border border-[#F1F5F9] flex items-center justify-center">
-          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#0A1628" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        <Link href="/tax-filing" className="w-9 h-9 rounded-xl bg-[#FAFAFF] border border-[#F0F0F5] flex items-center justify-center">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#1A1A2E" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/></svg>
         </Link>
-        <span className="text-[0.95rem] font-bold text-[#0A1628]">Filing Complete</span>
+        <span className="text-[0.95rem] font-bold text-[#1A1A2E]">Filing Complete</span>
         <div className="w-8" />
       </div>
 
@@ -59,15 +59,15 @@ export default function FilingSuccessPage() {
             <svg width="32" height="32" fill="white" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
             <div className="absolute inset-0 rounded-full border-2 border-[#00A651]/30 animate-ping" />
           </div>
-          <h1 className="text-[1.4rem] font-extrabold text-[#0A1628]">Return Filed Successfully</h1>
+          <h1 className="text-[1.4rem] font-extrabold text-[#1A1A2E]">Return Filed Successfully</h1>
         </div>
 
         {/* Summary Card */}
-        <div className="bg-white border border-[#F1F5F9] rounded-[16px] p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="bg-white border border-[#F0F0F5] rounded-[16px] p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           {summaryRows.map((row, i) => (
-            <div key={i} className={`flex justify-between items-center py-2.5 ${i < summaryRows.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
-              <span className="text-[0.85rem] text-[#64748B] font-medium">{row.label}</span>
-              <span className={`${row.valueSize || 'text-[0.85rem]'} ${row.valueBold ? 'font-bold' : 'font-semibold'} ${row.valueColor || 'text-[#0A1628]'}`}>
+            <div key={i} className={`flex justify-between items-center py-2.5 ${i < summaryRows.length - 1 ? 'border-b border-[#F0F0F5]' : ''}`}>
+              <span className="text-[0.85rem] text-[#5C5C7A] font-medium">{row.label}</span>
+              <span className={`${row.valueSize || 'text-[0.85rem]'} ${row.valueBold ? 'font-bold' : 'font-semibold'} ${row.valueColor || 'text-[#1A1A2E]'}`}>
                 {row.value}
               </span>
             </div>
@@ -76,16 +76,16 @@ export default function FilingSuccessPage() {
 
         {/* What's Next */}
         <div>
-          <h2 className="text-[1rem] font-extrabold text-[#0A1628] mb-3">What&apos;s Next</h2>
-          <div className="bg-white border border-[#F1F5F9] rounded-[16px] px-[18px] py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <h2 className="text-[1rem] font-extrabold text-[#1A1A2E] mb-3">What&apos;s Next</h2>
+          <div className="bg-white border border-[#F0F0F5] rounded-[16px] px-[18px] py-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
             {nextItems.map((item, i) => (
-              <div key={i} className={`flex items-center gap-3 py-3 ${i < nextItems.length - 1 ? 'border-b border-[#F1F5F9]' : ''}`}>
+              <div key={i} className={`flex items-center gap-3 py-3 ${i < nextItems.length - 1 ? 'border-b border-[#F0F0F5]' : ''}`}>
                 <div className={`w-9 h-9 rounded-[10px] ${item.iconBg} ${item.iconColor} flex items-center justify-center shrink-0`}>
                   {item.icon}
                 </div>
                 <div>
-                  <span className="text-[0.84rem] font-semibold text-[#0A1628] block">{item.title}</span>
-                  <span className="text-[0.72rem] text-[#94A3B8]">{item.sub}</span>
+                  <span className="text-[0.84rem] font-semibold text-[#1A1A2E] block">{item.title}</span>
+                  <span className="text-[0.72rem] text-[#8585A0]">{item.sub}</span>
                 </div>
               </div>
             ))}
@@ -93,18 +93,18 @@ export default function FilingSuccessPage() {
         </div>
 
         {/* Alert Banner */}
-        <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#EFF4FF] border border-[#0A1628]/10 rounded-[14px]">
+        <div className="flex items-start gap-2.5 px-4 py-3.5 bg-[#EFF4FF] border border-[#1A1A2E]/10 rounded-[14px]">
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#2563EB" strokeWidth="2" className="shrink-0 mt-0.5"><circle cx="12" cy="12" r="10"/><path strokeLinecap="round" d="M12 16v-4m0-4h.01"/></svg>
-          <span className="text-[0.82rem] text-[#0A1628] font-medium leading-relaxed">Have outstanding tax debt? Start a resolution analysis to explore your options.</span>
+          <span className="text-[0.82rem] text-[#1A1A2E] font-medium leading-relaxed">Have outstanding tax debt? Start a resolution analysis to explore your options.</span>
         </div>
 
         {/* CTAs */}
         <div className="flex flex-col gap-2.5">
-          <Link href="/resolution" className="w-full flex items-center justify-center gap-2 bg-[#0A1628] text-white text-[0.95rem] font-bold py-4 px-7 rounded-full hover:-translate-y-px active:scale-[0.97] transition-all">
+          <Link href="/resolution" className="w-full flex items-center justify-center gap-2 bg-[#1A1A2E] text-white text-[0.95rem] font-bold py-4 px-7 rounded-full hover:-translate-y-px active:scale-[0.97] transition-all">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
             Start Resolution Analysis
           </Link>
-          <Link href="/dashboard" className="w-full flex items-center justify-center gap-2 bg-white border-[1.5px] border-[#E2E8F0] text-[#0A1628] text-[0.88rem] font-semibold py-3.5 px-7 rounded-full hover:-translate-y-px active:scale-[0.97] transition-all">
+          <Link href="/dashboard" className="w-full flex items-center justify-center gap-2 bg-white border-[1.5px] border-[#D5D5E0] text-[#1A1A2E] text-[0.88rem] font-semibold py-3.5 px-7 rounded-full hover:-translate-y-px active:scale-[0.97] transition-all">
             <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             Go to Dashboard
           </Link>

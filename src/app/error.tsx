@@ -26,8 +26,8 @@ export default function GlobalError({
       </div>
 
       {/* Heading */}
-      <h1 className="mb-3 text-2xl font-extrabold text-[#0A1628]">Something Went Wrong</h1>
-      <p className="mx-auto mb-10 max-w-[280px] text-sm text-[#94A3B8] leading-relaxed">
+      <h1 className="mb-3 text-2xl font-extrabold text-[#1A1A2E]">Something Went Wrong</h1>
+      <p className="mx-auto mb-10 max-w-[280px] text-sm text-[#8585A0] leading-relaxed">
         Our servers are having trouble right now. Please try again in a few minutes.
       </p>
 
@@ -56,8 +56,8 @@ export default function GlobalError({
       </a>
 
       {/* Error Code */}
-      <div className="mt-8 rounded-lg border border-[#F1F5F9] bg-white px-4 py-2.5">
-        <span className="font-mono text-xs text-[#94A3B8]">
+      <div className="mt-8 rounded-lg border border-[#F0F0F5] bg-white px-4 py-2.5">
+        <span className="font-mono text-xs text-[#8585A0]">
           Error Code: 500 {error.digest ? `\u00b7 ${error.digest}` : '\u00b7 REF-BT2026'}
         </span>
       </div>

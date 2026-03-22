@@ -34,20 +34,20 @@ const initial: PersonalInfo = {
 const fieldLabelStyle: React.CSSProperties = {
   fontSize: '0.72rem',
   fontWeight: 600,
-  color: '#64748B',
+  color: '#5C5C7A',
   marginBottom: 6,
 }
 
 const fieldInputStyle: React.CSSProperties = {
   width: '100%',
   padding: '12px 14px',
-  background: '#F8FAFC',
-  border: '1.5px solid #F1F5F9',
+  background: '#FAFAFF',
+  border: '1.5px solid #F0F0F5',
   borderRadius: 12,
   fontFamily: 'inherit',
   fontSize: '0.85rem',
   fontWeight: 600,
-  color: '#0A1628',
+  color: '#1A1A2E',
   outline: 'none',
   transition: 'all 0.2s ease',
   boxSizing: 'border-box' as const,
@@ -65,7 +65,7 @@ const fieldSelectStyle: React.CSSProperties = {
 const sectionDividerStyle: React.CSSProperties = {
   fontSize: '0.75rem',
   fontWeight: 700,
-  color: '#CBD5E1',
+  color: '#B0B0C8',
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   marginBottom: 12,
@@ -92,15 +92,15 @@ export default function PersonalInfoPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: 480, margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#D5D5E0', borderRadius: 9999, overflow: 'hidden' }}>
             <div style={{ width: '30%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 2 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Step 2 of 6</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Personal Info</span>
           </div>
         </div>
@@ -108,10 +108,10 @@ export default function PersonalInfoPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '14px 20px 20px' }}>
           {/* Heading */}
           <div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
               Tell us about yourself
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 4, lineHeight: 1.5 }}>
+            <div style={{ fontSize: '0.78rem', color: '#8585A0', marginTop: 4, lineHeight: 1.5 }}>
               This information is required by every IRS form
             </div>
           </div>
@@ -187,14 +187,14 @@ export default function PersonalInfoPage() {
 
           {/* Previous Address Toggle */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'white', border: '1px solid #F3F4F6', borderRadius: 14, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'white', border: '1px solid #E8E8F0', borderRadius: 14, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
               <div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Previous address?</div>
-                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>Required if &lt; 3 years at current</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>Previous address?</div>
+                <div style={{ fontSize: '0.68rem', color: '#8585A0' }}>Required if &lt; 3 years at current</div>
               </div>
               <button
                 onClick={() => setShowPrevAddress(!showPrevAddress)}
-                style={{ width: 40, height: 22, borderRadius: 11, background: showPrevAddress ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
+                style={{ width: 40, height: 22, borderRadius: 11, background: showPrevAddress ? '#1A1A2E' : '#D5D5E0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
                 <div style={{ position: 'absolute', top: 2, left: showPrevAddress ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
@@ -253,14 +253,14 @@ export default function PersonalInfoPage() {
 
           {/* Filing Jointly (MFJ) Toggle */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'white', border: '1px solid #F3F4F6', borderRadius: 14, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px', background: 'white', border: '1px solid #E8E8F0', borderRadius: 14, boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
               <div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Filing jointly (MFJ)?</div>
-                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>Add spouse information</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>Filing jointly (MFJ)?</div>
+                <div style={{ fontSize: '0.68rem', color: '#8585A0' }}>Add spouse information</div>
               </div>
               <button
                 onClick={() => setShowSpouse(!showSpouse)}
-                style={{ width: 40, height: 22, borderRadius: 11, background: showSpouse ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
+                style={{ width: 40, height: 22, borderRadius: 11, background: showSpouse ? '#1A1A2E' : '#D5D5E0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
                 <div style={{ position: 'absolute', top: 2, left: showSpouse ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
@@ -308,7 +308,7 @@ export default function PersonalInfoPage() {
             </button>
             <button
               onClick={() => router.push('/dashboard')}
-              style={{ padding: 12, textAlign: 'center', color: '#94A3B8', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}
+              style={{ padding: 12, textAlign: 'center', color: '#8585A0', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}
             >
               <i className="fas fa-bookmark" style={{ marginRight: 6, fontSize: 11 }} /> Save &amp; Exit
             </button>

@@ -7,7 +7,7 @@ const nextSteps = [
     title: 'Features downgrade to Free plan',
     subtitle: 'After your current period expires',
     icon: (
-      <svg className="h-2.5 w-2.5 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg className="h-2.5 w-2.5 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
       </svg>
     ),
@@ -16,7 +16,7 @@ const nextSteps = [
     title: 'Your cases and data are preserved',
     subtitle: 'Nothing gets deleted',
     icon: (
-      <svg className="h-2.5 w-2.5 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg className="h-2.5 w-2.5 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
       </svg>
     ),
@@ -25,7 +25,7 @@ const nextSteps = [
     title: 'You can resubscribe anytime',
     subtitle: 'Instantly reactivate your Pro plan',
     icon: (
-      <svg className="h-2.5 w-2.5 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+      <svg className="h-2.5 w-2.5 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
       </svg>
     ),
@@ -43,8 +43,8 @@ export default function CancelConfirmedPage() {
       </div>
 
       {/* Heading */}
-      <h1 className="text-[1.35rem] font-extrabold text-[#0A1628] leading-tight mb-2">Subscription Cancelled</h1>
-      <p className="text-sm text-[#64748B] mb-6">We&apos;re sorry to see you go.</p>
+      <h1 className="text-[1.35rem] font-extrabold text-[#1A1A2E] leading-tight mb-2">Subscription Cancelled</h1>
+      <p className="text-sm text-[#5C5C7A] mb-6">We&apos;re sorry to see you go.</p>
 
       {/* Info Card */}
       <div className="w-full bg-[#2563EB]/10 border border-blue-500/30 rounded-[14px] p-4 flex items-center gap-3 mb-6">
@@ -60,16 +60,16 @@ export default function CancelConfirmedPage() {
 
       {/* What Happens Next */}
       <div className="w-full text-left mb-6">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3.5">What happens next</div>
+        <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3.5">What happens next</div>
         <div className="flex flex-col gap-3">
           {nextSteps.map((step) => (
             <div key={step.title} className="flex items-start gap-3">
-              <div className="w-7 h-7 rounded-lg bg-white border border-[#F1F5F9] flex items-center justify-center flex-shrink-0 mt-0.5">
+              <div className="w-7 h-7 rounded-lg bg-white border border-[#F0F0F5] flex items-center justify-center flex-shrink-0 mt-0.5">
                 {step.icon}
               </div>
               <div>
-                <div className="text-sm font-semibold text-[#0A1628] leading-snug">{step.title}</div>
-                <div className="text-xs text-[#94A3B8] mt-0.5">{step.subtitle}</div>
+                <div className="text-sm font-semibold text-[#1A1A2E] leading-snug">{step.title}</div>
+                <div className="text-xs text-[#8585A0] mt-0.5">{step.subtitle}</div>
               </div>
             </div>
           ))}
@@ -86,7 +86,7 @@ export default function CancelConfirmedPage() {
         </Link>
         <Link
           href="/billing/plans"
-          className="w-full flex items-center justify-center gap-1 py-3.5 bg-transparent text-[#0A1628] border border-[#E2E8F0] rounded-full text-sm font-semibold hover:border-white transition-colors"
+          className="w-full flex items-center justify-center gap-1 py-3.5 bg-transparent text-[#1A1A2E] border border-[#D5D5E0] rounded-full text-sm font-semibold hover:border-white transition-colors"
         >
           <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -96,7 +96,7 @@ export default function CancelConfirmedPage() {
       </div>
 
       {/* Small text */}
-      <p className="text-xs text-[#94A3B8] leading-relaxed max-w-[280px]">
+      <p className="text-xs text-[#8585A0] leading-relaxed max-w-[280px]">
         Changed your mind? You can reactivate anytime before April 15.
       </p>
     </div>

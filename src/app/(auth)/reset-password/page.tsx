@@ -44,9 +44,9 @@ export default function ResetPasswordPage() {
               className="flex items-center justify-center"
               style={{
                 width: 40, height: 40, borderRadius: 12,
-                background: '#FFFFFF', border: '1.5px solid #E2E8F0',
-                color: '#0A1628', fontSize: 16, textDecoration: 'none',
-                boxShadow: 'none', transition: 'all 0.25s ease',
+                background: '#FFFFFF', border: '1.5px solid #D5D5E0',
+                color: '#1A1A2E', fontSize: 16, textDecoration: 'none',
+                boxShadow: '0 2px 8px rgba(26,26,46,0.05)', transition: 'all 0.25s ease',
               }}
             >
               <i className="fas fa-arrow-left" />
@@ -66,14 +66,14 @@ export default function ResetPasswordPage() {
                       background: '#EFF4FF', position: 'relative', zIndex: 2,
                     }}
                   >
-                    <i className="fas fa-lock" style={{ fontSize: 28, color: '#0A1628', position: 'relative', zIndex: 2 }} />
+                    <i className="fas fa-lock" style={{ fontSize: 28, color: '#1A1A2E', position: 'relative', zIndex: 2 }} />
                     {/* Shield badge */}
                     <div
                       className="flex items-center justify-center"
                       style={{
                         position: 'absolute', bottom: -2, right: -2,
                         width: 32, height: 32, borderRadius: '50%',
-                        background: '#00A651', zIndex: 3, boxShadow: 'none',
+                        background: '#00A651', zIndex: 3, boxShadow: '0 2px 8px rgba(26,26,46,0.05)',
                       }}
                     >
                       <i className="fas fa-shield-halved" style={{ fontSize: 14, color: '#FFFFFF' }} />
@@ -92,14 +92,14 @@ export default function ResetPasswordPage() {
 
               {/* Heading */}
               <div style={{ textAlign: 'center', marginBottom: 8 }}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>
                   Reset your password
                 </h1>
               </div>
 
               {/* Subtitle */}
               <div style={{ textAlign: 'center', marginBottom: 36, maxWidth: 300, marginLeft: 'auto', marginRight: 'auto' }}>
-                <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400, lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.85rem', color: '#8585A0', fontWeight: 400, lineHeight: 1.6 }}>
                   Enter your email and we&apos;ll send you a reset link
                 </p>
               </div>
@@ -123,28 +123,28 @@ export default function ResetPasswordPage() {
                     style={{
                       width: '100%',
                       padding: '14px 16px 14px 46px',
-                      background: '#F8FAFC',
-                      border: '1.5px solid #E2E8F0',
+                      background: '#FAFAFF',
+                      border: '1.5px solid #D5D5E0',
                       borderRadius: 12,
                       fontFamily: 'inherit',
                       fontSize: '0.9375rem',
                       fontWeight: 500,
-                      color: '#0A1628',
+                      color: '#1A1A2E',
                       outline: 'none',
                       transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#0A1628'
+                      e.currentTarget.style.borderColor = '#1A1A2E'
                       e.currentTarget.style.background = '#FFFFFF'
                       e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)'
                     }}
                     onBlur={(e) => {
-                      e.currentTarget.style.borderColor = '#E2E8F0'
-                      e.currentTarget.style.background = '#F8FAFC'
+                      e.currentTarget.style.borderColor = '#D5D5E0'
+                      e.currentTarget.style.background = '#FAFAFF'
                       e.currentTarget.style.boxShadow = 'none'
                     }}
                   />
-                  <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 15, pointerEvents: 'none' }} />
+                  <i className="fas fa-envelope" style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 15, pointerEvents: 'none' }} />
                 </div>
 
                 {/* Send Reset Link */}
@@ -187,9 +187,9 @@ export default function ResetPasswordPage() {
 
               {/* Sign in link */}
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
+                <p style={{ fontSize: '0.82rem', color: '#8585A0', fontWeight: 400 }}>
                   Remember your password?{' '}
-                  <Link href="/login" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
+                  <Link href="/login" style={{ fontWeight: 700, color: '#1A1A2E', textDecoration: 'none' }}>
                     Sign in
                   </Link>
                 </p>
@@ -207,10 +207,10 @@ export default function ResetPasswordPage() {
               >
                 <i className="fas fa-check" style={{ fontSize: 28, color: '#00A651' }} />
               </div>
-              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#0A1628', marginBottom: 8 }}>
+              <h2 style={{ fontSize: '1.35rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 8 }}>
                 Check your inbox
               </h2>
-              <p style={{ fontSize: '0.85rem', color: '#94A3B8', lineHeight: 1.6, marginBottom: 32, maxWidth: 260, marginLeft: 'auto', marginRight: 'auto' }}>
+              <p style={{ fontSize: '0.85rem', color: '#8585A0', lineHeight: 1.6, marginBottom: 32, maxWidth: 260, marginLeft: 'auto', marginRight: 'auto' }}>
                 We&apos;ve sent a password reset link to your email address
               </p>
               <Link
@@ -218,7 +218,7 @@ export default function ResetPasswordPage() {
                 className="inline-flex items-center justify-center"
                 style={{
                   fontSize: '0.9rem', fontWeight: 700, padding: '14px 28px',
-                  border: '1.5px solid #E2E8F0', color: '#0A1628',
+                  border: '1.5px solid #D5D5E0', color: '#1A1A2E',
                   background: '#FFFFFF', textDecoration: 'none', minWidth: 200,
                   borderRadius: 9999, transition: 'all 0.25s ease',
                 }}

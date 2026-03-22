@@ -20,12 +20,12 @@ export default function CancelSubscriptionPage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-4 pb-3">
-        <Link href="/billing" className="w-9 h-9 rounded-xl bg-[#F1F5F9] flex items-center justify-center">
-          <svg className="h-4 w-4 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <Link href="/billing" className="w-9 h-9 rounded-xl bg-[#F0F0F5] flex items-center justify-center">
+          <svg className="h-4 w-4 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </Link>
-        <h1 className="text-lg font-bold text-[#0A1628]">Cancel Subscription</h1>
+        <h1 className="text-lg font-bold text-[#1A1A2E]">Cancel Subscription</h1>
         <div className="w-9" />
       </div>
 
@@ -45,16 +45,16 @@ export default function CancelSubscriptionPage() {
 
         {/* What You'll Lose */}
         <div>
-          <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3">What you&apos;ll lose</div>
+          <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3">What you&apos;ll lose</div>
           <div className="flex flex-col gap-2.5">
             {lostFeatures.map((f) => (
-              <div key={f} className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-[#F1F5F9]">
+              <div key={f} className="flex items-center gap-3 px-4 py-3 bg-white rounded-xl border border-[#F0F0F5]">
                 <div className="w-7 h-7 rounded-lg bg-red-500/10 flex items-center justify-center flex-shrink-0">
                   <svg className="h-3 w-3 text-[#E63946]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </div>
-                <span className="text-sm text-[#0A1628] font-medium">{f}</span>
+                <span className="text-sm text-[#1A1A2E] font-medium">{f}</span>
               </div>
             ))}
           </div>
@@ -62,7 +62,7 @@ export default function CancelSubscriptionPage() {
 
         {/* Why are you leaving? */}
         <div>
-          <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3">Why are you leaving?</div>
+          <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3">Why are you leaving?</div>
           <div className="flex flex-col gap-2">
             {reasons.map((r, i) => (
               <button
@@ -71,13 +71,13 @@ export default function CancelSubscriptionPage() {
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-[14px] border transition-colors text-left ${
                   selectedReason === i
                     ? 'bg-[#2563EB]/10 border-blue-500'
-                    : 'bg-white border-[#F1F5F9] hover:border-[#E2E8F0]'
+                    : 'bg-white border-[#F0F0F5] hover:border-[#D5D5E0]'
                 }`}
               >
-                <span className="text-sm text-[#64748B] w-[18px] text-center">{r.icon}</span>
-                <span className="text-sm text-[#0A1628] font-medium flex-1">{r.label}</span>
+                <span className="text-sm text-[#5C5C7A] w-[18px] text-center">{r.icon}</span>
+                <span className="text-sm text-[#1A1A2E] font-medium flex-1">{r.label}</span>
                 <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                  selectedReason === i ? 'border-blue-500 bg-[#2563EB]' : 'border-[#E2E8F0]'
+                  selectedReason === i ? 'border-blue-500 bg-[#2563EB]' : 'border-[#D5D5E0]'
                 }`}>
                   {selectedReason === i && <div className="w-[7px] h-[7px] rounded-full bg-white" />}
                 </div>
@@ -97,8 +97,8 @@ export default function CancelSubscriptionPage() {
             </div>
             <span className="text-xs font-bold text-[#2563EB] uppercase tracking-wide">Special Offer</span>
           </div>
-          <div className="text-sm font-bold text-[#0A1628] leading-snug mb-1">Stay on Pro and get 30% off your next 3 months</div>
-          <div className="text-sm text-[#64748B] mb-3.5">
+          <div className="text-sm font-bold text-[#1A1A2E] leading-snug mb-1">Stay on Pro and get 30% off your next 3 months</div>
+          <div className="text-sm text-[#5C5C7A] mb-3.5">
             <span className="text-lg font-extrabold text-[#2563EB]">$34.30</span>
             <span className="font-medium">/mo instead of $49.00</span>
           </div>
@@ -111,7 +111,7 @@ export default function CancelSubscriptionPage() {
         <div className="flex flex-col gap-2.5 pt-1">
           <Link
             href="/billing/cancelled"
-            className="w-full flex items-center justify-center py-3.5 bg-transparent text-[#E63946] border border-red-500 rounded-full text-sm font-semibold hover:bg-red-500 hover:text-[#0A1628] transition-colors"
+            className="w-full flex items-center justify-center py-3.5 bg-transparent text-[#E63946] border border-red-500 rounded-full text-sm font-semibold hover:bg-red-500 hover:text-[#1A1A2E] transition-colors"
           >
             Continue Cancellation
           </Link>

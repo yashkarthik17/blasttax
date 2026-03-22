@@ -36,7 +36,7 @@ const STRATEGIES: Strategy[] = [
     iconBg: '#E6F9EE', iconContent: <span style={{ fontSize: 18 }}>&#9312;</span>,
     recommended: true, recommendedLabel: 'Recommended for you',
     tags: [
-      { label: 'Penalty Abatement', color: '#0A1628', bg: '#EBF0FF', separator: 'arrow' },
+      { label: 'Penalty Abatement', color: '#1A1A2E', bg: '#EBF0FF', separator: 'arrow' },
       { label: 'OIC', color: '#7C3AED', bg: '#F5F0FF' },
     ],
     savings: '~$25K+', timeline: '4-8 mo', complexity: 3, qualify: 'yes',
@@ -47,9 +47,9 @@ const STRATEGIES: Strategy[] = [
     ],
     example: { parts: [
       { text: '$80K', color: 'var(--brand-red, #E63946)', weight: '700', size: '0.8125rem' },
-      { text: 'FTA removes $25K', color: 'var(--color-muted, #64748B)', size: '0.75rem' },
+      { text: 'FTA removes $25K', color: 'var(--color-muted, #5C5C7A)', size: '0.75rem' },
       { text: 'OIC on $55K', color: '#00A651', weight: '700', size: '0.8125rem' },
-      { text: '= lower offer', color: 'var(--color-muted, #64748B)', size: '0.6875rem' },
+      { text: '= lower offer', color: 'var(--color-muted, #5C5C7A)', size: '0.6875rem' },
     ] },
   },
   {
@@ -57,7 +57,7 @@ const STRATEGIES: Strategy[] = [
     iconBg: '#FFFFFF', iconContent: <span style={{ fontSize: 18 }}>&#9313;</span>,
     tags: [
       { label: 'Amended Return', color: '#0D9488', bg: '#F0FDFA', separator: 'arrow' },
-      { label: 'FTA', color: '#0A1628', bg: '#EBF0FF', separator: 'arrow' },
+      { label: 'FTA', color: '#1A1A2E', bg: '#EBF0FF', separator: 'arrow' },
       { label: 'OIC', color: '#7C3AED', bg: '#F5F0FF' },
     ],
     savings: '~$50K+', timeline: '6-12 mo', complexity: 4, qualify: 'yes',
@@ -68,8 +68,8 @@ const STRATEGIES: Strategy[] = [
     ],
     example: { parts: [
       { text: '$100K', color: 'var(--brand-red, #E63946)', weight: '700', size: '0.8125rem' },
-      { text: '$70K (amended)', color: 'var(--color-muted, #64748B)', size: '0.75rem' },
-      { text: '$50K (FTA)', color: 'var(--color-muted, #64748B)', size: '0.75rem' },
+      { text: '$70K (amended)', color: 'var(--color-muted, #5C5C7A)', size: '0.75rem' },
+      { text: '$50K (FTA)', color: 'var(--color-muted, #5C5C7A)', size: '0.75rem' },
       { text: 'OIC on $50K', color: '#00A651', weight: '700', size: '0.8125rem' },
     ] },
   },
@@ -86,14 +86,14 @@ const STRATEGIES: Strategy[] = [
       { title: 'File Form 12153', description: 'Within 30 days of notice' },
       { title: 'Propose OIC at Hearing', description: 'Present offer during CDP hearing' },
     ],
-    tip: { icon: 'fa-shield-halved', color: '#0A1628', bg: '#EBF0FF', text: 'Benefits: levy protection + OIC consideration in one process' },
+    tip: { icon: 'fa-shield-halved', color: '#1A1A2E', bg: '#EBF0FF', text: 'Benefits: levy protection + OIC consideration in one process' },
   },
   {
     id: 'd', playLabel: 'Play D', playColor: '#E63946', title: 'Spouse Shield',
     iconBg: '#FFF0F1', iconContent: <span style={{ fontSize: 18 }}>&#9315;</span>,
     tags: [
       { label: 'Innocent Spouse', color: '#E63946', bg: '#FFF0F1', separator: 'plus' },
-      { label: 'IA', color: '#0A1628', bg: '#EBF0FF' },
+      { label: 'IA', color: '#1A1A2E', bg: '#EBF0FF' },
     ],
     savings: 'Up to 50%', timeline: '6-18 mo', complexity: 5, qualify: 'maybe',
     steps: [
@@ -107,7 +107,7 @@ const STRATEGIES: Strategy[] = [
     iconBg: '#F0FDFA', iconContent: <span style={{ fontSize: 18 }}>&#9316;</span>,
     tags: [
       { label: 'CNC', color: '#0D9488', bg: '#F0FDFA', separator: 'plus' },
-      { label: 'FTA', color: '#0A1628', bg: '#EBF0FF', separator: 'plus' },
+      { label: 'FTA', color: '#1A1A2E', bg: '#EBF0FF', separator: 'plus' },
       { label: 'CSED', color: '#D97706', bg: '#FEF3C7' },
     ],
     savings: '100%', timeline: 'Until CSED', complexity: 2, qualify: 'yes',
@@ -128,7 +128,7 @@ const STRATEGIES: Strategy[] = [
     steps: [],
     yearSplit: [
       { year: '2020', yearColor: '#0D9488', badge: 'CNC', badgeBg: '#F0FDFA', badgeBorder: 'rgba(13,148,136,0.2)', badgeColor: '#0D9488', desc: 'Near CSED expiration -- let it expire' },
-      { year: '2023', yearColor: '#0A1628', badge: 'IA', badgeBg: '#EBF0FF', badgeBorder: 'rgba(0,61,165,0.15)', badgeColor: '#0A1628', desc: 'Recent year -- installment agreement' },
+      { year: '2023', yearColor: '#1A1A2E', badge: 'IA', badgeBg: '#EBF0FF', badgeBorder: 'rgba(0,61,165,0.15)', badgeColor: '#1A1A2E', desc: 'Recent year -- installment agreement' },
     ],
   },
 ]
@@ -177,7 +177,7 @@ const SPECIALTY_STRATEGIES: Strategy[] = [
     conditionLabel: 'If IRS filed your return', conditionColor: '#D97706', conditionBg: '#FEF3C7', conditionBorder: 'rgba(217,119,6,0.2)',
     tags: [
       { label: 'SFR Replace', color: '#D97706', bg: '#FEF3C7', separator: 'arrow' },
-      { label: 'FTA', color: '#0A1628', bg: '#EBF0FF', separator: 'arrow' },
+      { label: 'FTA', color: '#1A1A2E', bg: '#EBF0FF', separator: 'arrow' },
       { label: 'OIC/IA', color: '#7C3AED', bg: '#F5F0FF' },
     ],
     savings: '40-60%', timeline: '4-10 mo', complexity: 4, qualify: 'yes',
@@ -189,16 +189,16 @@ const SPECIALTY_STRATEGIES: Strategy[] = [
     ],
     links: [
       { label: 'SFR Dispute', href: '/tools/sfr-dispute', icon: 'fa-file-circle-xmark', color: '#D97706', bg: '#FEF3C7' },
-      { label: 'Amended Return', href: '/tools/amended-return', icon: 'fa-file-pen', color: '#0A1628', bg: '#EBF0FF' },
+      { label: 'Amended Return', href: '/tools/amended-return', icon: 'fa-file-pen', color: '#1A1A2E', bg: '#EBF0FF' },
     ],
   },
   {
-    id: 'j', playLabel: 'Play J', playColor: '#0A1628', title: 'SCRA Protection Stack',
-    iconBg: '#EBF0FF', iconContent: <i className="fa-solid fa-shield-halved" style={{ fontSize: 16, color: '#0A1628' }} />,
+    id: 'j', playLabel: 'Play J', playColor: '#1A1A2E', title: 'SCRA Protection Stack',
+    iconBg: '#EBF0FF', iconContent: <i className="fa-solid fa-shield-halved" style={{ fontSize: 16, color: '#1A1A2E' }} />,
     isSpecialty: true,
-    conditionLabel: 'Active-duty military', conditionColor: '#0A1628', conditionBg: '#EBF0FF', conditionBorder: 'rgba(0,61,165,0.2)',
+    conditionLabel: 'Active-duty military', conditionColor: '#1A1A2E', conditionBg: '#EBF0FF', conditionBorder: 'rgba(0,61,165,0.2)',
     tags: [
-      { label: 'SCRA', color: '#0A1628', bg: '#EBF0FF', separator: 'plus' },
+      { label: 'SCRA', color: '#1A1A2E', bg: '#EBF0FF', separator: 'plus' },
       { label: 'CSED Tolling', color: '#0D9488', bg: '#F0FDFA', separator: 'plus' },
       { label: 'Extensions', color: '#D97706', bg: '#FEF3C7' },
     ],
@@ -209,7 +209,7 @@ const SPECIALTY_STRATEGIES: Strategy[] = [
       { title: 'Step 3: File Extensions for Combat Zone Years', description: 'Deadline extensions for deployed servicemembers' },
       { title: 'Step 4: Apply for Resolution After Service', description: 'File OIC/IA with tolled CSED advantage' },
     ],
-    links: [{ label: 'Military SCRA Protections', href: '/tools/military-scra', icon: 'fa-shield-halved', color: '#0A1628', bg: '#EBF0FF' }],
+    links: [{ label: 'Military SCRA Protections', href: '/tools/military-scra', icon: 'fa-shield-halved', color: '#1A1A2E', bg: '#EBF0FF' }],
   },
 ]
 
@@ -222,7 +222,7 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
       className={`cursor-pointer overflow-hidden rounded-2xl border-[1.5px] bg-white transition-all duration-[350ms] ${
         s.recommended
           ? 'border-[#00A651]'
-          : isExpanded ? 'border-[#0A1628] shadow-[0_1px_2px_rgba(0,0,0,0.03)]' : 'border-[#F1F5F9] hover:border-[rgba(0,61,165,0.2)] hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]'
+          : isExpanded ? 'border-[#1A1A2E] shadow-[0_1px_2px_rgba(0,0,0,0.03)]' : 'border-[#F0F0F5] hover:border-[rgba(0,61,165,0.2)] hover:shadow-[0_1px_2px_rgba(0,0,0,0.03)]'
       }`}
     >
       {/* Header */}
@@ -240,13 +240,13 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
               <span style={{ fontSize: '0.625rem', fontWeight: 600, color: s.conditionColor, background: s.conditionBg, border: `1px solid ${s.conditionBorder}`, padding: '2px 8px', borderRadius: 20 }}>{s.conditionLabel}</span>
             )}
           </div>
-          <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#0A1628', marginBottom: 2 }}>{s.title}</p>
+          <p style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#1A1A2E', marginBottom: 2 }}>{s.title}</p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap' }}>
             {s.tags.map((tag, i) => (
               <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <span style={{ fontSize: '0.6875rem', fontWeight: 600, color: tag.color, background: tag.bg, padding: '2px 8px', borderRadius: 8 }}>{tag.label}</span>
                 {tag.separator && i < s.tags.length - 1 && (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', color: '#CBD5E1', fontSize: 10, margin: '0 4px' }}>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', color: '#B0B0C8', fontSize: 10, margin: '0 4px' }}>
                     <i className={`fa-solid fa-${tag.separator === 'arrow' ? 'arrow-right' : 'plus'}`} style={{ fontSize: tag.separator === 'plus' ? 8 : 10 }} />
                   </span>
                 )}
@@ -254,39 +254,39 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
             ))}
           </div>
         </div>
-        <i className={`fa-solid fa-chevron-down transition-transform duration-[350ms] ${isExpanded ? 'rotate-180' : ''}`} style={{ color: '#CBD5E1', fontSize: 12, marginTop: 4 }} />
+        <i className={`fa-solid fa-chevron-down transition-transform duration-[350ms] ${isExpanded ? 'rotate-180' : ''}`} style={{ color: '#B0B0C8', fontSize: 12, marginTop: 4 }} />
       </div>
 
       {/* Expandable Body */}
       <div style={{ maxHeight: isExpanded ? 600 : 0, overflow: 'hidden', transition: 'max-height 0.5s cubic-bezier(0.25, 0.1, 0.25, 1)' }}>
-        <div style={{ padding: '0 16px 16px', borderTop: '1px solid #F1F5F9' }}>
+        <div style={{ padding: '0 16px 16px', borderTop: '1px solid #F0F0F5' }}>
           <div style={{ paddingTop: 14 }}>
             {/* Description for specialty cards */}
             {s.isSpecialty && s.id === 'g' && (
-              <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, marginBottom: 14 }}>If your Collection Statute Expiration Date is within 3 years, combining CNC status with strategic waiting may result in the debt expiring entirely -- at zero cost.</p>
+              <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', lineHeight: 1.5, marginBottom: 14 }}>If your Collection Statute Expiration Date is within 3 years, combining CNC status with strategic waiting may result in the debt expiring entirely -- at zero cost.</p>
             )}
             {s.isSpecialty && s.id === 'h' && (
-              <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, marginBottom: 14 }}>If you have an active NFTL, getting a lien subordination or discharge first enables refinancing or property sales that fund your OIC or IA.</p>
+              <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', lineHeight: 1.5, marginBottom: 14 }}>If you have an active NFTL, getting a lien subordination or discharge first enables refinancing or property sales that fund your OIC or IA.</p>
             )}
             {s.isSpecialty && s.id === 'i' && (
-              <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, marginBottom: 14 }}>Substitute for Returns overstate your tax because they miss your deductions and credits. Filing your own return first can reduce your balance by 40-60% before starting resolution.</p>
+              <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', lineHeight: 1.5, marginBottom: 14 }}>Substitute for Returns overstate your tax because they miss your deductions and credits. Filing your own return first can reduce your balance by 40-60% before starting resolution.</p>
             )}
             {s.isSpecialty && s.id === 'j' && (
-              <p style={{ fontSize: '0.8125rem', color: '#64748B', lineHeight: 1.5, marginBottom: 14 }}>Servicemembers can stack multiple protections: 6% interest cap, CSED tolling during service, filing extensions, and collection halt -- maximizing time and reducing cost.</p>
+              <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', lineHeight: 1.5, marginBottom: 14 }}>Servicemembers can stack multiple protections: 6% interest cap, CSED tolling during service, filing extensions, and collection halt -- maximizing time and reducing cost.</p>
             )}
 
             {/* Meta Row */}
             <div style={{ display: 'flex', gap: 16, marginBottom: 14 }}>
               <div>
-                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Savings</p>
+                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Savings</p>
                 <p style={{ fontSize: '0.875rem', fontWeight: 800, color: '#00A651' }}>{s.savings}</p>
               </div>
               <div>
-                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Timeline</p>
-                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628' }}>{s.timeline}</p>
+                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Timeline</p>
+                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E' }}>{s.timeline}</p>
               </div>
               <div>
-                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Complexity</p>
+                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Complexity</p>
                 <div style={{ display: 'flex', gap: 2, marginTop: 2 }}>
                   {[1, 2, 3, 4, 5].map(n => (
                     <i key={n} className={`${n <= s.complexity ? 'fa-solid' : 'fa-regular'} fa-star`} style={{ fontSize: 10, color: n <= s.complexity ? '#F5A623' : '#E8E8F0' }} />
@@ -294,7 +294,7 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
                 </div>
               </div>
               <div>
-                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Qualify?</p>
+                <p style={{ fontSize: '0.625rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Qualify?</p>
                 {s.qualify === 'yes' ? (
                   <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#00A651' }}><i className="fa-solid fa-circle-check" /> Yes</span>
                 ) : (
@@ -306,12 +306,12 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
             {/* Steps */}
             {s.steps.length > 0 && (
               <div style={{ position: 'relative', paddingLeft: 24 }}>
-                <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: '#0A1628', borderRadius: 2 }} />
+                <div style={{ position: 'absolute', left: 7, top: 8, bottom: 8, width: 2, background: '#1A1A2E', borderRadius: 2 }} />
                 {s.steps.map((step) => (
                   <div key={step.title} style={{ position: 'relative', padding: '8px 0' }}>
-                    <div style={{ position: 'absolute', left: -20, top: 14, width: 10, height: 10, borderRadius: '50%', background: '#0A1628', border: '2px solid white', boxShadow: '0 0 0 2px #0A1628' }} />
-                    <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628' }}>{step.title}</p>
-                    <p style={{ fontSize: '0.75rem', color: '#64748B' }}>{step.description}</p>
+                    <div style={{ position: 'absolute', left: -20, top: 14, width: 10, height: 10, borderRadius: '50%', background: '#1A1A2E', border: '2px solid white', boxShadow: '0 0 0 2px #1A1A2E' }} />
+                    <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#1A1A2E' }}>{step.title}</p>
+                    <p style={{ fontSize: '0.75rem', color: '#5C5C7A' }}>{step.description}</p>
                   </div>
                 ))}
               </div>
@@ -326,7 +326,7 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
                       <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: ys.yearColor }}>{ys.year}</span>
                       <span style={{ fontSize: '0.625rem', fontWeight: 600, background: ys.badgeBg, color: ys.badgeColor, border: `1px solid ${ys.badgeBorder}`, padding: '1px 8px', borderRadius: 8 }}>{ys.badge}</span>
                     </div>
-                    <p style={{ fontSize: '0.75rem', color: '#64748B' }}>{ys.desc}</p>
+                    <p style={{ fontSize: '0.75rem', color: '#5C5C7A' }}>{ys.desc}</p>
                   </div>
                 ))}
               </div>
@@ -334,13 +334,13 @@ function StrategyCard({ s, isExpanded, onToggle }: { s: Strategy; isExpanded: bo
 
             {/* Example */}
             {s.example && (
-              <div style={{ marginTop: 14, padding: 12, background: '#F8FAFC', borderRadius: 12, border: '1px solid #F1F5F9' }}>
-                <p style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 6 }}>Example</p>
+              <div style={{ marginTop: 14, padding: 12, background: '#FAFAFF', borderRadius: 12, border: '1px solid #F0F0F5' }}>
+                <p style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 6 }}>Example</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                   {s.example.parts.map((part, i) => (
                     <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: part.size || '0.8125rem', fontWeight: part.weight ? Number(part.weight) : 400, color: part.color || '#64748B' }}>{part.text}</span>
-                      {i < s.example!.parts.length - 1 && <i className="fa-solid fa-arrow-right" style={{ fontSize: 9, color: '#CBD5E1' }} />}
+                      <span style={{ fontSize: part.size || '0.8125rem', fontWeight: part.weight ? Number(part.weight) : 400, color: part.color || '#5C5C7A' }}>{part.text}</span>
+                      {i < s.example!.parts.length - 1 && <i className="fa-solid fa-arrow-right" style={{ fontSize: 9, color: '#B0B0C8' }} />}
                     </span>
                   ))}
                 </div>
@@ -383,23 +383,23 @@ export default function StrategicPlaysPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', padding: '14px 20px' }}>
           <button onClick={() => router.back()} style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ fontSize: 16, color: '#0A1628' }} />
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 16, color: '#1A1A2E' }} />
           </button>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#0A1628' }}>Resolution Strategies</span>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E' }}>Resolution Strategies</span>
           <button style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer' }}>
-            <i className="fa-solid fa-info-circle" style={{ fontSize: 16, color: '#94A3B8' }} />
+            <i className="fa-solid fa-info-circle" style={{ fontSize: 16, color: '#8585A0' }} />
           </button>
         </div>
 
         <div style={{ padding: '0 20px 20px' }}>
           {/* Title */}
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, marginBottom: 6 }}>Advanced Resolution Strategies</h1>
-          <p style={{ fontSize: '0.8125rem', color: '#64748B', marginBottom: 20 }}>Combine multiple approaches for optimal outcomes</p>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, marginBottom: 6 }}>Advanced Resolution Strategies</h1>
+          <p style={{ fontSize: '0.8125rem', color: '#5C5C7A', marginBottom: 20 }}>Combine multiple approaches for optimal outcomes</p>
 
           {/* Strategy Cards */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -409,9 +409,9 @@ export default function StrategicPlaysPage() {
 
             {/* Specialty Section Divider */}
             <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ flex: 1, height: 1, background: '#F1F5F9' }} />
-              <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>Specialty-Aware Plays</span>
-              <div style={{ flex: 1, height: 1, background: '#F1F5F9' }} />
+              <div style={{ flex: 1, height: 1, background: '#F0F0F5' }} />
+              <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.06em', whiteSpace: 'nowrap' }}>Specialty-Aware Plays</span>
+              <div style={{ flex: 1, height: 1, background: '#F0F0F5' }} />
             </div>
 
             {SPECIALTY_STRATEGIES.map(s => (
@@ -421,12 +421,12 @@ export default function StrategicPlaysPage() {
 
           {/* CTA Section */}
           <div style={{ marginTop: 24 }}>
-            <button onClick={() => router.push('/expert')} style={{ width: '100%', padding: '16px 28px', background: '#0A1628', color: 'white', border: 'none', borderRadius: 9999, fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <button onClick={() => router.push('/expert')} style={{ width: '100%', padding: '16px 28px', background: '#1A1A2E', color: 'white', border: 'none', borderRadius: 9999, fontSize: '0.88rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
               <i className="fa-solid fa-comments" /> Discuss with Expert
             </button>
           </div>
           <div style={{ marginTop: 12, textAlign: 'center' }}>
-            <Link href="/analysis/results" style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#64748B', textDecoration: 'none' }}>
+            <Link href="/analysis/results" style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#5C5C7A', textDecoration: 'none' }}>
               <i className="fa-solid fa-arrow-left" style={{ fontSize: 10, marginRight: 4 }} /> Back to Results
             </Link>
           </div>

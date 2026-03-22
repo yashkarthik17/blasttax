@@ -229,13 +229,13 @@ export default function PreQualifierStepPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
           <div style={{
             marginTop: 4, height: 4, width: '100%', borderRadius: 9999,
-            background: '#E2E8F0', overflow: 'hidden',
+            background: '#D5D5E0', overflow: 'hidden',
           }}>
             <div style={{
               height: '100%', borderRadius: 9999, background: '#00A651',
@@ -243,7 +243,7 @@ export default function PreQualifierStepPage() {
             }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Pre-Qualifier</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Pre-Qualifier</span>
             <span style={{
               fontSize: 11, fontWeight: 700, color: '#2563EB', background: '#EFF4FF',
               padding: '2px 8px', borderRadius: 20,
@@ -269,12 +269,12 @@ export default function PreQualifierStepPage() {
 
           {/* Question */}
           <h1 style={{
-            fontSize: '1.5rem', fontWeight: 800, color: '#0A1628',
+            fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E',
             lineHeight: 1.2, letterSpacing: '-0.01em', margin: 0,
           }}>
             {question.text}
           </h1>
-          <p style={{ fontSize: 13, color: '#64748B', lineHeight: 1.5, marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: '#5C5C7A', lineHeight: 1.5, marginTop: 8 }}>
             {question.helpText}
           </p>
 
@@ -284,9 +284,9 @@ export default function PreQualifierStepPage() {
               onClick={() => handleSelect(true)}
               style={{
                 flex: 1, padding: '18px 24px', borderRadius: 16,
-                border: `2px solid ${selected === true ? '#00A651' : '#E2E8F0'}`,
+                border: `2px solid ${selected === true ? '#00A651' : '#D5D5E0'}`,
                 background: selected === true ? '#E6F9EE' : '#fff',
-                color: selected === true ? '#065F46' : '#0A1628',
+                color: selected === true ? '#065F46' : '#1A1A2E',
                 cursor: 'pointer', fontFamily: 'inherit', fontSize: 16, fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 minHeight: 64, transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
@@ -299,9 +299,9 @@ export default function PreQualifierStepPage() {
               onClick={() => handleSelect(false)}
               style={{
                 flex: 1, padding: '18px 24px', borderRadius: 16,
-                border: `2px solid ${selected === false ? '#E63946' : '#E2E8F0'}`,
+                border: `2px solid ${selected === false ? '#E63946' : '#D5D5E0'}`,
                 background: selected === false ? '#FFF0F1' : '#fff',
-                color: selected === false ? '#991B1B' : '#0A1628',
+                color: selected === false ? '#991B1B' : '#1A1A2E',
                 cursor: 'pointer', fontFamily: 'inherit', fontSize: 16, fontWeight: 700,
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
                 minHeight: 64, transition: 'all 0.25s cubic-bezier(0.25, 0.1, 0.25, 1)',
@@ -332,7 +332,7 @@ export default function PreQualifierStepPage() {
             <div style={{
               maxHeight: whyOpen ? 300 : 0, overflow: 'hidden',
               transition: 'max-height 0.4s ease',
-              fontSize: 13, color: '#64748B', lineHeight: 1.6,
+              fontSize: 13, color: '#5C5C7A', lineHeight: 1.6,
             }}>
               <div style={{ paddingTop: 10 }}>
                 {question.whyWeAsk}
@@ -350,8 +350,8 @@ export default function PreQualifierStepPage() {
                 onClick={handleBack}
                 style={{
                   flex: '0 0 auto', padding: '16px 20px', borderRadius: 14,
-                  border: '1.5px solid #E2E8F0', background: '#fff', cursor: 'pointer',
-                  fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: '#64748B',
+                  border: '1.5px solid #D5D5E0', background: '#fff', cursor: 'pointer',
+                  fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: '#5C5C7A',
                   display: 'flex', alignItems: 'center', gap: 8,
                   transition: 'all 0.2s ease',
                 }}

@@ -91,18 +91,18 @@ export default function NotificationsPage() {
   const filtered = activeTab === 'unread' ? notifications.filter((n) => n.unread) : notifications
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen" style={{ background: '#FAFAFF' }}>
+      <div className="mx-auto max-w-lg lg:max-w-3xl">
         {/* Header */}
         <div className="flex items-center justify-between" style={{ padding: '16px 20px 12px' }}>
           <div className="flex items-center" style={{ gap: 12 }}>
             <button
               onClick={() => router.back()}
-              style={{ color: '#0A1628', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+              style={{ color: '#1A1A2E', background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
             >
               <i className="fas fa-arrow-left" style={{ fontSize: 18 }} />
             </button>
-            <span style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#0A1628', flex: 1 }}>Notifications</span>
+            <span style={{ fontSize: '0.9375rem', fontWeight: 600, color: '#1A1A2E', flex: 1 }}>Notifications</span>
           </div>
           <button
             onClick={markAllRead}
@@ -127,8 +127,8 @@ export default function NotificationsPage() {
                   padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
                   borderRadius: 9999, border: 'none', cursor: 'pointer',
                   fontFamily: 'inherit',
-                  background: activeTab === 'all' ? '#0A1628' : 'transparent',
-                  color: activeTab === 'all' ? '#FFFFFF' : '#94A3B8',
+                  background: activeTab === 'all' ? '#1A1A2E' : 'transparent',
+                  color: activeTab === 'all' ? '#FFFFFF' : '#8585A0',
                   transition: 'all 0.25s ease',
                 }}
               >
@@ -141,8 +141,8 @@ export default function NotificationsPage() {
                   padding: '8px 20px', fontSize: '0.82rem', fontWeight: 600,
                   borderRadius: 9999, border: 'none', cursor: 'pointer',
                   fontFamily: 'inherit',
-                  background: activeTab === 'unread' ? '#0A1628' : 'transparent',
-                  color: activeTab === 'unread' ? '#FFFFFF' : '#94A3B8',
+                  background: activeTab === 'unread' ? '#1A1A2E' : 'transparent',
+                  color: activeTab === 'unread' ? '#FFFFFF' : '#8585A0',
                   transition: 'all 0.25s ease',
                 }}
               >
@@ -164,14 +164,14 @@ export default function NotificationsPage() {
 
             {/* Swipe hint */}
             <div className="flex items-center justify-center" style={{ gap: 6, padding: '6px 0' }}>
-              <i className="fas fa-arrow-left" style={{ fontSize: 10, color: '#CBD5E1' }} />
-              <span style={{ fontSize: '0.7rem', color: '#CBD5E1', fontWeight: 500 }}>Swipe to dismiss</span>
+              <i className="fas fa-arrow-left" style={{ fontSize: 10, color: '#B0B0C8' }} />
+              <span style={{ fontSize: '0.7rem', color: '#B0B0C8', fontWeight: 500 }}>Swipe to dismiss</span>
             </div>
 
             {/* Notification List */}
             {filtered.length > 0 ? (
               <div style={{
-                background: '#FFFFFF', borderRadius: 16, border: '1px solid #F3F4F6',
+                background: '#FFFFFF', borderRadius: 16, border: '1px solid #E8E8F0',
                 overflow: 'hidden',
                 boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
               }}>
@@ -182,7 +182,7 @@ export default function NotificationsPage() {
                     style={{
                       gap: 12,
                       padding: 16,
-                      borderBottom: i < filtered.length - 1 ? '1px solid #F1F5F9' : 'none',
+                      borderBottom: i < filtered.length - 1 ? '1px solid #F0F0F5' : 'none',
                       background: notif.unread ? '#FAFBFF' : 'transparent',
                       transition: 'all 0.25s ease',
                       position: 'relative',
@@ -196,7 +196,7 @@ export default function NotificationsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between" style={{ gap: 8 }}>
-                        <div style={{ fontSize: '0.85rem', fontWeight: notif.unread ? 700 : 600, color: '#0A1628' }}>
+                        <div style={{ fontSize: '0.85rem', fontWeight: notif.unread ? 700 : 600, color: '#1A1A2E' }}>
                           {notif.title}
                         </div>
                         {notif.unread ? (
@@ -205,10 +205,10 @@ export default function NotificationsPage() {
                           <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'transparent', flexShrink: 0, marginTop: 6 }} />
                         )}
                       </div>
-                      <div style={{ fontSize: '0.78rem', color: '#64748B', marginTop: 3, lineHeight: 1.45 }}>
+                      <div style={{ fontSize: '0.78rem', color: '#5C5C7A', marginTop: 3, lineHeight: 1.45 }}>
                         {notif.description}
                       </div>
-                      <div style={{ fontSize: '0.68rem', color: '#CBD5E1', fontWeight: 500, marginTop: 6 }}>
+                      <div style={{ fontSize: '0.68rem', color: '#B0B0C8', fontWeight: 500, marginTop: 6 }}>
                         {notif.time}
                       </div>
                     </div>
@@ -219,14 +219,14 @@ export default function NotificationsPage() {
               <div style={{ textAlign: 'center', padding: '60px 20px' }}>
                 <div
                   className="flex items-center justify-center mx-auto"
-                  style={{ width: 80, height: 80, borderRadius: 20, background: '#F8FAFC', marginBottom: 20 }}
+                  style={{ width: 80, height: 80, borderRadius: 20, background: '#FAFAFF', marginBottom: 20 }}
                 >
-                  <i className="fas fa-bell-slash" style={{ fontSize: 32, color: '#CBD5E1' }} />
+                  <i className="fas fa-bell-slash" style={{ fontSize: 32, color: '#B0B0C8' }} />
                 </div>
-                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#0A1628', marginBottom: 8 }}>
+                <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1A1A2E', marginBottom: 8 }}>
                   No notifications yet
                 </div>
-                <div style={{ fontSize: '0.82rem', color: '#94A3B8', lineHeight: 1.5, maxWidth: 240, margin: '0 auto' }}>
+                <div style={{ fontSize: '0.82rem', color: '#8585A0', lineHeight: 1.5, maxWidth: 240, margin: '0 auto' }}>
                   We&apos;ll notify you about important updates to your cases, deadlines, and messages.
                 </div>
               </div>

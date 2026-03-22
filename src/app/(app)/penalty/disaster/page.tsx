@@ -51,18 +51,18 @@ export default function PenaltyDisasterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-3.5">
         <button
           onClick={() => router.back()}
-          className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] transition-all hover:bg-[#EFF4FF]"
+          className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D5D5E0] bg-[#FAFAFF] transition-all hover:bg-[#EFF4FF]"
         >
-          <svg className="h-3.5 w-3.5 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="h-3.5 w-3.5 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Disaster Relief</div>
+        <div className="flex-1 text-center text-[0.95rem] font-extrabold text-[#1A1A2E]">Disaster Relief</div>
         <div className="w-9 shrink-0" />
       </div>
 
@@ -73,33 +73,33 @@ export default function PenaltyDisasterPage() {
             <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 4l7.53 14H4.47L12 6z"/></svg>
             FEMA RELIEF
           </span>
-          <h1 className="text-[1.3rem] font-extrabold text-[#0A1628] leading-tight tracking-tight">
+          <h1 className="text-[1.3rem] font-extrabold text-[#1A1A2E] leading-tight tracking-tight">
             Tax Relief for Disaster Areas
           </h1>
         </div>
 
         {/* Explanation */}
-        <div className="rounded-[14px] bg-[#F8FAFC] border border-[#E2E8F0] p-3.5 px-4">
-          <p className="text-[0.78rem] text-[#64748B] leading-relaxed">
+        <div className="rounded-[14px] bg-[#FAFAFF] border border-[#D5D5E0] p-3.5 px-4">
+          <p className="text-[0.78rem] text-[#5C5C7A] leading-relaxed">
             When FEMA declares a federal disaster area, the IRS automatically extends deadlines and may abate penalties for taxpayers in affected regions.
           </p>
         </div>
 
         {/* Check Your Area */}
-        <div className="rounded-[18px] border border-[#E2E8F0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+        <div className="rounded-[18px] border border-[#D5D5E0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
           <div className="flex items-center gap-2 mb-3.5">
             <div className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#FFF7ED]">
               <svg className="h-3 w-3 text-[#D97706]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             </div>
-            <span className="text-[0.85rem] font-bold text-[#0A1628]">Check Your Area</span>
+            <span className="text-[0.85rem] font-bold text-[#1A1A2E]">Check Your Area</span>
           </div>
 
           <div className="mb-2.5">
-            <label className="block text-[0.68rem] font-semibold text-[#94A3B8] uppercase tracking-wide mb-1.5">State</label>
+            <label className="block text-[0.68rem] font-semibold text-[#8585A0] uppercase tracking-wide mb-1.5">State</label>
             <select
               value={selectedState}
               onChange={(e) => handleStateChange(e.target.value)}
-              className="w-full rounded-[10px] border-[1.5px] border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5 text-[0.8rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628] focus:bg-white focus:shadow-[0_0_0_3px_rgba(0,61,165,0.08)] transition-all appearance-none"
+              className="w-full rounded-[10px] border-[1.5px] border-[#D5D5E0] bg-[#FAFAFF] px-3 py-2.5 text-[0.8rem] font-semibold text-[#1A1A2E] outline-none focus:border-[#1A1A2E] focus:bg-white focus:shadow-[0_0_0_3px_rgba(0,61,165,0.08)] transition-all appearance-none"
             >
               <option value="">Select your state...</option>
               <option value="FL">Florida</option>
@@ -111,12 +111,12 @@ export default function PenaltyDisasterPage() {
           </div>
 
           <div className="mb-3.5">
-            <label className="block text-[0.68rem] font-semibold text-[#94A3B8] uppercase tracking-wide mb-1.5">County</label>
+            <label className="block text-[0.68rem] font-semibold text-[#8585A0] uppercase tracking-wide mb-1.5">County</label>
             <select
               value={selectedCounty}
               onChange={(e) => setSelectedCounty(e.target.value)}
               disabled={!selectedState}
-              className="w-full rounded-[10px] border-[1.5px] border-[#E2E8F0] bg-[#F8FAFC] px-3 py-2.5 text-[0.8rem] font-semibold text-[#0A1628] outline-none focus:border-[#0A1628] focus:bg-white focus:shadow-[0_0_0_3px_rgba(0,61,165,0.08)] transition-all appearance-none disabled:opacity-50"
+              className="w-full rounded-[10px] border-[1.5px] border-[#D5D5E0] bg-[#FAFAFF] px-3 py-2.5 text-[0.8rem] font-semibold text-[#1A1A2E] outline-none focus:border-[#1A1A2E] focus:bg-white focus:shadow-[0_0_0_3px_rgba(0,61,165,0.08)] transition-all appearance-none disabled:opacity-50"
             >
               <option value="">{selectedState ? 'Select your county...' : 'Select state first...'}</option>
               {counties.map((county) => (
@@ -127,7 +127,7 @@ export default function PenaltyDisasterPage() {
 
           <button
             onClick={checkEligibility}
-            className="w-full rounded-xl bg-[#0A1628] py-3 text-center text-white text-[0.82rem] font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]"
+            className="w-full rounded-xl bg-[#1A1A2E] py-3 text-center text-white text-[0.82rem] font-bold transition-all hover:-translate-y-0.5 active:scale-[0.97]"
           >
             <svg className="inline-block h-3 w-3 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -169,19 +169,19 @@ export default function PenaltyDisasterPage() {
         </div>
 
         {/* Current Declarations Label */}
-        <div className="text-[0.7rem] font-bold text-[#CBD5E1] uppercase tracking-wider px-1">
+        <div className="text-[0.7rem] font-bold text-[#B0B0C8] uppercase tracking-wider px-1">
           Current Disaster Declarations
         </div>
 
         {/* Disaster 1 */}
-        <div className="rounded-[14px] border border-[#E2E8F0] bg-white p-3.5">
+        <div className="rounded-[14px] border border-[#D5D5E0] bg-white p-3.5">
           <div className="flex items-center gap-2 mb-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFF0F1]">
               <svg className="h-3 w-3 text-[#E63946]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
             </div>
             <div className="flex-1">
-              <div className="text-[0.82rem] font-bold text-[#0A1628]">Hurricane Milton</div>
-              <div className="text-[0.68rem] text-[#94A3B8]">FL, TX &mdash; Extended to Oct 15, 2026</div>
+              <div className="text-[0.82rem] font-bold text-[#1A1A2E]">Hurricane Milton</div>
+              <div className="text-[0.68rem] text-[#8585A0]">FL, TX &mdash; Extended to Oct 15, 2026</div>
             </div>
           </div>
           <div className="flex gap-1.5 flex-wrap">
@@ -191,14 +191,14 @@ export default function PenaltyDisasterPage() {
         </div>
 
         {/* Disaster 2 */}
-        <div className="rounded-[14px] border border-[#E2E8F0] bg-white p-3.5">
+        <div className="rounded-[14px] border border-[#D5D5E0] bg-white p-3.5">
           <div className="flex items-center gap-2 mb-2.5">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFF7ED]">
               <svg className="h-3 w-3 text-[#F5A623]" fill="currentColor" viewBox="0 0 24 24"><path d="M15.73 3H8.27L3 8.27v7.46L8.27 21h7.46L21 15.73V8.27L15.73 3zM12 17.3c-.72 0-1.3-.58-1.3-1.3 0-.72.58-1.3 1.3-1.3.72 0 1.3.58 1.3 1.3 0 .72-.58 1.3-1.3 1.3zm1-4.3h-2V7h2v6z"/></svg>
             </div>
             <div className="flex-1">
-              <div className="text-[0.82rem] font-bold text-[#0A1628]">California Wildfires</div>
-              <div className="text-[0.68rem] text-[#94A3B8]">CA &mdash; Extended to Jun 15, 2026</div>
+              <div className="text-[0.82rem] font-bold text-[#1A1A2E]">California Wildfires</div>
+              <div className="text-[0.68rem] text-[#8585A0]">CA &mdash; Extended to Jun 15, 2026</div>
             </div>
           </div>
           <div className="flex gap-1.5 flex-wrap">
@@ -208,8 +208,8 @@ export default function PenaltyDisasterPage() {
         </div>
 
         {/* What's Covered */}
-        <div className="rounded-[18px] border border-[#E2E8F0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
-          <div className="text-[0.7rem] font-bold text-[#CBD5E1] uppercase tracking-wider mb-3">What&apos;s Covered</div>
+        <div className="rounded-[18px] border border-[#D5D5E0] bg-white p-[18px] shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+          <div className="text-[0.7rem] font-bold text-[#B0B0C8] uppercase tracking-wider mb-3">What&apos;s Covered</div>
           {COVERAGE_ITEMS.map((item) => (
             <div key={item} className="flex items-center gap-2 py-[7px]">
               <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#00A651] shrink-0">
@@ -217,7 +217,7 @@ export default function PenaltyDisasterPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-[0.78rem] font-medium text-[#0A1628]">{item}</span>
+              <span className="text-[0.78rem] font-medium text-[#1A1A2E]">{item}</span>
             </div>
           ))}
         </div>

@@ -28,23 +28,23 @@ export default function CNCPostSubmissionPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
-          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F0F0F5' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#FAFAFF', border: '1px solid #F0F0F5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#5C5C7A' }} />
           </button>
-          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>CNC Status</span>
-          <button style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <i className="fa-solid fa-ellipsis-vertical" style={{ color: '#94A3B8' }} />
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#1A1A2E' }}>CNC Status</span>
+          <button style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#FAFAFF', border: '1px solid #F0F0F5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-ellipsis-vertical" style={{ color: '#8585A0' }} />
           </button>
         </div>
 
         <div style={{ padding: '20px', paddingBottom: '20px' }}>
           {/* Title + Badge */}
           <div style={{ marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Currently Not Collectible</h1>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>Currently Not Collectible</h1>
             <span style={{ fontSize: '0.6875rem', fontWeight: 700, color: 'white', background: '#00A651', padding: '3px 10px', borderRadius: '20px', whiteSpace: 'nowrap' }}>Active</span>
           </div>
 
@@ -54,7 +54,7 @@ export default function CNCPostSubmissionPage() {
               <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timelineItems.length - 1 ? '20px' : 0 }}>
                 {/* Connector */}
                 {i < timelineItems.length - 1 && (
-                  <div style={{ position: 'absolute', left: '15px', top: '32px', bottom: 0, width: '2px', background: item.completed ? '#00A651' : '#F1F5F9' }} />
+                  <div style={{ position: 'absolute', left: '15px', top: '32px', bottom: 0, width: '2px', background: item.completed ? '#00A651' : '#F0F0F5' }} />
                 )}
                 {/* Dot */}
                 <div style={{
@@ -67,8 +67,8 @@ export default function CNCPostSubmissionPage() {
                   <i className={`fa-solid ${item.completed ? 'fa-check' : 'fa-hourglass-half'}`} style={{ fontSize: item.completed ? '13px' : '11px' }} />
                 </div>
                 <div>
-                  <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628', margin: 0 }}>{item.label}</p>
-                  <p style={{ fontSize: '0.75rem', color: !item.completed ? '#2563EB' : '#64748B', fontWeight: !item.completed ? 500 : 400, margin: 0, marginTop: '2px' }}>{item.date}</p>
+                  <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#1A1A2E', margin: 0 }}>{item.label}</p>
+                  <p style={{ fontSize: '0.75rem', color: !item.completed ? '#2563EB' : '#5C5C7A', fontWeight: !item.completed ? 500 : 400, margin: 0, marginTop: '2px' }}>{item.date}</p>
                 </div>
               </div>
             ))}
@@ -76,14 +76,14 @@ export default function CNCPostSubmissionPage() {
 
           {/* Active Effects Card */}
           <div style={{ marginBottom: '16px' }}>
-            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px' }}>
-              <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Active Effects</p>
+            <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px' }}>
+              <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Active Effects</p>
               {effects.map((eff, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px 0', borderBottom: i < effects.length - 1 ? '1px solid #F1F5F9' : 'none' }}>
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '10px 0', borderBottom: i < effects.length - 1 ? '1px solid #F0F0F5' : 'none' }}>
                   <i className={`fa-solid ${eff.icon}`} style={{ color: eff.color, fontSize: '14px', marginTop: '2px' }} />
                   <div>
-                    <p style={{ fontSize: '0.8125rem', color: '#0A1628', fontWeight: 500, margin: 0 }}>{eff.label}</p>
-                    {eff.sub && <p style={{ fontSize: '0.6875rem', color: '#64748B', margin: 0, marginTop: '2px' }}>{eff.sub}</p>}
+                    <p style={{ fontSize: '0.8125rem', color: '#1A1A2E', fontWeight: 500, margin: 0 }}>{eff.label}</p>
+                    {eff.sub && <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', margin: 0, marginTop: '2px' }}>{eff.sub}</p>}
                   </div>
                 </div>
               ))}
@@ -95,20 +95,20 @@ export default function CNCPostSubmissionPage() {
             <div style={{ background: '#F0FDFA', border: '1px solid rgba(13,148,136,0.15)', borderRadius: '16px', padding: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                 <i className="fa-solid fa-clock" style={{ color: '#0D9488', fontSize: '16px' }} />
-                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', margin: 0 }}>CSED Countdown</p>
+                <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', margin: 0 }}>CSED Countdown</p>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px', marginBottom: '8px' }}>
                 <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0D9488' }}>2 yrs, 6 mo</span>
               </div>
-              <p style={{ fontSize: '0.75rem', color: '#64748B', marginBottom: '12px', margin: '0 0 12px 0' }}>Nearest expiration: <span style={{ fontWeight: 600 }}>Sep 2028</span></p>
-              <div style={{ width: '100%', height: '8px', background: '#E2E8F0', borderRadius: '4px', overflow: 'hidden' }}>
+              <p style={{ fontSize: '0.75rem', color: '#5C5C7A', marginBottom: '12px', margin: '0 0 12px 0' }}>Nearest expiration: <span style={{ fontWeight: 600 }}>Sep 2028</span></p>
+              <div style={{ width: '100%', height: '8px', background: '#D5D5E0', borderRadius: '4px', overflow: 'hidden' }}>
                 <div style={{ height: '100%', borderRadius: '4px', background: '#00A651', width: '75%' }} />
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px' }}>
-                <span style={{ fontSize: '0.625rem', color: '#94A3B8' }}>Assessment</span>
-                <span style={{ fontSize: '0.625rem', color: '#94A3B8' }}>Expiration</span>
+                <span style={{ fontSize: '0.625rem', color: '#8585A0' }}>Assessment</span>
+                <span style={{ fontSize: '0.625rem', color: '#8585A0' }}>Expiration</span>
               </div>
-              <div style={{ marginTop: '14px', padding: '10px 12px', background: 'white', borderRadius: '10px', border: '1px solid #F1F5F9' }}>
+              <div style={{ marginTop: '14px', padding: '10px 12px', background: 'white', borderRadius: '10px', border: '1px solid #F0F0F5' }}>
                 <p style={{ fontSize: '0.75rem', color: '#065F46', fontWeight: 500, margin: 0 }}>
                   <i className="fa-solid fa-sparkles" style={{ color: '#0D9488', marginRight: '4px' }} />
                   When CSED expires: TC 608 posts, debt is legally gone
@@ -119,7 +119,7 @@ export default function CNCPostSubmissionPage() {
 
           {/* Risk Warnings */}
           <div style={{ marginBottom: '16px' }}>
-            <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Important Warnings</p>
+            <p style={{ fontSize: '0.75rem', fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px', margin: '0 0 10px 0' }}>Important Warnings</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {warnings.map((w, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px', background: '#FFFBEB', border: '1px solid rgba(245, 166, 35, 0.2)', borderRadius: '12px' }}>
@@ -134,7 +134,7 @@ export default function CNCPostSubmissionPage() {
           <div style={{ marginTop: '8px' }}>
             <button style={{
               width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              padding: '16px', background: '#0A1628', borderRadius: '16px', border: 'none',
+              padding: '16px', background: '#1A1A2E', borderRadius: '16px', border: 'none',
               color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               <i className="fa-solid fa-pen-to-square" />
@@ -142,7 +142,7 @@ export default function CNCPostSubmissionPage() {
             </button>
           </div>
           <div style={{ marginTop: '12px', textAlign: 'center' }}>
-            <a href="#" style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628', textDecoration: 'none' }}>
+            <a href="#" style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#1A1A2E', textDecoration: 'none' }}>
               <i className="fa-solid fa-clock" style={{ fontSize: '11px', marginRight: '4px' }} />
               Check CSED Status
             </a>

@@ -28,14 +28,14 @@ export default function IAPostSubmissionPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
-          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F0F0F5' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#FAFAFF', border: '1px solid #F0F0F5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#5C5C7A' }} />
           </button>
-          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>IA Status</span>
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#1A1A2E' }}>IA Status</span>
           <div style={{ width: '40px' }} />
         </div>
 
@@ -44,58 +44,58 @@ export default function IAPostSubmissionPage() {
           {/* Title + Status */}
           <div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>Your Installment Agreement</h1>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>Your Installment Agreement</h1>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderRadius: '9999px', padding: '4px 12px', fontSize: '11px', fontWeight: 700, background: '#E6F9EE', color: '#00A651' }}>
                 <i className="fa-solid fa-circle" style={{ fontSize: '6px' }} /> Active
               </span>
-              <span style={{ fontSize: '12px', color: '#64748B' }}>Streamlined DDIA</span>
+              <span style={{ fontSize: '12px', color: '#5C5C7A' }}>Streamlined DDIA</span>
             </div>
           </div>
 
           {/* Timeline */}
-          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '14px' }}>Timeline</div>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F0F0F5', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '14px' }}>Timeline</div>
             {timeline.map((step, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timeline.length - 1 ? '16px' : 0 }}>
                 {/* Connector line */}
                 {i < timeline.length - 1 && (
-                  <div style={{ position: 'absolute', left: '15px', top: '34px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F1F5F9' }} />
+                  <div style={{ position: 'absolute', left: '15px', top: '34px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F0F0F5' }} />
                 )}
                 {/* Dot */}
                 <div style={{
                   position: 'relative', zIndex: 1, width: '32px', height: '32px', borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#F8FAFC',
-                  color: step.done || step.current ? 'white' : '#CBD5E1',
-                  border: !step.done && !step.current ? '2px solid #F1F5F9' : 'none',
+                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#FAFAFF',
+                  color: step.done || step.current ? 'white' : '#B0B0C8',
+                  border: !step.done && !step.current ? '2px solid #F0F0F5' : 'none',
                   fontSize: '12px',
                 }}>
                   <i className={`fa-solid ${step.icon}`} style={{ fontSize: '11px' }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: step.current ? '#2563EB' : '#0A1628' }}>{step.label}</div>
-                  <div style={{ fontSize: '11px', color: '#64748B' }}>{step.desc}</div>
+                  <div style={{ fontSize: '13px', fontWeight: 700, color: step.current ? '#2563EB' : '#1A1A2E' }}>{step.label}</div>
+                  <div style={{ fontSize: '11px', color: '#5C5C7A' }}>{step.desc}</div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Agreement Details */}
-          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>Agreement Details</div>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F0F0F5', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>Agreement Details</div>
             {details.map((row, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: i > 0 ? '1px solid #F1F5F9' : 'none' }}>
-                <span style={{ color: '#64748B' }}>{row.label}</span>
-                <span style={{ fontWeight: row.accent || row.bold ? 700 : 600, color: row.accent ? '#E63946' : '#0A1628' }}>{row.value}</span>
+              <div key={i} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: i > 0 ? '1px solid #F0F0F5' : 'none' }}>
+                <span style={{ color: '#5C5C7A' }}>{row.label}</span>
+                <span style={{ fontWeight: row.accent || row.bold ? 700 : 600, color: row.accent ? '#E63946' : '#1A1A2E' }}>{row.value}</span>
               </div>
             ))}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: '1px solid #F1F5F9' }}>
-              <span style={{ color: '#64748B' }}>FTP Penalty Rate</span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0', fontSize: '12px', borderTop: '1px solid #F0F0F5' }}>
+              <span style={{ color: '#5C5C7A' }}>FTP Penalty Rate</span>
               <div>
                 <span style={{ fontWeight: 600, color: '#00A651' }}>0.25%/mo</span>
-                <span style={{ fontSize: '10px', color: '#64748B', textDecoration: 'line-through', marginLeft: '4px' }}>0.5%</span>
+                <span style={{ fontSize: '10px', color: '#5C5C7A', textDecoration: 'line-through', marginLeft: '4px' }}>0.5%</span>
               </div>
             </div>
           </div>
@@ -110,15 +110,15 @@ export default function IAPostSubmissionPage() {
           </div>
 
           {/* Compliance Requirements */}
-          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F0F0F5', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
               <i className="fa-solid fa-triangle-exclamation" style={{ fontSize: '10px', marginRight: '4px', color: '#F59E0B' }} />
               Compliance Requirements
             </div>
             {compliance.map((item, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '8px 0', fontSize: '12px', lineHeight: 1.5 }}>
                 <i className="fa-solid fa-triangle-exclamation" style={{ color: '#F59E0B', fontSize: '14px', marginTop: '1px', flexShrink: 0 }} />
-                <span style={{ color: '#0A1628', fontWeight: 500 }}>{item}</span>
+                <span style={{ color: '#1A1A2E', fontWeight: 500 }}>{item}</span>
               </div>
             ))}
             <div style={{ marginTop: '8px', padding: '10px', background: 'rgba(245, 166, 35, 0.06)', borderRadius: '10px', fontSize: '11px', color: '#92400E', lineHeight: 1.5 }}>
@@ -131,7 +131,7 @@ export default function IAPostSubmissionPage() {
           <div style={{ marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
             <button style={{
               width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              padding: '16px', background: '#0A1628', borderRadius: '16px', border: 'none',
+              padding: '16px', background: '#1A1A2E', borderRadius: '16px', border: 'none',
               color: 'white', fontSize: '15px', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               <i className="fa-solid fa-credit-card" style={{ fontSize: '13px' }} />
@@ -139,8 +139,8 @@ export default function IAPostSubmissionPage() {
             </button>
             <button style={{
               width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #E2E8F0',
-              color: '#0A1628', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #D5D5E0',
+              color: '#1A1A2E', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               <i className="fa-solid fa-clock-rotate-left" style={{ fontSize: '13px' }} />
               View Payment History

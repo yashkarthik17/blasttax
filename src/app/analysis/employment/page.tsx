@@ -34,20 +34,20 @@ const PAY_FREQS: PayFrequency[] = ['Weekly', 'Bi-weekly', 'Semi-monthly', 'Month
 const fieldLabelStyle: React.CSSProperties = {
   fontSize: '0.72rem',
   fontWeight: 600,
-  color: '#64748B',
+  color: '#5C5C7A',
   marginBottom: 6,
 }
 
 const fieldInputStyle: React.CSSProperties = {
   width: '100%',
   padding: '12px 14px',
-  background: '#F8FAFC',
-  border: '1.5px solid #F1F5F9',
+  background: '#FAFAFF',
+  border: '1.5px solid #F0F0F5',
   borderRadius: 12,
   fontFamily: 'inherit',
   fontSize: '0.85rem',
   fontWeight: 600,
-  color: '#0A1628',
+  color: '#1A1A2E',
   outline: 'none',
   transition: 'all 0.2s ease',
   boxSizing: 'border-box' as const,
@@ -65,7 +65,7 @@ const fieldSelectStyle: React.CSSProperties = {
 const sectionDividerStyle: React.CSSProperties = {
   fontSize: '0.75rem',
   fontWeight: 700,
-  color: '#CBD5E1',
+  color: '#B0B0C8',
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   marginBottom: 12,
@@ -76,7 +76,7 @@ const sectionCardStyle: React.CSSProperties = {
   background: 'white',
   borderRadius: 16,
   padding: 18,
-  border: '1px solid #F3F4F6',
+  border: '1px solid #E8E8F0',
   boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
 }
 
@@ -86,7 +86,7 @@ const toggleCardStyle: React.CSSProperties = {
   justifyContent: 'space-between',
   padding: '14px 16px',
   background: 'white',
-  border: '1px solid #F3F4F6',
+  border: '1px solid #E8E8F0',
   borderRadius: 14,
   boxShadow: '0 1px 2px rgba(0,0,0,0.03)',
 }
@@ -109,15 +109,15 @@ export default function EmploymentPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: 480, margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#D5D5E0', borderRadius: 9999, overflow: 'hidden' }}>
             <div style={{ width: '40%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Step 3 of 6</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Employment Info</span>
           </div>
         </div>
@@ -125,10 +125,10 @@ export default function EmploymentPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '14px 20px 20px' }}>
           {/* Heading */}
           <div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
+            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em', lineHeight: 1.25 }}>
               Employment details
             </div>
-            <div style={{ fontSize: '0.78rem', color: '#94A3B8', marginTop: 4, lineHeight: 1.5 }}>
+            <div style={{ fontSize: '0.78rem', color: '#8585A0', marginTop: 4, lineHeight: 1.5 }}>
               Required for Form 9465, Form 433-A, and other IRS forms
             </div>
           </div>
@@ -181,9 +181,9 @@ export default function EmploymentPage() {
                   <div style={fieldLabelStyle}>How Long Employed</div>
                   <div style={{ display: 'flex', gap: 6 }}>
                     <input type="number" style={{ ...fieldInputStyle, width: 60, textAlign: 'center' }} value={form.yearsEmployed} onChange={(e) => update('yearsEmployed', e.target.value)} placeholder="0" />
-                    <span style={{ fontSize: '0.72rem', color: '#94A3B8', alignSelf: 'center' }}>yrs</span>
+                    <span style={{ fontSize: '0.72rem', color: '#8585A0', alignSelf: 'center' }}>yrs</span>
                     <input type="number" style={{ ...fieldInputStyle, width: 60, textAlign: 'center' }} value={form.monthsEmployed} onChange={(e) => update('monthsEmployed', e.target.value)} placeholder="0" />
-                    <span style={{ fontSize: '0.72rem', color: '#94A3B8', alignSelf: 'center' }}>mos</span>
+                    <span style={{ fontSize: '0.72rem', color: '#8585A0', alignSelf: 'center' }}>mos</span>
                   </div>
                 </div>
               </div>
@@ -199,12 +199,12 @@ export default function EmploymentPage() {
                         display: 'inline-flex',
                         alignItems: 'center',
                         padding: '8px 14px',
-                        background: form.payFrequency === freq ? '#EBF0FF' : '#F8FAFC',
-                        border: form.payFrequency === freq ? '1.5px solid #0A1628' : '1.5px solid #F1F5F9',
+                        background: form.payFrequency === freq ? '#EBF0FF' : '#FAFAFF',
+                        border: form.payFrequency === freq ? '1.5px solid #1A1A2E' : '1.5px solid #F0F0F5',
                         borderRadius: 10,
                         fontSize: '0.78rem',
                         fontWeight: 600,
-                        color: form.payFrequency === freq ? '#0A1628' : '#64748B',
+                        color: form.payFrequency === freq ? '#1A1A2E' : '#5C5C7A',
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
                         fontFamily: 'inherit',
@@ -227,12 +227,12 @@ export default function EmploymentPage() {
           <div>
             <div style={toggleCardStyle}>
               <div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Spouse is employed?</div>
-                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>If filing jointly (MFJ)</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>Spouse is employed?</div>
+                <div style={{ fontSize: '0.68rem', color: '#8585A0' }}>If filing jointly (MFJ)</div>
               </div>
               <button
                 onClick={() => update('spouseEmployed', !form.spouseEmployed)}
-                style={{ width: 40, height: 22, borderRadius: 11, background: form.spouseEmployed ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
+                style={{ width: 40, height: 22, borderRadius: 11, background: form.spouseEmployed ? '#1A1A2E' : '#D5D5E0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
                 <div style={{ position: 'absolute', top: 2, left: form.spouseEmployed ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
@@ -289,12 +289,12 @@ export default function EmploymentPage() {
           <div>
             <div style={toggleCardStyle}>
               <div>
-                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>Self-employed?</div>
-                <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>Business or freelance income</div>
+                <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>Self-employed?</div>
+                <div style={{ fontSize: '0.68rem', color: '#8585A0' }}>Business or freelance income</div>
               </div>
               <button
                 onClick={() => update('selfEmployed', !form.selfEmployed)}
-                style={{ width: 40, height: 22, borderRadius: 11, background: form.selfEmployed ? '#0A1628' : '#E2E8F0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
+                style={{ width: 40, height: 22, borderRadius: 11, background: form.selfEmployed ? '#1A1A2E' : '#D5D5E0', position: 'relative', cursor: 'pointer', transition: 'background 0.2s ease', border: 'none', flexShrink: 0 }}
               >
                 <div style={{ position: 'absolute', top: 2, left: form.selfEmployed ? 20 : 2, width: 18, height: 18, background: 'white', borderRadius: '50%', transition: 'left 0.2s ease' }} />
               </button>
@@ -362,7 +362,7 @@ export default function EmploymentPage() {
             </button>
             <button
               onClick={() => router.push('/analysis/personal-info')}
-              style={{ padding: 12, textAlign: 'center', color: '#94A3B8', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}
+              style={{ padding: 12, textAlign: 'center', color: '#8585A0', fontSize: '0.82rem', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer' }}
             >
               <i className="fas fa-arrow-left" style={{ marginRight: 6, fontSize: 11 }} /> Back
             </button>

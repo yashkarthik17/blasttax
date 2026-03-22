@@ -53,34 +53,34 @@ export default function EntityTypePage() {
   const showDetails = selected && (selected !== 'llc' || llcClass)
 
   const fieldInputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9',
+    width: '100%', padding: '10px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5',
     borderRadius: '10px', fontFamily: 'inherit', fontSize: '14px', fontWeight: 600,
-    color: '#0A1628', outline: 'none', boxSizing: 'border-box' as const,
+    color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' as const,
   }
 
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: '11px', fontWeight: 600, color: '#94A3B8',
+    display: 'block', fontSize: '11px', fontWeight: 600, color: '#8585A0',
     textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '5px',
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', width: '10%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#D5D5E0', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', width: '10%', borderRadius: '9999px', background: '#1A1A2E', transition: 'all 0.3s' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 1 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 1 of 8</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Business Track</span>
           </div>
         </div>
 
         <div style={{ padding: '16px 20px 20px' }}>
           <div style={{ marginBottom: '6px' }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Business Entity Classification</h1>
-            <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px', lineHeight: 1.5 }}>Select your entity type to determine tax obligations and resolution options.</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Business Entity Classification</h1>
+            <p style={{ fontSize: '13px', color: '#8585A0', marginTop: '4px', lineHeight: 1.5 }}>Select your entity type to determine tax obligations and resolution options.</p>
           </div>
 
           {/* Entity Cards */}
@@ -92,7 +92,7 @@ export default function EntityTypePage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '14px', padding: '16px',
                   background: selected === ent.id ? '#EFF4FF' : 'white',
-                  border: selected === ent.id ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                  border: selected === ent.id ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                   borderRadius: '14px', cursor: 'pointer', transition: 'all 0.3s ease', marginBottom: '10px',
                 }}
               >
@@ -100,12 +100,12 @@ export default function EntityTypePage() {
                   <i className={`fa-solid ${ent.icon}`} />
                 </div>
                 <div style={{ flex: 1 }}>
-                  <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#0A1628', display: 'block' }}>{ent.label}</span>
-                  <span style={{ fontSize: '11px', color: '#94A3B8' }}>{ent.sub}</span>
+                  <span style={{ fontSize: '13.5px', fontWeight: 700, color: '#1A1A2E', display: 'block' }}>{ent.label}</span>
+                  <span style={{ fontSize: '11px', color: '#8585A0' }}>{ent.sub}</span>
                 </div>
                 <div style={{
                   width: '22px', height: '22px', borderRadius: '9999px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: 'auto',
-                  border: selected === ent.id ? '2px solid #2563EB' : '2px solid #E2E8F0',
+                  border: selected === ent.id ? '2px solid #2563EB' : '2px solid #D5D5E0',
                   background: selected === ent.id ? '#2563EB' : 'transparent',
                 }}>
                   {selected === ent.id && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />}
@@ -116,8 +116,8 @@ export default function EntityTypePage() {
 
           {/* LLC Sub-selection */}
           {selected === 'llc' && (
-            <div style={{ padding: '12px', background: '#F8FAFC', borderRadius: '12px', marginTop: '10px' }}>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '8px' }}>LLC Tax Classification</div>
+            <div style={{ padding: '12px', background: '#FAFAFF', borderRadius: '12px', marginTop: '10px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: '#8585A0', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: '8px' }}>LLC Tax Classification</div>
               <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: '6px' }}>
                 {LLC_TYPES.map((lt) => (
                   <div
@@ -125,10 +125,10 @@ export default function EntityTypePage() {
                     onClick={() => setLlcClass(lt.id)}
                     style={{
                       display: 'inline-flex', alignItems: 'center', gap: '4px', padding: '6px 12px',
-                      background: llcClass === lt.id ? '#EFF4FF' : '#F8FAFC',
-                      border: llcClass === lt.id ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                      background: llcClass === lt.id ? '#EFF4FF' : '#FAFAFF',
+                      border: llcClass === lt.id ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                       borderRadius: '8px', fontSize: '12px', fontWeight: 600,
-                      color: llcClass === lt.id ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                      color: llcClass === lt.id ? '#2563EB' : '#5C5C7A', cursor: 'pointer', transition: 'all 0.2s ease',
                     }}
                   >{lt.label}</div>
                 ))}
@@ -155,8 +155,8 @@ export default function EntityTypePage() {
 
           {/* Business Details */}
           {showDetails && (
-            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginTop: '12px' }}>
-              <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+            <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginTop: '12px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '12px' }}>
                 <i className="fa-solid fa-building" style={{ fontSize: '12px', color: '#2563EB' }} /> Business Details
               </div>
               <div style={{ display: 'flex', gap: '10px', marginTop: 0 }}>
@@ -197,8 +197,8 @@ export default function EntityTypePage() {
 
           {/* Operating Status */}
           {showDetails && (
-            <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: '16px', padding: '16px', marginBottom: '12px', marginTop: '12px' }}>
-              <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '12px' }}>
+            <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: '16px', padding: '16px', marginBottom: '12px', marginTop: '12px' }}>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '12px' }}>
                 <i className="fa-solid fa-power-off" style={{ fontSize: '12px', color: '#2563EB' }} /> Business Operating Status
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
@@ -206,10 +206,10 @@ export default function EntityTypePage() {
                   onClick={() => setOpStatus('operating')}
                   style={{
                     flex: 1, justifyContent: 'center', padding: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px',
-                    background: opStatus === 'operating' ? '#EFF4FF' : '#F8FAFC',
-                    border: opStatus === 'operating' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    background: opStatus === 'operating' ? '#EFF4FF' : '#FAFAFF',
+                    border: opStatus === 'operating' ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                     borderRadius: '8px', fontSize: '12px', fontWeight: 600,
-                    color: opStatus === 'operating' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                    color: opStatus === 'operating' ? '#2563EB' : '#5C5C7A', cursor: 'pointer', transition: 'all 0.2s ease',
                   }}
                 >
                   <i className="fa-solid fa-circle-check" style={{ fontSize: '11px' }} /> Operating
@@ -218,10 +218,10 @@ export default function EntityTypePage() {
                   onClick={() => setOpStatus('oob')}
                   style={{
                     flex: 1, justifyContent: 'center', padding: '12px', display: 'inline-flex', alignItems: 'center', gap: '4px',
-                    background: opStatus === 'oob' ? '#EFF4FF' : '#F8FAFC',
-                    border: opStatus === 'oob' ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    background: opStatus === 'oob' ? '#EFF4FF' : '#FAFAFF',
+                    border: opStatus === 'oob' ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                     borderRadius: '8px', fontSize: '12px', fontWeight: 600,
-                    color: opStatus === 'oob' ? '#2563EB' : '#64748B', cursor: 'pointer', transition: 'all 0.2s ease',
+                    color: opStatus === 'oob' ? '#2563EB' : '#5C5C7A', cursor: 'pointer', transition: 'all 0.2s ease',
                   }}
                 >
                   <i className="fa-solid fa-circle-xmark" style={{ fontSize: '11px' }} /> Out of Business
@@ -256,14 +256,14 @@ export default function EntityTypePage() {
           <div style={{ marginTop: '8px' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '12px 14px', background: '#EFF4FF', border: '1px solid rgba(37,99,235,0.15)', borderRadius: '14px' }}>
               <i className="fa-solid fa-circle-info" style={{ color: '#2563EB', marginTop: '2px' }} />
-              <span style={{ fontSize: '12px', color: '#0A1628' }}>Your entity type determines which tax returns are required and which resolution paths are available.</span>
+              <span style={{ fontSize: '12px', color: '#1A1A2E' }}>Your entity type determines which tax returns are required and which resolution paths are available.</span>
             </div>
           </div>
 
           <div style={{ padding: '12px 0 20px' }}>
             <button
               onClick={() => router.push('/analysis/business/compliance')}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#1A1A2E', color: 'white', fontSize: '15px', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
             >
               Continue <i className="fa-solid fa-arrow-right" style={{ fontSize: '13px' }} />
             </button>

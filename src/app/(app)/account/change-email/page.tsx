@@ -39,10 +39,10 @@ export default function ChangeEmailPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <div className="mb-2 text-xl font-extrabold text-[#0A1628]">Email Updated!</div>
-            <div className="text-[0.88rem] leading-relaxed text-[#64748B]">
+            <div className="mb-2 text-xl font-extrabold text-[#1A1A2E]">Email Updated!</div>
+            <div className="text-[0.88rem] leading-relaxed text-[#5C5C7A]">
               Your email has been changed to<br />
-              <strong className="text-[#0A1628]">{displayEmail}</strong>
+              <strong className="text-[#1A1A2E]">{displayEmail}</strong>
             </div>
           </div>
 
@@ -55,7 +55,7 @@ export default function ChangeEmailPage() {
 
           <Link
             href="/account"
-            className="flex w-full items-center justify-center rounded-full bg-[#0A1628] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
+            className="flex w-full items-center justify-center rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
           >
             Back to Account
           </Link>
@@ -83,10 +83,10 @@ export default function ChangeEmailPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 19V5a2 2 0 012-2h14a2 2 0 012 2v14M3 19l6.75-4.5M21 19l-6.75-4.5M3 5l9 6 9-6" />
               </svg>
             </div>
-            <div className="mb-1.5 text-lg font-extrabold text-[#0A1628]">Check Your Email</div>
-            <div className="text-[0.82rem] leading-relaxed text-[#94A3B8]">
+            <div className="mb-1.5 text-lg font-extrabold text-[#1A1A2E]">Check Your Email</div>
+            <div className="text-[0.82rem] leading-relaxed text-[#8585A0]">
               We sent a 6-digit code to<br />
-              <strong className="text-[#0A1628]">{displayEmail}</strong>
+              <strong className="text-[#1A1A2E]">{displayEmail}</strong>
             </div>
           </div>
 
@@ -99,19 +99,19 @@ export default function ChangeEmailPage() {
                 maxLength={1}
                 value={digit}
                 onChange={(e) => handleCodeChange(i, e.target.value)}
-                className="h-[52px] w-11 rounded-xl border-[1.5px] border-[#E2E8F0] bg-[#F8FAFC] text-center text-xl font-bold text-[#0A1628] outline-none transition focus:border-[#0A1628] focus:bg-white focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
+                className="h-[52px] w-11 rounded-xl border-[1.5px] border-[#D5D5E0] bg-[#FAFAFF] text-center text-xl font-bold text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] focus:bg-white focus:ring-2 focus:ring-[rgba(37,99,235,0.12)]"
               />
             ))}
           </div>
 
           <div className="py-2 text-center">
-            <span className="text-[0.78rem] text-[#94A3B8]">Didn&apos;t receive it? </span>
+            <span className="text-[0.78rem] text-[#8585A0]">Didn&apos;t receive it? </span>
             <button className="text-[0.78rem] font-semibold text-[#2563EB]">Resend Code</button>
           </div>
 
           <button
             onClick={() => setStep(3)}
-            className="flex w-full items-center justify-center rounded-full bg-[#0A1628] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
+            className="flex w-full items-center justify-center rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
           >
             Verify Email
           </button>
@@ -133,25 +133,25 @@ export default function ChangeEmailPage() {
         </div>
 
         {/* Current Email */}
-        <div className="rounded-[14px] border border-[#F1F5F9] bg-white p-4">
-          <div className="mb-1.5 text-[0.72rem] font-semibold uppercase tracking-wider text-[#94A3B8]">Current Email</div>
+        <div className="rounded-[14px] border border-[#F0F0F5] bg-white p-4">
+          <div className="mb-1.5 text-[0.72rem] font-semibold uppercase tracking-wider text-[#8585A0]">Current Email</div>
           <div className="flex items-center gap-2.5">
-            <svg className="h-3.5 w-3.5 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3.5 w-3.5 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
-            <span className="text-[0.9rem] font-semibold text-[#0A1628]">jane.doe@email.com</span>
+            <span className="text-[0.9rem] font-semibold text-[#1A1A2E]">jane.doe@email.com</span>
           </div>
         </div>
 
         {/* New Email */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">New Email Address</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">New Email Address</label>
           <input
             type="email"
             placeholder="Enter your new email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
-            className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+            className="w-full rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
           />
         </div>
 
@@ -167,16 +167,16 @@ export default function ChangeEmailPage() {
 
         {/* Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Confirm Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Confirm Password</label>
           <div className="relative">
             <input
               type={showPw ? 'text' : 'password'}
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pr-11 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 pr-11 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
-            <button onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#CBD5E1] hover:text-[#64748B]">
+            <button onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#B0B0C8] hover:text-[#5C5C7A]">
               <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {showPw ? (
                   <><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></>
@@ -192,7 +192,7 @@ export default function ChangeEmailPage() {
         <div className="pt-2">
           <button
             onClick={() => setStep(2)}
-            className="flex w-full items-center justify-center rounded-full bg-[#0A1628] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
+            className="flex w-full items-center justify-center rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90"
           >
             Update Email
           </button>

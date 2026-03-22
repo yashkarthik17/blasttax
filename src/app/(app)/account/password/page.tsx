@@ -19,8 +19,8 @@ export default function ChangePasswordPage() {
 
   const score = [hasLength, hasUpper, hasNumber, hasSpecial].filter(Boolean).length
   const strengthLabels = ['Password strength', 'Weak', 'Fair', 'Good', 'Strong']
-  const strengthColors = ['#94A3B8', '#EF4444', '#F59E0B', '#2563EB', '#10B981']
-  const barColors = ['#E2E8F0', '#EF4444', '#F59E0B', '#2563EB', '#10B981']
+  const strengthColors = ['#8585A0', '#EF4444', '#F59E0B', '#2563EB', '#10B981']
+  const barColors = ['#D5D5E0', '#EF4444', '#F59E0B', '#2563EB', '#10B981']
 
   if (success) {
     return (
@@ -31,13 +31,13 @@ export default function ChangePasswordPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="mb-2 text-xl font-extrabold text-[#0A1628]">Password Updated</h2>
-          <p className="max-w-[260px] text-[0.88rem] leading-relaxed text-[#94A3B8]">
+          <h2 className="mb-2 text-xl font-extrabold text-[#1A1A2E]">Password Updated</h2>
+          <p className="max-w-[260px] text-[0.88rem] leading-relaxed text-[#8585A0]">
             Your password has been successfully changed. Use your new password next time you sign in.
           </p>
           <Link
             href="/account"
-            className="mt-8 rounded-full border border-[#E2E8F0] px-7 py-3.5 text-[0.9rem] font-semibold text-[#0A1628] transition hover:bg-[#F8FAFC]"
+            className="mt-8 rounded-full border border-[#D5D5E0] px-7 py-3.5 text-[0.9rem] font-semibold text-[#1A1A2E] transition hover:bg-[#FAFAFF]"
           >
             Back to Account
           </Link>
@@ -64,19 +64,19 @@ export default function ChangePasswordPage() {
 
         {/* Current Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">Current Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#8585A0]">Current Password</label>
           <div className="relative">
             <input
               type={showCurrent ? 'text' : 'password'}
               placeholder="Enter current password"
               value={currentPw}
               onChange={(e) => setCurrentPw(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-white py-3 pl-12 pr-12 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full rounded-xl border border-[#D5D5E0] bg-white py-3 pl-12 pr-12 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
-            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
-            <button onClick={() => setShowCurrent(!showCurrent)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#CBD5E1] hover:text-[#64748B]">
+            <button onClick={() => setShowCurrent(!showCurrent)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#B0B0C8] hover:text-[#5C5C7A]">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {showCurrent ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -88,23 +88,23 @@ export default function ChangePasswordPage() {
           </div>
         </div>
 
-        <div className="h-px bg-[#F1F5F9]" />
+        <div className="h-px bg-[#F0F0F5]" />
 
         {/* New Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">New Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#8585A0]">New Password</label>
           <div className="relative">
             <input
               type={showNew ? 'text' : 'password'}
               placeholder="Create new password"
               value={newPw}
               onChange={(e) => setNewPw(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-white py-3 pl-12 pr-12 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full rounded-xl border border-[#D5D5E0] bg-white py-3 pl-12 pr-12 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
-            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
             </svg>
-            <button onClick={() => setShowNew(!showNew)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#CBD5E1] hover:text-[#64748B]">
+            <button onClick={() => setShowNew(!showNew)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#B0B0C8] hover:text-[#5C5C7A]">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {showNew ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -121,7 +121,7 @@ export default function ChangePasswordPage() {
               <div
                 key={i}
                 className="h-1 flex-1 rounded-full transition-colors"
-                style={{ backgroundColor: i <= score ? barColors[score] : '#E2E8F0' }}
+                style={{ backgroundColor: i <= score ? barColors[score] : '#D5D5E0' }}
               />
             ))}
           </div>
@@ -132,19 +132,19 @@ export default function ChangePasswordPage() {
 
         {/* Confirm Password */}
         <div>
-          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">Confirm New Password</label>
+          <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#8585A0]">Confirm New Password</label>
           <div className="relative">
             <input
               type={showConfirm ? 'text' : 'password'}
               placeholder="Confirm new password"
               value={confirmPw}
               onChange={(e) => setConfirmPw(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-white py-3 pl-12 pr-12 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full rounded-xl border border-[#D5D5E0] bg-white py-3 pl-12 pr-12 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
-            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
             </svg>
-            <button onClick={() => setShowConfirm(!showConfirm)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#CBD5E1] hover:text-[#64748B]">
+            <button onClick={() => setShowConfirm(!showConfirm)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#B0B0C8] hover:text-[#5C5C7A]">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {showConfirm ? (
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -157,15 +157,15 @@ export default function ChangePasswordPage() {
         </div>
 
         {/* Requirements */}
-        <div className="space-y-2.5 rounded-[14px] bg-[#F8FAFC] p-4">
-          <div className="text-[0.72rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Requirements</div>
+        <div className="space-y-2.5 rounded-[14px] bg-[#FAFAFF] p-4">
+          <div className="text-[0.72rem] font-bold uppercase tracking-wider text-[#B0B0C8]">Requirements</div>
           {[
             { met: hasLength, label: 'At least 8 characters' },
             { met: hasUpper, label: 'One uppercase letter' },
             { met: hasNumber, label: 'One number' },
             { met: hasSpecial, label: 'One special character (!@#$%)' },
           ].map((req) => (
-            <div key={req.label} className={`flex items-center gap-2 text-[0.78rem] font-medium ${req.met ? 'text-[#10B981]' : 'text-[#94A3B8]'}`}>
+            <div key={req.label} className={`flex items-center gap-2 text-[0.78rem] font-medium ${req.met ? 'text-[#10B981]' : 'text-[#8585A0]'}`}>
               {req.met ? (
                 <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
@@ -181,7 +181,7 @@ export default function ChangePasswordPage() {
         {/* Update Button */}
         <button
           onClick={() => setSuccess(true)}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0A1628] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.95rem] font-bold text-white transition hover:opacity-90"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />

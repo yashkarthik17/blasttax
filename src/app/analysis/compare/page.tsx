@@ -32,33 +32,33 @@ export default function ComparePage() {
   ]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, paddingTop: 16, paddingBottom: 12 }}>
-          <button onClick={() => router.push('/analysis/results')} style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12, border: '1px solid #E2E8F0', background: 'white', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          <button onClick={() => router.push('/analysis/results')} style={{ width: 40, height: 40, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 12, border: '1px solid #D5D5E0', background: 'white', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </button>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#0A1628' }}>Compare Options</span>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E' }}>Compare Options</span>
           <div style={{ width: 40, flexShrink: 0 }} />
         </div>
 
         {/* Heading */}
         <div style={{ marginBottom: 16 }}>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', marginBottom: 4 }}>Compare Your Resolution Options</h1>
-          <p style={{ fontSize: '0.82rem', color: '#94A3B8' }}>Side-by-side analysis of your eligible paths</p>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 4 }}>Compare Your Resolution Options</h1>
+          <p style={{ fontSize: '0.82rem', color: '#8585A0' }}>Side-by-side analysis of your eligible paths</p>
         </div>
 
         {/* Comparison Table */}
         <div style={{ overflowX: 'auto', margin: '0 -4px', padding: '0 4px' }}>
-          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: 11, borderRadius: 14, overflow: 'hidden', border: '1px solid #F1F5F9', background: 'white' }}>
+          <table style={{ width: '100%', borderCollapse: 'separate', borderSpacing: 0, fontSize: 11, borderRadius: 14, overflow: 'hidden', border: '1px solid #F0F0F5', background: 'white' }}>
             <thead>
               <tr>
-                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'left', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9', paddingLeft: 12, width: 72 }}>Factor</th>
-                <th style={{ background: '#EBF0FF', padding: '10px 6px', fontWeight: 700, color: '#2563EB', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>OIC</th>
-                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>S-IA</th>
-                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>PPIA</th>
-                <th style={{ background: '#F8FAFC', padding: '10px 6px', fontWeight: 700, color: '#0A1628', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F1F5F9' }}>CNC</th>
+                <th style={{ background: '#FAFAFF', padding: '10px 6px', fontWeight: 700, color: '#1A1A2E', textAlign: 'left', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F0F0F5', paddingLeft: 12, width: 72 }}>Factor</th>
+                <th style={{ background: '#EBF0FF', padding: '10px 6px', fontWeight: 700, color: '#2563EB', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F0F0F5' }}>OIC</th>
+                <th style={{ background: '#FAFAFF', padding: '10px 6px', fontWeight: 700, color: '#1A1A2E', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F0F0F5' }}>S-IA</th>
+                <th style={{ background: '#FAFAFF', padding: '10px 6px', fontWeight: 700, color: '#1A1A2E', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F0F0F5' }}>PPIA</th>
+                <th style={{ background: '#FAFAFF', padding: '10px 6px', fontWeight: 700, color: '#1A1A2E', textAlign: 'center', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.03em', borderBottom: '1.5px solid #F0F0F5' }}>CNC</th>
               </tr>
             </thead>
             <tbody>
@@ -67,7 +67,7 @@ export default function ComparePage() {
                 const isLast = rowIdx === comparisonRows.length - 1
                 return (
                   <tr key={row.label}>
-                    <td style={{ padding: '8px 6px', textAlign: 'left', paddingLeft: 12, fontWeight: 600, color: '#0A1628', fontSize: 10, borderBottom: isLast ? 'none' : '1px solid #F1F5F9', verticalAlign: 'middle' }}>{row.label}</td>
+                    <td style={{ padding: '8px 6px', textAlign: 'left', paddingLeft: 12, fontWeight: 600, color: '#1A1A2E', fontSize: 10, borderBottom: isLast ? 'none' : '1px solid #F0F0F5', verticalAlign: 'middle' }}>{row.label}</td>
                     {vals.map((val, i) => {
                       const isBest = row.bestCols?.includes(i)
                       const isRed = (row as { redCols?: number[] }).redCols?.includes(i)
@@ -75,9 +75,9 @@ export default function ComparePage() {
                       return (
                         <td key={i} style={{
                           padding: '8px 6px', textAlign: 'center', fontWeight: isBest ? 700 : isHighlight ? 600 : 500,
-                          color: isBest ? '#00A651' : isRed ? '#E63946' : isHighlight ? '#2563EB' : '#64748B',
+                          color: isBest ? '#00A651' : isRed ? '#E63946' : isHighlight ? '#2563EB' : '#5C5C7A',
                           background: isHighlight ? 'rgba(235,240,255,0.3)' : undefined,
-                          borderBottom: isLast ? 'none' : '1px solid #F1F5F9',
+                          borderBottom: isLast ? 'none' : '1px solid #F0F0F5',
                           verticalAlign: 'middle',
                           fontSize: (row as { siaSmall?: boolean }).siaSmall && i === 1 ? 10 : undefined,
                         }}>
@@ -97,7 +97,7 @@ export default function ComparePage() {
           <i className="fa-solid fa-lightbulb" style={{ color: '#2563EB', fontSize: 14, marginTop: 2 }} />
           <div>
             <div style={{ fontWeight: 700, marginBottom: 2, fontSize: 13, color: '#1e3a5f' }}>Our Recommendation</div>
-            <div style={{ fontSize: 12, lineHeight: 1.5, color: '#374151' }}>
+            <div style={{ fontSize: 12, lineHeight: 1.5, color: '#2D2B3D' }}>
               <strong>OIC</strong> offers the highest savings ({savingsPct}%), or <strong>Streamlined IA</strong> for fastest approval with zero disclosure.
             </div>
           </div>
@@ -105,23 +105,23 @@ export default function ComparePage() {
 
         {/* Strategic Plays */}
         <div style={{ marginTop: 16 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
             <i className="fa-solid fa-chess" style={{ fontSize: 11, marginRight: 4 }} /> Strategic Plays
           </div>
 
           <div className="md:grid md:grid-cols-2 md:gap-3">
             {/* Play A */}
-            <div style={{ background: 'white', border: '1.5px solid #F1F5F9', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
+            <div style={{ background: 'white', border: '1.5px solid #F0F0F5', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EBF0FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <i className="fa-solid fa-arrow-trend-down" style={{ color: '#0A1628', fontSize: 14 }} />
+                  <i className="fa-solid fa-arrow-trend-down" style={{ color: '#1A1A2E', fontSize: 14 }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Play A: Balance Reducer</div>
-                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: '#0A1628', color: 'white', borderRadius: 6 }}>Compound Strategy</span>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Play A: Balance Reducer</div>
+                  <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: '#1A1A2E', color: 'white', borderRadius: 6 }}>Compound Strategy</span>
                 </div>
               </div>
-              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5, marginBottom: 6 }}>
                 Do FTA first to reduce balance by $5,300, then submit OIC with lower RCP = lower offer amount.
               </div>
               <button onClick={() => router.push('/analysis/detail/penalty')} style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
@@ -130,17 +130,17 @@ export default function ComparePage() {
             </div>
 
             {/* Play E */}
-            <div style={{ background: 'white', border: '1.5px solid #F1F5F9', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
+            <div style={{ background: 'white', border: '1.5px solid #F0F0F5', borderRadius: 16, padding: 16, marginBottom: 10, cursor: 'pointer', transition: 'all 0.3s ease' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                 <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F0FDFA', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <i className="fa-solid fa-hourglass-half" style={{ color: '#0D9488', fontSize: 14 }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Play E: Expiration Play</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Play E: Expiration Play</div>
                   <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: '#F0FDFA', color: '#0D9488', borderRadius: 6 }}>Long-Term</span>
                 </div>
               </div>
-              <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5, marginBottom: 6 }}>
+              <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5, marginBottom: 6 }}>
                 Request CNC + apply FTA, then wait for CSED to expire (2028-2031). Pay $0 if income stays low.
               </div>
               <button onClick={() => router.push('/analysis/detail/cnc')} style={{ fontSize: 12, fontWeight: 600, color: '#2563EB', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>

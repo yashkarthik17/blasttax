@@ -29,8 +29,8 @@ export default function AccountPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#0A1628] border-t-transparent" />
+      <div className="flex min-h-screen items-center justify-center" style={{ background: '#FAFAFF' }}>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#1A1A2E] border-t-transparent" />
       </div>
     )
   }
@@ -47,12 +47,12 @@ export default function AccountPage() {
   const email = userData?.email || 'jane.doe@email.com'
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+    <div className="min-h-screen" style={{ background: '#FAFAFF' }}>
       <div className="mx-auto max-w-md sm:max-w-2xl lg:max-w-4xl xl:max-w-5xl">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
           <div style={{ fontSize: '1.2rem', fontWeight: 800 }}>My Account</div>
-          <Link href="/account/edit" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, color: '#0A1628', textDecoration: 'none' }}>
+          <Link href="/account/edit" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 40, height: 40, borderRadius: 12, color: '#1A1A2E', textDecoration: 'none' }}>
             <i className="fas fa-pen-to-square" style={{ fontSize: 16 }} />
           </Link>
         </div>
@@ -64,13 +64,13 @@ export default function AccountPage() {
             {/* Left column: Profile Card + Active Cases */}
             <div className="lg:col-span-4 flex flex-col gap-5">
               {/* Profile Card */}
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px', background: 'white', borderRadius: 20, border: '1px solid #E2E8F0' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '24px 16px', background: 'white', borderRadius: 20, border: '1px solid #D5D5E0' }}>
                 <div
                   style={{
                     width: 72,
                     height: 72,
                     borderRadius: '50%',
-                    background: '#0A1628',
+                    background: '#1A1A2E',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -82,8 +82,8 @@ export default function AccountPage() {
                 >
                   {initials.toUpperCase()}
                 </div>
-                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0A1628' }}>{displayName}</div>
-                <div style={{ fontSize: '0.8rem', color: '#94A3B8', fontWeight: 500, marginTop: 3 }}>{email}</div>
+                <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1A1A2E' }}>{displayName}</div>
+                <div style={{ fontSize: '0.8rem', color: '#8585A0', fontWeight: 500, marginTop: 3 }}>{email}</div>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -91,11 +91,11 @@ export default function AccountPage() {
                     gap: 5,
                     marginTop: 10,
                     padding: '4px 12px',
-                    background: '#F8FAFC',
+                    background: '#FAFAFF',
                     borderRadius: 9999,
                     fontSize: '0.68rem',
                     fontWeight: 600,
-                    color: '#64748B',
+                    color: '#5C5C7A',
                   }}
                 >
                   <i className="far fa-calendar" style={{ fontSize: 10 }} />
@@ -105,7 +105,7 @@ export default function AccountPage() {
 
               {/* Active Cases */}
               <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Active Cases</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Active Cases</div>
 
                 {/* Case 1 */}
                 <Link
@@ -116,7 +116,7 @@ export default function AccountPage() {
                     gap: 12,
                     padding: '14px 16px',
                     background: 'white',
-                    border: '1px solid #F3F4F6',
+                    border: '1px solid #E8E8F0',
                     borderRadius: 14,
                     marginBottom: 8,
                     textDecoration: 'none',
@@ -124,19 +124,19 @@ export default function AccountPage() {
                   }}
                 >
                   <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <i className="fas fa-handshake" style={{ fontSize: 14, color: '#0A1628' }} />
+                    <i className="fas fa-handshake" style={{ fontSize: 14, color: '#1A1A2E' }} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1F2937' }}>Case #1042 — OIC</div>
-                    <div style={{ fontSize: '0.68rem', color: '#6B7280' }}>Under IRS Review</div>
+                    <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>Case #1042 — OIC</div>
+                    <div style={{ fontSize: '0.68rem', color: '#5C5C7A' }}>Under IRS Review</div>
                   </div>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '3px 8px', background: '#EFF4FF', color: '#0A1628', borderRadius: 9999 }}>Active</span>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 600, padding: '3px 8px', background: '#EFF4FF', color: '#1A1A2E', borderRadius: 9999 }}>Active</span>
                 </Link>
 
                 {/* View All */}
                 <Link
                   href="/cases"
-                  style={{ display: 'block', textAlign: 'center', fontSize: '0.78rem', fontWeight: 600, color: '#0A1628', padding: 8, textDecoration: 'none' }}
+                  style={{ display: 'block', textAlign: 'center', fontSize: '0.78rem', fontWeight: 600, color: '#1A1A2E', padding: 8, textDecoration: 'none' }}
                 >
                   View All Cases →
                 </Link>
@@ -146,7 +146,7 @@ export default function AccountPage() {
             {/* Right column: Account Menu + Personal Information + Tax Info + Preferences + Support */}
             <div className="lg:col-span-8 flex flex-col gap-5">
               {/* Account Menu */}
-              <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
+              <div style={{ background: 'white', borderRadius: 16, border: '1px solid #D5D5E0', padding: '4px 16px' }}>
                 {/* Billing & Subscription */}
                 <Link
                   href="/billing"
@@ -155,7 +155,7 @@ export default function AccountPage() {
                     alignItems: 'center',
                     gap: 14,
                     padding: '14px 0',
-                    borderBottom: '1px solid #F1F5F9',
+                    borderBottom: '1px solid #F0F0F5',
                     textDecoration: 'none',
                     color: 'inherit',
                     cursor: 'pointer',
@@ -165,8 +165,8 @@ export default function AccountPage() {
                     <i className="fas fa-credit-card" style={{ fontSize: 13, color: '#00A651' }} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Billing & Subscription</div>
-                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Pro Plan — $49/mo</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Billing & Subscription</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Pro Plan — $49/mo</div>
                   </div>
                   <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
@@ -178,18 +178,18 @@ export default function AccountPage() {
                     alignItems: 'center',
                     gap: 14,
                     padding: '14px 0',
-                    borderBottom: '1px solid #F1F5F9',
+                    borderBottom: '1px solid #F0F0F5',
                     textDecoration: 'none',
                     color: 'inherit',
                     cursor: 'pointer',
                   }}
                 >
-                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <i className="fas fa-gear" style={{ fontSize: 13, color: '#64748B' }} />
+                  <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F0F0F5', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <i className="fas fa-gear" style={{ fontSize: 13, color: '#5C5C7A' }} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Settings</div>
-                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Notifications, privacy, connections</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Settings</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Notifications, privacy, connections</div>
                   </div>
                   <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
@@ -201,7 +201,7 @@ export default function AccountPage() {
                     alignItems: 'center',
                     gap: 14,
                     padding: '14px 0',
-                    borderBottom: '1px solid #F1F5F9',
+                    borderBottom: '1px solid #F0F0F5',
                     textDecoration: 'none',
                     color: 'inherit',
                     cursor: 'pointer',
@@ -211,14 +211,14 @@ export default function AccountPage() {
                     <i className="fas fa-pen-to-square" style={{ fontSize: 13, color: '#2563EB' }} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Edit Profile</div>
-                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Update your personal info</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Edit Profile</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Update your personal info</div>
                   </div>
                   <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
                 {/* IRS Payments */}
                 <Link
-                  href="/billing/payments"
+                  href="/billing/payment-methods"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -233,8 +233,8 @@ export default function AccountPage() {
                     <i className="fas fa-landmark" style={{ fontSize: 13, color: '#E63946' }} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>IRS Payments</div>
-                    <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Track and make IRS payments</div>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>IRS Payments</div>
+                    <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Track and make IRS payments</div>
                   </div>
                   <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                 </Link>
@@ -244,8 +244,8 @@ export default function AccountPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Personal Information */}
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Personal Information</div>
-                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Personal Information</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #D5D5E0', padding: '4px 16px' }}>
                     {[
                       { icon: 'fa-user', label: 'Name', value: displayName },
                       { icon: 'fa-envelope', label: 'Email', value: email },
@@ -259,16 +259,16 @@ export default function AccountPage() {
                           alignItems: 'center',
                           gap: 14,
                           padding: '14px 0',
-                          borderBottom: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                          borderBottom: i < arr.length - 1 ? '1px solid #F0F0F5' : 'none',
                           cursor: 'pointer',
                         }}
                       >
                         <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <i className={`fas ${item.icon}`} style={{ fontSize: 13, color: '#0A1628' }} />
+                          <i className={`fas ${item.icon}`} style={{ fontSize: 13, color: '#1A1A2E' }} />
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>{item.label}</div>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{item.value}</div>
+                          <div style={{ fontSize: '0.7rem', color: '#8585A0', fontWeight: 500 }}>{item.label}</div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>{item.value}</div>
                         </div>
                         <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                       </div>
@@ -278,35 +278,35 @@ export default function AccountPage() {
 
                 {/* Tax Information */}
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Tax Information</div>
-                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Tax Information</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #D5D5E0', padding: '4px 16px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F0F0F5', cursor: 'pointer' }}>
                       <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-file-invoice" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>Filing Status</div>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Single</div>
+                        <div style={{ fontSize: '0.7rem', color: '#8585A0', fontWeight: 500 }}>Filing Status</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Single</div>
                       </div>
                       <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F0F0F5', cursor: 'pointer' }}>
                       <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-id-card" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>SSN</div>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>***-**-6789</div>
+                        <div style={{ fontSize: '0.7rem', color: '#8585A0', fontWeight: 500 }}>SSN</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>***-**-6789</div>
                       </div>
-                      <i className="fas fa-eye-slash" style={{ fontSize: 11, color: '#CBD5E1' }} />
+                      <i className="fas fa-eye-slash" style={{ fontSize: 11, color: '#B0B0C8' }} />
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', cursor: 'pointer' }}>
                       <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F5F0FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-users" style={{ fontSize: 13, color: '#7C3AED' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.7rem', color: '#94A3B8', fontWeight: 500 }}>Dependents</div>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>2</div>
+                        <div style={{ fontSize: '0.7rem', color: '#8585A0', fontWeight: 500 }}>Dependents</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>2</div>
                       </div>
                       <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
@@ -318,16 +318,16 @@ export default function AccountPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 {/* Preferences */}
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Preferences</div>
-                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Preferences</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #D5D5E0', padding: '4px 16px' }}>
                     {/* Notifications Toggle */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F0F0F5' }}>
                       <div style={{ width: 36, height: 36, borderRadius: 10, background: '#E6F9EE', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <i className="fas fa-bell" style={{ fontSize: 13, color: '#00A651' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Notifications</div>
-                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Push & email alerts</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Notifications</div>
+                        <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Push & email alerts</div>
                       </div>
                       <button
                         onClick={() => setNotificationsOn(!notificationsOn)}
@@ -336,7 +336,7 @@ export default function AccountPage() {
                           width: 46,
                           height: 26,
                           borderRadius: 13,
-                          background: notificationsOn ? '#0A1628' : '#D5D5E0',
+                          background: notificationsOn ? '#1A1A2E' : '#D5D5E0',
                           border: 'none',
                           cursor: 'pointer',
                           flexShrink: 0,
@@ -358,13 +358,13 @@ export default function AccountPage() {
                       </button>
                     </div>
                     {/* Dark Mode Toggle */}
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F1F5F9' }}>
-                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                        <i className="fas fa-moon" style={{ fontSize: 13, color: '#64748B' }} />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderBottom: '1px solid #F0F0F5' }}>
+                      <div style={{ width: 36, height: 36, borderRadius: 10, background: '#FAFAFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <i className="fas fa-moon" style={{ fontSize: 13, color: '#5C5C7A' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Dark Mode</div>
-                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>Reduce eye strain</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Dark Mode</div>
+                        <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>Reduce eye strain</div>
                       </div>
                       <button
                         onClick={() => setDarkModeOn(!darkModeOn)}
@@ -373,7 +373,7 @@ export default function AccountPage() {
                           width: 46,
                           height: 26,
                           borderRadius: 13,
-                          background: darkModeOn ? '#0A1628' : '#D5D5E0',
+                          background: darkModeOn ? '#1A1A2E' : '#D5D5E0',
                           border: 'none',
                           cursor: 'pointer',
                           flexShrink: 0,
@@ -400,8 +400,8 @@ export default function AccountPage() {
                         <i className="fas fa-globe" style={{ fontSize: 13, color: '#4F46E5' }} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>Language</div>
-                        <div style={{ fontSize: '0.68rem', color: '#94A3B8', marginTop: 1 }}>English (US)</div>
+                        <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>Language</div>
+                        <div style={{ fontSize: '0.68rem', color: '#8585A0', marginTop: 1 }}>English (US)</div>
                       </div>
                       <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                     </div>
@@ -410,8 +410,8 @@ export default function AccountPage() {
 
                 {/* Support */}
                 <div>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Support</div>
-                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #E2E8F0', padding: '4px 16px' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Support</div>
+                  <div style={{ background: 'white', borderRadius: 16, border: '1px solid #D5D5E0', padding: '4px 16px' }}>
                     {[
                       { icon: 'fa-circle-question', label: 'Help Center' },
                       { icon: 'fa-headset', label: 'Contact Us' },
@@ -424,7 +424,7 @@ export default function AccountPage() {
                           alignItems: 'center',
                           gap: 14,
                           padding: '14px 0',
-                          borderBottom: i < arr.length - 1 ? '1px solid #F1F5F9' : 'none',
+                          borderBottom: i < arr.length - 1 ? '1px solid #F0F0F5' : 'none',
                           cursor: 'pointer',
                         }}
                       >
@@ -432,7 +432,7 @@ export default function AccountPage() {
                           <i className={`fas ${item.icon}`} style={{ fontSize: 13, color: '#0D9488' }} />
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#0A1628' }}>{item.label}</div>
+                          <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E' }}>{item.label}</div>
                         </div>
                         <i className="fas fa-chevron-right" style={{ fontSize: 11, color: '#D5D5E0' }} />
                       </div>

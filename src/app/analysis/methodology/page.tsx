@@ -53,7 +53,7 @@ const SECTIONS: MethodSection[] = [
   },
   {
     id: 'standards', title: 'IRS Standards Used', subtitle: 'Allowable Living Expenses',
-    icon: 'fa-landmark', iconBg: '#EFF4FF', iconColor: '#0A1628',
+    icon: 'fa-landmark', iconBg: '#EFF4FF', iconColor: '#1A1A2E',
     content: 'The IRS sets maximum allowable amounts for living expenses. We use the most current published standards:',
     standards: [
       { icon: 'fa-utensils', title: 'National Standards', description: 'Food, clothing, housekeeping, personal care, misc.' },
@@ -85,22 +85,22 @@ export default function MethodologyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md md:max-w-2xl lg:max-w-4xl">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', padding: '14px 20px' }}>
           <button onClick={() => router.back()} style={{ width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'none', border: 'none', cursor: 'pointer' }}>
-            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#0A1628' }} />
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#1A1A2E' }} />
           </button>
-          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#0A1628' }}>How We Calculate</span>
+          <span style={{ flex: 1, textAlign: 'center', fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E' }}>How We Calculate</span>
           <div style={{ width: 40 }} />
         </div>
 
         <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           {/* Heading */}
           <div style={{ padding: '4px 0 8px' }}>
-            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#0A1628', marginBottom: 6 }}>How Your Results Are Calculated</div>
-            <div style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5 }}>We use the same methodology and formulas that the IRS uses to evaluate your case.</div>
+            <div style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 6 }}>How Your Results Are Calculated</div>
+            <div style={{ fontSize: '0.82rem', color: '#5C5C7A', lineHeight: 1.5 }}>We use the same methodology and formulas that the IRS uses to evaluate your case.</div>
           </div>
 
           {/* Expandable Sections */}
@@ -109,7 +109,7 @@ export default function MethodologyPage() {
             return (
               <div
                 key={section.id}
-                style={{ background: 'white', border: `1px solid ${isOpen ? '#E2E8F0' : '#F1F5F9'}`, borderRadius: 14, overflow: 'hidden', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', cursor: 'pointer' }}
+                style={{ background: 'white', border: `1px solid ${isOpen ? '#D5D5E0' : '#F0F0F5'}`, borderRadius: 14, overflow: 'hidden', transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', cursor: 'pointer' }}
                 onClick={() => toggleSection(section.id)}
               >
                 {/* Section Header */}
@@ -119,28 +119,28 @@ export default function MethodologyPage() {
                       <i className={`fas ${section.icon}`} style={{ fontSize: 14, color: section.iconColor }} />
                     </div>
                     <div>
-                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#0A1628' }}>{section.title}</div>
-                      <div style={{ fontSize: '0.68rem', color: '#94A3B8' }}>{section.subtitle}</div>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1A1A2E' }}>{section.title}</div>
+                      <div style={{ fontSize: '0.68rem', color: '#8585A0' }}>{section.subtitle}</div>
                     </div>
                   </div>
-                  <i className={`fas fa-chevron-down`} style={{ fontSize: 11, color: '#CBD5E1', transition: 'transform 0.3s ease', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }} />
+                  <i className={`fas fa-chevron-down`} style={{ fontSize: 11, color: '#B0B0C8', transition: 'transform 0.3s ease', transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)', flexShrink: 0 }} />
                 </div>
 
                 {/* Section Detail */}
                 <div style={{ maxHeight: isOpen ? 600 : 0, overflow: 'hidden', transition: 'max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease', padding: isOpen ? '0 16px 16px' : '0 16px' }}>
                   {section.formula && (
-                    <div style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', borderRadius: 10, padding: '12px 14px', fontFamily: "'DM Sans', monospace", fontSize: '0.82rem', fontWeight: 700, color: '#0A1628', textAlign: 'center', letterSpacing: '0.01em', marginBottom: 12 }}>
+                    <div style={{ background: '#FAFAFF', border: '1px solid #D5D5E0', borderRadius: 10, padding: '12px 14px', fontFamily: "'DM Sans', monospace", fontSize: '0.82rem', fontWeight: 700, color: '#1A1A2E', textAlign: 'center', letterSpacing: '0.01em', marginBottom: 12 }}>
                       {section.formula}
                     </div>
                   )}
-                  <p style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.6, marginBottom: 10 }}>{section.content}</p>
+                  <p style={{ fontSize: '0.78rem', color: '#5C5C7A', lineHeight: 1.6, marginBottom: 10 }}>{section.content}</p>
 
                   {section.bullets && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {section.bullets.map((b) => (
                         <div key={b.text} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                           <i className={`fas ${b.icon}`} style={{ fontSize: b.iconSize || 5, color: b.iconColor, marginTop: 7 }} />
-                          <span style={{ fontSize: '0.78rem', color: '#1F2937', lineHeight: 1.5 }}><strong>{b.text.split(' -- ')[0]}</strong>{b.text.includes(' -- ') ? ` -- ${b.text.split(' -- ')[1]}` : ''}</span>
+                          <span style={{ fontSize: '0.78rem', color: '#1A1A2E', lineHeight: 1.5 }}><strong>{b.text.split(' -- ')[0]}</strong>{b.text.includes(' -- ') ? ` -- ${b.text.split(' -- ')[1]}` : ''}</span>
                         </div>
                       ))}
                     </div>
@@ -149,11 +149,11 @@ export default function MethodologyPage() {
                   {section.standards && (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                       {section.standards.map((s) => (
-                        <div key={s.title} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', background: '#F8FAFC', borderRadius: 8 }}>
-                          <i className={`fas ${s.icon}`} style={{ fontSize: 12, color: '#0A1628', marginTop: 2 }} />
+                        <div key={s.title} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 12px', background: '#FAFAFF', borderRadius: 8 }}>
+                          <i className={`fas ${s.icon}`} style={{ fontSize: 12, color: '#1A1A2E', marginTop: 2 }} />
                           <div>
-                            <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#0A1628' }}>{s.title}</div>
-                            <div style={{ fontSize: '0.7rem', color: '#94A3B8' }}>{s.description}</div>
+                            <div style={{ fontSize: '0.78rem', fontWeight: 600, color: '#1A1A2E' }}>{s.title}</div>
+                            <div style={{ fontSize: '0.7rem', color: '#8585A0' }}>{s.description}</div>
                           </div>
                         </div>
                       ))}
@@ -165,14 +165,14 @@ export default function MethodologyPage() {
                       {section.tolling.map((t) => (
                         <div key={t} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                           <i className="fas fa-pause" style={{ fontSize: 10, color: '#E63946', marginTop: 5 }} />
-                          <span style={{ fontSize: '0.78rem', color: '#1F2937', lineHeight: 1.5 }}>{t}</span>
+                          <span style={{ fontSize: '0.78rem', color: '#1A1A2E', lineHeight: 1.5 }}>{t}</span>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {section.afterContent && (
-                    <p style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.6, marginTop: 10 }}>{section.afterContent}</p>
+                    <p style={{ fontSize: '0.78rem', color: '#5C5C7A', lineHeight: 1.6, marginTop: 10 }}>{section.afterContent}</p>
                   )}
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function MethodologyPage() {
           {/* CTA */}
           <button
             onClick={() => router.push('/expert')}
-            style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', gap: 8, border: '1.5px solid #E2E8F0', background: 'white', borderRadius: 9999, padding: '14px 28px', fontSize: '0.88rem', fontWeight: 700, color: '#0A1628', cursor: 'pointer' }}
+            style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: 'center', gap: 8, border: '1.5px solid #D5D5E0', background: 'white', borderRadius: 9999, padding: '14px 28px', fontSize: '0.88rem', fontWeight: 700, color: '#1A1A2E', cursor: 'pointer' }}
           >
             <i className="fas fa-user-tie" style={{ fontSize: 13 }} />
             Questions? Talk to an Expert

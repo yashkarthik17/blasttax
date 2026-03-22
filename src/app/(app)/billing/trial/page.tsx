@@ -55,8 +55,8 @@ export default function TrialActivePage() {
       </div>
 
       {/* Heading */}
-      <h1 className="text-[1.4rem] font-extrabold text-[#0A1628] leading-tight mb-2">Your Pro Trial is Active!</h1>
-      <p className="text-sm text-[#64748B] leading-relaxed mb-[18px] max-w-[280px]">
+      <h1 className="text-[1.4rem] font-extrabold text-[#1A1A2E] leading-tight mb-2">Your Pro Trial is Active!</h1>
+      <p className="text-sm text-[#5C5C7A] leading-relaxed mb-[18px] max-w-[280px]">
         Enjoy full access to all premium features during your trial.
       </p>
 
@@ -70,21 +70,21 @@ export default function TrialActivePage() {
 
       {/* What You Can Do Now */}
       <div className="w-full text-left mb-2">
-        <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3">What you can do now</div>
+        <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3">What you can do now</div>
       </div>
 
       {/* Feature Cards */}
       <div className="w-full flex flex-col gap-2.5 mb-5">
         {features.map((f) => (
-          <div key={f.title} className="flex items-center gap-3.5 p-4 bg-white border border-[#F1F5F9] rounded-[14px] hover:border-[#E2E8F0] transition-colors cursor-pointer">
+          <div key={f.title} className="flex items-center gap-3.5 p-4 bg-white border border-[#F0F0F5] rounded-[14px] hover:border-[#D5D5E0] transition-colors cursor-pointer">
             <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${f.gradientBg} flex items-center justify-center flex-shrink-0`}>
               <span className={f.iconColor}>{f.icon}</span>
             </div>
             <div className="text-left flex-1">
-              <div className="text-sm font-semibold text-[#0A1628] leading-snug">{f.title}</div>
-              <div className="text-xs text-[#94A3B8] mt-0.5">{f.subtitle}</div>
+              <div className="text-sm font-semibold text-[#1A1A2E] leading-snug">{f.title}</div>
+              <div className="text-xs text-[#8585A0] mt-0.5">{f.subtitle}</div>
             </div>
-            <svg className="h-3 w-3 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3 w-3 text-[#8585A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </div>
@@ -92,14 +92,14 @@ export default function TrialActivePage() {
       </div>
 
       {/* Reminder Note */}
-      <div className="w-full bg-white border border-[#F1F5F9] rounded-[10px] px-3.5 py-3 flex items-center gap-2.5 mb-[22px]">
+      <div className="w-full bg-white border border-[#F0F0F5] rounded-[10px] px-3.5 py-3 flex items-center gap-2.5 mb-[22px]">
         <div className="w-7 h-7 rounded-lg bg-amber-500/10 flex items-center justify-center flex-shrink-0">
           <svg className="h-3 w-3 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
           </svg>
         </div>
-        <span className="text-xs text-[#64748B] leading-snug text-left">
-          We&apos;ll remind you <strong className="font-semibold text-[#0A1628]">2 days</strong> before your trial ends.
+        <span className="text-xs text-[#5C5C7A] leading-snug text-left">
+          We&apos;ll remind you <strong className="font-semibold text-[#1A1A2E]">2 days</strong> before your trial ends.
         </span>
       </div>
 
@@ -118,7 +118,7 @@ export default function TrialActivePage() {
 
       {/* Ghost Text Link */}
       <div className="pt-0.5">
-        <a href="#" className="text-xs text-[#94A3B8] font-medium hover:text-[#2563EB] transition-colors">
+        <a href="#" className="text-xs text-[#8585A0] font-medium hover:text-[#2563EB] transition-colors">
           <span className="mr-1">&#9201;</span> Set up billing reminders
         </a>
       </div>

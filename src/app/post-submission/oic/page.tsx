@@ -25,14 +25,14 @@ export default function OICPostSubmissionPage() {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '448px', margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F1F5F9' }}>
-          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#F8FAFC', border: '1px solid #F1F5F9', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <i className="fa-solid fa-arrow-left" style={{ color: '#64748B' }} />
+        <div style={{ position: 'sticky', top: 0, zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', padding: '14px 20px', borderBottom: '1px solid #F0F0F5' }}>
+          <button onClick={() => router.back()} style={{ width: '40px', height: '40px', borderRadius: '12px', background: '#FAFAFF', border: '1px solid #F0F0F5', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            <i className="fa-solid fa-arrow-left" style={{ color: '#5C5C7A' }} />
           </button>
-          <span style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>OIC Status</span>
+          <span style={{ fontSize: '15px', fontWeight: 700, color: '#1A1A2E' }}>OIC Status</span>
           <div style={{ width: '40px' }} />
         </div>
 
@@ -40,36 +40,36 @@ export default function OICPostSubmissionPage() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', padding: '20px', paddingBottom: '24px' }}>
           {/* Title */}
           <div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', margin: 0, marginBottom: '6px' }}>Your Offer in Compromise</h1>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', margin: 0, marginBottom: '6px' }}>Your Offer in Compromise</h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', borderRadius: '9999px', background: '#EFF4FF', padding: '4px 12px', fontSize: '11px', fontWeight: 700, color: '#2563EB' }}>
                 <i className="fa-solid fa-clock" style={{ fontSize: '8px' }} /> In Review
               </span>
-              <span style={{ fontSize: '12px', color: '#64748B' }}>DATC &mdash; $8,500</span>
+              <span style={{ fontSize: '12px', color: '#5C5C7A' }}>DATC &mdash; $8,500</span>
             </div>
           </div>
 
           {/* Timeline */}
-          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Lifecycle Timeline</div>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F0F0F5', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>Lifecycle Timeline</div>
             {timeline.map((step, i) => (
               <div key={i} style={{ display: 'flex', gap: '14px', position: 'relative', paddingBottom: i < timeline.length - 1 ? '14px' : 0 }}>
                 {i < timeline.length - 1 && (
-                  <div style={{ position: 'absolute', left: '14px', top: '32px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F1F5F9' }} />
+                  <div style={{ position: 'absolute', left: '14px', top: '32px', bottom: 0, width: '2px', background: step.done ? '#00A651' : '#F0F0F5' }} />
                 )}
                 <div style={{
                   position: 'relative', zIndex: 1, width: '30px', height: '30px', borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#F8FAFC',
-                  color: step.done || step.current ? 'white' : '#CBD5E1',
-                  border: step.pending ? '2px solid #F1F5F9' : 'none',
+                  background: step.done ? '#00A651' : step.current ? '#2563EB' : '#FAFAFF',
+                  color: step.done || step.current ? 'white' : '#B0B0C8',
+                  border: step.pending ? '2px solid #F0F0F5' : 'none',
                   fontSize: '11px',
                 }}>
                   <i className={`fa-solid ${step.icon}`} style={{ fontSize: '10px' }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '12px', fontWeight: step.pending ? 600 : 700, color: step.current ? '#2563EB' : step.pending ? '#94A3B8' : '#0A1628' }}>{step.label}</div>
-                  <div style={{ fontSize: '10px', color: step.descGreen ? '#00A651' : step.pending ? '#CBD5E1' : '#64748B', fontWeight: step.descGreen ? 600 : 400 }}>{step.desc}</div>
+                  <div style={{ fontSize: '12px', fontWeight: step.pending ? 600 : 700, color: step.current ? '#2563EB' : step.pending ? '#8585A0' : '#1A1A2E' }}>{step.label}</div>
+                  <div style={{ fontSize: '10px', color: step.descGreen ? '#00A651' : step.pending ? '#B0B0C8' : '#5C5C7A', fontWeight: step.descGreen ? 600 : 400 }}>{step.desc}</div>
                 </div>
               </div>
             ))}
@@ -85,8 +85,8 @@ export default function OICPostSubmissionPage() {
               <i className="fa-solid fa-satellite-dish" style={{ color: 'white', fontSize: '16px' }} />
             </div>
             <div>
-              <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>Awaiting Examiner Assignment</div>
-              <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px' }}>24-month deadline: <strong>Apr 5, 2028</strong></div>
+              <div style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E' }}>Awaiting Examiner Assignment</div>
+              <div style={{ fontSize: '11px', color: '#5C5C7A', marginTop: '2px' }}>24-month deadline: <strong>Apr 5, 2028</strong></div>
               <div style={{ fontSize: '10px', color: '#2563EB', fontWeight: 600, marginTop: '2px' }}>
                 If no decision by then: Deemed Accepted (IRC &sect; 7122(f))
               </div>
@@ -94,15 +94,15 @@ export default function OICPostSubmissionPage() {
           </div>
 
           {/* During Review Reminders */}
-          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F1F5F9', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
-            <div style={{ fontSize: '11px', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+          <div style={{ borderRadius: '16px', background: 'white', border: '1px solid #F0F0F5', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)', padding: '16px' }}>
+            <div style={{ fontSize: '11px', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
               <i className="fa-solid fa-bell" style={{ fontSize: '10px', marginRight: '4px' }} />
               During Review Reminders
             </div>
             {reminders.map((item, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', padding: '7px 0', fontSize: '12px', lineHeight: 1.5 }}>
                 <i className={`fa-solid ${item.success ? 'fa-circle-check' : 'fa-triangle-exclamation'}`} style={{ color: item.success ? '#00A651' : '#F59E0B', fontSize: '13px', marginTop: '2px', flexShrink: 0 }} />
-                <span style={{ fontWeight: 500, color: item.muted ? '#64748B' : '#0A1628' }}>{item.text}</span>
+                <span style={{ fontWeight: 500, color: item.muted ? '#5C5C7A' : '#1A1A2E' }}>{item.text}</span>
               </div>
             ))}
           </div>
@@ -119,8 +119,8 @@ export default function OICPostSubmissionPage() {
             </button>
             <button style={{
               width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #E2E8F0',
-              color: '#0A1628', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+              padding: '16px', background: 'white', borderRadius: '16px', border: '1.5px solid #D5D5E0',
+              color: '#1A1A2E', fontSize: '15px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
             }}>
               <i className="fa-solid fa-comment-dots" style={{ fontSize: '13px' }} />
               Message Expert

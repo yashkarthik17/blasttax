@@ -23,7 +23,7 @@ const optionIconStyle = (bg: string, color: string): React.CSSProperties => ({
 
 const uploadOptionStyle: React.CSSProperties = {
   background: 'white',
-  border: '1px solid #F1F5F9',
+  border: '1px solid #F0F0F5',
   borderRadius: 16,
   padding: 16,
   marginBottom: 10,
@@ -67,15 +67,15 @@ export default function TranscriptPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#D5D5E0', borderRadius: 9999, overflow: 'hidden' }}>
             <div style={{ width: '35%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Step 3 of 6</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Transcript</span>
           </div>
         </div>
@@ -83,8 +83,8 @@ export default function TranscriptPage() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 20px 20px' }}>
           {/* Heading */}
           <div style={{ marginBottom: 6 }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Upload Your IRS Transcript</h1>
-            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Your transcript helps us verify your tax account details and find all penalties, payments, and assessments</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>Upload Your IRS Transcript</h1>
+            <p style={{ fontSize: 13, color: '#8585A0', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Your transcript helps us verify your tax account details and find all penalties, payments, and assessments</p>
           </div>
 
           {/* Option 1: Download from IRS */}
@@ -94,13 +94,13 @@ export default function TranscriptPage() {
                 <i className="fa-solid fa-globe" />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Download from IRS.gov</div>
-                <div style={{ fontSize: 12, color: '#94A3B8' }}>Step-by-step guide</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Download from IRS.gov</div>
+                <div style={{ fontSize: 12, color: '#8585A0' }}>Step-by-step guide</div>
               </div>
-              <i className="fa-solid fa-chevron-down" style={{ fontSize: 11, color: '#CBD5E1', transition: 'transform 0.3s ease', transform: showGuide ? 'rotate(180deg)' : 'none' }} />
+              <i className="fa-solid fa-chevron-down" style={{ fontSize: 11, color: '#B0B0C8', transition: 'transform 0.3s ease', transform: showGuide ? 'rotate(180deg)' : 'none' }} />
             </div>
             {showGuide && (
-              <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #F1F5F9' }}>
+              <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid #F0F0F5' }}>
                 {[
                   { num: '1', text: 'Go to irs.gov/transcripts' },
                   { num: '2', text: 'Sign in with your ID.me or IRS account' },
@@ -111,7 +111,7 @@ export default function TranscriptPage() {
                     <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#EFF4FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>
                       {step.num}
                     </div>
-                    <div style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>{step.text}</div>
+                    <div style={{ fontSize: 12, color: '#5C5C7A', lineHeight: 1.5 }}>{step.text}</div>
                   </div>
                 ))}
               </div>
@@ -125,8 +125,8 @@ export default function TranscriptPage() {
                 <i className="fa-solid fa-cloud-arrow-up" />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Upload PDF</div>
-                <div style={{ fontSize: 12, color: '#94A3B8' }}>Drag and drop or browse</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Upload PDF</div>
+                <div style={{ fontSize: 12, color: '#8585A0' }}>Drag and drop or browse</div>
               </div>
             </div>
             {showUpload && (
@@ -136,7 +136,7 @@ export default function TranscriptPage() {
                   onDragLeave={() => setDragActive(false)}
                   onDrop={(e) => { e.preventDefault(); setDragActive(false); handleFiles(e.dataTransfer.files) }}
                   style={{
-                    border: '2px dashed ' + (dragActive ? '#2563EB' : '#F1F5F9'),
+                    border: '2px dashed ' + (dragActive ? '#2563EB' : '#F0F0F5'),
                     borderRadius: 14,
                     padding: '28px 20px',
                     textAlign: 'center',
@@ -145,16 +145,16 @@ export default function TranscriptPage() {
                     background: dragActive ? '#EFF4FF' : 'transparent',
                   }}
                 >
-                  <div style={{ width: 48, height: 48, borderRadius: 14, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px', fontSize: 20, color: '#64748B' }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: '#FAFAFF', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px', fontSize: 20, color: '#5C5C7A' }}>
                     <i className="fa-solid fa-file-arrow-up" />
                   </div>
-                  <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Drop your transcript here</div>
-                  <div style={{ fontSize: 12, color: '#94A3B8' }}>or tap to browse</div>
+                  <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>Drop your transcript here</div>
+                  <div style={{ fontSize: 12, color: '#8585A0' }}>or tap to browse</div>
                   <label style={{ display: 'inline-block', marginTop: 12, cursor: 'pointer', borderRadius: 8, background: '#00A651', padding: '8px 20px', fontSize: 14, fontWeight: 700, color: 'white' }}>
                     Browse Files
                     <input type="file" accept=".pdf,image/png,image/jpeg" multiple onChange={(e) => handleFiles(e.target.files)} style={{ display: 'none' }} />
                   </label>
-                  <div style={{ fontSize: 11, color: '#CBD5E1', marginTop: 8 }}>Accepts PDF, PNG, JPG</div>
+                  <div style={{ fontSize: 11, color: '#B0B0C8', marginTop: 8 }}>Accepts PDF, PNG, JPG</div>
                 </div>
                 {files.map((file) => (
                   <div key={file.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 14px', background: '#E6F9EE', border: '1px solid #BBF7D0', borderRadius: 12, marginTop: 12 }}>
@@ -162,8 +162,8 @@ export default function TranscriptPage() {
                       <i className="fa-solid fa-file-pdf" />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>{file.name}</div>
-                      <div style={{ fontSize: 11, color: '#94A3B8' }}>{formatFileSize(file.size)}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>{file.name}</div>
+                      <div style={{ fontSize: 11, color: '#8585A0' }}>{formatFileSize(file.size)}</div>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <i className="fa-solid fa-circle-check" style={{ color: '#00A651', fontSize: 16 }} />
@@ -182,13 +182,13 @@ export default function TranscriptPage() {
                 <i className="fa-solid fa-link" />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Connect IRS e-Services</div>
-                <div style={{ fontSize: 12, color: '#94A3B8' }}>Automatically retrieve your transcript</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Connect IRS e-Services</div>
+                <div style={{ fontSize: 12, color: '#8585A0' }}>Automatically retrieve your transcript</div>
               </div>
             </div>
             {showConnect && (
               <div onClick={(e) => e.stopPropagation()} style={{ marginTop: 12 }}>
-                <button style={{ padding: '12px 20px', fontSize: 13, border: '1px solid #E2E8F0', borderRadius: 12, background: 'white', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, color: '#0A1628', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <button style={{ padding: '12px 20px', fontSize: 13, border: '1px solid #D5D5E0', borderRadius: 12, background: 'white', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, color: '#1A1A2E', display: 'flex', alignItems: 'center', gap: 8 }}>
                   <i className="fa-solid fa-plug" style={{ fontSize: 12 }} />
                   Connect to IRS
                 </button>
@@ -197,7 +197,7 @@ export default function TranscriptPage() {
           </div>
 
           {/* Info Alert */}
-          <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, fontSize: 13, color: '#0A1628' }}>
+          <div style={{ marginTop: 4, display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, fontSize: 13, color: '#1A1A2E' }}>
             <i className="fa-solid fa-circle-info" style={{ flexShrink: 0, color: '#2563EB' }} />
             <span>We look for Transaction Codes (TC) that determine your eligibility for each resolution type</span>
           </div>
@@ -205,12 +205,12 @@ export default function TranscriptPage() {
           {/* FAQ */}
           <div style={{ marginTop: 10 }}>
             <div onClick={() => setShowFaq(!showFaq)} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '10px 0' }}>
-              <i className="fa-solid fa-question-circle" style={{ fontSize: 14, color: '#64748B' }} />
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#64748B' }}>What is a tax transcript?</span>
-              <i className="fa-solid fa-chevron-down" style={{ fontSize: 10, color: '#CBD5E1', marginLeft: 'auto', transition: 'transform 0.3s ease', transform: showFaq ? 'rotate(180deg)' : 'none' }} />
+              <i className="fa-solid fa-question-circle" style={{ fontSize: 14, color: '#5C5C7A' }} />
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#5C5C7A' }}>What is a tax transcript?</span>
+              <i className="fa-solid fa-chevron-down" style={{ fontSize: 10, color: '#B0B0C8', marginLeft: 'auto', transition: 'transform 0.3s ease', transform: showFaq ? 'rotate(180deg)' : 'none' }} />
             </div>
             {showFaq && (
-              <div style={{ fontSize: 12, color: '#94A3B8', lineHeight: 1.6, padding: '0 0 8px 28px' }}>
+              <div style={{ fontSize: 12, color: '#8585A0', lineHeight: 1.6, padding: '0 0 8px 28px' }}>
                 A tax transcript is an official IRS document that shows your tax account activity. It includes all assessments, payments, penalties, and transaction codes for each tax year. It&apos;s different from your tax return - it shows what the IRS has on record for your account.
               </div>
             )}

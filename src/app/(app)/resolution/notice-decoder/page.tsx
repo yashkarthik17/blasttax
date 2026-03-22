@@ -44,21 +44,21 @@ const infoNotices: Notice[] = [
 
 function NoticeCard({ notice, isOpen, onToggle }: { notice: Notice; isOpen: boolean; onToggle: () => void }) {
   return (
-    <div className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#E2E8F0] hover:border-[rgba(10,22,40,0.12)]'}`}>
-      <button onClick={onToggle} className="flex w-full items-center justify-between gap-2.5 px-3.5 py-3 text-left transition hover:bg-[#F8FAFC]">
+    <div className={`overflow-hidden rounded-[14px] border transition-colors ${isOpen ? 'border-[rgba(10,22,40,0.15)]' : 'border-[#D5D5E0] hover:border-[rgba(10,22,40,0.12)]'}`}>
+      <button onClick={onToggle} className="flex w-full items-center justify-between gap-2.5 px-3.5 py-3 text-left transition hover:bg-[#FAFAFF]">
         <div className="flex min-w-0 flex-1 items-center gap-2.5">
           <span className="inline-flex min-w-[52px] items-center justify-center rounded-lg px-2 py-1 text-[0.72rem] font-extrabold" style={{ backgroundColor: notice.codeBg, color: notice.codeColor }}>
             {notice.code}
           </span>
-          <span className="text-[0.8rem] font-semibold leading-snug text-[#0A1628]">{notice.label}</span>
+          <span className="text-[0.8rem] font-semibold leading-snug text-[#1A1A2E]">{notice.label}</span>
         </div>
-        <svg className={`h-2.5 w-2.5 shrink-0 text-[#CBD5E1] transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg className={`h-2.5 w-2.5 shrink-0 text-[#B0B0C8] transition-transform ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       <div className={`overflow-hidden transition-all ${isOpen ? 'max-h-[500px] px-3.5 pb-3.5' : 'max-h-0 px-3.5'}`}>
-        <div className="mb-2.5 text-[0.78rem] leading-relaxed text-[#64748B]">
-          <strong className="text-[#0A1628]">What it means:</strong> {notice.meaning}
+        <div className="mb-2.5 text-[0.78rem] leading-relaxed text-[#5C5C7A]">
+          <strong className="text-[#1A1A2E]">What it means:</strong> {notice.meaning}
         </div>
         {notice.deadline && (
           <div className="mb-2.5 flex items-center gap-1.5 rounded-lg px-2.5 py-2" style={{ backgroundColor: '#FEF2F2' }}>
@@ -69,8 +69,8 @@ function NoticeCard({ notice, isOpen, onToggle }: { notice: Notice; isOpen: bool
           </div>
         )}
         {notice.action && (
-          <div className="mb-2 text-[0.75rem] leading-relaxed text-[#64748B]">
-            <strong className="text-[#0A1628]">Recommended action:</strong> {notice.action}
+          <div className="mb-2 text-[0.75rem] leading-relaxed text-[#5C5C7A]">
+            <strong className="text-[#1A1A2E]">Recommended action:</strong> {notice.action}
           </div>
         )}
         {notice.badges && notice.badges.length > 0 && (
@@ -125,13 +125,13 @@ export default function NoticeDecoderPage() {
 
         {/* Heading */}
         <div>
-          <div className="text-xl font-extrabold leading-snug tracking-tight text-[#0A1628]">What Notice Did You Receive?</div>
-          <div className="mt-1 text-[0.78rem] leading-relaxed text-[#94A3B8]">Look up any IRS notice or letter to understand what it means</div>
+          <div className="text-xl font-extrabold leading-snug tracking-tight text-[#1A1A2E]">What Notice Did You Receive?</div>
+          <div className="mt-1 text-[0.78rem] leading-relaxed text-[#8585A0]">Look up any IRS notice or letter to understand what it means</div>
         </div>
 
         {/* Search */}
-        <div className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#E2E8F0] bg-white px-4 py-2.5">
-          <svg className="h-3.5 w-3.5 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <div className="flex items-center gap-2.5 rounded-full border-[1.5px] border-[#D5D5E0] bg-white px-4 py-2.5">
+          <svg className="h-3.5 w-3.5 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -139,7 +139,7 @@ export default function NoticeDecoderPage() {
             placeholder="Search by notice number (e.g., CP14, LT11)"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 border-none bg-transparent text-[0.85rem] text-[#0A1628] outline-none placeholder:text-[#CBD5E1]"
+            className="flex-1 border-none bg-transparent text-[0.85rem] text-[#1A1A2E] outline-none placeholder:text-[#B0B0C8]"
           />
         </div>
 

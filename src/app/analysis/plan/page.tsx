@@ -52,19 +52,19 @@ export default function PlanPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', padding: '14px 0 12px' }}>
-          <div onClick={() => router.back()} style={{ width: 36, height: 36, borderRadius: 12, background: '#F8FAFC', border: '1px solid #F3F4F6', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}>
-            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+          <div onClick={() => router.back()} style={{ width: 36, height: 36, borderRadius: 12, background: '#FAFAFF', border: '1px solid #E8E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}>
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </div>
-          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Your Action Plan</div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', textAlign: 'center' }}>Your Action Plan</div>
           <div style={{ width: 36, flexShrink: 0 }} />
         </div>
 
         {/* Recommended Resolution Hero Card */}
-        <div style={{ background: '#0A1628', borderRadius: 20, padding: 24, position: 'relative', overflow: 'hidden', marginBottom: 18 }}>
+        <div style={{ background: '#1A1A2E', borderRadius: 20, padding: 24, position: 'relative', overflow: 'hidden', marginBottom: 18 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', background: 'rgba(255,255,255,0.15)', borderRadius: 9999, fontSize: '0.65rem', fontWeight: 600, color: 'white', marginBottom: 14 }}>
             <i className="fas fa-star" style={{ fontSize: 8 }} /> RECOMMENDED
           </div>
@@ -83,14 +83,14 @@ export default function PlanPage() {
         </div>
 
         {/* Progress Summary */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: 'white', borderRadius: 14, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)', marginBottom: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', background: 'white', borderRadius: 14, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)', marginBottom: 18 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#0A1628' }}>{completedCount} of {totalSteps} steps complete</div>
-            <div style={{ fontSize: '0.72rem', color: '#94A3B8', marginTop: 2 }}>{"Keep going, you're making progress!"}</div>
+            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#1A1A2E' }}>{completedCount} of {totalSteps} steps complete</div>
+            <div style={{ fontSize: '0.72rem', color: '#8585A0', marginTop: 2 }}>{"Keep going, you're making progress!"}</div>
           </div>
           <div style={{ position: 'relative', width: 44, height: 44 }}>
             <svg width="44" height="44" viewBox="0 0 44 44" style={{ transform: 'rotate(-90deg)' }}>
-              <circle cx="22" cy="22" r="18" fill="none" stroke="#F1F5F9" strokeWidth="4" />
+              <circle cx="22" cy="22" r="18" fill="none" stroke="#F0F0F5" strokeWidth="4" />
               <circle cx="22" cy="22" r="18" fill="none" stroke="#00A651" strokeWidth="4" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={strokeDashoffset} />
             </svg>
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem', fontWeight: 800, color: '#00A651' }}>{progressPct}%</div>
@@ -99,12 +99,12 @@ export default function PlanPage() {
 
         {/* Checklist */}
         <div style={{ marginBottom: 18 }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Required Steps</div>
-          <div style={{ background: 'white', borderRadius: 20, border: '1px solid #F3F4F6', overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12, padding: '0 4px' }}>Required Steps</div>
+          <div style={{ background: 'white', borderRadius: 20, border: '1px solid #E8E8F0', overflow: 'hidden', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
             {steps.map((step) => {
               const isExpanded = expandedSteps[step.id] && !step.completed
               return (
-                <div key={step.id} style={{ borderBottom: step.id !== '6' ? '1px solid #F1F5F9' : undefined }}>
+                <div key={step.id} style={{ borderBottom: step.id !== '6' ? '1px solid #F0F0F5' : undefined }}>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 16 }}>
                     {/* Checkbox */}
                     <div
@@ -122,7 +122,7 @@ export default function PlanPage() {
 
                     {/* Label */}
                     <div style={{ flex: 1, cursor: step.completed ? 'default' : 'pointer' }} onClick={() => !step.completed && toggleExpand(step.id)}>
-                      <div style={{ fontSize: '0.82rem', fontWeight: 600, color: step.completed ? '#94A3B8' : '#0A1628', textDecoration: step.completed ? 'line-through' : 'none', transition: 'all 0.3s ease' }}>
+                      <div style={{ fontSize: '0.82rem', fontWeight: 600, color: step.completed ? '#8585A0' : '#1A1A2E', textDecoration: step.completed ? 'line-through' : 'none', transition: 'all 0.3s ease' }}>
                         {step.label}
                       </div>
                       {step.completed && (
@@ -131,7 +131,7 @@ export default function PlanPage() {
                         </div>
                       )}
                       {isExpanded && (
-                        <div style={{ marginTop: 8, fontSize: '0.72rem', lineHeight: 1.5, color: '#94A3B8' }}>{step.detail}</div>
+                        <div style={{ marginTop: 8, fontSize: '0.72rem', lineHeight: 1.5, color: '#8585A0' }}>{step.detail}</div>
                       )}
                     </div>
 
@@ -140,7 +140,7 @@ export default function PlanPage() {
                       className="fas fa-chevron-down"
                       onClick={(e) => { e.stopPropagation(); if (!step.completed) toggleExpand(step.id) }}
                       style={{
-                        fontSize: 10, color: '#CBD5E1', marginTop: 4, cursor: 'pointer',
+                        fontSize: 10, color: '#B0B0C8', marginTop: 4, cursor: 'pointer',
                         transition: 'transform 0.3s ease',
                         transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                       }}
@@ -162,9 +162,9 @@ export default function PlanPage() {
           </div>
           <div
             onClick={() => router.push('/expert')}
-            style={{ padding: 14, background: 'white', border: '1.5px solid #F3F4F6', borderRadius: 9999, textAlign: 'center', color: '#64748B', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
+            style={{ padding: 14, background: 'white', border: '1.5px solid #E8E8F0', borderRadius: 9999, textAlign: 'center', color: '#5C5C7A', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}
           >
-            <i className="fas fa-headset" style={{ marginRight: 6, color: '#0A1628' }} /> Talk to an expert first
+            <i className="fas fa-headset" style={{ marginRight: 6, color: '#1A1A2E' }} /> Talk to an expert first
           </div>
         </div>
       </div>

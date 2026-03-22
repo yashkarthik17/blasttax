@@ -171,13 +171,13 @@ export default function IncomeExpensesPage() {
   }
 
   // Shared input class for income lines
-  const lineInputClass = 'w-[90px] rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2.5 py-1.5 text-right text-sm font-bold text-[#0A1628] outline-none transition-all focus:border-[#2563EB] focus:bg-white focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
-  const expInputClass = 'w-[72px] shrink-0 rounded-lg border-[1.5px] border-[#F1F5F9] bg-[#F8FAFC] px-2 py-1.5 text-right text-xs font-bold text-[#0A1628] outline-none transition-all focus:border-[#2563EB] focus:bg-white'
+  const lineInputClass = 'w-[90px] rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2.5 py-1.5 text-right text-sm font-bold text-[#1A1A2E] outline-none transition-all focus:border-[#2563EB] focus:bg-white focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
+  const expInputClass = 'w-[72px] shrink-0 rounded-lg border-[1.5px] border-[#F0F0F5] bg-[#FAFAFF] px-2 py-1.5 text-right text-xs font-bold text-[#1A1A2E] outline-none transition-all focus:border-[#2563EB] focus:bg-white'
 
   function renderIncomeLineItem(label: string, value: number, onChange: (v: number) => void, muted = false) {
     return (
-      <div className="flex items-center justify-between border-b border-[#F1F5F9] py-2.5 last:border-b-0">
-        <span className={`text-[13px] font-medium ${muted ? 'text-[#64748B]' : 'text-[#0A1628]'}`}>{label}</span>
+      <div className="flex items-center justify-between border-b border-[#F0F0F5] py-2.5 last:border-b-0">
+        <span className={`text-[13px] font-medium ${muted ? 'text-[#5C5C7A]' : 'text-[#1A1A2E]'}`}>{label}</span>
         <input
           type="text"
           inputMode="decimal"
@@ -187,30 +187,30 @@ export default function IncomeExpensesPage() {
             onChange(Number(raw) || 0)
           }}
           className={lineInputClass}
-          style={muted ? { color: '#CBD5E1' } : undefined}
+          style={muted ? { color: '#B0B0C8' } : undefined}
         />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress Bar */}
         <div style={{ paddingTop: '16px' }}>
-          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '70%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+          <div style={{ height: '4px', background: '#F0F0F5', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#1A1A2E', borderRadius: '9999px', width: '70%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 5 of 6</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 5 of 6</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Income & Expenses</span>
           </div>
         </div>
 
         {/* Heading */}
         <div style={{ marginBottom: '4px', marginTop: '14px' }}>
-          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Monthly Income & Expenses</h1>
-          <p style={{ fontSize: '12px', color: '#94A3B8', marginTop: '3px', lineHeight: 1.4 }}>
+          <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Monthly Income & Expenses</h1>
+          <p style={{ fontSize: '12px', color: '#8585A0', marginTop: '3px', lineHeight: 1.4 }}>
             {"We'll use IRS allowable expense standards to calculate your disposable income"}
           </p>
         </div>
@@ -219,16 +219,16 @@ export default function IncomeExpensesPage() {
         <div className="md:grid md:grid-cols-2 md:gap-4">
 
         {/* ── Income Section ── */}
-        <div className="mt-3 rounded-2xl border border-[#F1F5F9] bg-white p-4.5">
+        <div className="mt-3 rounded-2xl border border-[#F0F0F5] bg-white p-4.5">
           <div className="mb-3.5 flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#E6F9EE] text-xs text-[#00A651]">
               <i className="fa-solid fa-arrow-down" />
             </div>
-            <span className="text-sm font-bold text-[#0A1628]">Income</span>
+            <span className="text-sm font-bold text-[#1A1A2E]">Income</span>
           </div>
 
           {/* Taxpayer Income */}
-          <div className="text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">
+          <div className="text-[11px] font-bold uppercase tracking-wider text-[#8585A0]">
             <i className="fa-solid fa-user mr-1 text-[9px]" /> Taxpayer Income
           </div>
           {taxpayerIncomeFields.map((f) => renderIncomeLineItem(
@@ -237,9 +237,9 @@ export default function IncomeExpensesPage() {
           ))}
 
           {/* Taxpayer Withholding */}
-          <div className="mt-1 border-t border-[#F1F5F9] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">
+          <div className="mt-1 border-t border-[#F0F0F5] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#8585A0]">
             <i className="fa-solid fa-file-invoice-dollar mr-1 text-[9px]" /> Taxpayer Withholding
-            <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#94A3B8]">(deducted from gross)</span>
+            <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#8585A0]">(deducted from gross)</span>
           </div>
           {withholdingFields.map((f) => renderIncomeLineItem(
             f.label, taxpayer[f.key],
@@ -249,9 +249,9 @@ export default function IncomeExpensesPage() {
           {/* Spouse Income (if MFJ) */}
           {isMFJ && (
             <>
-              <div className="mt-1 border-t border-[#F1F5F9] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">
+              <div className="mt-1 border-t border-[#F0F0F5] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#8585A0]">
                 <i className="fa-solid fa-user-plus mr-1 text-[9px]" /> Spouse Income
-                <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#94A3B8]">(if filing jointly)</span>
+                <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#8585A0]">(if filing jointly)</span>
               </div>
               {spouseIncomeFields.map((f) => renderIncomeLineItem(
                 f.label, spouse[f.key],
@@ -259,9 +259,9 @@ export default function IncomeExpensesPage() {
                 true
               ))}
 
-              <div className="mt-1 border-t border-[#F1F5F9] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#94A3B8]">
+              <div className="mt-1 border-t border-[#F0F0F5] pt-2.5 text-[11px] font-bold uppercase tracking-wider text-[#8585A0]">
                 <i className="fa-solid fa-file-invoice-dollar mr-1 text-[9px]" /> Spouse Withholding
-                <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#94A3B8]">(if filing jointly)</span>
+                <span className="ml-1 text-[9px] font-medium normal-case tracking-normal text-[#8585A0]">(if filing jointly)</span>
               </div>
               {spouseWithholdingFields.map((f) => renderIncomeLineItem(
                 f.label, spouse[f.key],
@@ -272,41 +272,41 @@ export default function IncomeExpensesPage() {
           )}
 
           {/* Withholding info note */}
-          <div className="mt-2 rounded-md bg-[#F8FAFC] px-2 py-1.5 text-[10px] text-[#64748B]">
+          <div className="mt-2 rounded-md bg-[#FAFAFF] px-2 py-1.5 text-[10px] text-[#5C5C7A]">
             <i className="fa-solid fa-info-circle mr-1 text-[9px] text-[#2563EB]" />
             Withholding (Federal, State, FICA) is deducted from gross before calculating net disposable income.
           </div>
 
           {/* Total Income Row */}
-          <div className="mt-1 flex items-center justify-between border-t-2 border-[#F1F5F9] pt-3.5">
-            <span className="text-[13px] font-bold text-[#0A1628]">Total Monthly Income</span>
+          <div className="mt-1 flex items-center justify-between border-t-2 border-[#F0F0F5] pt-3.5">
+            <span className="text-[13px] font-bold text-[#1A1A2E]">Total Monthly Income</span>
             <span className="text-base font-extrabold text-[#00A651]">{fmt(totalMonthlyIncome)}</span>
           </div>
         </div>
 
         {/* ── Expenses Section ── */}
-        <div className="mt-3 md:mt-0 rounded-2xl border border-[#F1F5F9] bg-white p-4.5">
+        <div className="mt-3 md:mt-0 rounded-2xl border border-[#F0F0F5] bg-white p-4.5">
           <div className="mb-3.5 flex items-center gap-2">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFF0F1] text-xs text-[#E63946]">
               <i className="fa-solid fa-arrow-up" />
             </div>
-            <span className="text-sm font-bold text-[#0A1628]">Expenses</span>
+            <span className="text-sm font-bold text-[#1A1A2E]">Expenses</span>
           </div>
 
           {/* Column headers */}
-          <div className="mb-0.5 flex items-center gap-1.5 border-b border-[#F1F5F9] pb-1.5">
-            <span className="flex-1 text-[9px] font-bold uppercase tracking-wider text-[#94A3B8]">Category</span>
-            <span className="w-[72px] text-right text-[9px] font-bold uppercase tracking-wider text-[#94A3B8]">Your Amt</span>
-            <span className="w-[72px] text-right text-[9px] font-bold uppercase tracking-wider text-[#94A3B8]">IRS Allows</span>
-            <span className="w-[42px] text-center text-[9px] font-bold uppercase tracking-wider text-[#94A3B8]">Status</span>
+          <div className="mb-0.5 flex items-center gap-1.5 border-b border-[#F0F0F5] pb-1.5">
+            <span className="flex-1 text-[9px] font-bold uppercase tracking-wider text-[#8585A0]">Category</span>
+            <span className="w-[72px] text-right text-[9px] font-bold uppercase tracking-wider text-[#8585A0]">Your Amt</span>
+            <span className="w-[72px] text-right text-[9px] font-bold uppercase tracking-wider text-[#8585A0]">IRS Allows</span>
+            <span className="w-[42px] text-center text-[9px] font-bold uppercase tracking-wider text-[#8585A0]">Status</span>
           </div>
 
           {/* Expense rows */}
           {expenseRows.map((row) => {
             const isOver = !row.uncapped && row.yourAmount > row.irsAllows && row.irsAllows > 0
             return (
-              <div key={row.key} className="flex items-center gap-1.5 border-b border-[#F1F5F9] py-2 last:border-b-0">
-                <span className="min-w-0 flex-1 text-xs font-medium text-[#0A1628]">{row.label}</span>
+              <div key={row.key} className="flex items-center gap-1.5 border-b border-[#F0F0F5] py-2 last:border-b-0">
+                <span className="min-w-0 flex-1 text-xs font-medium text-[#1A1A2E]">{row.label}</span>
                 <input
                   type="text"
                   inputMode="decimal"
@@ -317,16 +317,16 @@ export default function IncomeExpensesPage() {
                   }}
                   className={expInputClass}
                 />
-                <span className="w-[72px] shrink-0 text-right text-[11px] font-semibold text-[#94A3B8]">
+                <span className="w-[72px] shrink-0 text-right text-[11px] font-semibold text-[#8585A0]">
                   {row.uncapped ? (
-                    <span className="text-[#94A3B8]">Actual</span>
+                    <span className="text-[#8585A0]">Actual</span>
                   ) : (
                     <span className="text-[9px] text-[#2563EB]">{fmt(row.irsAllows)}</span>
                   )}
                 </span>
                 <span className={`flex w-[42px] shrink-0 items-center justify-center rounded px-1.5 py-0.5 text-[9px] font-bold ${
                   row.uncapped
-                    ? 'bg-[#F8FAFC] text-[#64748B]'
+                    ? 'bg-[#FAFAFF] text-[#5C5C7A]'
                     : isOver
                       ? 'bg-[#FFF0F1] text-[#E63946]'
                       : 'bg-[#E6F9EE] text-[#00A651]'
@@ -338,8 +338,8 @@ export default function IncomeExpensesPage() {
           })}
 
           {/* Total Expenses Row */}
-          <div className="mt-1 flex items-center justify-between border-t-2 border-[#F1F5F9] pt-3.5">
-            <span className="text-[13px] font-bold text-[#0A1628]">Total Monthly Expenses</span>
+          <div className="mt-1 flex items-center justify-between border-t-2 border-[#F0F0F5] pt-3.5">
+            <span className="text-[13px] font-bold text-[#1A1A2E]">Total Monthly Expenses</span>
             <span className="text-base font-extrabold text-[#E63946]">{fmt(totalExpenses)}</span>
           </div>
         </div>
@@ -349,10 +349,10 @@ export default function IncomeExpensesPage() {
 
         {/* ── IRS Standards Reference ── */}
         <div style={{ padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: '12px', marginBottom: '12px', marginTop: '12px' }}>
-          <div style={{ fontSize: '11px', fontWeight: 700, color: '#0A1628', marginBottom: '6px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 700, color: '#1A1A2E', marginBottom: '6px' }}>
             <i className="fa-solid fa-scale-balanced" style={{ fontSize: '10px' }} /> 2026 IRS Standards Reference
           </div>
-          <div style={{ fontSize: '10px', color: '#64748B', lineHeight: 1.6 }}>
+          <div style={{ fontSize: '10px', color: '#5C5C7A', lineHeight: 1.6 }}>
             <div><strong>Healthcare OOP:</strong> $84/person under 65, $149/person 65+</div>
             <div><strong>Transport Ownership:</strong> $662/car (2026)</div>
             <div><strong>Food/Clothing:</strong> National Standard by family size + income</div>
@@ -374,15 +374,15 @@ export default function IncomeExpensesPage() {
           position: 'relative',
           overflow: 'hidden',
         }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: '#0A1628' }} />
-          <span style={{ fontSize: '11px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '3px', background: '#1A1A2E' }} />
+          <span style={{ fontSize: '11px', fontWeight: 700, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Monthly Disposable Income (MDI)
           </span>
           <div style={{ fontSize: '2rem', fontWeight: 900, color: '#2563EB', letterSpacing: '-0.02em', marginTop: '6px' }}>
             {fmt(mdi)}
           </div>
           <div style={{ marginTop: '10px', padding: '10px 14px', background: 'rgba(255,255,255,0.7)', borderRadius: '10px' }}>
-            <span style={{ fontSize: '12px', color: '#64748B', lineHeight: 1.5 }}>
+            <span style={{ fontSize: '12px', color: '#5C5C7A', lineHeight: 1.5 }}>
               This is what the IRS expects you can pay each month toward your tax debt
             </span>
           </div>

@@ -112,22 +112,22 @@ export default function BusinessPlanPage() {
   const actions = ACTION_ITEMS[selected] || []
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#FAFAFF] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1A1A2E]">
             Resolution Plan
           </h1>
-          <p className="mt-3 text-base text-[#64748B]">
+          <p className="mt-3 text-base text-[#5C5C7A]">
             Select your resolution strategy and review the action plan.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* Resolution Type Selector */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">
               Selected Resolution Type
             </p>
             <div className="space-y-2">
@@ -137,8 +137,8 @@ export default function BusinessPlanPage() {
                   onClick={() => setSelected(type)}
                   className={`w-full rounded-lg border p-3 text-left text-sm transition-all ${
                     selected === type
-                      ? 'border-emerald-500/50 bg-[#00A651]/10 text-[#0A1628]'
-                      : 'border-[#E2E8F0] bg-[#F8FAFC] text-[#334155] hover:border-[#E2E8F0]'
+                      ? 'border-emerald-500/50 bg-[#00A651]/10 text-[#1A1A2E]'
+                      : 'border-[#D5D5E0] bg-[#FAFAFF] text-[#334155] hover:border-[#D5D5E0]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -146,7 +146,7 @@ export default function BusinessPlanPage() {
                       className={`h-4 w-4 shrink-0 rounded-full border-2 ${
                         selected === type
                           ? 'border-emerald-500 bg-[#00A651]'
-                          : 'border-[#E2E8F0]'
+                          : 'border-[#D5D5E0]'
                       }`}
                     />
                     {type}
@@ -157,9 +157,9 @@ export default function BusinessPlanPage() {
           </div>
 
           {/* Timeline */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
             <div className="flex items-center justify-between">
-              <p className="font-medium text-[#0A1628]">Estimated Timeline</p>
+              <p className="font-medium text-[#1A1A2E]">Estimated Timeline</p>
               <span className="rounded-full bg-[#00A651]/15 px-3 py-1 text-sm font-semibold text-[#00A651]">
                 {timeline}
               </span>
@@ -167,8 +167,8 @@ export default function BusinessPlanPage() {
           </div>
 
           {/* Required Forms */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">Required Forms</p>
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">Required Forms</p>
             <ul className="space-y-3">
               {forms.map((form) => (
                 <li key={form} className="flex items-start gap-3">
@@ -179,7 +179,7 @@ export default function BusinessPlanPage() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="mt-0.5 shrink-0 text-[#94A3B8]"
+                    className="mt-0.5 shrink-0 text-[#8585A0]"
                   >
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   </svg>
@@ -192,8 +192,8 @@ export default function BusinessPlanPage() {
           </div>
 
           {/* Action Items */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">Action Items</p>
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">Action Items</p>
             <ol className="space-y-3">
               {actions.map((action, i) => (
                 <li key={i} className="flex items-start gap-3">

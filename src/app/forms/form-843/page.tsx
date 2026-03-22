@@ -30,43 +30,43 @@ export default function Form843Page() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 18, paddingTop: 8, paddingBottom: 20 }}>
       {/* Heading */}
       <div>
-        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em', lineHeight: 1.3 }}>Request Penalty Abatement</div>
-        <div style={{ fontSize: '0.82rem', color: '#94A3B8', marginTop: 6, lineHeight: 1.5 }}>Select the type of abatement that best fits your situation.</div>
+        <div style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em', lineHeight: 1.3 }}>Request Penalty Abatement</div>
+        <div style={{ fontSize: '0.82rem', color: '#8585A0', marginTop: 6, lineHeight: 1.5 }}>Select the type of abatement that best fits your situation.</div>
       </div>
 
       {/* Taxpayer Identification (Form 843 Lines 1-2) */}
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Taxpayer Identification (Lines 1-2)</div>
-        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Taxpayer Identification (Lines 1-2)</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
           <div style={{ marginBottom: 10 }}>
-            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Name (as shown on return)</div>
-            <div style={{ padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', position: 'relative' }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Name (as shown on return)</div>
+            <div style={{ padding: '10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E', position: 'relative' }}>
               Jane M. Doe
-              <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 11 }} />
+              <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 11 }} />
             </div>
           </div>
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>SSN / EIN</div>
-              <div style={{ padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', letterSpacing: '0.03em' }}>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>SSN / EIN</div>
+              <div style={{ padding: '10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E', letterSpacing: '0.03em' }}>
                 ***-**-4589
               </div>
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Daytime Phone</div>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Daytime Phone</div>
               <input
                 type="tel"
-                style={{ width: '100%', padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
             </div>
           </div>
           <div>
-            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Address</div>
-            <div style={{ padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#0A1628', position: 'relative' }}>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Address</div>
+            <div style={{ padding: '10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 10, fontSize: '0.85rem', fontWeight: 600, color: '#1A1A2E', position: 'relative' }}>
               1234 Elm Street, Austin, TX 78701
-              <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 11 }} />
+              <i className="fas fa-lock" style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 11 }} />
             </div>
           </div>
         </div>
@@ -74,16 +74,16 @@ export default function Form843Page() {
 
       {/* Tax Period & Form Info (Line 3) */}
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Tax Period &amp; Form (Line 3)</div>
-        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Tax Period &amp; Form (Line 3)</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
           <div style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Tax Period(s)</div>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Tax Period(s)</div>
               <div style={{ display: 'flex', gap: 6 }}>
                 <select
                   style={{
-                    flex: 1, padding: '10px 28px 10px 10px', background: '#F8FAFC', border: '1.5px solid #F3F4F6',
-                    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+                    flex: 1, padding: '10px 28px 10px 10px', background: '#FAFAFF', border: '1.5px solid #E8E8F0',
+                    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E',
                     outline: 'none', appearance: 'none' as const, backgroundImage: selectArrow,
                     backgroundRepeat: 'no-repeat', backgroundPosition: 'right 10px center',
                   }}
@@ -94,8 +94,8 @@ export default function Form843Page() {
                 </select>
                 <select
                   style={{
-                    width: 70, padding: '10px 28px 10px 10px', background: '#F8FAFC', border: '1.5px solid #F3F4F6',
-                    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+                    width: 70, padding: '10px 28px 10px 10px', background: '#FAFAFF', border: '1.5px solid #E8E8F0',
+                    borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E',
                     outline: 'none', appearance: 'none' as const, backgroundImage: selectArrow,
                     backgroundRepeat: 'no-repeat', backgroundPosition: 'right 8px center',
                   }}
@@ -108,11 +108,11 @@ export default function Form843Page() {
             </div>
           </div>
           <div style={{ marginBottom: 10 }}>
-            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Tax Form Number</div>
+            <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Tax Form Number</div>
             <select
               style={{
-                width: '100%', padding: '10px 28px 10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6',
-                borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628',
+                width: '100%', padding: '10px 28px 10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0',
+                borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E',
                 outline: 'none', boxSizing: 'border-box', appearance: 'none' as const, backgroundImage: selectArrow,
                 backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center',
               }}
@@ -127,10 +127,10 @@ export default function Form843Page() {
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#64748B', marginBottom: 5 }}>Amount of Refund/Credit Claimed</div>
+              <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#5C5C7A', marginBottom: 5 }}>Amount of Refund/Credit Claimed</div>
               <input
                 type="text"
-                style={{ width: '100%', padding: '10px 14px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box' }}
+                style={{ width: '100%', padding: '10px 14px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 10, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box' }}
                 placeholder="$0"
                 value={refundAmount}
                 onChange={(e) => setRefundAmount(e.target.value)}
@@ -142,8 +142,8 @@ export default function Form843Page() {
 
       {/* Dates Penalties Were Assessed */}
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Penalty Assessment Dates</div>
-        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Penalty Assessment Dates</div>
+        <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
           {[
             { label: 'Failure to File', color: '#E63946', date: ftfDate, setDate: setFtfDate, disabled: false },
             { label: 'Failure to Pay', color: '#F59E0B', date: ftpDate, setDate: setFtpDate, disabled: false },
@@ -151,17 +151,17 @@ export default function Form843Page() {
           ].map((p, i) => (
             <div key={i} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 0',
-              borderBottom: i < 2 ? '1px solid #F1F5F9' : 'none',
+              borderBottom: i < 2 ? '1px solid #F0F0F5' : 'none',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 8, height: 8, borderRadius: '50%', background: p.color }} />
-                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: p.disabled ? '#94A3B8' : '#0A1628' }}>{p.label}</span>
+                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: p.disabled ? '#8585A0' : '#1A1A2E' }}>{p.label}</span>
               </div>
               <input
                 type="date"
                 style={{
-                  padding: '6px 10px', background: '#F8FAFC', border: '1.5px solid #F3F4F6', borderRadius: 8,
-                  fontFamily: 'inherit', fontSize: '0.72rem', fontWeight: 600, color: p.disabled ? '#94A3B8' : '#0A1628', outline: 'none',
+                  padding: '6px 10px', background: '#FAFAFF', border: '1.5px solid #E8E8F0', borderRadius: 8,
+                  fontFamily: 'inherit', fontSize: '0.72rem', fontWeight: 600, color: p.disabled ? '#8585A0' : '#1A1A2E', outline: 'none',
                 }}
                 value={p.date}
                 onChange={(e) => p.setDate(e.target.value)}
@@ -173,20 +173,20 @@ export default function Form843Page() {
       </div>
 
       {/* Interest Abatement Option */}
-      <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Interest Abatement (IRC 6404(e))</div>
+      <div style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Interest Abatement (IRC 6404(e))</div>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, padding: '10px 0' }}>
-          <input type="checkbox" checked={interestAbatement} onChange={(e) => setInterestAbatement(e.target.checked)} style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#0A1628' }} />
+          <input type="checkbox" checked={interestAbatement} onChange={(e) => setInterestAbatement(e.target.checked)} style={{ width: 20, height: 20, marginTop: 2, flexShrink: 0, accentColor: '#1A1A2E' }} />
           <div>
-            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628', marginBottom: 4 }}>Request interest abatement</div>
-            <div style={{ fontSize: '0.75rem', color: '#94A3B8', lineHeight: 1.5 }}>Interest may be abated if it resulted from an IRS ministerial or managerial act (e.g., unreasonable delay in processing). Applies under IRC Section 6404(e).</div>
+            <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E', marginBottom: 4 }}>Request interest abatement</div>
+            <div style={{ fontSize: '0.75rem', color: '#8585A0', lineHeight: 1.5 }}>Interest may be abated if it resulted from an IRS ministerial or managerial act (e.g., unreasonable delay in processing). Applies under IRC Section 6404(e).</div>
           </div>
         </div>
       </div>
 
       {/* Abatement Type Selection */}
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Abatement Type</div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>Abatement Type</div>
 
         {/* FTA */}
         <button
@@ -194,7 +194,7 @@ export default function Form843Page() {
           onClick={() => setAbatementType('fta')}
           style={{
             padding: 18, background: abatementType === 'fta' ? '#EBF0FF' : 'white',
-            border: abatementType === 'fta' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            border: abatementType === 'fta' ? '1.5px solid #1A1A2E' : '1.5px solid #E8E8F0',
             borderRadius: 16, marginBottom: 10, position: 'relative', overflow: 'hidden', width: '100%',
             textAlign: 'left' as const, cursor: 'pointer',
             boxShadow: abatementType === 'fta' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
@@ -203,18 +203,18 @@ export default function Form843Page() {
         >
           <div style={{ display: 'flex', gap: 14 }}>
             <div style={{
-              width: 22, height: 22, border: `2px solid ${abatementType === 'fta' ? '#0A1628' : '#D5D5E0'}`,
+              width: 22, height: 22, border: `2px solid ${abatementType === 'fta' ? '#1A1A2E' : '#D5D5E0'}`,
               borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginTop: 2, background: abatementType === 'fta' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+              marginTop: 2, background: abatementType === 'fta' ? '#1A1A2E' : 'transparent', transition: 'all 0.3s ease',
             }}>
               {abatementType === 'fta' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, flexWrap: 'wrap' }}>
-                <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0A1628' }}>First-Time Abatement (FTA)</span>
+                <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1A1A2E' }}>First-Time Abatement (FTA)</span>
                 <span style={{ display: 'inline-flex', padding: '2px 8px', background: '#E6F9EE', borderRadius: 9999, fontSize: '0.6rem', fontWeight: 700, color: '#00A651' }}>RECOMMENDED</span>
               </div>
-              <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.5 }}>Automatic if you have a clean 3-year compliance history. No additional documentation needed.</div>
+              <div style={{ fontSize: '0.78rem', color: '#8585A0', lineHeight: 1.5 }}>Automatic if you have a clean 3-year compliance history. No additional documentation needed.</div>
             </div>
           </div>
         </button>
@@ -225,7 +225,7 @@ export default function Form843Page() {
           onClick={() => setAbatementType('reasonable')}
           style={{
             padding: 18, background: abatementType === 'reasonable' ? '#EBF0FF' : 'white',
-            border: abatementType === 'reasonable' ? '1.5px solid #0A1628' : '1.5px solid #F3F4F6',
+            border: abatementType === 'reasonable' ? '1.5px solid #1A1A2E' : '1.5px solid #E8E8F0',
             borderRadius: 16, position: 'relative', width: '100%',
             textAlign: 'left' as const, cursor: 'pointer',
             boxShadow: abatementType === 'reasonable' ? '0 0 0 3px rgba(0,61,165,0.1)' : 'none',
@@ -234,33 +234,33 @@ export default function Form843Page() {
         >
           <div style={{ display: 'flex', gap: 14 }}>
             <div style={{
-              width: 22, height: 22, border: `2px solid ${abatementType === 'reasonable' ? '#0A1628' : '#D5D5E0'}`,
+              width: 22, height: 22, border: `2px solid ${abatementType === 'reasonable' ? '#1A1A2E' : '#D5D5E0'}`,
               borderRadius: '50%', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
-              marginTop: 2, background: abatementType === 'reasonable' ? '#0A1628' : 'transparent', transition: 'all 0.3s ease',
+              marginTop: 2, background: abatementType === 'reasonable' ? '#1A1A2E' : 'transparent', transition: 'all 0.3s ease',
             }}>
               {abatementType === 'reasonable' && <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'white' }} />}
             </div>
             <div style={{ flex: 1 }}>
-              <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#0A1628' }}>Reasonable Cause</span>
-              <div style={{ fontSize: '0.78rem', color: '#94A3B8', lineHeight: 1.5, marginTop: 4 }}>Provide evidence for why penalties should be removed due to circumstances beyond your control.</div>
+              <span style={{ fontSize: '0.88rem', fontWeight: 700, color: '#1A1A2E' }}>Reasonable Cause</span>
+              <div style={{ fontSize: '0.78rem', color: '#8585A0', lineHeight: 1.5, marginTop: 4 }}>Provide evidence for why penalties should be removed due to circumstances beyond your control.</div>
             </div>
           </div>
         </button>
       </div>
 
       {/* Penalty Breakdown Card */}
-      <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Penalty Breakdown</div>
+      <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Penalty Breakdown</div>
 
         {[
           { label: 'Failure to File', color: '#E63946', amount: '$3,200', amountColor: '#E63946', muted: false },
           { label: 'Failure to Pay', color: '#F59E0B', amount: '$2,100', amountColor: '#F5A623', muted: false },
-          { label: 'Accuracy-Related', color: '#D5D5E0', amount: '$0', amountColor: '#94A3B8', muted: true },
+          { label: 'Accuracy-Related', color: '#D5D5E0', amount: '$0', amountColor: '#8585A0', muted: true },
         ].map((p, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #F1F5F9' }}>
+          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: '1px solid #F0F0F5' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{ width: 8, height: 8, borderRadius: '50%', background: p.color }} />
-              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: p.muted ? '#94A3B8' : '#0A1628' }}>{p.label}</span>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: p.muted ? '#8585A0' : '#1A1A2E' }}>{p.label}</span>
             </div>
             <span style={{ fontSize: '0.88rem', fontWeight: 800, color: p.amountColor }}>{p.amount}</span>
           </div>
@@ -268,7 +268,7 @@ export default function Form843Page() {
 
         {/* Total */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 0 4px' }}>
-          <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0A1628' }}>Total Penalties</span>
+          <span style={{ fontSize: '0.88rem', fontWeight: 800, color: '#1A1A2E' }}>Total Penalties</span>
           <span style={{ fontSize: '1.15rem', fontWeight: 900, color: '#E63946', letterSpacing: '-0.01em' }}>$5,300</span>
         </div>
       </div>
@@ -277,8 +277,8 @@ export default function Form843Page() {
       {abatementType === 'reasonable' && (
         <>
           {/* Reason Checkboxes */}
-          <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid #F3F4F6', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Reason for Abatement</div>
+          <div style={{ background: 'white', borderRadius: 20, padding: 20, border: '1px solid #E8E8F0', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }}>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 14 }}>Reason for Abatement</div>
 
             {reasons.map((reason, idx) => (
               <button
@@ -287,41 +287,41 @@ export default function Form843Page() {
                 onClick={() => toggleReason(idx)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 12, padding: '12px 4px',
-                  borderBottom: idx < reasons.length - 1 ? '1px solid #F1F5F9' : 'none',
+                  borderBottom: idx < reasons.length - 1 ? '1px solid #F0F0F5' : 'none',
                   width: '100%', textAlign: 'left' as const, background: 'none', border: 'none',
                   borderBottomStyle: idx < reasons.length - 1 ? 'solid' : undefined,
                   borderBottomWidth: idx < reasons.length - 1 ? 1 : undefined,
-                  borderBottomColor: idx < reasons.length - 1 ? '#F1F5F9' : undefined,
+                  borderBottomColor: idx < reasons.length - 1 ? '#F0F0F5' : undefined,
                   cursor: 'pointer', transition: 'background 0.25s ease',
                 }}
               >
                 <div style={{
-                  width: 22, height: 22, borderRadius: 6, border: `2px solid ${reasonChecks[idx] ? '#0A1628' : '#D5D5E0'}`,
+                  width: 22, height: 22, borderRadius: 6, border: `2px solid ${reasonChecks[idx] ? '#1A1A2E' : '#D5D5E0'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                  background: reasonChecks[idx] ? '#0A1628' : 'transparent',
+                  background: reasonChecks[idx] ? '#1A1A2E' : 'transparent',
                   transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
                 }}>
                   {reasonChecks[idx] && <i className="fas fa-check" style={{ fontSize: 10, color: 'white' }} />}
                 </div>
-                <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#0A1628' }}>{reason}</span>
+                <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#1A1A2E' }}>{reason}</span>
               </button>
             ))}
           </div>
 
           {/* Explanation textarea */}
           <div>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Explanation</div>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>Explanation</div>
             <textarea
               style={{
-                width: '100%', minHeight: 100, padding: '14px 16px', background: '#F8FAFC', border: '1.5px solid #F3F4F6',
-                borderRadius: 12, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 500, color: '#0A1628',
+                width: '100%', minHeight: 100, padding: '14px 16px', background: '#FAFAFF', border: '1.5px solid #E8E8F0',
+                borderRadius: 12, fontFamily: 'inherit', fontSize: '0.82rem', fontWeight: 500, color: '#1A1A2E',
                 resize: 'vertical', outline: 'none', boxSizing: 'border-box',
               }}
               placeholder="Describe your circumstances and why penalties should be abated..."
               value={explanation}
               onChange={(e) => { if (e.target.value.length <= 500) setExplanation(e.target.value) }}
             />
-            <div style={{ fontSize: '0.68rem', color: '#CBD5E1', marginTop: 6, textAlign: 'right' }}>{explanation.length} / 500 characters</div>
+            <div style={{ fontSize: '0.68rem', color: '#B0B0C8', marginTop: 6, textAlign: 'right' }}>{explanation.length} / 500 characters</div>
           </div>
         </>
       )}

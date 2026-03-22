@@ -162,26 +162,26 @@ export default function ProcessingPage() {
   const progress = error ? 100 : Math.round(((currentStep + 1) / STEPS.length) * 100)
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[#FAFAFF] px-4">
       <div className="w-full max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl text-center">
         {!error && (
           <div className="mb-8 flex justify-center">
             <div className="relative h-20 w-20">
               <svg className="h-20 w-20" viewBox="0 0 80 80">
-                <circle cx="40" cy="40" r="34" fill="none" stroke="#E2E8F0" strokeWidth="6" />
+                <circle cx="40" cy="40" r="34" fill="none" stroke="#D5D5E0" strokeWidth="6" />
                 <circle cx="40" cy="40" r="34" fill="none" stroke="#10b981" strokeWidth="6" strokeLinecap="round"
                   strokeDasharray={`${(progress / 100) * 213.6} 213.6`}
                   className="origin-center -rotate-90 transition-all duration-500" />
               </svg>
-              <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-[#0A1628]">{progress}%</span>
+              <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-[#1A1A2E]">{progress}%</span>
             </div>
           </div>
         )}
 
-        <h1 className="mb-2 text-2xl font-bold text-[#0A1628]">
+        <h1 className="mb-2 text-2xl font-bold text-[#1A1A2E]">
           {error ? 'Something went wrong' : 'Analyzing Your Case'}
         </h1>
-        <p className="mb-8 text-sm text-[#64748B]">
+        <p className="mb-8 text-sm text-[#5C5C7A]">
           {error ? 'We encountered an error while processing your data.' : 'Please wait while we crunch the numbers...'}
         </p>
 
@@ -201,10 +201,10 @@ export default function ProcessingPage() {
                     </div>
                   ) : (
                     <div className="flex h-6 w-6 items-center justify-center">
-                      <div className="h-2 w-2 rounded-full bg-[#E2E8F0]" />
+                      <div className="h-2 w-2 rounded-full bg-[#D5D5E0]" />
                     </div>
                   )}
-                  <span className={`text-sm ${status === 'done' ? 'text-[#64748B]' : status === 'active' ? 'font-medium text-[#0A1628]' : 'text-[#94A3B8]'}`}>
+                  <span className={`text-sm ${status === 'done' ? 'text-[#5C5C7A]' : status === 'active' ? 'font-medium text-[#1A1A2E]' : 'text-[#8585A0]'}`}>
                     {step.label}
                   </span>
                 </div>
@@ -219,11 +219,11 @@ export default function ProcessingPage() {
               <p className="text-sm text-[#E63946]">{error}</p>
             </div>
             <button onClick={handleRetry} disabled={retrying}
-              className="w-full rounded-xl bg-[#00A651] py-4 text-base font-semibold text-white transition-colors hover:bg-[#008C44] disabled:bg-[#F1F5F9] disabled:text-[#94A3B8]">
+              className="w-full rounded-xl bg-[#00A651] py-4 text-base font-semibold text-white transition-colors hover:bg-[#008C44] disabled:bg-[#F0F0F5] disabled:text-[#8585A0]">
               {retrying ? 'Retrying...' : 'Retry Analysis'}
             </button>
             <button onClick={() => router.push('/analysis/verification')}
-              className="w-full rounded-xl border border-[#E2E8F0] py-3 text-sm font-medium text-[#64748B] hover:border-[#E2E8F0] hover:text-[#0A1628]">
+              className="w-full rounded-xl border border-[#D5D5E0] py-3 text-sm font-medium text-[#5C5C7A] hover:border-[#D5D5E0] hover:text-[#1A1A2E]">
               Go Back and Review Data
             </button>
           </div>

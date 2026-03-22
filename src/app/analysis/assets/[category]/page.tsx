@@ -171,15 +171,15 @@ export default function AssetCategoryPage() {
   }, [items, category, hasAsset])
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#FAFAFF]">
       <div className="mx-auto max-w-md sm:max-w-xl md:max-w-2xl lg:max-w-3xl px-5 pb-8">
         {/* Progress bar */}
         <div style={{ padding: '16px 0 0' }}>
-          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: `${progressPercent}%`, transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+          <div style={{ height: '4px', background: '#F0F0F5', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#1A1A2E', borderRadius: '9999px', width: `${progressPercent}%`, transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Asset Intake</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Asset Intake</span>
             <span style={{ fontSize: '11px', fontWeight: 700, color: '#2563EB', background: '#EFF4FF', padding: '2px 8px', borderRadius: '20px' }}>
               Category {catIndex + 1} of {CATEGORIES.length}
             </span>
@@ -192,8 +192,8 @@ export default function AssetCategoryPage() {
             <i className={meta.icon} />
           </div>
           <div>
-            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.2 }}>{meta.label}</h1>
-            <p style={{ fontSize: '13px', color: '#64748B', marginTop: '4px', lineHeight: 1.5 }}>{meta.desc}</p>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.2 }}>{meta.label}</h1>
+            <p style={{ fontSize: '13px', color: '#5C5C7A', marginTop: '4px', lineHeight: 1.5 }}>{meta.desc}</p>
           </div>
         </div>
 
@@ -204,7 +204,7 @@ export default function AssetCategoryPage() {
             style={{
               padding: '20px',
               background: hasAsset === true ? '#ECFDF5' : '#fff',
-              border: `2px solid ${hasAsset === true ? '#00A651' : '#E2E8F0'}`,
+              border: `2px solid ${hasAsset === true ? '#00A651' : '#D5D5E0'}`,
               borderRadius: '16px',
               cursor: 'pointer',
               transition: 'all 0.25s',
@@ -221,8 +221,8 @@ export default function AssetCategoryPage() {
               <i className="fa-solid fa-check" />
             </div>
             <div>
-              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>Yes, I have these</div>
-              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>{meta.question}</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#1A1A2E' }}>Yes, I have these</div>
+              <div style={{ fontSize: '12px', color: '#8585A0', marginTop: '2px' }}>{meta.question}</div>
             </div>
           </button>
 
@@ -234,8 +234,8 @@ export default function AssetCategoryPage() {
             }}
             style={{
               padding: '20px',
-              background: hasAsset === false ? '#F8FAFC' : '#fff',
-              border: `2px solid ${hasAsset === false ? '#94A3B8' : '#E2E8F0'}`,
+              background: hasAsset === false ? '#FAFAFF' : '#fff',
+              border: `2px solid ${hasAsset === false ? '#8585A0' : '#D5D5E0'}`,
               borderRadius: '16px',
               cursor: 'pointer',
               transition: 'all 0.25s',
@@ -248,28 +248,28 @@ export default function AssetCategoryPage() {
               fontFamily: 'inherit',
             }}
           >
-            <div style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, background: '#F8FAFC', color: '#64748B' }}>
+            <div style={{ width: '44px', height: '44px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px', flexShrink: 0, background: '#FAFAFF', color: '#5C5C7A' }}>
               <i className="fa-solid fa-xmark" />
             </div>
             <div>
-              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0A1628' }}>No, skip this</div>
-              <div style={{ fontSize: '12px', color: '#94A3B8', marginTop: '2px' }}>I do not have any {meta.label.toLowerCase()}</div>
+              <div style={{ fontSize: '15px', fontWeight: 700, color: '#1A1A2E' }}>No, skip this</div>
+              <div style={{ fontSize: '12px', color: '#8585A0', marginTop: '2px' }}>I do not have any {meta.label.toLowerCase()}</div>
             </div>
           </button>
         </div>
 
         {/* Form area - visible when hasAsset === true */}
         {hasAsset === true && (
-          <div style={{ marginTop: '16px', padding: '16px', background: '#F8FAFC', borderRadius: '14px', border: '1px solid #F1F5F9' }}>
-            <div style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>Add {meta.label}</div>
-            <div style={{ fontSize: '12px', color: '#94A3B8', marginBottom: '12px', lineHeight: 1.5 }}>{meta.formDesc}</div>
+          <div style={{ marginTop: '16px', padding: '16px', background: '#FAFAFF', borderRadius: '14px', border: '1px solid #F0F0F5' }}>
+            <div style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>Add {meta.label}</div>
+            <div style={{ fontSize: '12px', color: '#8585A0', marginBottom: '12px', lineHeight: 1.5 }}>{meta.formDesc}</div>
 
             {/* Item entries */}
             <div>
               {items.map((item, idx) => (
-                <div key={item.id} style={{ padding: '12px', background: '#fff', border: '1px solid #F1F5F9', borderRadius: '12px', marginTop: '10px' }}>
+                <div key={item.id} style={{ padding: '12px', background: '#fff', border: '1px solid #F0F0F5', borderRadius: '12px', marginTop: '10px' }}>
                   <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#0A1628' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E' }}>
                       {meta.label.replace(/s$/, '')} {items.length > 1 ? idx + 1 : ''}
                     </span>
                     <div style={{ display: 'flex', gap: '8px' }}>
@@ -305,10 +305,10 @@ export default function AssetCategoryPage() {
                 justifyContent: 'center',
                 gap: '8px',
                 padding: '12px',
-                border: '2px dashed #F1F5F9',
+                border: '2px dashed #F0F0F5',
                 borderRadius: '12px',
                 cursor: 'pointer',
-                color: '#64748B',
+                color: '#5C5C7A',
                 fontSize: '13px',
                 fontWeight: 600,
                 background: 'none',
@@ -356,7 +356,7 @@ export default function AssetCategoryPage() {
           </button>
           <div style={{ maxHeight: whyOpen ? '300px' : '0', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
             <div style={{ paddingTop: '10px' }}>
-              <p style={{ fontSize: '13px', color: '#64748B', lineHeight: 1.6 }}>{meta.whyText}</p>
+              <p style={{ fontSize: '13px', color: '#5C5C7A', lineHeight: 1.6 }}>{meta.whyText}</p>
             </div>
           </div>
         </div>
@@ -370,13 +370,13 @@ export default function AssetCategoryPage() {
                 flex: '0 0 auto',
                 padding: '16px 20px',
                 borderRadius: '14px',
-                border: '1.5px solid #E2E8F0',
+                border: '1.5px solid #D5D5E0',
                 background: '#fff',
                 cursor: 'pointer',
                 fontFamily: 'inherit',
                 fontSize: '15px',
                 fontWeight: 600,
-                color: '#64748B',
+                color: '#5C5C7A',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
@@ -423,15 +423,15 @@ export default function AssetCategoryPage() {
 /* ===================================================================
    SHARED FORM COMPONENTS
    =================================================================== */
-const fieldLabelClass = 'mb-1 block text-[11px] font-bold uppercase tracking-wider text-[#64748B]'
-const fieldInputClass = 'w-full rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-white px-3 py-2.5 text-sm font-semibold text-[#0A1628] outline-none transition-all placeholder:font-normal placeholder:text-[#CBD5E1] focus:border-[#2563EB] focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
+const fieldLabelClass = 'mb-1 block text-[11px] font-bold uppercase tracking-wider text-[#5C5C7A]'
+const fieldInputClass = 'w-full rounded-[10px] border-[1.5px] border-[#F0F0F5] bg-white px-3 py-2.5 text-sm font-semibold text-[#1A1A2E] outline-none transition-all placeholder:font-normal placeholder:text-[#B0B0C8] focus:border-[#2563EB] focus:shadow-[0_0_0_2px_rgba(10,22,40,0.06)]'
 
 function MoneyInput({ label, value, onChange, placeholder = '0.00' }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div>
       <label className={fieldLabelClass}>{label}</label>
       <div className="relative">
-        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#CBD5E1]">$</span>
+        <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#B0B0C8]">$</span>
         <input type="text" inputMode="decimal" value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className={`${fieldInputClass} pl-7`} />
       </div>
     </div>
@@ -480,9 +480,9 @@ function BankForm({ item, idx, onChange }: { item: BankItem; idx: number; onChan
         </div>
         <MoneyInput label="Balance" value={item.balance} onChange={(v) => set('balance', v)} />
         <div className="flex items-end">
-          <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-white px-3 py-2.5 transition-colors hover:border-[#2563EB]">
+          <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F0F0F5] bg-white px-3 py-2.5 transition-colors hover:border-[#2563EB]">
             <input type="checkbox" checked={item.isJoint} onChange={(e) => set('isJoint', e.target.checked)} className="h-4 w-4 rounded accent-[#2563EB]" />
-            <span className="text-xs font-medium text-[#0A1628]">Joint</span>
+            <span className="text-xs font-medium text-[#1A1A2E]">Joint</span>
           </label>
         </div>
       </div>
@@ -510,9 +510,9 @@ function InvestmentForm({ item, idx, onChange }: { item: InvestmentItem; idx: nu
         <MoneyInput label="Current Value" value={item.currentValue} onChange={(v) => set('currentValue', v)} />
         <MoneyInput label="Loan Balance" value={item.loanBalance} onChange={(v) => set('loanBalance', v)} />
         <div className="flex items-end">
-          <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-white px-3 py-2.5">
+          <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F0F0F5] bg-white px-3 py-2.5">
             <input type="checkbox" checked={item.isLiquid} onChange={(e) => set('isLiquid', e.target.checked)} className="h-4 w-4 rounded accent-[#2563EB]" />
-            <span className="text-xs font-medium text-[#0A1628]">Liquid</span>
+            <span className="text-xs font-medium text-[#1A1A2E]">Liquid</span>
           </label>
         </div>
       </div>
@@ -574,13 +574,13 @@ function RealEstateForm({ item, idx, onChange }: { item: RealEstateItem; idx: nu
         <MoneyInput label="HELOC Bal." value={item.helocBalance} onChange={(v) => set('helocBalance', v)} />
       </div>
       <div className="flex flex-wrap gap-3">
-        <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-white px-3 py-2.5">
+        <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F0F0F5] bg-white px-3 py-2.5">
           <input type="checkbox" checked={item.homesteadFiled} onChange={(e) => set('homesteadFiled', e.target.checked)} className="h-4 w-4 rounded accent-[#2563EB]" />
-          <span className="text-xs font-medium text-[#0A1628]">Homestead Filed</span>
+          <span className="text-xs font-medium text-[#1A1A2E]">Homestead Filed</span>
         </label>
-        <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F1F5F9] bg-white px-3 py-2.5">
+        <label className="flex cursor-pointer items-center gap-2 rounded-[10px] border-[1.5px] border-[#F0F0F5] bg-white px-3 py-2.5">
           <input type="checkbox" checked={item.isJoint} onChange={(e) => set('isJoint', e.target.checked)} className="h-4 w-4 rounded accent-[#2563EB]" />
-          <span className="text-xs font-medium text-[#0A1628]">Joint Ownership</span>
+          <span className="text-xs font-medium text-[#1A1A2E]">Joint Ownership</span>
         </label>
       </div>
     </div>
@@ -605,7 +605,7 @@ function VehicleForm({ item, idx, onChange }: { item: VehicleItem; idx: number; 
         <label className={fieldLabelClass}>Lease or Own</label>
         <div className="flex gap-2">
           {['Own', 'Lease'].map((opt) => (
-            <button key={opt} type="button" onClick={() => set('leaseOrOwn', opt)} className={`flex-1 rounded-xl border-[1.5px] px-4 py-2.5 text-center text-sm font-semibold transition-all ${item.leaseOrOwn === opt ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]' : 'border-[#F1F5F9] bg-white text-[#64748B] hover:border-[#E2E8F0]'}`}>
+            <button key={opt} type="button" onClick={() => set('leaseOrOwn', opt)} className={`flex-1 rounded-xl border-[1.5px] px-4 py-2.5 text-center text-sm font-semibold transition-all ${item.leaseOrOwn === opt ? 'border-[#2563EB] bg-[#EFF4FF] text-[#2563EB]' : 'border-[#F0F0F5] bg-white text-[#5C5C7A] hover:border-[#D5D5E0]'}`}>
               {opt}
             </button>
           ))}
@@ -624,7 +624,7 @@ function LifeInsuranceForm({ item, idx, onChange }: { item: LifeInsuranceItem; i
         <div><label className={fieldLabelClass}>Policy Type</label><select value={item.type} onChange={(e) => set('type', e.target.value)} className={fieldInputClass}><option value="Whole">Whole Life</option><option value="Universal">Universal Life</option><option value="Term">Term Life</option></select></div>
       </div>
       {item.type === 'Term' && (
-        <div className="rounded-lg bg-[#F8FAFC] p-3 text-xs text-[#64748B]">Term life policies have no cash surrender value. QSV = $0</div>
+        <div className="rounded-lg bg-[#FAFAFF] p-3 text-xs text-[#5C5C7A]">Term life policies have no cash surrender value. QSV = $0</div>
       )}
       <div className="grid grid-cols-3 gap-3">
         <MoneyInput label="Cash Surrender Value" value={item.csv} onChange={(v) => set('csv', v)} />

@@ -51,13 +51,13 @@ export default function BusinessIncomeExpensesPage() {
   const fieldInputStyle: React.CSSProperties = {
     width: '100%',
     padding: '10px 12px',
-    background: '#F8FAFC',
-    border: '1.5px solid #F1F5F9',
+    background: '#FAFAFF',
+    border: '1.5px solid #F0F0F5',
     borderRadius: '10px',
     fontFamily: 'inherit',
     fontSize: '14px',
     fontWeight: 600,
-    color: '#0A1628',
+    color: '#1A1A2E',
     outline: 'none',
     transition: 'all 0.2s ease',
     boxSizing: 'border-box' as const,
@@ -67,7 +67,7 @@ export default function BusinessIncomeExpensesPage() {
     display: 'block',
     fontSize: '11px',
     fontWeight: 600,
-    color: '#94A3B8',
+    color: '#8585A0',
     textTransform: 'uppercase' as const,
     letterSpacing: '0.04em',
     marginBottom: '5px',
@@ -92,26 +92,26 @@ export default function BusinessIncomeExpensesPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '768px', margin: '0 auto', padding: '0 20px 32px' }}>
 
         {/* Progress Bar */}
         <div style={{ padding: '16px 0 0' }}>
-          <div style={{ height: '4px', background: '#F1F5F9', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
-            <div style={{ height: '100%', background: '#0A1628', borderRadius: '9999px', width: '55%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
+          <div style={{ height: '4px', background: '#F0F0F5', borderRadius: '9999px', overflow: 'hidden', marginTop: '4px' }}>
+            <div style={{ height: '100%', background: '#1A1A2E', borderRadius: '9999px', width: '55%', transition: 'width 0.6s cubic-bezier(0.4,0,0.2,1)' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 600, color: '#94A3B8' }}>Step 5 of 8</span>
+            <span style={{ fontSize: '12px', fontWeight: 600, color: '#8585A0' }}>Step 5 of 8</span>
             <span style={{ fontSize: '12px', fontWeight: 600, color: '#2563EB' }}>Income & Expenses</span>
           </div>
         </div>
 
         {/* Heading */}
         <div style={{ marginBottom: '6px', paddingTop: '16px' }}>
-          <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>
+          <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>
             Business Income & Expenses
           </h1>
-          <p style={{ fontSize: '13px', color: '#94A3B8', marginTop: '4px' }}>
+          <p style={{ fontSize: '13px', color: '#8585A0', marginTop: '4px' }}>
             Form 433-B Section 4 layout. Enter monthly figures.
           </p>
         </div>
@@ -127,12 +127,12 @@ export default function BusinessIncomeExpensesPage() {
               justifyContent: 'center',
               gap: '4px',
               padding: '10px 12px',
-              background: period === 'monthly' ? '#EFF4FF' : '#F8FAFC',
-              border: `1.5px solid ${period === 'monthly' ? '#2563EB' : '#F1F5F9'}`,
+              background: period === 'monthly' ? '#EFF4FF' : '#FAFAFF',
+              border: `1.5px solid ${period === 'monthly' ? '#2563EB' : '#F0F0F5'}`,
               borderRadius: '8px',
               fontSize: '12px',
               fontWeight: 600,
-              color: period === 'monthly' ? '#2563EB' : '#64748B',
+              color: period === 'monthly' ? '#2563EB' : '#5C5C7A',
               cursor: 'pointer',
               fontFamily: 'inherit',
               transition: 'all 0.2s ease',
@@ -149,12 +149,12 @@ export default function BusinessIncomeExpensesPage() {
               justifyContent: 'center',
               gap: '4px',
               padding: '10px 12px',
-              background: period === 'annual' ? '#EFF4FF' : '#F8FAFC',
-              border: `1.5px solid ${period === 'annual' ? '#2563EB' : '#F1F5F9'}`,
+              background: period === 'annual' ? '#EFF4FF' : '#FAFAFF',
+              border: `1.5px solid ${period === 'annual' ? '#2563EB' : '#F0F0F5'}`,
               borderRadius: '8px',
               fontSize: '12px',
               fontWeight: 600,
-              color: period === 'annual' ? '#2563EB' : '#64748B',
+              color: period === 'annual' ? '#2563EB' : '#5C5C7A',
               cursor: 'pointer',
               fontFamily: 'inherit',
               transition: 'all 0.2s ease',
@@ -167,12 +167,12 @@ export default function BusinessIncomeExpensesPage() {
         {/* Income Section Card */}
         <div style={{
           background: 'white',
-          border: '1px solid #F1F5F9',
+          border: '1px solid #F0F0F5',
           borderRadius: '16px',
           padding: '16px',
           marginBottom: '12px',
         }}>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>
             <i className="fa-solid fa-arrow-trend-up" style={{ fontSize: '12px', color: '#00A651', marginRight: '6px' }} />
             Income
           </div>
@@ -188,7 +188,7 @@ export default function BusinessIncomeExpensesPage() {
                 placeholder="$0"
                 style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
             <div style={{ flex: 1 }}>
@@ -200,7 +200,7 @@ export default function BusinessIncomeExpensesPage() {
                 placeholder="$0"
                 style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
           </div>
@@ -211,8 +211,8 @@ export default function BusinessIncomeExpensesPage() {
               <label style={fieldLabelStyle}>Gross Profit</label>
               <div style={{
                 padding: '10px 12px',
-                background: '#F8FAFC',
-                border: '1.5px solid #F1F5F9',
+                background: '#FAFAFF',
+                border: '1.5px solid #F0F0F5',
                 borderRadius: '10px',
                 fontSize: '14px',
                 fontWeight: 700,
@@ -227,12 +227,12 @@ export default function BusinessIncomeExpensesPage() {
         {/* Expenses Section Card */}
         <div style={{
           background: 'white',
-          border: '1px solid #F1F5F9',
+          border: '1px solid #F0F0F5',
           borderRadius: '16px',
           padding: '16px',
           marginBottom: '12px',
         }}>
-          <div style={{ fontSize: '14px', fontWeight: 700, color: '#0A1628', marginBottom: '8px' }}>
+          <div style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', marginBottom: '8px' }}>
             <i className="fa-solid fa-arrow-trend-down" style={{ fontSize: '12px', color: '#E63946', marginRight: '6px' }} />
             Expenses
           </div>
@@ -243,14 +243,14 @@ export default function BusinessIncomeExpensesPage() {
               <label style={fieldLabelStyle}>Wages / Salaries</label>
               <input type="text" value={wages} onChange={(e) => setWages(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
             <div style={{ flex: 1 }}>
               <label style={fieldLabelStyle}>Rent / Lease</label>
               <input type="text" value={rent} onChange={(e) => setRent(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
           </div>
@@ -261,14 +261,14 @@ export default function BusinessIncomeExpensesPage() {
               <label style={fieldLabelStyle}>Supplies</label>
               <input type="text" value={supplies} onChange={(e) => setSupplies(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
             <div style={{ flex: 1 }}>
               <label style={fieldLabelStyle}>Utilities</label>
               <input type="text" value={utilities} onChange={(e) => setUtilities(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
           </div>
@@ -279,14 +279,14 @@ export default function BusinessIncomeExpensesPage() {
               <label style={fieldLabelStyle}>Insurance</label>
               <input type="text" value={insurance} onChange={(e) => setInsurance(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
             <div style={{ flex: 1 }}>
               <label style={fieldLabelStyle}>Taxes (State/Local)</label>
               <input type="text" value={taxes} onChange={(e) => setTaxes(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function BusinessIncomeExpensesPage() {
               <label style={fieldLabelStyle}>Other Expenses</label>
               <input type="text" value={otherExpenses} onChange={(e) => setOtherExpenses(e.target.value)} placeholder="$0" style={fieldInputStyle}
                 onFocus={(e) => { e.target.style.borderColor = '#2563EB'; e.target.style.background = 'white'; e.target.style.boxShadow = '0 0 0 2px rgba(10,22,40,0.06)'; }}
-                onBlur={(e) => { e.target.style.borderColor = '#F1F5F9'; e.target.style.background = '#F8FAFC'; e.target.style.boxShadow = 'none'; }}
+                onBlur={(e) => { e.target.style.borderColor = '#F0F0F5'; e.target.style.background = '#FAFAFF'; e.target.style.boxShadow = 'none'; }}
               />
             </div>
           </div>
@@ -305,7 +305,7 @@ export default function BusinessIncomeExpensesPage() {
 
         {/* Summary Bar - Dark */}
         <div style={{
-          background: '#0A1628',
+          background: '#1A1A2E',
           borderRadius: '14px',
           padding: '16px 18px',
           display: 'flex',

@@ -47,7 +47,7 @@ function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit
 }) {
   const [open, setOpen] = useState(defaultOpen ?? false)
   return (
-    <div style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 16, overflow: 'hidden', marginBottom: 10 }}>
+    <div style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 16, overflow: 'hidden', marginBottom: 10 }}>
       <div
         onClick={() => setOpen(!open)}
         style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', cursor: 'pointer', transition: 'background 0.2s ease', userSelect: 'none' }}
@@ -56,8 +56,8 @@ function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit
           <i className={icon} />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>{title}</div>
-          <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 1 }}>{subtitle}</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>{title}</div>
+          <div style={{ fontSize: 11, color: '#8585A0', marginTop: 1 }}>{subtitle}</div>
         </div>
         {editLabel && onEdit && (
           <button
@@ -67,10 +67,10 @@ function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit
             {editLabel}
           </button>
         )}
-        <i className="fa-solid fa-chevron-down" style={{ color: '#CBD5E1', fontSize: 12, transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'none', flexShrink: 0 }} />
+        <i className="fa-solid fa-chevron-down" style={{ color: '#B0B0C8', fontSize: 12, transition: 'transform 0.3s ease', transform: open ? 'rotate(180deg)' : 'none', flexShrink: 0 }} />
       </div>
       <div style={{ maxHeight: open ? 800 : 0, overflow: 'hidden', transition: 'max-height 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)' }}>
-        <div style={{ padding: '0 16px 14px', borderTop: '1px solid #F1F5F9' }}>
+        <div style={{ padding: '0 16px 14px', borderTop: '1px solid #F0F0F5' }}>
           {children}
         </div>
       </div>
@@ -80,9 +80,9 @@ function Accordion({ icon, iconBg, iconColor, title, subtitle, editLabel, onEdit
 
 function InfoRow({ label, value, valueColor, valueStyle }: { label: string; value: string | React.ReactNode; valueColor?: string; valueStyle?: React.CSSProperties }) {
   return (
-    <div style={{ ...infoRowStyle, borderBottom: '1px solid #F1F5F9' }}>
-      <span style={{ color: '#94A3B8', fontWeight: 500 }}>{label}</span>
-      <span style={{ color: valueColor ?? '#0A1628', fontWeight: 600, ...valueStyle }}>{value}</span>
+    <div style={{ ...infoRowStyle, borderBottom: '1px solid #F0F0F5' }}>
+      <span style={{ color: '#8585A0', fontWeight: 500 }}>{label}</span>
+      <span style={{ color: valueColor ?? '#1A1A2E', fontWeight: 600, ...valueStyle }}>{value}</span>
     </div>
   )
 }
@@ -100,11 +100,11 @@ export default function CaseReviewPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#D5D5E0', borderRadius: 9999, overflow: 'hidden' }}>
             <div style={{ width: '45%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
         </div>
@@ -112,8 +112,8 @@ export default function CaseReviewPage() {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '16px 20px 20px' }}>
           {/* Heading */}
           <div style={{ marginBottom: 6 }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Review Your Information</h1>
-            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Make sure everything is accurate before we run your analysis</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>Review Your Information</h1>
+            <p style={{ fontSize: 13, color: '#8585A0', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>Make sure everything is accurate before we run your analysis</p>
           </div>
 
           {/* Personal Information */}
@@ -146,11 +146,11 @@ export default function CaseReviewPage() {
           >
             <div style={{ paddingTop: 10 }}>
               {sorted.map((entry) => (
-                <div key={entry.id} style={{ background: 'white', border: '1px solid #F1F5F9', borderRadius: 14, padding: 14, marginBottom: 8 }}>
+                <div key={entry.id} style={{ background: 'white', border: '1px solid #F0F0F5', borderRadius: 14, padding: 14, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span style={{ fontSize: 14, fontWeight: 800, color: '#0A1628' }}>{entry.taxYear || '--'}</span>
-                      <span style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', background: '#F8FAFC', padding: '2px 6px', borderRadius: 4 }}>
+                      <span style={{ fontSize: 14, fontWeight: 800, color: '#1A1A2E' }}>{entry.taxYear || '--'}</span>
+                      <span style={{ fontSize: 10, fontWeight: 600, color: '#8585A0', background: '#FAFAFF', padding: '2px 6px', borderRadius: 4 }}>
                         {entry.taxForm} &middot; {entry.filingStatus}
                       </span>
                     </div>
@@ -164,7 +164,7 @@ export default function CaseReviewPage() {
                     label="CSED Expiration"
                     value={
                       entry.assessmentDate ? (
-                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700, background: '#EFF4FF', color: '#0A1628' }}>
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '3px 8px', borderRadius: 6, fontSize: 10, fontWeight: 700, background: '#EFF4FF', color: '#1A1A2E' }}>
                           <i className="fa-solid fa-hourglass-half" style={{ fontSize: 8 }} /> {csedDate(entry.assessmentDate)}
                         </span>
                       ) : '--'
@@ -173,16 +173,16 @@ export default function CaseReviewPage() {
                   <InfoRow label="Assessment" value={entry.assessmentType || 'Self-assessed'} />
                   {(entry.ftfPenalty || entry.ftpPenalty || entry.accuracyPenalty) && (
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
-                      {entry.ftfPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>FTF: {entry.ftfPenalty}</span>}
-                      {entry.ftpPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>FTP: {entry.ftpPenalty}</span>}
-                      {entry.accuracyPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#F8FAFC', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#64748B' }}>Accuracy: {entry.accuracyPenalty}</span>}
+                      {entry.ftfPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#FAFAFF', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#5C5C7A' }}>FTF: {entry.ftfPenalty}</span>}
+                      {entry.ftpPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#FAFAFF', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#5C5C7A' }}>FTP: {entry.ftpPenalty}</span>}
+                      {entry.accuracyPenalty && <span style={{ display: 'inline-flex', alignItems: 'center', gap: 3, padding: '2px 8px', background: '#FAFAFF', borderRadius: 6, fontSize: 10, fontWeight: 600, color: '#5C5C7A' }}>Accuracy: {entry.accuracyPenalty}</span>}
                     </div>
                   )}
                 </div>
               ))}
               {/* Total */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #F1F5F9', marginTop: 4, paddingTop: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Total</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid #F0F0F5', marginTop: 4, paddingTop: 10 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Total</span>
                 <span style={{ fontSize: 15, fontWeight: 800, color: '#E63946' }}>{formatCurrency(totalBalance)}</span>
               </div>
             </div>
@@ -216,7 +216,7 @@ export default function CaseReviewPage() {
                 }}>
                   <i className={item.pass ? 'fa-solid fa-check' : 'fa-solid fa-exclamation'} />
                 </div>
-                <span style={{ color: '#0A1628', fontWeight: 500 }}>{item.label}</span>
+                <span style={{ color: '#1A1A2E', fontWeight: 500 }}>{item.label}</span>
               </div>
             ))}
           </Accordion>
@@ -264,7 +264,7 @@ export default function CaseReviewPage() {
             </button>
             <button
               onClick={() => router.push('/analysis/case-info')}
-              style={{ width: '100%', padding: '14px 24px', background: 'white', border: '1px solid #E2E8F0', borderRadius: 9999, fontSize: 14, fontWeight: 600, color: '#0A1628', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+              style={{ width: '100%', padding: '14px 24px', background: 'white', border: '1px solid #D5D5E0', borderRadius: 9999, fontSize: 14, fontWeight: 600, color: '#1A1A2E', cursor: 'pointer', transition: 'all 0.3s ease', fontFamily: 'inherit', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
             >
               <i className="fa-solid fa-pen" style={{ fontSize: 12 }} />
               Edit Information

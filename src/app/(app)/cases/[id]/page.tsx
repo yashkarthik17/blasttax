@@ -34,8 +34,8 @@ export default function CaseDetailPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('timeline')
 
   return (
-    <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen" style={{ background: '#FAFAFF' }}>
+      <div className="mx-auto max-w-lg lg:max-w-3xl">
         {/* Header */}
         <div style={{ padding: '14px 20px 12px', display: 'flex', alignItems: 'center' }}>
           <div
@@ -44,8 +44,8 @@ export default function CaseDetailPage() {
               width: 36,
               height: 36,
               borderRadius: 12,
-              background: '#F8FAFC',
-              border: '1px solid #F1F5F9',
+              background: '#FAFAFF',
+              border: '1px solid #F0F0F5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -53,16 +53,16 @@ export default function CaseDetailPage() {
               flexShrink: 0,
             }}
           >
-            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </div>
-          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Case #{caseId}</div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', textAlign: 'center' }}>Case #{caseId}</div>
           <div
             style={{
               width: 36,
               height: 36,
               borderRadius: 12,
-              background: '#F8FAFC',
-              border: '1px solid #F1F5F9',
+              background: '#FAFAFF',
+              border: '1px solid #F0F0F5',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -70,7 +70,7 @@ export default function CaseDetailPage() {
               flexShrink: 0,
             }}
           >
-            <i className="fas fa-share-nodes" style={{ fontSize: 14, color: '#64748B' }} />
+            <i className="fas fa-share-nodes" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </div>
         </div>
 
@@ -90,7 +90,7 @@ export default function CaseDetailPage() {
           >
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#00A651' }} />
             <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#065F46' }}>Active</span>
-            <span style={{ fontSize: '0.82rem', color: '#64748B', fontWeight: 500 }}> &mdash; Offer in Compromise</span>
+            <span style={{ fontSize: '0.82rem', color: '#5C5C7A', fontWeight: 500 }}> &mdash; Offer in Compromise</span>
           </div>
 
           {/* Alert Banner */}
@@ -123,7 +123,7 @@ export default function CaseDetailPage() {
                   style={{
                     flex: 1,
                     padding: '8px 12px',
-                    background: '#0A1628',
+                    background: '#1A1A2E',
                     color: 'white',
                     border: 'none',
                     borderRadius: 10,
@@ -142,9 +142,9 @@ export default function CaseDetailPage() {
           {/* Hero Stats Row */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 16 }}>
             {/* Original Debt */}
-            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F1F5F9', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Original Debt</div>
-              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#94A3B8', letterSpacing: '-0.01em' }}>$47,250</div>
+            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F0F0F5', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Original Debt</div>
+              <div style={{ fontSize: '1.05rem', fontWeight: 800, color: '#8585A0', letterSpacing: '-0.01em' }}>$47,250</div>
             </div>
             {/* Offer Amount */}
             <div style={{ background: '#ECFDF5', borderRadius: 16, padding: '14px 10px', border: '1px solid rgba(0,166,81,0.15)', textAlign: 'center' }}>
@@ -152,8 +152,8 @@ export default function CaseDetailPage() {
               <div style={{ fontSize: '1.2rem', fontWeight: 900, color: '#00A651', letterSpacing: '-0.02em' }}>$8,500</div>
             </div>
             {/* Savings */}
-            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F1F5F9', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Savings</div>
+            <div style={{ background: 'white', borderRadius: 16, padding: '14px 10px', border: '1px solid #F0F0F5', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ fontSize: '0.6rem', fontWeight: 600, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Savings</div>
               <div style={{ display: 'inline-flex', padding: '4px 12px', background: '#00A651', borderRadius: 9999, fontSize: '1rem', fontWeight: 800, color: 'white' }}>82%</div>
             </div>
           </div>
@@ -167,7 +167,7 @@ export default function CaseDetailPage() {
               background: 'white',
               margin: '0 -20px',
               padding: '0 20px',
-              borderBottom: '1px solid #E2E8F0',
+              borderBottom: '1px solid #D5D5E0',
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -182,7 +182,7 @@ export default function CaseDetailPage() {
                     padding: '10px 0',
                     fontSize: '0.78rem',
                     fontWeight: activeTab === tab.key ? 700 : 600,
-                    color: activeTab === tab.key ? '#0A1628' : '#94A3B8',
+                    color: activeTab === tab.key ? '#1A1A2E' : '#8585A0',
                     background: 'none',
                     border: 'none',
                     fontFamily: 'inherit',
@@ -208,7 +208,7 @@ export default function CaseDetailPage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        border: '2px solid #F8FAFC',
+                        border: '2px solid #FAFAFF',
                       }}
                     >
                       {tab.badge}
@@ -222,7 +222,7 @@ export default function CaseDetailPage() {
                         left: 0,
                         right: 0,
                         height: 2.5,
-                        background: '#0A1628',
+                        background: '#1A1A2E',
                         borderRadius: 9999,
                       }}
                     />
@@ -236,8 +236,8 @@ export default function CaseDetailPage() {
           <div style={{ paddingTop: 16, paddingBottom: 32 }}>
             {activeTab === 'timeline' && (
               <div>
-                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#CBD5E1', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>OIC Lifecycle</div>
-                <div style={{ background: 'white', borderRadius: 18, padding: '20px 16px', border: '1px solid #F1F5F9' }}>
+                <div style={{ fontSize: '0.7rem', fontWeight: 700, color: '#B0B0C8', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 12 }}>OIC Lifecycle</div>
+                <div style={{ background: 'white', borderRadius: 18, padding: '20px 16px', border: '1px solid #F0F0F5' }}>
                   {TIMELINE_STEPS.map((step, i) => (
                     <div key={step.label} style={{ display: 'flex', gap: 12 }}>
                       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
@@ -250,8 +250,8 @@ export default function CaseDetailPage() {
                             <i className={`fas ${step.icon}`} style={{ fontSize: 9, color: 'white' }} />
                           </div>
                         ) : (
-                          <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#F1F5F9', border: '2px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <i className={`fas ${step.icon}`} style={{ fontSize: 9, color: '#CBD5E1' }} />
+                          <div style={{ width: 26, height: 26, borderRadius: '50%', background: '#F0F0F5', border: '2px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <i className={`fas ${step.icon}`} style={{ fontSize: 9, color: '#B0B0C8' }} />
                           </div>
                         )}
                         {i < TIMELINE_STEPS.length - 1 && (
@@ -265,8 +265,8 @@ export default function CaseDetailPage() {
                                 step.status === 'complete'
                                   ? '#00A651'
                                   : step.status === 'current'
-                                  ? 'linear-gradient(to bottom, #2563EB, #F1F5F9)'
-                                  : '#E2E8F0',
+                                  ? 'linear-gradient(to bottom, #2563EB, #F0F0F5)'
+                                  : '#D5D5E0',
                             }}
                           />
                         )}
@@ -276,7 +276,7 @@ export default function CaseDetailPage() {
                           style={{
                             fontSize: '0.8rem',
                             fontWeight: step.status === 'upcoming' ? 600 : 700,
-                            color: step.status === 'current' ? '#2563EB' : step.status === 'complete' ? '#0A1628' : '#94A3B8',
+                            color: step.status === 'current' ? '#2563EB' : step.status === 'complete' ? '#1A1A2E' : '#8585A0',
                           }}
                         >
                           {step.label}
@@ -285,7 +285,7 @@ export default function CaseDetailPage() {
                           style={{
                             fontSize: '0.68rem',
                             marginTop: 1,
-                            color: step.status === 'current' ? '#3B82F6' : step.status === 'upcoming' ? '#CBD5E1' : '#94A3B8',
+                            color: step.status === 'current' ? '#3B82F6' : step.status === 'upcoming' ? '#B0B0C8' : '#8585A0',
                             ...(step.status === 'current' ? { fontWeight: 500 } : {}),
                           }}
                         >
@@ -299,7 +299,7 @@ export default function CaseDetailPage() {
                               background: '#EFF4FF',
                               borderRadius: 8,
                               fontSize: '0.65rem',
-                              color: '#0A1628',
+                              color: '#1A1A2E',
                               fontWeight: 600,
                               display: 'inline-block',
                             }}
@@ -313,17 +313,17 @@ export default function CaseDetailPage() {
                 </div>
 
                 {/* During Review Card */}
-                <div style={{ marginTop: 14, background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F1F5F9' }}>
-                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0A1628', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ marginTop: 14, background: 'white', borderRadius: 16, padding: 16, border: '1px solid #F0F0F5' }}>
+                  <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A2E', marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
                     <i className="fas fa-shield-halved" style={{ fontSize: 11, color: '#2563EB' }} /> During Review
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {[
-                      { emoji: '\u26A0\uFE0F', text: 'Stay current on all filings', color: '#64748B' },
-                      { emoji: '\u26A0\uFE0F', text: 'Continue periodic payments (not refunded if rejected)', color: '#64748B' },
-                      { emoji: '\u26A0\uFE0F', text: 'Respond to IRS requests within deadlines', color: '#64748B' },
+                      { emoji: '\u26A0\uFE0F', text: 'Stay current on all filings', color: '#5C5C7A' },
+                      { emoji: '\u26A0\uFE0F', text: 'Continue periodic payments (not refunded if rejected)', color: '#5C5C7A' },
+                      { emoji: '\u26A0\uFE0F', text: 'Respond to IRS requests within deadlines', color: '#5C5C7A' },
                       { emoji: '\u2713', text: 'No levy while TC 480 active', color: '#065F46', bold: true, emojiColor: '#00A651' },
-                      { emoji: '\u26A0\uFE0F', text: 'Refunds will be offset (TC 826)', color: '#64748B' },
+                      { emoji: '\u26A0\uFE0F', text: 'Refunds will be offset (TC 826)', color: '#5C5C7A' },
                     ].map((item, i) => (
                       <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                         <span style={{ fontSize: '0.72rem', flexShrink: 0, color: item.emojiColor }}>{item.emoji}</span>
@@ -336,32 +336,32 @@ export default function CaseDetailPage() {
             )}
 
             {activeTab === 'documents' && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <i className="fas fa-file-lines" style={{ fontSize: 20, color: '#CBD5E1' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F0F0F5', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#FAFAFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-file-lines" style={{ fontSize: 20, color: '#B0B0C8' }} />
                 </div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No documents yet</div>
-                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Upload tax documents and IRS notices here</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#5C5C7A' }}>No documents yet</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#B0B0C8' }}>Upload tax documents and IRS notices here</div>
               </div>
             )}
 
             {activeTab === 'notes' && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <i className="fas fa-sticky-note" style={{ fontSize: 20, color: '#CBD5E1' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F0F0F5', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#FAFAFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-sticky-note" style={{ fontSize: 20, color: '#B0B0C8' }} />
                 </div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No notes yet</div>
-                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Add notes to track important details</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#5C5C7A' }}>No notes yet</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#B0B0C8' }}>Add notes to track important details</div>
               </div>
             )}
 
             {activeTab === 'alerts' && (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F1F5F9', background: 'white', padding: '64px 0', textAlign: 'center' }}>
-                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#F8FAFC', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <i className="fas fa-bell" style={{ fontSize: 20, color: '#CBD5E1' }} />
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', borderRadius: 18, border: '1px solid #F0F0F5', background: 'white', padding: '64px 0', textAlign: 'center' }}>
+                <div style={{ marginBottom: 12, width: 48, height: 48, borderRadius: 16, background: '#FAFAFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <i className="fas fa-bell" style={{ fontSize: 20, color: '#B0B0C8' }} />
                 </div>
-                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#64748B' }}>No new alerts</div>
-                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#CBD5E1' }}>Case alerts will appear here</div>
+                <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#5C5C7A' }}>No new alerts</div>
+                <div style={{ marginTop: 4, fontSize: '0.75rem', color: '#B0B0C8' }}>Case alerts will appear here</div>
               </div>
             )}
 
@@ -376,7 +376,7 @@ export default function CaseDetailPage() {
                   justifyContent: 'center',
                   gap: 8,
                   padding: '14px 16px',
-                  background: '#0A1628',
+                  background: '#1A1A2E',
                   borderRadius: 9999,
                   fontSize: '0.82rem',
                   fontWeight: 700,
@@ -396,11 +396,11 @@ export default function CaseDetailPage() {
                   gap: 8,
                   padding: '14px 16px',
                   background: 'white',
-                  border: '1.5px solid #E2E8F0',
+                  border: '1.5px solid #D5D5E0',
                   borderRadius: 9999,
                   fontSize: '0.82rem',
                   fontWeight: 700,
-                  color: '#0A1628',
+                  color: '#1A1A2E',
                   fontFamily: 'inherit',
                   cursor: 'pointer',
                 }}

@@ -34,7 +34,7 @@ export default function PenaltyScreeningPage() {
 
   const checkboxStyle = (isChecked: boolean): React.CSSProperties => ({
     width: 20, height: 20,
-    border: `2px solid ${isChecked ? '#2563EB' : '#E2E8F0'}`,
+    border: `2px solid ${isChecked ? '#2563EB' : '#D5D5E0'}`,
     borderRadius: 6, cursor: 'pointer',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     flexShrink: 0, background: isChecked ? '#2563EB' : 'white',
@@ -42,18 +42,18 @@ export default function PenaltyScreeningPage() {
   })
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
           <div style={{
             marginTop: 4, height: 4, width: '100%', borderRadius: 9999,
-            background: '#E2E8F0', overflow: 'hidden',
+            background: '#D5D5E0', overflow: 'hidden',
           }}>
             <div style={{ height: '100%', width: '25%', borderRadius: 9999, background: '#00A651' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 2 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Step 2 of 6</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Penalty Analysis</span>
           </div>
         </div>
@@ -62,17 +62,17 @@ export default function PenaltyScreeningPage() {
         <div style={{ padding: '16px 20px 20px', display: 'flex', flexDirection: 'column' }}>
           {/* Heading */}
           <div style={{ marginBottom: 16 }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>
               Let&apos;s check your penalty history
             </h1>
-            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5 }}>
+            <p style={{ fontSize: 13, color: '#8585A0', marginTop: 4, lineHeight: 1.5 }}>
               Edit amounts if needed. Select penalties to request abatement for.
             </p>
           </div>
 
           {/* 2022 Penalty Card */}
           <div style={{
-            background: 'white', border: '1px solid #F1F5F9', borderRadius: 16,
+            background: 'white', border: '1px solid #F0F0F5', borderRadius: 16,
             padding: 16, marginBottom: 12,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -83,7 +83,7 @@ export default function PenaltyScreeningPage() {
               }}>
                 <i className="fa-solid fa-calendar" style={{ fontSize: 10 }} /> 2022
               </span>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8' }}>Penalties Only</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#8585A0' }}>Penalties Only</span>
             </div>
 
             {/* FTF Penalty */}
@@ -97,19 +97,19 @@ export default function PenaltyScreeningPage() {
                   )}
                 </div>
                 <span style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>TC 166</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to File</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to File</span>
               </div>
               <input
                 type="text"
                 value={ftf2022}
                 onChange={(e) => setFtf2022(e.target.value)}
                 style={{
-                  maxWidth: 90, padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 13, fontWeight: 700, color: '#0A1628', textAlign: 'right',
+                  maxWidth: 90, padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 13, fontWeight: 700, color: '#1A1A2E', textAlign: 'right',
                   outline: 'none', boxSizing: 'border-box',
                 }}
               />
@@ -118,7 +118,7 @@ export default function PenaltyScreeningPage() {
             {/* FTP Penalty */}
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0',
-              borderTop: '1px solid #F1F5F9',
+              borderTop: '1px solid #F0F0F5',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
                 <div onClick={() => toggleCheck('2022-ftp')} style={checkboxStyle(checked['2022-ftp'])}>
@@ -127,19 +127,19 @@ export default function PenaltyScreeningPage() {
                   )}
                 </div>
                 <span style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>TC 170</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to Pay</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to Pay</span>
               </div>
               <input
                 type="text"
                 value={ftp2022}
                 onChange={(e) => setFtp2022(e.target.value)}
                 style={{
-                  maxWidth: 90, padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 13, fontWeight: 700, color: '#0A1628', textAlign: 'right',
+                  maxWidth: 90, padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 13, fontWeight: 700, color: '#1A1A2E', textAlign: 'right',
                   outline: 'none', boxSizing: 'border-box',
                 }}
               />
@@ -148,43 +148,43 @@ export default function PenaltyScreeningPage() {
             {/* Interest row (not abatable) */}
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0',
-              borderTop: '1px solid #F1F5F9', opacity: 0.6,
+              borderTop: '1px solid #F0F0F5', opacity: 0.6,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
                 <div style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <i className="fa-solid fa-ban" style={{ fontSize: 12, color: '#94A3B8' }} />
+                  <i className="fa-solid fa-ban" style={{ fontSize: 12, color: '#8585A0' }} />
                 </div>
                 <span style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>TC 276</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#64748B' }}>Interest</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#5C5C7A' }}>Interest</span>
               </div>
-              <span style={{ fontSize: 13, fontWeight: 700, color: '#64748B' }}>$1,890</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#5C5C7A' }}>$1,890</span>
             </div>
             <div style={{ padding: '4px 0 0 28px' }}>
-              <span style={{ fontSize: 11, color: '#94A3B8', fontStyle: 'italic' }}>Interest is not abatable</span>
+              <span style={{ fontSize: 11, color: '#8585A0', fontStyle: 'italic' }}>Interest is not abatable</span>
             </div>
 
             {/* Penalty Assessment Dates */}
-            <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #F1F5F9' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: 8 }}>
+            <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #F0F0F5' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#8585A0', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: 8 }}>
                 Penalty Assessment Dates
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <label style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', minWidth: 90 }}>FTF (TC 166)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: '#8585A0', minWidth: 90 }}>FTF (TC 166)</label>
                 <input type="date" defaultValue="2023-04-18" style={{
-                  width: '100%', padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 12, fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box',
+                  width: '100%', padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 12, fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box',
                 }} />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <label style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', minWidth: 90 }}>FTP (TC 170)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: '#8585A0', minWidth: 90 }}>FTP (TC 170)</label>
                 <input type="date" defaultValue="2023-04-18" style={{
-                  width: '100%', padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 12, fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box',
+                  width: '100%', padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 12, fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box',
                 }} />
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function PenaltyScreeningPage() {
 
           {/* 2023 Penalty Card */}
           <div style={{
-            background: 'white', border: '1px solid #F1F5F9', borderRadius: 16,
+            background: 'white', border: '1px solid #F0F0F5', borderRadius: 16,
             padding: 16, marginBottom: 12,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
@@ -203,7 +203,7 @@ export default function PenaltyScreeningPage() {
               }}>
                 <i className="fa-solid fa-calendar" style={{ fontSize: 10 }} /> 2023
               </span>
-              <span style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8' }}>Penalties Only</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#8585A0' }}>Penalties Only</span>
             </div>
 
             {/* FTP Penalty */}
@@ -217,19 +217,19 @@ export default function PenaltyScreeningPage() {
                   )}
                 </div>
                 <span style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>TC 170</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to Pay</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to Pay</span>
               </div>
               <input
                 type="text"
                 value={ftp2023}
                 onChange={(e) => setFtp2023(e.target.value)}
                 style={{
-                  maxWidth: 90, padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 13, fontWeight: 700, color: '#0A1628', textAlign: 'right',
+                  maxWidth: 90, padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 13, fontWeight: 700, color: '#1A1A2E', textAlign: 'right',
                   outline: 'none', boxSizing: 'border-box',
                 }}
               />
@@ -238,35 +238,35 @@ export default function PenaltyScreeningPage() {
             {/* Interest row */}
             <div style={{
               display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0',
-              borderTop: '1px solid #F1F5F9', opacity: 0.6,
+              borderTop: '1px solid #F0F0F5', opacity: 0.6,
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
                 <div style={{ width: 20, height: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <i className="fa-solid fa-ban" style={{ fontSize: 12, color: '#94A3B8' }} />
+                  <i className="fa-solid fa-ban" style={{ fontSize: 12, color: '#8585A0' }} />
                 </div>
                 <span style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>TC 276</span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#64748B' }}>Interest</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#5C5C7A' }}>Interest</span>
               </div>
-              <span style={{ fontSize: 13, fontWeight: 700, color: '#64748B' }}>$650</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: '#5C5C7A' }}>$650</span>
             </div>
             <div style={{ padding: '4px 0 0 28px' }}>
-              <span style={{ fontSize: 11, color: '#94A3B8', fontStyle: 'italic' }}>Interest is not abatable</span>
+              <span style={{ fontSize: 11, color: '#8585A0', fontStyle: 'italic' }}>Interest is not abatable</span>
             </div>
 
             {/* Penalty Assessment Dates */}
-            <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #F1F5F9' }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: 8 }}>
+            <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid #F0F0F5' }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: '#8585A0', textTransform: 'uppercase' as const, letterSpacing: '0.04em', marginBottom: 8 }}>
                 Penalty Assessment Dates
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <label style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', minWidth: 90 }}>FTP (TC 170)</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: '#8585A0', minWidth: 90 }}>FTP (TC 170)</label>
                 <input type="date" defaultValue="2024-04-16" style={{
-                  width: '100%', padding: '8px 10px', background: '#F8FAFC',
-                  border: '1.5px solid #F1F5F9', borderRadius: 8, fontFamily: 'inherit',
-                  fontSize: 12, fontWeight: 600, color: '#0A1628', outline: 'none', boxSizing: 'border-box',
+                  width: '100%', padding: '8px 10px', background: '#FAFAFF',
+                  border: '1.5px solid #F0F0F5', borderRadius: 8, fontFamily: 'inherit',
+                  fontSize: 12, fontWeight: 600, color: '#1A1A2E', outline: 'none', boxSizing: 'border-box',
                 }} />
               </div>
             </div>
@@ -274,7 +274,7 @@ export default function PenaltyScreeningPage() {
 
           {/* FTA Eligibility Check */}
           <div style={{
-            background: 'white', border: '1px solid #F1F5F9', borderRadius: 16,
+            background: 'white', border: '1px solid #F0F0F5', borderRadius: 16,
             padding: 16, marginBottom: 12,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -284,7 +284,7 @@ export default function PenaltyScreeningPage() {
               }}>
                 <i className="fa-solid fa-shield-halved" style={{ fontSize: 14, color: '#2563EB' }} />
               </div>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>FTA Eligibility Check</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>FTA Eligibility Check</span>
             </div>
 
             {/* 3-Year Clean History */}
@@ -292,7 +292,7 @@ export default function PenaltyScreeningPage() {
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0',
             }}>
               <div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>3-Year Clean History?</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>3-Year Clean History?</span>
                 <div style={{ fontSize: 11, color: '#00A651', fontWeight: 600, marginTop: 2 }}>
                   <i className="fa-solid fa-check" style={{ fontSize: 10 }} /> No penalties in 2019-2021
                 </div>
@@ -305,9 +305,9 @@ export default function PenaltyScreeningPage() {
 
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0',
-              borderTop: '1px solid #F1F5F9',
+              borderTop: '1px solid #F0F0F5',
             }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>All Returns Filed?</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>All Returns Filed?</span>
               <span style={{
                 fontSize: 11, fontWeight: 700, color: '#00A651', background: '#E6F9EE',
                 padding: '2px 8px', borderRadius: 9999,
@@ -319,9 +319,9 @@ export default function PenaltyScreeningPage() {
 
             <div style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0',
-              borderTop: '1px solid #F1F5F9',
+              borderTop: '1px solid #F0F0F5',
             }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Current on Payments?</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Current on Payments?</span>
               <span style={{
                 fontSize: 11, fontWeight: 700, color: '#00A651', background: '#E6F9EE',
                 padding: '2px 8px', borderRadius: 9999,
@@ -372,8 +372,8 @@ export default function PenaltyScreeningPage() {
               borderRadius: 10, marginBottom: 8,
             }}>
               <div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>2022</span>
-                <span style={{ fontSize: 11, color: '#94A3B8', marginLeft: 4 }}>FTF + FTP</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>2022</span>
+                <span style={{ fontSize: 11, color: '#8585A0', marginLeft: 4 }}>FTF + FTP</span>
               </div>
               <span style={{
                 fontSize: '1.1rem', fontWeight: 900, letterSpacing: '-0.02em',
@@ -389,8 +389,8 @@ export default function PenaltyScreeningPage() {
               borderRadius: 10, marginBottom: 8,
             }}>
               <div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>2023</span>
-                <span style={{ fontSize: 11, color: '#94A3B8', marginLeft: 4 }}>FTP</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>2023</span>
+                <span style={{ fontSize: 11, color: '#8585A0', marginLeft: 4 }}>FTP</span>
               </div>
               <span style={{
                 fontSize: '1.1rem', fontWeight: 900, letterSpacing: '-0.02em',
@@ -421,7 +421,7 @@ export default function PenaltyScreeningPage() {
 
           {/* Form 843 Penalty Selection */}
           <div style={{
-            background: 'white', border: '1px solid #F1F5F9', borderRadius: 16,
+            background: 'white', border: '1px solid #F0F0F5', borderRadius: 16,
             padding: 16, marginBottom: 12,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
@@ -432,13 +432,13 @@ export default function PenaltyScreeningPage() {
                 <i className="fa-solid fa-file-pen" style={{ fontSize: 14, color: '#2563EB' }} />
               </div>
               <div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Form 843 Penalty Selection</span>
-                <div style={{ fontSize: 11, color: '#94A3B8' }}>Select which penalties to request abatement for</div>
+                <span style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Form 843 Penalty Selection</span>
+                <div style={{ fontSize: 11, color: '#8585A0' }}>Select which penalties to request abatement for</div>
               </div>
             </div>
 
             {/* 2022 */}
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#94A3B8', marginBottom: 6 }}>2022</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#8585A0', marginBottom: 6 }}>2022</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 12 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div onClick={() => toggleCheck('form843-2022-ftf')} style={checkboxStyle(checked['form843-2022-ftf'])}>
@@ -446,7 +446,7 @@ export default function PenaltyScreeningPage() {
                     <div style={{ width: 6, height: 10, border: '2px solid white', borderTop: 'none', borderLeft: 'none', transform: 'rotate(45deg)', marginTop: -2 }} />
                   )}
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to File (TC 166) - $3,200</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to File (TC 166) - $3,200</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div onClick={() => toggleCheck('form843-2022-ftp')} style={checkboxStyle(checked['form843-2022-ftp'])}>
@@ -454,12 +454,12 @@ export default function PenaltyScreeningPage() {
                     <div style={{ width: 6, height: 10, border: '2px solid white', borderTop: 'none', borderLeft: 'none', transform: 'rotate(45deg)', marginTop: -2 }} />
                   )}
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to Pay (TC 170) - $2,100</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to Pay (TC 170) - $2,100</span>
               </div>
             </div>
 
             {/* 2023 */}
-            <div style={{ fontSize: 12, fontWeight: 700, color: '#94A3B8', marginBottom: 6 }}>2023</div>
+            <div style={{ fontSize: 12, fontWeight: 700, color: '#8585A0', marginBottom: 6 }}>2023</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div onClick={() => toggleCheck('form843-2023-ftp')} style={checkboxStyle(checked['form843-2023-ftp'])}>
@@ -467,19 +467,19 @@ export default function PenaltyScreeningPage() {
                     <div style={{ width: 6, height: 10, border: '2px solid white', borderTop: 'none', borderLeft: 'none', transform: 'rotate(45deg)', marginTop: -2 }} />
                   )}
                 </div>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Failure to Pay (TC 170) - $800</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Failure to Pay (TC 170) - $800</span>
               </div>
             </div>
           </div>
 
           {/* TC Code References */}
           <div style={{ marginTop: 4 }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8', marginBottom: 6 }}>Transaction Codes Referenced</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color: '#8585A0', marginBottom: 6 }}>Transaction Codes Referenced</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
               {['TC 160', 'TC 166', 'TC 170', 'TC 171', 'TC 270', 'TC 276'].map((tc) => (
                 <span key={tc} style={{
-                  display: 'inline-flex', padding: '2px 8px', background: '#F8FAFC',
-                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#64748B', letterSpacing: '0.02em',
+                  display: 'inline-flex', padding: '2px 8px', background: '#FAFAFF',
+                  borderRadius: 6, fontSize: 10, fontWeight: 700, color: '#5C5C7A', letterSpacing: '0.02em',
                 }}>{tc}</span>
               ))}
             </div>

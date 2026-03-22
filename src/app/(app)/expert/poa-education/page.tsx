@@ -47,16 +47,16 @@ const cards = [
 
 export default function POAEducationPage() {
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="mx-auto max-w-md">
+    <div className="min-h-screen bg-[#FAFAFF]">
+      <div className="mx-auto max-w-lg lg:max-w-3xl">
         {/* Header */}
         <div className="flex items-center gap-3 px-5 py-4">
-          <Link href="/expert/agreement" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-[#F1F5F9]">
-            <svg className="w-4 h-4 text-[#0A1628]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <Link href="/expert/agreement" className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-[#F0F0F5]">
+            <svg className="w-4 h-4 text-[#1A1A2E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
           </Link>
-          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#0A1628]">Power of Attorney</h1>
+          <h1 className="flex-1 text-center text-[0.95rem] font-extrabold text-[#1A1A2E]">Power of Attorney</h1>
           <div className="w-10" />
         </div>
 
@@ -72,19 +72,19 @@ export default function POAEducationPage() {
 
           {/* Heading */}
           <div className="text-center">
-            <div className="text-[1.25rem] font-extrabold text-[#0A1628] tracking-tight mb-1.5">What is Form 2848?</div>
-            <div className="text-[0.82rem] font-medium text-[#6B7280] leading-relaxed">This is an important document. Here&apos;s what you need to know.</div>
+            <div className="text-[1.25rem] font-extrabold text-[#1A1A2E] tracking-tight mb-1.5">What is Form 2848?</div>
+            <div className="text-[0.82rem] font-medium text-[#5C5C7A] leading-relaxed">This is an important document. Here&apos;s what you need to know.</div>
           </div>
 
           {/* Education Cards */}
           {cards.map((card) => (
-            <div key={card.title} className="flex items-start gap-3.5 p-4 bg-white border border-[#F1F5F9] rounded-2xl">
+            <div key={card.title} className="flex items-start gap-3.5 p-4 bg-white border border-[#F0F0F5] rounded-2xl">
               <div className={`w-11 h-11 rounded-xl ${card.iconBg} flex items-center justify-center shrink-0`}>
                 {card.icon}
               </div>
               <div className="flex-1">
-                <div className="text-[0.88rem] font-bold text-[#0A1628] mb-1">{card.title}</div>
-                <div className="text-[0.78rem] font-medium text-[#6B7280] leading-relaxed">{card.desc}</div>
+                <div className="text-[0.88rem] font-bold text-[#1A1A2E] mb-1">{card.title}</div>
+                <div className="text-[0.78rem] font-medium text-[#5C5C7A] leading-relaxed">{card.desc}</div>
               </div>
             </div>
           ))}

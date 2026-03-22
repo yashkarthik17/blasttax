@@ -21,7 +21,7 @@ export default function RegisterPage() {
 
   // Password strength
   function getStrength(val: string) {
-    if (!val) return { width: '0%', color: '#E2E8F0', label: '' }
+    if (!val) return { width: '0%', color: '#D5D5E0', label: '' }
     let score = 0
     if (val.length >= 6) score++
     if (val.length >= 10) score++
@@ -78,31 +78,31 @@ export default function RegisterPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '14px 16px 14px 44px',
-    background: '#F8FAFC',
-    border: '1.5px solid #E2E8F0',
+    background: '#FAFAFF',
+    border: '1.5px solid #D5D5E0',
     borderRadius: 12,
     fontFamily: 'inherit',
     fontSize: '0.9375rem',
     fontWeight: 500,
-    color: '#0A1628',
+    color: '#1A1A2E',
     outline: 'none',
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
   }
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
-    e.currentTarget.style.borderColor = '#0A1628'
+    e.currentTarget.style.borderColor = '#1A1A2E'
     e.currentTarget.style.background = '#FFFFFF'
     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)'
   }
   function handleBlur(e: React.FocusEvent<HTMLInputElement>) {
-    e.currentTarget.style.borderColor = '#E2E8F0'
-    e.currentTarget.style.background = '#F8FAFC'
+    e.currentTarget.style.borderColor = '#D5D5E0'
+    e.currentTarget.style.background = '#FAFAFF'
     e.currentTarget.style.boxShadow = 'none'
   }
 
   const iconStyle: React.CSSProperties = {
     position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
-    color: '#CBD5E1', fontSize: 14, pointerEvents: 'none',
+    color: '#B0B0C8', fontSize: 14, pointerEvents: 'none',
   }
 
   return (
@@ -116,8 +116,8 @@ export default function RegisterPage() {
               className="flex items-center justify-center"
               style={{
                 width: 40, height: 40, borderRadius: 12,
-                background: '#FFFFFF', border: '1.5px solid #E2E8F0',
-                color: '#0A1628', fontSize: 16, textDecoration: 'none',
+                background: '#FFFFFF', border: '1.5px solid #D5D5E0',
+                color: '#1A1A2E', fontSize: 16, textDecoration: 'none',
                 transition: 'all 0.25s ease',
               }}
             >
@@ -127,12 +127,12 @@ export default function RegisterPage() {
 
           {/* Heading */}
           <div style={{ marginBottom: 4 }}>
-            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#0A1628', letterSpacing: '-0.01em' }}>
+            <h1 style={{ fontSize: '1.45rem', fontWeight: 800, color: '#1A1A2E', letterSpacing: '-0.01em' }}>
               Create your account
             </h1>
           </div>
           <div style={{ marginBottom: 26 }}>
-            <p style={{ fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>
+            <p style={{ fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>
               Start your journey to tax freedom
             </p>
           </div>
@@ -188,13 +188,13 @@ export default function RegisterPage() {
                 <i className="fas fa-lock" style={iconStyle} />
                 <button
                   type="button" onClick={() => setShowPassword(!showPassword)}
-                  style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                  style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
                 >
                   <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
                 </button>
               </div>
               {/* Strength bar */}
-              <div style={{ height: 4, borderRadius: 9999, background: '#E2E8F0', marginTop: 8, overflow: 'hidden' }}>
+              <div style={{ height: 4, borderRadius: 9999, background: '#D5D5E0', marginTop: 8, overflow: 'hidden' }}>
                 <div style={{ height: '100%', borderRadius: 9999, transition: 'all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)', width: strength.width, background: strength.color }} />
               </div>
               {strength.label && (
@@ -216,7 +216,7 @@ export default function RegisterPage() {
               <i className="fas fa-lock" style={iconStyle} />
               <button
                 type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#CBD5E1', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                style={{ position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)', color: '#B0B0C8', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
               >
                 <i className={`fas ${showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}`} />
               </button>
@@ -230,19 +230,19 @@ export default function RegisterPage() {
                   className="flex items-center justify-center flex-shrink-0"
                   style={{
                     width: 20, height: 20, borderRadius: 6,
-                    border: `2px solid ${termsAccepted ? '#0A1628' : '#E2E8F0'}`,
-                    background: termsAccepted ? '#0A1628' : '#FFFFFF',
+                    border: `2px solid ${termsAccepted ? '#1A1A2E' : '#D5D5E0'}`,
+                    background: termsAccepted ? '#1A1A2E' : '#FFFFFF',
                     marginTop: 1,
                     transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
                   }}
                 >
                   {termsAccepted && <i className="fas fa-check" style={{ fontSize: 10, color: '#FFFFFF' }} />}
                 </div>
-                <span style={{ fontSize: '0.8rem', color: '#64748B', lineHeight: 1.4, fontWeight: 400 }}>
+                <span style={{ fontSize: '0.8rem', color: '#5C5C7A', lineHeight: 1.4, fontWeight: 400 }}>
                   I agree to the{' '}
-                  <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</a>
+                  <a href="#" style={{ color: '#1A1A2E', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</a>
                   {' '}and{' '}
-                  <a href="#" style={{ color: '#0A1628', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>
+                  <a href="#" style={{ color: '#1A1A2E', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</a>
                 </span>
               </label>
             </div>
@@ -279,9 +279,9 @@ export default function RegisterPage() {
 
           {/* Sign in link */}
           <div style={{ textAlign: 'center', marginBottom: 16 }}>
-            <p style={{ fontSize: '0.82rem', color: '#94A3B8', fontWeight: 400 }}>
+            <p style={{ fontSize: '0.82rem', color: '#8585A0', fontWeight: 400 }}>
               Already have an account?{' '}
-              <Link href="/login" style={{ fontWeight: 700, color: '#0A1628', textDecoration: 'none' }}>
+              <Link href="/login" style={{ fontWeight: 700, color: '#1A1A2E', textDecoration: 'none' }}>
                 Sign in
               </Link>
             </p>
@@ -297,7 +297,7 @@ export default function RegisterPage() {
               gap: 6,
               paddingBottom: 14,
               fontSize: '0.72rem',
-              color: '#94A3B8',
+              color: '#8585A0',
               fontWeight: 500,
             }}
           >

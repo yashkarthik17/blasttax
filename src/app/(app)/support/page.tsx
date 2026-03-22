@@ -27,19 +27,19 @@ export default function ContactSupportPage() {
         {/* Heading */}
         <div className="py-2 text-center">
           <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#EFF4FF]">
-            <svg className="h-6 w-6 text-[#0A1628]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-6 w-6 text-[#1A1A2E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
-          <div className="text-xl font-extrabold text-[#0A1628]">How Can We Help?</div>
-          <div className="text-[0.8rem] text-[#94A3B8]">Choose a contact method or submit a request</div>
+          <div className="text-xl font-extrabold text-[#1A1A2E]">How Can We Help?</div>
+          <div className="text-[0.8rem] text-[#8585A0]">Choose a contact method or submit a request</div>
         </div>
 
         {/* Contact Methods */}
         <div className="space-y-2.5">
           <a
             href="mailto:support@blasttax.com"
-            className="flex items-center gap-3.5 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5 transition hover:border-[#E2E8F0] hover:-translate-y-0.5"
+            className="flex items-center gap-3.5 rounded-[14px] border border-[#F0F0F5] bg-white p-3.5 transition hover:border-[#D5D5E0] hover:-translate-y-0.5"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EFF4FF]">
               <svg className="h-4 w-4 text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -47,17 +47,17 @@ export default function ContactSupportPage() {
               </svg>
             </div>
             <div className="flex-1">
-              <div className="text-[0.85rem] font-semibold text-[#0A1628]">Email Support</div>
-              <div className="text-[0.72rem] text-[#94A3B8]">support@blasttax.com</div>
+              <div className="text-[0.85rem] font-semibold text-[#1A1A2E]">Email Support</div>
+              <div className="text-[0.72rem] text-[#8585A0]">support@blasttax.com</div>
             </div>
-            <svg className="h-3 w-3 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3 w-3 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
 
           <a
             href="tel:+18005551234"
-            className="flex items-center gap-3.5 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5 transition hover:border-[#E2E8F0] hover:-translate-y-0.5"
+            className="flex items-center gap-3.5 rounded-[14px] border border-[#F0F0F5] bg-white p-3.5 transition hover:border-[#D5D5E0] hover:-translate-y-0.5"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#E6F9EE]">
               <svg className="h-4 w-4 text-[#00A651]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -65,17 +65,17 @@ export default function ContactSupportPage() {
               </svg>
             </div>
             <div className="flex-1">
-              <div className="text-[0.85rem] font-semibold text-[#0A1628]">Phone Support</div>
-              <div className="text-[0.72rem] text-[#94A3B8]">Mon-Fri, 9am-6pm ET</div>
+              <div className="text-[0.85rem] font-semibold text-[#1A1A2E]">Phone Support</div>
+              <div className="text-[0.72rem] text-[#8585A0]">Mon-Fri, 9am-6pm ET</div>
             </div>
-            <svg className="h-3 w-3 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3 w-3 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
 
           <Link
             href="/chat"
-            className="flex items-center gap-3.5 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5 transition hover:border-[#E2E8F0] hover:-translate-y-0.5"
+            className="flex items-center gap-3.5 rounded-[14px] border border-[#F0F0F5] bg-white p-3.5 transition hover:border-[#D5D5E0] hover:-translate-y-0.5"
           >
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5F0FF]">
               <svg className="h-4 w-4 text-[#7C3AED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -83,10 +83,10 @@ export default function ContactSupportPage() {
               </svg>
             </div>
             <div className="flex-1">
-              <div className="text-[0.85rem] font-semibold text-[#0A1628]">In-App Chat</div>
-              <div className="text-[0.72rem] text-[#94A3B8]">Get instant AI-powered help</div>
+              <div className="text-[0.85rem] font-semibold text-[#1A1A2E]">In-App Chat</div>
+              <div className="text-[0.72rem] text-[#8585A0]">Get instant AI-powered help</div>
             </div>
-            <svg className="h-3 w-3 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="h-3 w-3 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
@@ -94,30 +94,30 @@ export default function ContactSupportPage() {
 
         {/* Divider */}
         <div className="flex items-center gap-3">
-          <div className="h-px flex-1 bg-[#E2E8F0]" />
-          <span className="text-[0.7rem] font-bold uppercase tracking-wider text-[#CBD5E1]">Or Submit a Request</span>
-          <div className="h-px flex-1 bg-[#E2E8F0]" />
+          <div className="h-px flex-1 bg-[#D5D5E0]" />
+          <span className="text-[0.7rem] font-bold uppercase tracking-wider text-[#B0B0C8]">Or Submit a Request</span>
+          <div className="h-px flex-1 bg-[#D5D5E0]" />
         </div>
 
         {/* Form */}
         <div className="space-y-3.5">
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Subject</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Subject</label>
             <input
               type="text"
               placeholder="Brief description of your issue"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Category</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Category</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full appearance-none rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pr-9 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628]"
+              className="w-full appearance-none rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 pr-9 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E]"
             >
               <option value="" disabled>Select a category</option>
               <option>Billing &amp; Payments</option>
@@ -130,29 +130,29 @@ export default function ContactSupportPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Description</label>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Description</label>
             <textarea
               rows={4}
               placeholder="Tell us more about your issue..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full resize-none rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-sm text-[#0A1628] outline-none transition focus:border-[#0A1628] placeholder:text-[#CBD5E1]"
+              className="w-full resize-none rounded-xl border border-[#D5D5E0] bg-white px-4 py-3 text-sm text-[#1A1A2E] outline-none transition focus:border-[#1A1A2E] placeholder:text-[#B0B0C8]"
             />
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#64748B]">Attachment (optional)</label>
-            <div className="flex cursor-pointer items-center gap-2.5 rounded-xl border-[1.5px] border-dashed border-[#E2E8F0] bg-[#F8FAFC] px-4 py-3 transition hover:border-[#0A1628]">
-              <svg className="h-4 w-4 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-[#5C5C7A]">Attachment (optional)</label>
+            <div className="flex cursor-pointer items-center gap-2.5 rounded-xl border-[1.5px] border-dashed border-[#D5D5E0] bg-[#FAFAFF] px-4 py-3 transition hover:border-[#1A1A2E]">
+              <svg className="h-4 w-4 text-[#8585A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
               </svg>
-              <span className="text-[0.82rem] text-[#94A3B8]">Attach a file or screenshot</span>
+              <span className="text-[0.82rem] text-[#8585A0]">Attach a file or screenshot</span>
             </div>
           </div>
         </div>
 
         {/* Send Button */}
-        <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#0A1628] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90">
+        <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#1A1A2E] px-7 py-4 text-[0.9rem] font-bold text-white transition hover:opacity-90">
           <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
           </svg>
@@ -161,8 +161,8 @@ export default function ContactSupportPage() {
 
         {/* Footer info */}
         <div className="flex flex-col items-center gap-2.5">
-          <div className="flex items-center gap-2 text-[0.78rem] text-[#64748B]">
-            <svg className="h-3 w-3 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="flex items-center gap-2 text-[0.78rem] text-[#5C5C7A]">
+            <svg className="h-3 w-3 text-[#8585A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             We typically respond within 24 hours

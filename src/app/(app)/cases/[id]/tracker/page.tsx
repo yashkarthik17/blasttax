@@ -34,8 +34,8 @@ const STATUS_CONFIG: Record<
     label: 'Pending',
   },
   'not-started': {
-    dot: 'bg-[#CBD5E1]',
-    badge: 'bg-[#94A3B8]/10 text-[#64748B]',
+    dot: 'bg-[#B0B0C8]',
+    badge: 'bg-[#8585A0]/10 text-[#5C5C7A]',
     label: 'Not Started',
   },
 }

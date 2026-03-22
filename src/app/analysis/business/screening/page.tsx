@@ -24,14 +24,14 @@ export default function BusinessScreeningPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px', flexShrink: 0 }}>
-          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#E2E8F0', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: '22%', borderRadius: '9999px', background: '#0A1628', transition: 'all 0.3s' }} />
+          <div style={{ height: '6px', width: '100%', borderRadius: '9999px', background: '#D5D5E0', overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: '22%', borderRadius: '9999px', background: '#1A1A2E', transition: 'all 0.3s' }} />
           </div>
-          <p style={{ fontSize: '0.6875rem', color: '#94A3B8', fontWeight: 600, marginTop: '6px' }}>Step 4 of 15</p>
+          <p style={{ fontSize: '0.6875rem', color: '#8585A0', fontWeight: 600, marginTop: '6px' }}>Step 4 of 15</p>
         </div>
 
         <div style={{ padding: '0 20px', paddingBottom: '20px' }}>
@@ -39,38 +39,38 @@ export default function BusinessScreeningPage() {
           <div style={{ marginTop: '16px', marginBottom: '4px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: '#EFF4FF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <i className="fa-solid fa-briefcase" style={{ fontSize: '13px', color: '#0A1628' }} />
+                <i className="fa-solid fa-briefcase" style={{ fontSize: '13px', color: '#1A1A2E' }} />
               </div>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Business Tax Information</h1>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Business Tax Information</h1>
             </div>
           </div>
           <div style={{ marginBottom: '22px' }}>
-            <p style={{ fontSize: '0.8125rem', color: '#64748B' }}>Additional questions for business tax debt</p>
+            <p style={{ fontSize: '0.8125rem', color: '#5C5C7A' }}>Additional questions for business tax debt</p>
           </div>
 
           {/* Questions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
 
             {/* Q1: Business still operating? */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>Is your business still operating?</p>
-              <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: '10px' }}>Affects which IA types are available</p>
-              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F1F5F9', borderRadius: '10px', overflow: 'hidden', background: '#F8FAFC' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>Is your business still operating?</p>
+              <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: '10px' }}>Affects which IA types are available</p>
+              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F0F0F5', borderRadius: '10px', overflow: 'hidden', background: '#FAFAFF' }}>
                 <button
                   onClick={() => setOperating(true)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: operating === true ? '#00A651' : '#64748B', background: operating === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F1F5F9' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: operating === true ? '#00A651' : '#5C5C7A', background: operating === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F0F0F5' }}
                 >Yes</button>
                 <button
                   onClick={() => setOperating(false)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: operating === false ? '#E63946' : '#64748B', background: operating === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: operating === false ? '#E63946' : '#5C5C7A', background: operating === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
                 >No</button>
               </div>
             </div>
 
             {/* Q2: Type of business tax debt */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>What type of business tax debt?</p>
-              <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: '10px' }}>Select all that apply</p>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>What type of business tax debt?</p>
+              <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: '10px' }}>Select all that apply</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
                 {DEBT_TYPES.map((dt) => (
                   <div
@@ -79,15 +79,15 @@ export default function BusinessScreeningPage() {
                     style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 12px', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.25s ease' }}
                   >
                     <div style={{
-                      width: '22px', height: '22px', border: debtTypes.includes(dt.id) ? '2px solid #0A1628' : '2px solid #F1F5F9',
+                      width: '22px', height: '22px', border: debtTypes.includes(dt.id) ? '2px solid #1A1A2E' : '2px solid #F0F0F5',
                       borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                      background: debtTypes.includes(dt.id) ? '#0A1628' : 'transparent', transition: 'all 0.25s ease'
+                      background: debtTypes.includes(dt.id) ? '#1A1A2E' : 'transparent', transition: 'all 0.25s ease'
                     }}>
                       {debtTypes.includes(dt.id) && <i className="fa-solid fa-check" style={{ fontSize: '10px', color: 'white' }} />}
                     </div>
                     <div>
-                      <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#0A1628' }}>{dt.label}</p>
-                      {dt.sub && <p style={{ fontSize: '0.6875rem', color: '#64748B' }}>{dt.sub}</p>}
+                      <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: '#1A1A2E' }}>{dt.label}</p>
+                      {dt.sub && <p style={{ fontSize: '0.6875rem', color: '#5C5C7A' }}>{dt.sub}</p>}
                     </div>
                   </div>
                 ))}
@@ -95,17 +95,17 @@ export default function BusinessScreeningPage() {
             </div>
 
             {/* Q3: TFRP */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>Do you have Trust Fund Recovery Penalty (TFRP)?</p>
-              <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: '10px' }}>TC 246 on your personal transcript?</p>
-              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F1F5F9', borderRadius: '10px', overflow: 'hidden', background: '#F8FAFC', marginBottom: '10px' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>Do you have Trust Fund Recovery Penalty (TFRP)?</p>
+              <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: '10px' }}>TC 246 on your personal transcript?</p>
+              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F0F0F5', borderRadius: '10px', overflow: 'hidden', background: '#FAFAFF', marginBottom: '10px' }}>
                 <button
                   onClick={() => setHasTFRP(true)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: hasTFRP === true ? '#00A651' : '#64748B', background: hasTFRP === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F1F5F9' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: hasTFRP === true ? '#00A651' : '#5C5C7A', background: hasTFRP === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F0F0F5' }}
                 >Yes</button>
                 <button
                   onClick={() => setHasTFRP(false)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: hasTFRP === false ? '#E63946' : '#64748B', background: hasTFRP === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: hasTFRP === false ? '#E63946' : '#5C5C7A', background: hasTFRP === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
                 >No</button>
               </div>
               {hasTFRP === true && (
@@ -119,12 +119,12 @@ export default function BusinessScreeningPage() {
             </div>
 
             {/* Q4: Number of employees */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '10px' }}>Number of employees currently?</p>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '10px' }}>Number of employees currently?</p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <button
                   onClick={() => setEmployeeCount(Math.max(0, employeeCount - 1))}
-                  style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1.5px solid #F1F5F9', background: 'white', color: '#0A1628', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit', transition: 'all 0.2s ease' }}
+                  style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1.5px solid #F0F0F5', background: 'white', color: '#1A1A2E', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit', transition: 'all 0.2s ease' }}
                 >
                   <i className="fa-solid fa-minus" style={{ fontSize: '12px' }} />
                 </button>
@@ -132,11 +132,11 @@ export default function BusinessScreeningPage() {
                   type="number"
                   value={employeeCount}
                   onChange={(e) => setEmployeeCount(Math.max(0, parseInt(e.target.value) || 0))}
-                  style={{ width: '80px', padding: '8px 12px', background: '#F8FAFC', border: '1.5px solid #F1F5F9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.875rem', fontWeight: 600, color: '#0A1628', textAlign: 'center', outline: 'none' }}
+                  style={{ width: '80px', padding: '8px 12px', background: '#FAFAFF', border: '1.5px solid #F0F0F5', borderRadius: '10px', fontFamily: 'inherit', fontSize: '0.875rem', fontWeight: 600, color: '#1A1A2E', textAlign: 'center', outline: 'none' }}
                 />
                 <button
                   onClick={() => setEmployeeCount(employeeCount + 1)}
-                  style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1.5px solid #F1F5F9', background: 'white', color: '#0A1628', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit', transition: 'all 0.2s ease' }}
+                  style={{ width: '36px', height: '36px', borderRadius: '50%', border: '1.5px solid #F0F0F5', background: 'white', color: '#1A1A2E', fontSize: '16px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'inherit', transition: 'all 0.2s ease' }}
                 >
                   <i className="fa-solid fa-plus" style={{ fontSize: '12px' }} />
                 </button>
@@ -144,33 +144,33 @@ export default function BusinessScreeningPage() {
             </div>
 
             {/* Q5: Payroll deposits */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>Are current payroll deposits up to date?</p>
-              <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: '10px' }}>Required for OIC and most IAs</p>
-              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F1F5F9', borderRadius: '10px', overflow: 'hidden', background: '#F8FAFC' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>Are current payroll deposits up to date?</p>
+              <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: '10px' }}>Required for OIC and most IAs</p>
+              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F0F0F5', borderRadius: '10px', overflow: 'hidden', background: '#FAFAFF' }}>
                 <button
                   onClick={() => setDepositsUpToDate(true)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: depositsUpToDate === true ? '#00A651' : '#64748B', background: depositsUpToDate === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F1F5F9' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: depositsUpToDate === true ? '#00A651' : '#5C5C7A', background: depositsUpToDate === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F0F0F5' }}
                 >Yes</button>
                 <button
                   onClick={() => setDepositsUpToDate(false)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: depositsUpToDate === false ? '#E63946' : '#64748B', background: depositsUpToDate === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: depositsUpToDate === false ? '#E63946' : '#5C5C7A', background: depositsUpToDate === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
                 >No</button>
               </div>
             </div>
 
             {/* Q6: Revenue Officer */}
-            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F1F5F9', borderRadius: '14px' }}>
-              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#0A1628', marginBottom: '4px' }}>Has a Revenue Officer been assigned?</p>
-              <p style={{ fontSize: '0.6875rem', color: '#64748B', marginBottom: '10px' }}>TC 971 AC 044 on transcript. If yes: &gt;$250K or complex case</p>
-              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F1F5F9', borderRadius: '10px', overflow: 'hidden', background: '#F8FAFC' }}>
+            <div style={{ padding: '16px', background: '#FFFFFF', border: '1.5px solid #F0F0F5', borderRadius: '14px' }}>
+              <p style={{ fontSize: '0.875rem', fontWeight: 700, color: '#1A1A2E', marginBottom: '4px' }}>Has a Revenue Officer been assigned?</p>
+              <p style={{ fontSize: '0.6875rem', color: '#5C5C7A', marginBottom: '10px' }}>TC 971 AC 044 on transcript. If yes: &gt;$250K or complex case</p>
+              <div style={{ display: 'flex', gap: 0, border: '1.5px solid #F0F0F5', borderRadius: '10px', overflow: 'hidden', background: '#FAFAFF' }}>
                 <button
                   onClick={() => setRevenueOfficer(true)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: revenueOfficer === true ? '#00A651' : '#64748B', background: revenueOfficer === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F1F5F9' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: revenueOfficer === true ? '#00A651' : '#5C5C7A', background: revenueOfficer === true ? '#E6F9EE' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease', borderRight: '1px solid #F0F0F5' }}
                 >Yes</button>
                 <button
                   onClick={() => setRevenueOfficer(false)}
-                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: revenueOfficer === false ? '#E63946' : '#64748B', background: revenueOfficer === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
+                  style={{ flex: 1, padding: '8px 16px', fontSize: '0.8125rem', fontWeight: 600, color: revenueOfficer === false ? '#E63946' : '#5C5C7A', background: revenueOfficer === false ? '#FFF0F1' : 'transparent', border: 'none', cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.25s ease' }}
                 >No</button>
               </div>
             </div>
@@ -180,15 +180,15 @@ export default function BusinessScreeningPage() {
           {/* Info Banner */}
           <div style={{ marginTop: '18px', marginBottom: '20px' }}>
             <div style={{ padding: '12px 14px', background: '#EFF4FF', border: '1px solid rgba(10,22,40,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
-              <i className="fa-solid fa-info-circle" style={{ color: '#0A1628', fontSize: '14px', marginTop: '2px' }} />
-              <p style={{ fontSize: '0.75rem', color: '#0A1628', fontWeight: 500 }}>Business debt requires <strong>Form 433-B</strong> in addition to Form 433-A</p>
+              <i className="fa-solid fa-info-circle" style={{ color: '#1A1A2E', fontSize: '14px', marginTop: '2px' }} />
+              <p style={{ fontSize: '0.75rem', color: '#1A1A2E', fontWeight: 500 }}>Business debt requires <strong>Form 433-B</strong> in addition to Form 433-A</p>
             </div>
           </div>
 
           {/* Continue Button */}
           <button
             onClick={() => router.push('/analysis/business/entity-type')}
-            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#0A1628', color: 'white', fontSize: '0.9375rem', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', borderRadius: '16px', background: '#1A1A2E', color: 'white', fontSize: '0.9375rem', fontWeight: 700, padding: '16px 28px', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
           >
             Continue
             <i className="fa-solid fa-arrow-right" style={{ fontSize: '12px' }} />

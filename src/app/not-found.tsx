@@ -6,8 +6,8 @@ export default function NotFound() {
       {/* 404 Illustration */}
       <div className="mb-7">
         <div className="relative">
-          <div className="flex h-[100px] w-[100px] items-center justify-center rounded-3xl border border-[#F1F5F9] bg-white">
-            <svg className="h-9 w-9 text-[#94A3B8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="flex h-[100px] w-[100px] items-center justify-center rounded-3xl border border-[#F0F0F5] bg-white">
+            <svg className="h-9 w-9 text-[#8585A0]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </div>
@@ -20,11 +20,11 @@ export default function NotFound() {
       </div>
 
       {/* Large 404 */}
-      <span className="mb-2 text-5xl font-black text-[#0A1628]">404</span>
+      <span className="mb-2 text-5xl font-black text-[#1A1A2E]">404</span>
 
       {/* Heading */}
-      <h1 className="mb-3 text-2xl font-extrabold text-[#0A1628]">Page Not Found</h1>
-      <p className="mx-auto mb-10 max-w-[280px] text-sm text-[#94A3B8] leading-relaxed">
+      <h1 className="mb-3 text-2xl font-extrabold text-[#1A1A2E]">Page Not Found</h1>
+      <p className="mx-auto mb-10 max-w-[280px] text-sm text-[#8585A0] leading-relaxed">
         The page you&apos;re looking for doesn&apos;t exist or has been moved to a new location.
       </p>
 
@@ -41,7 +41,7 @@ export default function NotFound() {
         </Link>
         <Link
           href="javascript:history.back()"
-          className="flex items-center justify-center rounded-full border border-[#E2E8F0] px-7 py-4 text-base font-bold text-[#334155] transition-all hover:bg-[#F1F5F9] active:scale-[0.98]"
+          className="flex items-center justify-center rounded-full border border-[#D5D5E0] px-7 py-4 text-base font-bold text-[#334155] transition-all hover:bg-[#F0F0F5] active:scale-[0.98]"
         >
           Go Back
         </Link>

@@ -60,7 +60,7 @@ const CAROUSEL_SLIDES = [
     icon: 'fas fa-search-dollar',
     circleBg: '#EFF4FF',
     circleRingBg: 'rgba(10,22,40,0.06)',
-    iconColor: '#0A1628',
+    iconColor: '#1A1A2E',
   },
   {
     title: 'AI-Powered Analysis',
@@ -208,8 +208,8 @@ export default function OnboardingStepPage() {
 
   if (!mounted) {
     return (
-      <div className="flex min-h-screen items-center justify-center" style={{ background: '#F8FAFC' }}>
-        <div className="h-8 w-8 animate-spin rounded-full border-2" style={{ borderColor: '#0A1628', borderTopColor: 'transparent' }} />
+      <div className="flex min-h-screen items-center justify-center" style={{ background: '#FAFAFF' }}>
+        <div className="h-8 w-8 animate-spin rounded-full border-2" style={{ borderColor: '#1A1A2E', borderTopColor: 'transparent' }} />
       </div>
     )
   }
@@ -226,7 +226,7 @@ export default function OnboardingStepPage() {
     }
 
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center" style={{ background: '#F8FAFC', padding: 20 }}>
+      <div className="flex min-h-screen flex-col items-center justify-center" style={{ background: '#FAFAFF', padding: 20 }}>
         <div
           className="w-full max-w-md flex flex-col"
           style={{
@@ -243,7 +243,7 @@ export default function OnboardingStepPage() {
             <button
               onClick={handleContinue}
               style={{
-                fontSize: 14, fontWeight: 600, color: '#94A3B8',
+                fontSize: 14, fontWeight: 600, color: '#8585A0',
                 padding: '8px 16px', background: 'transparent',
                 border: 'none', cursor: 'pointer', fontFamily: 'inherit',
                 opacity: isLastSlide ? 0 : 1,
@@ -278,10 +278,10 @@ export default function OnboardingStepPage() {
               />
             </div>
 
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, marginBottom: 12 }}>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, marginBottom: 12 }}>
               {slide.title}
             </h2>
-            <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6, maxWidth: 280 }}>
+            <p style={{ fontSize: '0.9375rem', color: '#5C5C7A', lineHeight: 1.6, maxWidth: 280 }}>
               {slide.description}
             </p>
           </div>
@@ -298,7 +298,7 @@ export default function OnboardingStepPage() {
                     width: i === carouselIndex ? 28 : 8,
                     height: 8,
                     borderRadius: 9999,
-                    background: i === carouselIndex ? '#2563EB' : '#F1F5F9',
+                    background: i === carouselIndex ? '#2563EB' : '#F0F0F5',
                     border: 'none',
                     cursor: 'pointer',
                     padding: 0,
@@ -330,7 +330,7 @@ export default function OnboardingStepPage() {
                 fontSize: '1rem',
                 fontWeight: 600,
                 cursor: 'pointer',
-                background: isLastSlide ? '#00A651' : '#0A1628',
+                background: isLastSlide ? '#00A651' : '#1A1A2E',
                 color: '#FFFFFF',
                 boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)',
                 transition: 'background 0.3s ease',
@@ -355,41 +355,41 @@ export default function OnboardingStepPage() {
   const inputStyle: React.CSSProperties = {
     width: '100%',
     padding: '14px 16px',
-    background: '#F8FAFC',
-    border: '1.5px solid #F1F5F9',
+    background: '#FAFAFF',
+    border: '1.5px solid #F0F0F5',
     borderRadius: 12,
     fontFamily: 'inherit',
     fontSize: '0.9375rem',
     fontWeight: 500,
-    color: '#0A1628',
+    color: '#1A1A2E',
     outline: 'none',
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
   }
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
-    e.currentTarget.style.borderColor = '#0A1628'
+    e.currentTarget.style.borderColor = '#1A1A2E'
     e.currentTarget.style.background = '#FFFFFF'
     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(37, 99, 235, 0.12)'
   }
   function handleBlur(e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) {
-    e.currentTarget.style.borderColor = '#F1F5F9'
-    e.currentTarget.style.background = '#F8FAFC'
+    e.currentTarget.style.borderColor = '#F0F0F5'
+    e.currentTarget.style.background = '#FAFAFF'
     e.currentTarget.style.boxShadow = 'none'
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center" style={{ background: '#F8FAFC', padding: '16px 16px 32px' }}>
+    <div className="flex min-h-screen flex-col items-center justify-center" style={{ background: '#FAFAFF', padding: '16px 16px 32px' }}>
       {/* Progress indicator */}
       {!isLast && (
         <div className="mb-8 w-full max-w-lg">
-          <div className="flex items-center justify-between" style={{ fontSize: '0.75rem', color: '#94A3B8', fontWeight: 500, marginBottom: 8 }}>
+          <div className="flex items-center justify-between" style={{ fontSize: '0.75rem', color: '#8585A0', fontWeight: 500, marginBottom: 8 }}>
             <span>Step {stepIndex + 1} of {totalSteps}</span>
             <span>{Math.round(((stepIndex + 1) / totalSteps) * 100)}%</span>
           </div>
-          <div style={{ height: 4, width: '100%', overflow: 'hidden', borderRadius: 9999, background: '#F1F5F9' }}>
+          <div style={{ height: 4, width: '100%', overflow: 'hidden', borderRadius: 9999, background: '#F0F0F5' }}>
             <div
               style={{
-                height: '100%', borderRadius: 9999, background: '#0A1628',
+                height: '100%', borderRadius: 9999, background: '#1A1A2E',
                 transition: 'width 0.5s ease',
                 width: `${((stepIndex + 1) / totalSteps) * 100}%`,
               }}
@@ -399,21 +399,21 @@ export default function OnboardingStepPage() {
       )}
 
       {/* Card */}
-      <div className="w-full max-w-lg" style={{ borderRadius: 20, border: '1px solid #F1F5F9', background: '#FFFFFF', padding: '24px 24px 28px', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)' }}>
+      <div className="w-full max-w-lg" style={{ borderRadius: 20, border: '1px solid #F0F0F5', background: '#FFFFFF', padding: '24px 24px 28px', boxShadow: '0 1px 3px rgba(10,22,40,0.06), 0 1px 2px rgba(10,22,40,0.04)' }}>
         {/* ============ NAME ============ */}
         {currentStep === 'name' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>What&apos;s your name?</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>We&apos;ll use this throughout your tax resolution process.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>What&apos;s your name?</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>We&apos;ll use this throughout your tax resolution process.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 16 }}>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>First Name</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>First Name</label>
                 <input type="text" value={data.firstName} onChange={(e) => update({ firstName: e.target.value })} placeholder="John" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Last Name</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Last Name</label>
                 <input type="text" value={data.lastName} onChange={(e) => update({ lastName: e.target.value })} placeholder="Doe" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
             </div>
@@ -424,26 +424,26 @@ export default function OnboardingStepPage() {
         {currentStep === 'dob' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Date of Birth</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Required for IRS forms and identity verification.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Date of Birth</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Required for IRS forms and identity verification.</p>
             </div>
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Month</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Month</label>
                 <select value={data.dobMonth} onChange={(e) => update({ dobMonth: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as React.CSSProperties} onFocus={handleFocus as unknown as React.FocusEventHandler<HTMLSelectElement>} onBlur={handleBlur as unknown as React.FocusEventHandler<HTMLSelectElement>}>
                   <option value="">Month</option>
                   {MONTHS.map((m, i) => (<option key={m} value={String(i + 1).padStart(2, '0')}>{m}</option>))}
                 </select>
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Day</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Day</label>
                 <select value={data.dobDay} onChange={(e) => update({ dobDay: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as React.CSSProperties} onFocus={handleFocus as unknown as React.FocusEventHandler<HTMLSelectElement>} onBlur={handleBlur as unknown as React.FocusEventHandler<HTMLSelectElement>}>
                   <option value="">Day</option>
                   {Array.from({ length: 31 }, (_, i) => (<option key={i + 1} value={String(i + 1).padStart(2, '0')}>{i + 1}</option>))}
                 </select>
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Year</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Year</label>
                 <select value={data.dobYear} onChange={(e) => update({ dobYear: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as React.CSSProperties} onFocus={handleFocus as unknown as React.FocusEventHandler<HTMLSelectElement>} onBlur={handleBlur as unknown as React.FocusEventHandler<HTMLSelectElement>}>
                   <option value="">Year</option>
                   {Array.from({ length: 80 }, (_, i) => { const year = new Date().getFullYear() - 18 - i; return <option key={year} value={String(year)}>{year}</option> })}
@@ -457,11 +457,11 @@ export default function OnboardingStepPage() {
         {currentStep === 'email' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Your Email</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>We&apos;ll use this for account access and important notifications.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Your Email</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>We&apos;ll use this for account access and important notifications.</p>
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email Address</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email Address</label>
               <input type="email" value={data.email} onChange={(e) => update({ email: e.target.value })} placeholder="john@example.com" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
             </div>
           </div>
@@ -471,8 +471,8 @@ export default function OnboardingStepPage() {
         {currentStep === 'filing-status' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Filing Status</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Select the filing status that applies to you.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Filing Status</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Select the filing status that applies to you.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 8 }}>
               {FILING_STATUSES.map((status) => (
@@ -483,17 +483,17 @@ export default function OnboardingStepPage() {
                   style={{
                     width: '100%', gap: 14, padding: 16, textAlign: 'left',
                     background: data.filingStatus === status.value ? '#EFF4FF' : '#FFFFFF',
-                    border: `1.5px solid ${data.filingStatus === status.value ? '#0A1628' : '#F1F5F9'}`,
+                    border: `1.5px solid ${data.filingStatus === status.value ? '#1A1A2E' : '#F0F0F5'}`,
                     borderRadius: 16, cursor: 'pointer', fontFamily: 'inherit',
-                    fontSize: '0.9375rem', fontWeight: 500, color: '#0A1628',
+                    fontSize: '0.9375rem', fontWeight: 500, color: '#1A1A2E',
                     transition: 'all 0.25s ease',
                     boxShadow: data.filingStatus === status.value ? '0 1px 3px rgba(10,22,40,0.06)' : 'none',
                   }}
                 >
                   <div style={{
-                    width: 22, height: 22, borderRadius: 9999, border: `2px solid ${data.filingStatus === status.value ? '#0A1628' : '#E2E8F0'}`,
+                    width: 22, height: 22, borderRadius: 9999, border: `2px solid ${data.filingStatus === status.value ? '#1A1A2E' : '#D5D5E0'}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-                    background: data.filingStatus === status.value ? '#0A1628' : 'transparent', transition: 'all 0.15s ease',
+                    background: data.filingStatus === status.value ? '#1A1A2E' : 'transparent', transition: 'all 0.15s ease',
                   }}>
                     {data.filingStatus === status.value && <div style={{ width: 8, height: 8, borderRadius: 9999, background: '#FFFFFF' }} />}
                   </div>
@@ -508,16 +508,16 @@ export default function OnboardingStepPage() {
         {currentStep === 'spouse' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Spouse Information</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Since you selected a married filing status, we need your spouse&apos;s details.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Spouse Information</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Since you selected a married filing status, we need your spouse&apos;s details.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 16 }}>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spouse First Name</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spouse First Name</label>
                 <input type="text" value={data.spouseFirstName} onChange={(e) => update({ spouseFirstName: e.target.value })} placeholder="Jane" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spouse Last Name</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Spouse Last Name</label>
                 <input type="text" value={data.spouseLastName} onChange={(e) => update({ spouseLastName: e.target.value })} placeholder="Doe" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
             </div>
@@ -528,20 +528,20 @@ export default function OnboardingStepPage() {
         {currentStep === 'dependents' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Dependents</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>How many dependents do you claim on your tax return?</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Dependents</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>How many dependents do you claim on your tax return?</p>
             </div>
             <div>
-              <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Number of Dependents</label>
+              <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Number of Dependents</label>
               <div className="flex items-center gap-4">
-                <button onClick={() => { const count = Math.max(0, data.dependentCount - 1); const names = data.dependentNames.slice(0, count); update({ dependentCount: count, dependentNames: names }) }} style={{ width: 40, height: 40, borderRadius: 12, border: '1px solid #F1F5F9', background: '#F8FAFC', fontSize: 18, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0A1628' }}>-</button>
-                <span style={{ minWidth: 48, textAlign: 'center', fontSize: '1.5rem', fontWeight: 800, color: '#0A1628' }}>{data.dependentCount}</span>
-                <button onClick={() => { const count = data.dependentCount + 1; const names = [...data.dependentNames, '']; update({ dependentCount: count, dependentNames: names }) }} style={{ width: 40, height: 40, borderRadius: 12, border: '1px solid #F1F5F9', background: '#F8FAFC', fontSize: 18, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0A1628' }}>+</button>
+                <button onClick={() => { const count = Math.max(0, data.dependentCount - 1); const names = data.dependentNames.slice(0, count); update({ dependentCount: count, dependentNames: names }) }} style={{ width: 40, height: 40, borderRadius: 12, border: '1px solid #F0F0F5', background: '#FAFAFF', fontSize: 18, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A1A2E' }}>-</button>
+                <span style={{ minWidth: 48, textAlign: 'center', fontSize: '1.5rem', fontWeight: 800, color: '#1A1A2E' }}>{data.dependentCount}</span>
+                <button onClick={() => { const count = data.dependentCount + 1; const names = [...data.dependentNames, '']; update({ dependentCount: count, dependentNames: names }) }} style={{ width: 40, height: 40, borderRadius: 12, border: '1px solid #F0F0F5', background: '#FAFAFF', fontSize: 18, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A1A2E' }}>+</button>
               </div>
             </div>
             {data.dependentCount > 0 && (
               <div className="flex flex-col" style={{ gap: 12 }}>
-                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dependent Names</label>
+                <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Dependent Names</label>
                 {Array.from({ length: data.dependentCount }, (_, i) => (
                   <input key={i} type="text" value={data.dependentNames[i] ?? ''} onChange={(e) => { const names = [...data.dependentNames]; names[i] = e.target.value; update({ dependentNames: names }) }} placeholder={`Dependent ${i + 1} full name`} style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
                 ))}
@@ -554,15 +554,15 @@ export default function OnboardingStepPage() {
         {currentStep === 'income-sources' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Income Sources</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Select all income types that apply to you.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Income Sources</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Select all income types that apply to you.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 8 }}>
               {INCOME_SOURCES.map((source) => {
                 const checked = data.incomeSources.includes(source)
                 return (
-                  <button key={source} onClick={() => { const next = checked ? data.incomeSources.filter((s) => s !== source) : [...data.incomeSources, source]; update({ incomeSources: next }) }} className="flex items-center" style={{ width: '100%', gap: 14, padding: 16, textAlign: 'left', background: checked ? '#EFF4FF' : '#FFFFFF', border: `1.5px solid ${checked ? '#0A1628' : '#F1F5F9'}`, borderRadius: 16, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 500, color: '#0A1628', transition: 'all 0.25s ease', boxShadow: checked ? '0 1px 3px rgba(10,22,40,0.06)' : 'none' }}>
-                    <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? '#0A1628' : '#E2E8F0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: checked ? '#0A1628' : 'transparent', transition: 'all 0.15s ease' }}>
+                  <button key={source} onClick={() => { const next = checked ? data.incomeSources.filter((s) => s !== source) : [...data.incomeSources, source]; update({ incomeSources: next }) }} className="flex items-center" style={{ width: '100%', gap: 14, padding: 16, textAlign: 'left', background: checked ? '#EFF4FF' : '#FFFFFF', border: `1.5px solid ${checked ? '#1A1A2E' : '#F0F0F5'}`, borderRadius: 16, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 500, color: '#1A1A2E', transition: 'all 0.25s ease', boxShadow: checked ? '0 1px 3px rgba(10,22,40,0.06)' : 'none' }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? '#1A1A2E' : '#D5D5E0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: checked ? '#1A1A2E' : 'transparent', transition: 'all 0.15s ease' }}>
                       {checked && <i className="fas fa-check" style={{ fontSize: 10, color: '#FFFFFF' }} />}
                     </div>
                     {source}
@@ -577,20 +577,20 @@ export default function OnboardingStepPage() {
         {currentStep === 'business-info' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Business Information</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Do you own or operate a business?</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Business Information</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Do you own or operate a business?</p>
             </div>
             <div>
               <button onClick={() => update({ hasBusiness: !data.hasBusiness })} className="flex items-center" style={{ gap: 12, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}>
-                <div style={{ position: 'relative', height: 24, width: 44, borderRadius: 9999, background: data.hasBusiness ? '#0A1628' : '#CBD5E1', transition: 'background 0.25s ease' }}>
+                <div style={{ position: 'relative', height: 24, width: 44, borderRadius: 9999, background: data.hasBusiness ? '#1A1A2E' : '#B0B0C8', transition: 'background 0.25s ease' }}>
                   <div style={{ position: 'absolute', top: 2, width: 20, height: 20, borderRadius: 9999, background: '#FFFFFF', transition: 'transform 0.25s ease', transform: data.hasBusiness ? 'translateX(20px)' : 'translateX(2px)' }} />
                 </div>
-                <span style={{ fontWeight: 500, fontSize: '0.9375rem', color: '#0A1628' }}>{data.hasBusiness ? 'Yes, I have a business' : 'No business'}</span>
+                <span style={{ fontWeight: 500, fontSize: '0.9375rem', color: '#1A1A2E' }}>{data.hasBusiness ? 'Yes, I have a business' : 'No business'}</span>
               </button>
             </div>
             {data.hasBusiness && (
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Entity Type</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Entity Type</label>
                 <select value={data.entityType} onChange={(e) => update({ entityType: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as React.CSSProperties} onFocus={handleFocus as unknown as React.FocusEventHandler<HTMLSelectElement>} onBlur={handleBlur as unknown as React.FocusEventHandler<HTMLSelectElement>}>
                   <option value="">Select entity type</option>
                   <option value="sole-proprietorship">Sole Proprietorship</option>
@@ -609,28 +609,28 @@ export default function OnboardingStepPage() {
         {currentStep === 'address' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Your Address</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>We need your mailing address for IRS correspondence.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Your Address</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>We need your mailing address for IRS correspondence.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 16 }}>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Street Address</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Street Address</label>
                 <input type="text" value={data.street} onChange={(e) => update({ street: e.target.value })} placeholder="123 Main St" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
               <div>
-                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>City</label>
+                <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>City</label>
                 <input type="text" value={data.city} onChange={(e) => update({ city: e.target.value })} placeholder="Los Angeles" style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>State</label>
+                  <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>State</label>
                   <select value={data.state} onChange={(e) => update({ state: e.target.value })} style={{ ...inputStyle, appearance: 'auto' } as React.CSSProperties} onFocus={handleFocus as unknown as React.FocusEventHandler<HTMLSelectElement>} onBlur={handleBlur as unknown as React.FocusEventHandler<HTMLSelectElement>}>
                     <option value="">State</option>
                     {US_STATES.map((s) => (<option key={s} value={s}>{s}</option>))}
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#64748B', textTransform: 'uppercase', letterSpacing: '0.05em' }}>ZIP Code</label>
+                  <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 600, color: '#5C5C7A', textTransform: 'uppercase', letterSpacing: '0.05em' }}>ZIP Code</label>
                   <input type="text" value={data.zip} onChange={(e) => update({ zip: e.target.value })} placeholder="90001" maxLength={5} style={inputStyle} onFocus={handleFocus} onBlur={handleBlur} />
                 </div>
               </div>
@@ -642,15 +642,15 @@ export default function OnboardingStepPage() {
         {currentStep === 'situation' && (
           <div className="flex flex-col" style={{ gap: 24 }}>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25 }}>Your Tax Situation</h2>
-              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#94A3B8', fontWeight: 400 }}>Select all that apply to your current situation.</p>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25 }}>Your Tax Situation</h2>
+              <p style={{ marginTop: 4, fontSize: '0.85rem', color: '#8585A0', fontWeight: 400 }}>Select all that apply to your current situation.</p>
             </div>
             <div className="flex flex-col" style={{ gap: 8 }}>
               {TAX_SITUATIONS.map((situation) => {
                 const checked = data.taxSituations.includes(situation)
                 return (
-                  <button key={situation} onClick={() => { const next = checked ? data.taxSituations.filter((s) => s !== situation) : [...data.taxSituations, situation]; update({ taxSituations: next }) }} className="flex items-center" style={{ width: '100%', gap: 14, padding: 16, textAlign: 'left', background: checked ? '#EFF4FF' : '#FFFFFF', border: `1.5px solid ${checked ? '#0A1628' : '#F1F5F9'}`, borderRadius: 16, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 500, color: '#0A1628', transition: 'all 0.25s ease', boxShadow: checked ? '0 1px 3px rgba(10,22,40,0.06)' : 'none' }}>
-                    <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? '#0A1628' : '#E2E8F0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: checked ? '#0A1628' : 'transparent', transition: 'all 0.15s ease' }}>
+                  <button key={situation} onClick={() => { const next = checked ? data.taxSituations.filter((s) => s !== situation) : [...data.taxSituations, situation]; update({ taxSituations: next }) }} className="flex items-center" style={{ width: '100%', gap: 14, padding: 16, textAlign: 'left', background: checked ? '#EFF4FF' : '#FFFFFF', border: `1.5px solid ${checked ? '#1A1A2E' : '#F0F0F5'}`, borderRadius: 16, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 500, color: '#1A1A2E', transition: 'all 0.25s ease', boxShadow: checked ? '0 1px 3px rgba(10,22,40,0.06)' : 'none' }}>
+                    <div style={{ width: 20, height: 20, borderRadius: 4, border: `2px solid ${checked ? '#1A1A2E' : '#D5D5E0'}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: checked ? '#1A1A2E' : 'transparent', transition: 'all 0.15s ease' }}>
                       {checked && <i className="fas fa-check" style={{ fontSize: 10, color: '#FFFFFF' }} />}
                     </div>
                     {situation}
@@ -668,8 +668,8 @@ export default function OnboardingStepPage() {
               <i className="fas fa-check" style={{ fontSize: 32, color: '#00A651' }} />
             </div>
             <div>
-              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#0A1628', marginBottom: 8 }}>You&apos;re All Set!</h2>
-              <p style={{ fontSize: '0.9375rem', color: '#64748B', lineHeight: 1.6 }}>
+              <h2 style={{ fontSize: '1.375rem', fontWeight: 800, color: '#1A1A2E', marginBottom: 8 }}>You&apos;re All Set!</h2>
+              <p style={{ fontSize: '0.9375rem', color: '#5C5C7A', lineHeight: 1.6 }}>
                 Welcome aboard, {data.firstName || 'there'}! Your profile is complete. Head to your dashboard to start resolving your tax situation.
               </p>
             </div>
@@ -697,7 +697,7 @@ export default function OnboardingStepPage() {
               style={{
                 flex: 1, borderRadius: 9999, padding: '14px 24px',
                 fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 600,
-                border: '1.5px solid #E2E8F0', background: '#FFFFFF', color: '#0A1628',
+                border: '1.5px solid #D5D5E0', background: '#FFFFFF', color: '#1A1A2E',
                 cursor: 'pointer', transition: 'all 0.25s ease',
               }}
             >
@@ -708,7 +708,7 @@ export default function OnboardingStepPage() {
               style={{
                 flex: 1, borderRadius: 9999, padding: '14px 24px',
                 fontFamily: 'inherit', fontSize: '0.9375rem', fontWeight: 600,
-                border: 'none', background: '#0A1628', color: '#FFFFFF',
+                border: 'none', background: '#1A1A2E', color: '#FFFFFF',
                 cursor: 'pointer', transition: 'opacity 0.15s ease',
               }}
             >

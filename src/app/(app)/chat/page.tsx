@@ -39,13 +39,13 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col" style={{ background: '#F8FAFC' }}>
+    <div className="flex min-h-screen flex-col" style={{ background: '#FAFAFF' }}>
       <div className="mx-auto flex w-full max-w-md md:max-w-2xl lg:max-w-4xl flex-1 flex-col">
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', padding: '14px 20px 12px' }}>
           <button
             onClick={() => router.back()}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#0A1628' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#1A1A2E' }}
           >
             <i className="fas fa-arrow-left" style={{ fontSize: 16 }} />
           </button>
@@ -54,7 +54,7 @@ export default function ChatPage() {
               <i className="fas fa-sparkles" style={{ fontSize: 12, color: 'white' }} />
             </div>
             <div>
-              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1F2937' }}>BlastTax AI</div>
+              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1A1A2E' }}>BlastTax AI</div>
             </div>
           </div>
           <div
@@ -77,7 +77,7 @@ export default function ChatPage() {
 
         {/* Human Expert Banner */}
         <Link
-          href="/expert"
+          href="/expert/landing"
           style={{
             margin: '0 20px 12px',
             padding: '12px 16px',
@@ -113,7 +113,7 @@ export default function ChatPage() {
                 <div
                   style={{
                     background: 'white',
-                    border: '1px solid #F3F4F6',
+                    border: '1px solid #E8E8F0',
                     borderRadius: '2px 18px 18px 18px',
                     padding: '14px 16px',
                     maxWidth: '88%',
@@ -129,7 +129,7 @@ export default function ChatPage() {
               <div key={msg.id} style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <div
                   style={{
-                    background: '#0A1628',
+                    background: '#1A1A2E',
                     borderRadius: '18px 2px 18px 18px',
                     padding: '14px 16px',
                     maxWidth: '82%',
@@ -159,11 +159,11 @@ export default function ChatPage() {
                   style={{
                     padding: '10px 14px',
                     background: 'white',
-                    border: '1px solid #F3F4F6',
+                    border: '1px solid #E8E8F0',
                     borderRadius: 12,
                     fontSize: '0.75rem',
                     fontWeight: 600,
-                    color: '#64748B',
+                    color: '#5C5C7A',
                     cursor: 'pointer',
                     fontFamily: 'inherit',
                   }}
@@ -186,7 +186,7 @@ export default function ChatPage() {
             zIndex: 20,
             padding: '10px 16px',
             background: '#FFFFFF',
-            borderTop: '1px solid #F1F5F9',
+            borderTop: '1px solid #F0F0F5',
           }}
         >
           <form
@@ -199,14 +199,14 @@ export default function ChatPage() {
               alignItems: 'center',
               gap: 10,
               background: 'white',
-              border: '1.5px solid #F3F4F6',
+              border: '1.5px solid #E8E8F0',
               borderRadius: 9999,
               padding: '6px 8px 6px 16px',
             }}
           >
             <button
               type="button"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#CBD5E1', fontSize: 16, padding: 4 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#B0B0C8', fontSize: 16, padding: 4 }}
             >
               <i className="fas fa-paperclip" />
             </button>
@@ -221,7 +221,7 @@ export default function ChatPage() {
                 outline: 'none',
                 fontFamily: 'inherit',
                 fontSize: '0.82rem',
-                color: '#1F2937',
+                color: '#1A1A2E',
                 background: 'transparent',
               }}
             />
@@ -232,7 +232,7 @@ export default function ChatPage() {
                 width: 36,
                 height: 36,
                 borderRadius: '50%',
-                background: '#0A1628',
+                background: '#1A1A2E',
                 border: 'none',
                 display: 'flex',
                 alignItems: 'center',

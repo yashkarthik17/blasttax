@@ -53,42 +53,42 @@ export default function TFRPAssessmentPage() {
     n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#FAFAFF] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1A1A2E]">
             TFRP Assessment Detail
           </h1>
-          <p className="mt-3 text-base text-[#64748B]">
+          <p className="mt-3 text-base text-[#5C5C7A]">
             TC 246 assessment information and defense options.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* Assessment Details */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">
               Assessment Information
             </p>
             <div className="space-y-3">
               <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
+                <label className="mb-1 block text-xs text-[#8585A0]">
                   TC 246 Assessment Date
                 </label>
                 <input
                   type="date"
                   value={assessmentDate}
                   onChange={(e) => setAssessmentDate(e.target.value)}
-                  className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-4 py-3 text-[#0A1628] outline-none transition-colors focus:border-emerald-500 [color-scheme:dark]"
+                  className="w-full rounded-lg border border-[#D5D5E0] bg-[#F0F0F5] px-4 py-3 text-[#1A1A2E] outline-none transition-colors focus:border-emerald-500 [color-scheme:dark]"
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
+                <label className="mb-1 block text-xs text-[#8585A0]">
                   Assessment Amount
                 </label>
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94A3B8]">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8585A0]">
                     $
                   </span>
                   <input
@@ -98,21 +98,21 @@ export default function TFRPAssessmentPage() {
                     value={assessmentAmount}
                     onChange={(e) => setAssessmentAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] py-3 pl-8 pr-4 text-[#0A1628] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
+                    className="w-full rounded-lg border border-[#D5D5E0] bg-[#F0F0F5] py-3 pl-8 pr-4 text-[#1A1A2E] placeholder-zinc-500 outline-none transition-colors focus:border-emerald-500"
                   />
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-xs text-[#94A3B8]">
+                <label className="mb-1 block text-xs text-[#8585A0]">
                   CSED (Separate from Business CSED)
                 </label>
                 <input
                   type="date"
                   value={csed}
                   onChange={(e) => setCsed(e.target.value)}
-                  className="w-full rounded-lg border border-[#E2E8F0] bg-[#F1F5F9] px-4 py-3 text-[#0A1628] outline-none transition-colors focus:border-emerald-500 [color-scheme:dark]"
+                  className="w-full rounded-lg border border-[#D5D5E0] bg-[#F0F0F5] px-4 py-3 text-[#1A1A2E] outline-none transition-colors focus:border-emerald-500 [color-scheme:dark]"
                 />
-                <p className="mt-1 text-xs text-[#94A3B8]">
+                <p className="mt-1 text-xs text-[#8585A0]">
                   The TFRP has its own 10-year CSED, separate from the business
                   liability CSED.
                 </p>
@@ -123,12 +123,12 @@ export default function TFRPAssessmentPage() {
           {/* Assessment Summary */}
           {amount > 0 && (
             <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-5 text-center">
-              <p className="text-sm text-[#64748B]">Personal TFRP Liability</p>
+              <p className="text-sm text-[#5C5C7A]">Personal TFRP Liability</p>
               <p className="mt-2 text-3xl font-bold text-[#E63946]">
                 ${fmt(amount)}
               </p>
               {csed && (
-                <p className="mt-2 text-sm text-[#64748B]">
+                <p className="mt-2 text-sm text-[#5C5C7A]">
                   CSED: {new Date(csed).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </p>
               )}
@@ -136,8 +136,8 @@ export default function TFRPAssessmentPage() {
           )}
 
           {/* Defense Options */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">Defense Options</p>
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">Defense Options</p>
             <div className="space-y-4">
               {DEFENSE_OPTIONS.map((option, i) => (
                 <div
@@ -145,18 +145,18 @@ export default function TFRPAssessmentPage() {
                   className={`rounded-lg border p-4 ${
                     option.deadline
                       ? 'border-amber-500/30 bg-amber-500/5'
-                      : 'border-[#E2E8F0] bg-[#F8FAFC]'
+                      : 'border-[#D5D5E0] bg-[#FAFAFF]'
                   }`}
                 >
                   <div className="flex items-start gap-2">
-                    <h3 className="font-medium text-[#0A1628]">{option.title}</h3>
+                    <h3 className="font-medium text-[#1A1A2E]">{option.title}</h3>
                     {option.deadline && (
                       <span className="shrink-0 rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-medium text-amber-400">
                         Time-Sensitive
                       </span>
                     )}
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-[#64748B]">
+                  <p className="mt-2 text-sm leading-relaxed text-[#5C5C7A]">
                     {option.description}
                   </p>
                 </div>
@@ -165,9 +165,9 @@ export default function TFRPAssessmentPage() {
           </div>
 
           {/* Resolution Routing */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <p className="mb-4 font-medium text-[#0A1628]">Resolution Routing</p>
-            <p className="mb-3 text-xs text-[#94A3B8]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <p className="mb-4 font-medium text-[#1A1A2E]">Resolution Routing</p>
+            <p className="mb-3 text-xs text-[#8585A0]">
               TFRP assessments become personal liabilities and can be resolved
               through personal resolution programs.
             </p>
@@ -175,10 +175,10 @@ export default function TFRPAssessmentPage() {
               {RESOLUTION_ROUTING.map((route, i) => (
                 <div
                   key={i}
-                  className="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4"
+                  className="rounded-lg border border-[#D5D5E0] bg-[#FAFAFF] p-4"
                 >
-                  <p className="font-medium text-[#0A1628]">{route.label}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[#64748B]">
+                  <p className="font-medium text-[#1A1A2E]">{route.label}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#5C5C7A]">
                     {route.description}
                   </p>
                 </div>

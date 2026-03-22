@@ -24,7 +24,7 @@ const initial: HouseholdData = {
 
 const sectionCardStyle: React.CSSProperties = {
   background: 'white',
-  border: '1px solid #F1F5F9',
+  border: '1px solid #F0F0F5',
   borderRadius: 16,
   padding: 16,
   marginBottom: 12,
@@ -33,13 +33,13 @@ const sectionCardStyle: React.CSSProperties = {
 const fieldInputStyle: React.CSSProperties = {
   width: '100%',
   padding: '10px 12px',
-  background: '#F8FAFC',
-  border: '1.5px solid #F1F5F9',
+  background: '#FAFAFF',
+  border: '1.5px solid #F0F0F5',
   borderRadius: 10,
   fontFamily: 'inherit',
   fontSize: 14,
   fontWeight: 600,
-  color: '#0A1628',
+  color: '#1A1A2E',
   outline: 'none',
   transition: 'all 0.2s ease',
   boxSizing: 'border-box' as const,
@@ -56,9 +56,9 @@ const fieldSelectStyle: React.CSSProperties = {
 
 const counterBtnStyle: React.CSSProperties = {
   width: 40, height: 40, borderRadius: 12,
-  border: '1.5px solid #F1F5F9', background: 'white',
+  border: '1.5px solid #F0F0F5', background: 'white',
   display: 'flex', alignItems: 'center', justifyContent: 'center',
-  cursor: 'pointer', fontSize: 16, color: '#0A1628',
+  cursor: 'pointer', fontSize: 16, color: '#1A1A2E',
   transition: 'all 0.2s ease', fontFamily: 'inherit',
 }
 
@@ -73,7 +73,7 @@ function Counter({ value, onChange, min = 0 }: { value: number; onChange: (v: nu
       <button style={counterBtnStyle} onClick={() => onChange(Math.max(min, value - 1))}>
         <i className="fa-solid fa-minus" style={{ fontSize: 12 }} />
       </button>
-      <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#0A1628', minWidth: 40, textAlign: 'center' }}>{value}</span>
+      <span style={{ fontSize: '1.5rem', fontWeight: 900, color: '#1A1A2E', minWidth: 40, textAlign: 'center' }}>{value}</span>
       <button style={counterBtnStyle} onClick={() => onChange(Math.min(10, value + 1))}>
         <i className="fa-solid fa-plus" style={{ fontSize: 12 }} />
       </button>
@@ -87,7 +87,7 @@ function SmallCounter({ value, onChange }: { value: number; onChange: (v: number
       <button style={counterSmBtnStyle} onClick={() => onChange(Math.max(0, value - 1))}>
         <i className="fa-solid fa-minus" style={{ fontSize: 10 }} />
       </button>
-      <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#0A1628', minWidth: 28, textAlign: 'center' }}>{value}</span>
+      <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#1A1A2E', minWidth: 28, textAlign: 'center' }}>{value}</span>
       <button style={counterSmBtnStyle} onClick={() => onChange(Math.min(10, value + 1))}>
         <i className="fa-solid fa-plus" style={{ fontSize: 10 }} />
       </button>
@@ -113,15 +113,15 @@ export default function HouseholdPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: 480, margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
-          <div style={{ marginTop: 4, height: 4, background: '#E2E8F0', borderRadius: 9999, overflow: 'hidden' }}>
+          <div style={{ marginTop: 4, height: 4, background: '#D5D5E0', borderRadius: 9999, overflow: 'hidden' }}>
             <div style={{ width: '30%', height: '100%', background: '#00A651', borderRadius: 9999 }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#94A3B8' }}>Step 3 of 6</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#8585A0' }}>Step 3 of 6</span>
             <span style={{ fontSize: 12, fontWeight: 600, color: '#2563EB' }}>Household</span>
           </div>
         </div>
@@ -129,16 +129,16 @@ export default function HouseholdPage() {
         <div style={{ padding: '16px 20px 20px' }}>
           {/* Heading */}
           <div style={{ marginBottom: 6 }}>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', lineHeight: 1.25, margin: 0 }}>Tell us about your household</h1>
-            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>The IRS uses your household size to determine allowable living expenses</p>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', lineHeight: 1.25, margin: 0 }}>Tell us about your household</h1>
+            <p style={{ fontSize: 13, color: '#8585A0', marginTop: 4, lineHeight: 1.5, margin: '4px 0 0' }}>The IRS uses your household size to determine allowable living expenses</p>
           </div>
 
           {/* Total Household Members */}
           <div style={sectionCardStyle}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div style={{ fontSize: 14, fontWeight: 700, color: '#0A1628' }}>Total Household Members</div>
-                <div style={{ fontSize: 12, color: '#94A3B8', marginTop: 2 }}>Including yourself</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: '#1A1A2E' }}>Total Household Members</div>
+                <div style={{ fontSize: 12, color: '#8585A0', marginTop: 2 }}>Including yourself</div>
               </div>
               <Counter value={form.memberCount} onChange={(v) => update('memberCount', v)} min={1} />
             </div>
@@ -146,24 +146,24 @@ export default function HouseholdPage() {
 
           {/* Household Members List */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 10 }}>Household Members</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>Household Members</div>
             {/* Taxpayer row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 12, background: '#F8FAFC', borderRadius: 12, marginBottom: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: 12, background: '#FAFAFF', borderRadius: 12, marginBottom: 8 }}>
               <div style={{ width: 36, height: 36, borderRadius: 10, background: '#EFF4FF', color: '#2563EB', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, flexShrink: 0 }}>
                 <i className="fa-solid fa-user" />
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628' }}>Taxpayer</div>
-                <div style={{ fontSize: 11, color: '#94A3B8' }}>Primary</div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E' }}>Taxpayer</div>
+                <div style={{ fontSize: 11, color: '#8585A0' }}>Primary</div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <label style={{ fontSize: 10, fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase' }}>Age</label>
+                <label style={{ fontSize: 10, fontWeight: 600, color: '#8585A0', textTransform: 'uppercase' }}>Age</label>
                 <input type="number" style={{ ...fieldInputStyle, width: 56, padding: '6px 8px', fontSize: 13, textAlign: 'center' }} placeholder="0" />
               </div>
             </div>
             {/* Add member button */}
             <button
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 12, border: '2px dashed #F1F5F9', borderRadius: 12, cursor: 'pointer', transition: 'all 0.3s ease', color: '#64748B', fontSize: 13, fontWeight: 600, background: 'transparent', width: '100%', fontFamily: 'inherit', marginTop: 8 }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 12, border: '2px dashed #F0F0F5', borderRadius: 12, cursor: 'pointer', transition: 'all 0.3s ease', color: '#5C5C7A', fontSize: 13, fontWeight: 600, background: 'transparent', width: '100%', fontFamily: 'inherit', marginTop: 8 }}
             >
               <i className="fa-solid fa-plus" style={{ fontSize: 11 }} />
               Add family member
@@ -172,21 +172,21 @@ export default function HouseholdPage() {
 
           {/* Age Group Counts */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Household Age Breakdown</div>
-            <div style={{ fontSize: 11, color: '#94A3B8', marginBottom: 10 }}>Used for IRS National Standards calculations</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>Household Age Breakdown</div>
+            <div style={{ fontSize: 11, color: '#8585A0', marginBottom: 10 }}>Used for IRS National Standards calculations</div>
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Members under 17</div>
-                <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 1 }}>Child-related deductions</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Members under 17</div>
+                <div style={{ fontSize: 11, color: '#8585A0', marginTop: 1 }}>Child-related deductions</div>
               </div>
               <SmallCounter value={form.under17Count} onChange={(v) => update('under17Count', v)} />
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid #F1F5F9' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0', borderTop: '1px solid #F0F0F5' }}>
               <div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Members age 65+</div>
-                <div style={{ fontSize: 11, color: '#94A3B8', marginTop: 1 }}>Healthcare OOP: $149/mo vs $84/mo</div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Members age 65+</div>
+                <div style={{ fontSize: 11, color: '#8585A0', marginTop: 1 }}>Healthcare OOP: $149/mo vs $84/mo</div>
               </div>
               <SmallCounter value={form.over65Count} onChange={(v) => update('over65Count', v)} />
             </div>
@@ -194,8 +194,8 @@ export default function HouseholdPage() {
 
           {/* Income Bracket */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Approximate Gross Monthly Household Income</div>
-            <div style={{ fontSize: 11, color: '#94A3B8', marginBottom: 10 }}>Matches IRS National Standards income brackets</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>Approximate Gross Monthly Household Income</div>
+            <div style={{ fontSize: 11, color: '#8585A0', marginBottom: 10 }}>Matches IRS National Standards income brackets</div>
             <select style={fieldSelectStyle} value={form.incomeBracket} onChange={(e) => update('incomeBracket', e.target.value)}>
               <option value="">Select income range...</option>
               <option value="0-1666">Under $1,667/month</option>
@@ -211,14 +211,14 @@ export default function HouseholdPage() {
 
           {/* Location */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 10 }}>Location</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>Location</div>
             <div style={{ display: 'flex', gap: 10, marginTop: 0 }}>
               <div style={{ flex: 1 }}>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>County</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>County</label>
                 <input type="text" style={fieldInputStyle} value={form.county} onChange={(e) => update('county', e.target.value)} placeholder="e.g. Los Angeles" />
               </div>
               <div style={{ flex: 1 }}>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>State</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>State</label>
                 <select style={fieldSelectStyle} value={form.state} onChange={(e) => update('state', e.target.value)}>
                   <option value="">--</option>
                   {US_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -229,19 +229,19 @@ export default function HouseholdPage() {
 
           {/* Health Insurance */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 10 }}>Health Insurance</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>Health Insurance</div>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: '#0A1628' }}>Do you have health insurance?</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#1A1A2E' }}>Do you have health insurance?</span>
               <button
                 onClick={() => update('hasInsurance', !form.hasInsurance)}
-                style={{ width: 48, height: 28, borderRadius: 14, background: form.hasInsurance ? '#00A651' : '#F1F5F9', position: 'relative', cursor: 'pointer', transition: 'background 0.3s ease', border: 'none' }}
+                style={{ width: 48, height: 28, borderRadius: 14, background: form.hasInsurance ? '#00A651' : '#F0F0F5', position: 'relative', cursor: 'pointer', transition: 'background 0.3s ease', border: 'none' }}
               >
                 <div style={{ position: 'absolute', width: 22, height: 22, background: 'white', borderRadius: '50%', top: 3, left: form.hasInsurance ? 23 : 3, transition: 'left 0.3s ease', boxShadow: '0 1px 2px rgba(0,0,0,0.03)' }} />
               </button>
             </div>
             {form.hasInsurance && (
               <div style={{ marginTop: 8 }}>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Insurance Type</label>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 600, color: '#8585A0', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 5 }}>Insurance Type</label>
                 <select style={fieldSelectStyle} value={form.insuranceType} onChange={(e) => update('insuranceType', e.target.value)}>
                   <option value="">Select...</option>
                   <option value="employer">Employer-provided</option>
@@ -264,8 +264,8 @@ export default function HouseholdPage() {
 
           {/* Vehicles */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 4 }}>Vehicles in Household</div>
-            <div style={{ fontSize: 11, color: '#94A3B8', marginBottom: 10 }}>How many vehicles does your household own or lease? (Details collected later)</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 4 }}>Vehicles in Household</div>
+            <div style={{ fontSize: 11, color: '#8585A0', marginBottom: 10 }}>How many vehicles does your household own or lease? (Details collected later)</div>
             <div style={{ display: 'flex', gap: 10 }}>
               {[0, 1, 2].map((n) => (
                 <button
@@ -274,7 +274,7 @@ export default function HouseholdPage() {
                   style={{
                     flex: 1,
                     padding: '14px 10px',
-                    border: form.vehicleCount === n ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    border: form.vehicleCount === n ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                     borderRadius: 12,
                     textAlign: 'center',
                     cursor: 'pointer',
@@ -285,7 +285,7 @@ export default function HouseholdPage() {
                   }}
                 >
                   <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 4 }}>{n === 2 ? '2+' : n}</div>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: '#94A3B8' }}>{n === 0 ? 'None' : n === 1 ? 'Vehicle' : 'Vehicles'}</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#8585A0' }}>{n === 0 ? 'None' : n === 1 ? 'Vehicle' : 'Vehicles'}</div>
                 </button>
               ))}
             </div>
@@ -299,12 +299,12 @@ export default function HouseholdPage() {
 
           {/* Housing */}
           <div style={sectionCardStyle}>
-            <div style={{ fontSize: 13, fontWeight: 700, color: '#0A1628', marginBottom: 10 }}>Housing</div>
+            <div style={{ fontSize: 13, fontWeight: 700, color: '#1A1A2E', marginBottom: 10 }}>Housing</div>
             <div style={{ display: 'flex', gap: 10 }}>
               {([
                 { type: 'rent' as HousingType, icon: 'fa-solid fa-building', color: '#2563EB', label: 'Rent' },
                 { type: 'own' as HousingType, icon: 'fa-solid fa-house', color: '#00A651', label: 'Own' },
-                { type: 'other' as HousingType, icon: 'fa-solid fa-people-roof', color: '#64748B', label: 'Other' },
+                { type: 'other' as HousingType, icon: 'fa-solid fa-people-roof', color: '#5C5C7A', label: 'Other' },
               ]).map((opt) => (
                 <button
                   key={opt.type}
@@ -312,7 +312,7 @@ export default function HouseholdPage() {
                   style={{
                     flex: 1,
                     padding: '14px 10px',
-                    border: form.housingType === opt.type ? '1.5px solid #2563EB' : '1.5px solid #F1F5F9',
+                    border: form.housingType === opt.type ? '1.5px solid #2563EB' : '1.5px solid #F0F0F5',
                     borderRadius: 12,
                     textAlign: 'center',
                     cursor: 'pointer',
@@ -323,14 +323,14 @@ export default function HouseholdPage() {
                   }}
                 >
                   <i className={opt.icon} style={{ fontSize: 16, color: opt.color, marginBottom: 4, display: 'block' }} />
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#0A1628' }}>{opt.label}</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#1A1A2E' }}>{opt.label}</div>
                 </button>
               ))}
             </div>
           </div>
 
           {/* Info Alert */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, fontSize: 13, color: '#0A1628', marginBottom: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', background: '#EFF4FF', border: '1px solid #BFDBFE', borderRadius: 12, fontSize: 13, color: '#1A1A2E', marginBottom: 12 }}>
             <i className="fa-solid fa-circle-info" style={{ flexShrink: 0, color: '#2563EB' }} />
             <span>These details determine your IRS National and Local Standards allowances</span>
           </div>

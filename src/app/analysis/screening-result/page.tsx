@@ -53,13 +53,13 @@ export default function ScreeningResultPage() {
   if (answers.assetTransfers === true) eligible -= 1
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '480px', margin: '0 auto' }}>
         {/* Progress Bar */}
         <div style={{ padding: '0 20px' }}>
           <div style={{
             marginTop: 4, height: 4, width: '100%', borderRadius: 9999,
-            background: '#E2E8F0', overflow: 'hidden',
+            background: '#D5D5E0', overflow: 'hidden',
           }}>
             <div style={{ height: '100%', width: '30%', borderRadius: 9999, background: '#00A651' }} />
           </div>
@@ -77,10 +77,10 @@ export default function ScreeningResultPage() {
             }}>
               <i className="fa-solid fa-check" style={{ color: 'white', fontSize: 28 }} />
             </div>
-            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0A1628', margin: 0 }}>
+            <h1 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>
               Screening Complete
             </h1>
-            <p style={{ fontSize: 13, color: '#94A3B8', marginTop: 4 }}>
+            <p style={{ fontSize: 13, color: '#8585A0', marginTop: 4 }}>
               Here&apos;s a summary of your answers
             </p>
           </div>
@@ -137,11 +137,11 @@ export default function ScreeningResultPage() {
             const answeredCount = items.filter((q) => answers[q.key] !== undefined).length
             return (
               <div key={cat.id} style={{
-                background: 'white', border: '1px solid #F1F5F9', borderRadius: 16,
+                background: 'white', border: '1px solid #F0F0F5', borderRadius: 16,
                 padding: 16, marginBottom: 12,
               }}>
                 <div style={{
-                  fontSize: 11, fontWeight: 700, color: '#94A3B8', textTransform: 'uppercase' as const,
+                  fontSize: 11, fontWeight: 700, color: '#8585A0', textTransform: 'uppercase' as const,
                   letterSpacing: '0.05em', marginBottom: 6,
                   display: 'flex', alignItems: 'center', gap: 6,
                 }}>
@@ -160,7 +160,7 @@ export default function ScreeningResultPage() {
                       style={{
                         display: 'flex', alignItems: 'flex-start', gap: 10,
                         padding: '10px 0',
-                        borderBottom: '1px solid #F1F5F9',
+                        borderBottom: '1px solid #F0F0F5',
                       }}
                     >
                       <div style={{
@@ -173,7 +173,7 @@ export default function ScreeningResultPage() {
                         <i className={isWarning ? 'fa-solid fa-exclamation' : 'fa-solid fa-check'} />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <span style={{ fontSize: 13, fontWeight: 500, color: '#0A1628' }}>{label}</span>
+                        <span style={{ fontSize: 13, fontWeight: 500, color: '#1A1A2E' }}>{label}</span>
                       </div>
                     </div>
                   )
@@ -189,13 +189,13 @@ export default function ScreeningResultPage() {
           }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 6 }}>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: '#2563EB', letterSpacing: '-0.02em' }}>{eligible}</span>
-              <span style={{ fontSize: 14, fontWeight: 600, color: '#64748B' }}>of</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: '#5C5C7A' }}>of</span>
               <span style={{ fontSize: '2rem', fontWeight: 900, color: '#2563EB', letterSpacing: '-0.02em' }}>13</span>
             </div>
-            <span style={{ fontSize: 13, fontWeight: 600, color: '#64748B', marginTop: 4, display: 'block' }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#5C5C7A', marginTop: 4, display: 'block' }}>
               resolution types you may qualify for
             </span>
-            <span style={{ fontSize: 11, color: '#94A3B8', marginTop: 2, display: 'block' }}>
+            <span style={{ fontSize: 11, color: '#8585A0', marginTop: 2, display: 'block' }}>
               Based on your screening answers
             </span>
           </div>
@@ -226,7 +226,7 @@ export default function ScreeningResultPage() {
               onClick={() => router.push('/dashboard')}
               style={{
                 width: '100%', padding: '14px 28px', fontSize: 14, fontWeight: 600,
-                background: 'white', color: '#0A1628', border: '1.5px solid #E2E8F0',
+                background: 'white', color: '#1A1A2E', border: '1.5px solid #D5D5E0',
                 borderRadius: 9999, cursor: 'pointer', display: 'flex', alignItems: 'center',
                 justifyContent: 'center', gap: 8, fontFamily: 'inherit',
                 transition: 'all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)',
@@ -241,7 +241,7 @@ export default function ScreeningResultPage() {
           <div style={{ textAlign: 'center', padding: '12px 0 20px' }}>
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
               <i className="fa-solid fa-shield-halved" style={{ fontSize: 12, color: '#00A651' }} />
-              <span style={{ fontSize: 12, color: '#94A3B8', fontWeight: 500 }}>Your screening results have been saved</span>
+              <span style={{ fontSize: 12, color: '#8585A0', fontWeight: 500 }}>Your screening results have been saved</span>
             </div>
           </div>
         </div>

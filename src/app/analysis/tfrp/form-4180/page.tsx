@@ -113,25 +113,25 @@ export default function Form4180Page() {
   const [expandedSection, setExpandedSection] = useState<number | null>(0)
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#F8FAFC] px-4 py-8">
+    <div className="flex min-h-screen flex-col bg-[#FAFAFF] px-4 py-8">
       <div className="mx-auto w-full max-w-lg">
         {/* Header */}
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-[#0A1628]">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1A1A2E]">
             Form 4180 Interview Prep
           </h1>
-          <p className="mt-3 text-base text-[#64748B]">
+          <p className="mt-3 text-base text-[#5C5C7A]">
             Prepare for the IRS Trust Fund Recovery Penalty interview.
           </p>
         </div>
 
         <div className="space-y-6">
           {/* What is Form 4180 */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <h2 className="mb-3 font-semibold text-[#0A1628]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <h2 className="mb-3 font-semibold text-[#1A1A2E]">
               What is Form 4180?
             </h2>
-            <p className="text-sm leading-relaxed text-[#64748B]">
+            <p className="text-sm leading-relaxed text-[#5C5C7A]">
               Form 4180 is the &quot;Report of Interview with Individual
               Relative to Trust Fund Recovery Penalty.&quot; The IRS Revenue
               Officer uses this form to interview potentially responsible
@@ -142,8 +142,8 @@ export default function Form4180Page() {
           </div>
 
           {/* 5 Sections */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <h2 className="mb-4 font-semibold text-[#0A1628]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#1A1A2E]">
               Interview Sections
             </h2>
             <div className="space-y-2">
@@ -153,9 +153,9 @@ export default function Form4180Page() {
                     onClick={() =>
                       setExpandedSection(expandedSection === i ? null : i)
                     }
-                    className="flex w-full items-center justify-between rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-3 text-left transition-colors hover:border-[#E2E8F0]"
+                    className="flex w-full items-center justify-between rounded-lg border border-[#D5D5E0] bg-[#FAFAFF] p-3 text-left transition-colors hover:border-[#D5D5E0]"
                   >
-                    <span className="text-sm font-medium text-[#0A1628]">
+                    <span className="text-sm font-medium text-[#1A1A2E]">
                       {section.title}
                     </span>
                     <svg
@@ -165,7 +165,7 @@ export default function Form4180Page() {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      className={`shrink-0 text-[#94A3B8] transition-transform ${
+                      className={`shrink-0 text-[#8585A0] transition-transform ${
                         expandedSection === i ? 'rotate-180' : ''
                       }`}
                     >
@@ -173,8 +173,8 @@ export default function Form4180Page() {
                     </svg>
                   </button>
                   {expandedSection === i && (
-                    <div className="mt-2 rounded-lg bg-[#F8FAFC] p-4">
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">
+                    <div className="mt-2 rounded-lg bg-[#FAFAFF] p-4">
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[#8585A0]">
                         Key Questions
                       </p>
                       <ul className="mb-3 space-y-2">
@@ -183,7 +183,7 @@ export default function Form4180Page() {
                             key={qi}
                             className="flex items-start gap-2 text-sm text-[#334155]"
                           >
-                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBD5E1]" />
+                            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#B0B0C8]" />
                             {q}
                           </li>
                         ))}
@@ -209,8 +209,8 @@ export default function Form4180Page() {
             <div className="space-y-4">
               {TRAPS.map((trap, i) => (
                 <div key={i}>
-                  <p className="text-sm font-medium text-[#0A1628]">{trap.trap}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[#64748B]">
+                  <p className="text-sm font-medium text-[#1A1A2E]">{trap.trap}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#5C5C7A]">
                     {trap.guidance}
                   </p>
                 </div>
@@ -219,8 +219,8 @@ export default function Form4180Page() {
           </div>
 
           {/* Defense Strategy Selector */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <h2 className="mb-4 font-semibold text-[#0A1628]">Defense Strategy</h2>
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#1A1A2E]">Defense Strategy</h2>
             <div className="space-y-2">
               {DEFENSE_STRATEGIES.map((strategy) => (
                 <button
@@ -229,7 +229,7 @@ export default function Form4180Page() {
                   className={`w-full rounded-lg border p-3 text-left text-sm transition-all ${
                     selectedDefense === strategy.value
                       ? 'border-emerald-500/50 bg-[#00A651]/10'
-                      : 'border-[#E2E8F0] bg-[#F8FAFC] hover:border-[#E2E8F0]'
+                      : 'border-[#D5D5E0] bg-[#FAFAFF] hover:border-[#D5D5E0]'
                   }`}
                 >
                   <div className="flex items-center gap-3">
@@ -237,10 +237,10 @@ export default function Form4180Page() {
                       className={`h-4 w-4 shrink-0 rounded-full border-2 ${
                         selectedDefense === strategy.value
                           ? 'border-emerald-500 bg-[#00A651]'
-                          : 'border-[#E2E8F0]'
+                          : 'border-[#D5D5E0]'
                       }`}
                     />
-                    <span className="font-medium text-[#0A1628]">
+                    <span className="font-medium text-[#1A1A2E]">
                       {strategy.label}
                     </span>
                   </div>
@@ -261,8 +261,8 @@ export default function Form4180Page() {
           </div>
 
           {/* Document Checklist */}
-          <div className="rounded-xl border border-[#F1F5F9] bg-white p-5">
-            <h2 className="mb-4 font-semibold text-[#0A1628]">
+          <div className="rounded-xl border border-[#F0F0F5] bg-white p-5">
+            <h2 className="mb-4 font-semibold text-[#1A1A2E]">
               Document Checklist
             </h2>
             <ul className="space-y-3">
@@ -275,7 +275,7 @@ export default function Form4180Page() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="mt-0.5 shrink-0 text-[#94A3B8]"
+                    className="mt-0.5 shrink-0 text-[#8585A0]"
                   >
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
                   </svg>

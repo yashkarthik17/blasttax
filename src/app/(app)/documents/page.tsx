@@ -18,7 +18,7 @@ interface Doc {
 
 const documents: Doc[] = [
   { name: 'Form 656 - Draft', type: 'Generated', date: 'Mar 12, 2026', size: '245 KB', iconBg: '#FFF0F1', iconColor: '#E63946', badgeBg: '#FFFBEB', badgeColor: '#D97706' },
-  { name: '2023 Tax Transcript', type: 'Transcript', date: 'Mar 8, 2026', size: '128 KB', iconBg: '#EFF4FF', iconColor: '#0A1628', badgeBg: '#EFF4FF', badgeColor: '#2563EB' },
+  { name: '2023 Tax Transcript', type: 'Transcript', date: 'Mar 8, 2026', size: '128 KB', iconBg: '#EFF4FF', iconColor: '#1A1A2E', badgeBg: '#EFF4FF', badgeColor: '#2563EB' },
   { name: 'Form 433-A(OIC)', type: 'IRS Form', date: 'Mar 5, 2026', size: '312 KB', iconBg: '#E6F9EE', iconColor: '#00A651', badgeBg: '#E6F9EE', badgeColor: '#00A651' },
 ]
 
@@ -51,9 +51,9 @@ export default function DocumentsPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
-            <h1 className="text-xl font-extrabold text-[#0A1628]">My Documents</h1>
+            <h1 className="text-xl font-extrabold text-[#1A1A2E]">My Documents</h1>
           </div>
-          <button className="flex h-10 w-10 items-center justify-center text-[#0A1628]">
+          <button className="flex h-10 w-10 items-center justify-center text-[#1A1A2E]">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -61,14 +61,14 @@ export default function DocumentsPage() {
         </div>
 
         {/* Upload Zone */}
-        <div className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-[#E2E8F0] bg-white p-5 text-center transition hover:border-[#0A1628] hover:bg-[#F8FAFC]">
+        <div className="flex cursor-pointer flex-col items-center gap-2 rounded-2xl border-2 border-dashed border-[#D5D5E0] bg-white p-5 text-center transition hover:border-[#1A1A2E] hover:bg-[#FAFAFF]">
           <div className="flex h-11 w-11 items-center justify-center rounded-[14px] bg-[#EFF4FF]">
             <svg className="h-[18px] w-[18px] text-[#2563EB]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
           </div>
-          <div className="text-[0.85rem] font-semibold text-[#0A1628]">Upload Documents</div>
-          <div className="text-[0.72rem] text-[#94A3B8]">Drag &amp; drop or tap to browse</div>
+          <div className="text-[0.85rem] font-semibold text-[#1A1A2E]">Upload Documents</div>
+          <div className="text-[0.72rem] text-[#8585A0]">Drag &amp; drop or tap to browse</div>
         </div>
 
         {/* Tabs */}
@@ -78,7 +78,7 @@ export default function DocumentsPage() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`whitespace-nowrap rounded-full px-3.5 py-2 text-[0.75rem] font-semibold transition ${
-                activeTab === tab ? 'bg-[#0A1628] text-white' : 'text-[#94A3B8] hover:bg-[#F1F5F9] hover:text-[#0A1628]'
+                activeTab === tab ? 'bg-[#1A1A2E] text-white' : 'text-[#8585A0] hover:bg-[#F0F0F5] hover:text-[#1A1A2E]'
               }`}
             >
               {tab}
@@ -88,11 +88,11 @@ export default function DocumentsPage() {
 
         {/* Sort */}
         <div className="flex items-center justify-between">
-          <span className="text-[0.72rem] font-semibold text-[#94A3B8]">{filtered.length} documents</span>
+          <span className="text-[0.72rem] font-semibold text-[#8585A0]">{filtered.length} documents</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border-none bg-transparent text-[0.72rem] font-semibold text-[#64748B] outline-none"
+            className="border-none bg-transparent text-[0.72rem] font-semibold text-[#5C5C7A] outline-none"
           >
             <option value="date">Sort: By date</option>
             <option value="type">Sort: By type</option>
@@ -105,7 +105,7 @@ export default function DocumentsPage() {
           {filtered.map((doc) => (
             <div
               key={doc.name}
-              className="flex items-center gap-3.5 rounded-[14px] border border-[#F1F5F9] bg-white p-3.5 transition hover:-translate-y-0.5 hover:border-[#E2E8F0] hover:shadow-md"
+              className="flex items-center gap-3.5 rounded-[14px] border border-[#F0F0F5] bg-white p-3.5 transition hover:-translate-y-0.5 hover:border-[#D5D5E0] hover:shadow-md"
             >
               <div
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
@@ -117,7 +117,7 @@ export default function DocumentsPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="mb-0.5 flex items-center gap-2">
-                  <span className="truncate text-[0.85rem] font-semibold text-[#0A1628]">{doc.name}</span>
+                  <span className="truncate text-[0.85rem] font-semibold text-[#1A1A2E]">{doc.name}</span>
                   <span
                     className="whitespace-nowrap rounded-full px-2 py-0.5 text-[0.6rem] font-semibold"
                     style={{ backgroundColor: doc.badgeBg, color: doc.badgeColor }}
@@ -125,16 +125,16 @@ export default function DocumentsPage() {
                     {doc.type}
                   </span>
                 </div>
-                <div className="text-[0.7rem] text-[#94A3B8]">{doc.date} &middot; {doc.size}</div>
+                <div className="text-[0.7rem] text-[#8585A0]">{doc.date} &middot; {doc.size}</div>
               </div>
               <div className="flex gap-2">
-                <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F8FAFC]">
-                  <svg className="h-3 w-3 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FAFAFF]">
+                  <svg className="h-3 w-3 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                   </svg>
                 </button>
-                <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F8FAFC]">
-                  <svg className="h-3 w-3 text-[#CBD5E1]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <button className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#FAFAFF]">
+                  <svg className="h-3 w-3 text-[#B0B0C8]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                   </svg>
                 </button>

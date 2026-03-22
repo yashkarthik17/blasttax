@@ -46,12 +46,12 @@ export default function PaymentFailedPage() {
     <div className="flex flex-col min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-4 pb-3">
-        <Link href="/billing" className="w-9 h-9 rounded-xl bg-[#F1F5F9] flex items-center justify-center">
-          <svg className="h-4 w-4 text-[#64748B]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <Link href="/billing" className="w-9 h-9 rounded-xl bg-[#F0F0F5] flex items-center justify-center">
+          <svg className="h-4 w-4 text-[#5C5C7A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </Link>
-        <h1 className="text-lg font-bold text-[#0A1628]">Payment Issue</h1>
+        <h1 className="text-lg font-bold text-[#1A1A2E]">Payment Issue</h1>
         <div className="w-9" />
       </div>
 
@@ -68,13 +68,13 @@ export default function PaymentFailedPage() {
         </div>
 
         {/* Card Info */}
-        <div className="bg-white border border-[#F1F5F9] rounded-[14px] p-4 flex items-center gap-3.5">
-          <div className="w-11 h-[30px] bg-[#F1F5F9] rounded-md flex items-center justify-center">
-            <span className="text-[0.7rem] font-bold text-[#0A1628]/90 tracking-wide">VISA</span>
+        <div className="bg-white border border-[#F0F0F5] rounded-[14px] p-4 flex items-center gap-3.5">
+          <div className="w-11 h-[30px] bg-[#F0F0F5] rounded-md flex items-center justify-center">
+            <span className="text-[0.7rem] font-bold text-[#1A1A2E]/90 tracking-wide">VISA</span>
           </div>
           <div className="flex-1">
-            <div className="text-sm font-semibold text-[#0A1628]">Visa ending in 4242</div>
-            <div className="text-xs text-[#94A3B8] mt-0.5">Expires 08/28</div>
+            <div className="text-sm font-semibold text-[#1A1A2E]">Visa ending in 4242</div>
+            <div className="text-xs text-[#8585A0] mt-0.5">Expires 08/28</div>
           </div>
           <div className="px-2.5 py-1 bg-red-500/10 rounded-full text-[0.65rem] font-semibold text-[#E63946]">
             Declined
@@ -83,25 +83,25 @@ export default function PaymentFailedPage() {
 
         {/* Possible Reasons */}
         <div>
-          <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3">Possible reasons</div>
+          <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3">Possible reasons</div>
           <div className="flex flex-col gap-2">
             {possibleReasons.map((r, i) => (
-              <div key={r.title} className="bg-white border border-[#F1F5F9] rounded-xl overflow-hidden">
+              <div key={r.title} className="bg-white border border-[#F0F0F5] rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenAccordion(openAccordion === i ? null : i)}
-                  className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-[#F8FAFC] transition-colors"
+                  className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-[#FAFAFF] transition-colors"
                 >
                   <div className={`w-7 h-7 rounded-lg ${r.iconBg} flex items-center justify-center flex-shrink-0`}>
                     <span className={r.iconColor}>{r.icon}</span>
                   </div>
-                  <span className="text-sm font-semibold text-[#0A1628] flex-1">{r.title}</span>
-                  <svg className={`h-3 w-3 text-[#94A3B8] transition-transform ${openAccordion === i ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <span className="text-sm font-semibold text-[#1A1A2E] flex-1">{r.title}</span>
+                  <svg className={`h-3 w-3 text-[#8585A0] transition-transform ${openAccordion === i ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                   </svg>
                 </button>
                 {openAccordion === i && (
                   <div className="px-4 pb-3.5">
-                    <p className="text-xs text-[#64748B] leading-relaxed">{r.body}</p>
+                    <p className="text-xs text-[#5C5C7A] leading-relaxed">{r.body}</p>
                   </div>
                 )}
               </div>
@@ -111,7 +111,7 @@ export default function PaymentFailedPage() {
 
         {/* What to Do */}
         <div>
-          <div className="text-xs font-bold text-[#94A3B8] uppercase tracking-wider mb-3">What to do</div>
+          <div className="text-xs font-bold text-[#8585A0] uppercase tracking-wider mb-3">What to do</div>
           <div className="flex flex-col gap-2.5">
             <button className="w-full py-3.5 bg-[#00A651] text-white rounded-full text-sm font-semibold hover:bg-[#008C44] transition-colors flex items-center justify-center gap-1.5">
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -121,7 +121,7 @@ export default function PaymentFailedPage() {
             </button>
             <Link
               href="/billing/add-payment"
-              className="w-full flex items-center justify-center gap-1.5 py-3.5 bg-transparent text-[#0A1628] border border-[#E2E8F0] rounded-full text-sm font-semibold hover:border-white transition-colors"
+              className="w-full flex items-center justify-center gap-1.5 py-3.5 bg-transparent text-[#1A1A2E] border border-[#D5D5E0] rounded-full text-sm font-semibold hover:border-white transition-colors"
             >
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
@@ -148,7 +148,7 @@ export default function PaymentFailedPage() {
 
         {/* Support Link */}
         <div className="text-center pt-1">
-          <a href="#" className="text-xs text-[#94A3B8] font-medium">
+          <a href="#" className="text-xs text-[#8585A0] font-medium">
             Need help? <span className="text-[#2563EB] font-semibold">Contact support</span>
           </a>
         </div>

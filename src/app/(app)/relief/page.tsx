@@ -46,13 +46,13 @@ const RELIEF_OPTIONS = [
   {
     title: 'Bankruptcy Discharge',
     description: 'In certain circumstances, tax debts can be discharged through Chapter 7 bankruptcy. Strict timing rules must be met before the debt qualifies for discharge.',
-    accentColor: '#6B7280',
+    accentColor: '#5C5C7A',
     icon: 'fa-scale-balanced',
-    iconBg: '#F3F4F6',
+    iconBg: '#E8E8F0',
     tags: [
-      { icon: 'fa-calendar-days', label: '3-year rule', bg: '#F3F4F6', color: '#374151' },
-      { icon: 'fa-calendar-check', label: '2-year rule', bg: '#F3F4F6', color: '#374151' },
-      { icon: 'fa-hourglass-end', label: '240-day rule', bg: '#F3F4F6', color: '#374151' },
+      { icon: 'fa-calendar-days', label: '3-year rule', bg: '#E8E8F0', color: '#2D2B3D' },
+      { icon: 'fa-calendar-check', label: '2-year rule', bg: '#E8E8F0', color: '#2D2B3D' },
+      { icon: 'fa-hourglass-end', label: '240-day rule', bg: '#E8E8F0', color: '#2D2B3D' },
     ],
     href: '#',
   },
@@ -62,24 +62,24 @@ export default function OtherReliefPage() {
   const router = useRouter()
 
   return (
-    <div style={{ minHeight: '100vh', background: '#F8FAFC' }}>
+    <div style={{ minHeight: '100vh', background: '#FAFAFF' }}>
       <div style={{ maxWidth: '28rem', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px 12px' }}>
           <div
             onClick={() => router.back()}
-            style={{ width: 36, height: 36, borderRadius: 12, background: '#F8FAFC', border: '1px solid #E2E8F0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
+            style={{ width: 36, height: 36, borderRadius: 12, background: '#FAFAFF', border: '1px solid #D5D5E0', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', flexShrink: 0 }}
           >
-            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#64748B' }} />
+            <i className="fas fa-arrow-left" style={{ fontSize: 14, color: '#5C5C7A' }} />
           </div>
-          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#0A1628', textAlign: 'center' }}>Other Relief Options</div>
+          <div style={{ flex: 1, fontSize: '0.95rem', fontWeight: 800, color: '#1A1A2E', textAlign: 'center' }}>Other Relief Options</div>
           <div style={{ width: 36, flexShrink: 0 }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, padding: '0 20px', paddingBottom: 90 }}>
           {/* Intro text */}
           <div style={{ textAlign: 'center', padding: '2px 0 6px' }}>
-            <div style={{ fontSize: '0.82rem', color: '#64748B', lineHeight: 1.5 }}>
+            <div style={{ fontSize: '0.82rem', color: '#5C5C7A', lineHeight: 1.5 }}>
               Beyond standard payment plans and offers, these relief options may apply to your situation.
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function OtherReliefPage() {
             <Link
               key={option.title}
               href={option.href}
-              style={{ textDecoration: 'none', display: 'block', background: 'white', border: '1px solid #E2E8F0', borderRadius: 18, padding: 18, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
+              style={{ textDecoration: 'none', display: 'block', background: 'white', border: '1px solid #D5D5E0', borderRadius: 18, padding: 18, boxShadow: '0 1px 2px rgba(0,0,0,0.03)', position: 'relative', overflow: 'hidden', cursor: 'pointer' }}
             >
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: option.accentColor }} />
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
@@ -98,9 +98,9 @@ export default function OtherReliefPage() {
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                    <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#0A1628' }}>{option.title}</div>
+                    <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#1A1A2E' }}>{option.title}</div>
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: '#64748B', lineHeight: 1.55, marginBottom: 12 }}>
+                  <div style={{ fontSize: '0.78rem', color: '#5C5C7A', lineHeight: 1.55, marginBottom: 12 }}>
                     {option.description}
                   </div>
 
